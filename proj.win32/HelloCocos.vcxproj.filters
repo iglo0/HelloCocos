@@ -24,6 +24,7 @@
     <ClCompile Include="MiEscena.cpp">
       <Filter>win32</Filter>
     </ClCompile>
+    <ClCompile Include="Menus.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -38,6 +39,7 @@
     <ClInclude Include="MiEscena.h">
       <Filter>win32</Filter>
     </ClInclude>
+    <ClInclude Include="Menus.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

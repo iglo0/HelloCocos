@@ -1,6 +1,7 @@
 #include "AppDelegate.h"
 //#include "HelloWorldScene.h"
-#include "..\proj.win32\MiEscena.h"
+//#include "..\proj.win32\MiEscena.h"
+#include "..\proj.win32\Menus.h"
 
 USING_NS_CC;
 
@@ -76,7 +77,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // create a scene. it's an autorelease object
     //auto scene = HelloWorld::createScene();
-	auto scene = MiEscena::CreateScene();
+	auto scene = Menus::CreateScene();
 
     // run
     director->runWithScene(scene);
