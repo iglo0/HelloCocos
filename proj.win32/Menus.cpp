@@ -1,5 +1,5 @@
 #include "Menus.h"
-#include "HelloWorldScene.h"
+#include "Level1.h"
 
 USING_NS_CC; // using namespace cocos2d
 
@@ -18,6 +18,7 @@ cocos2d::Scene * Menus::CreateScene(){
 }
 
 bool Menus::init(){
+
 	//////////////////////////////
 	// 1. super init first
 	if(!Layer::init()){
@@ -31,7 +32,7 @@ bool Menus::init(){
 	// 2. add a menu item with "X" image, which is clicked to quit the program
 	//    you may modify it.
 
-	#pragma region botones
+	#pragma region boton cocos
 	// add a "close" icon to exit the progress. it's an autorelease object
 	auto closeItem = MenuItemImage::create("CloseNormal.png", "CloseSelected.png", CC_CALLBACK_1(Menus::MenuCloseCallback, this));
 
@@ -46,7 +47,7 @@ bool Menus::init(){
 	/////////////////////////////
 	// 3. add your codes below...
 
-	#pragma region menus
+	#pragma region mis cosas
 	// creating a Menu from a Vector of items
 	Vector<MenuItem*> menuItems;
 
@@ -144,7 +145,7 @@ void Menus::MenuJugarCallback(cocos2d::Ref *pSender){
 	// sale para que se note O:-)
 
 	// http://www.cocos2d-x.org/wiki/Building_and_Transitioning_Scenes
-	auto scene = HelloWorld::createScene();
+	auto scene = Level1::createScene();
 	auto director = Director::getInstance();
 	director->replaceScene(scene);
 

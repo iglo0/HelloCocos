@@ -1,15 +1,14 @@
-#include "HelloWorldScene.h"
+#include "Level1.h"
 #include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
-Scene* HelloWorld::createScene()
-{
+Scene* Level1::createScene() {
     // 'scene' is an autorelease object
     auto scene = Scene::create();
     
     // 'layer' is an autorelease object
-    auto layer = HelloWorld::create();
+    auto layer = Level1::create();
 
     // add layer as a child to scene
     scene->addChild(layer);
@@ -19,65 +18,52 @@ Scene* HelloWorld::createScene()
 }
 
 // on "init" you need to initialize your instance
-bool HelloWorld::init()
-{
+bool Level1::init() {
     //////////////////////////////
     // 1. super init first
-    if ( !Layer::init() )
-    {
+    if ( !Layer::init() ) {
         return false;
     }
     
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+	// verlo en la output window
+	CCLOG("visiablesize x: %f y: %f", visibleSize.width + origin.x, visibleSize.height + origin.y);
+
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
     //    you may modify it.
 
     // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
+    auto closeItem = MenuItemImage::create("CloseNormal.png", "CloseSelected.png", CC_CALLBACK_1(Level1::menuCloseCallback, this));
     
-    closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
-                                origin.y + closeItem->getContentSize().height/2));
+    closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,origin.y + closeItem->getContentSize().height/2));
 
     // create menu, it's an autorelease object
     auto menu = Menu::create(closeItem, NULL);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
-
+	
     /////////////////////////////
     // 3. add your codes below...
 
-    // add a label shows "Hello World"
-    // create and initialize a label
-    
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-    
-    // position the label on the center of the screen
-    label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - label->getContentSize().height));
+	Sprite* spriteNave = Sprite::create("spaceshipspr.png");
+	//Sprite* spriteNave = Sprite::create("boss aircraft.png");
 
-    // add the label as a child to this layer
-    this->addChild(label, 1);
+	// creo al prota en la parte inferior
+	// reduzco a la mitad el sprite
+	spriteNave->setScale(0.5f);
+	// ojo al posicionarlo, que el tamaño es getScale * getContentSize
+	spriteNave->setPosition(origin.x + visibleSize.width/2.0f, spriteNave->getScale()*spriteNave->getContentSize().height/2.0f);
+	addChild(spriteNave,0);
+	
 
-    // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
-
-    // position the sprite on the center of the screen
-    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-    // add the sprite as a child to this layer
-    this->addChild(sprite, 0);
-    
-    return true;
+	return true;
 }
 
 
-void HelloWorld::menuCloseCallback(Ref* pSender)
+void Level1::menuCloseCallback(Ref* pSender)
 {
     //Close the cocos2d-x game scene and quit the application
     Director::getInstance()->end();
