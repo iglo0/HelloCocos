@@ -9,9 +9,11 @@ public:
 	virtual bool init();
 
 	// a selector callback
+	// OJO!
+	// Según cuantos parámetros tenga, se llama con CC_CALLBACK_0, CC_CALLBACK_1, CC_CALLBACK_2... 
 	void MenuCloseCallback(cocos2d::Ref *pSender);
-	
 	void MenuJugarCallback(cocos2d::Ref *pSender);
+	void MenuKeyTestCallback(cocos2d::Ref *pSender);
 
 	// implement the "static create()" method manually
 	CREATE_FUNC(Menus);

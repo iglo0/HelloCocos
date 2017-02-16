@@ -1,5 +1,6 @@
 #include "Menus.h"
 #include "Level1.h"
+#include "KeyboardTest.h"
 
 USING_NS_CC; // using namespace cocos2d
 
@@ -51,17 +52,20 @@ bool Menus::init(){
 	// creating a Menu from a Vector of items
 	Vector<MenuItem*> menuItems;
 
-	//auto menuJugar = MenuItemImage::create("uno.png", "dos.png", CC_CALLBACK_1(Menus::MenuJugarCallback, this));
-	//auto menuSalir = MenuItemImage::create("uno.png", "dos.png", CC_CALLBACK_1(Menus::MenuJugarCallback, this));
-
 	// Ojo la Y va p'arriba
-	auto menuJugar = MenuItemFont::create("Jugar", CC_CALLBACK_1(Menus::MenuJugarCallback, this));
-	menuJugar->setPosition(0.0f, menuJugar->getContentSize().height * 2.0f);
-	menuItems.pushBack(menuJugar);
 
+	// menus en orden inverso, pero la numeracion (*1.0f, *2.0f ...) va en orden y asi me es mas facil
 	auto menuSalir = MenuItemFont::create("Salir", CC_CALLBACK_1(Menus::MenuCloseCallback, this));
 	menuSalir->setPosition(0.0f, menuSalir->getContentSize().height * 1.0f);
 	menuItems.pushBack(menuSalir);
+
+	auto menuKeyTest = MenuItemFont::create("Keyboard Test", CC_CALLBACK_1(Menus::MenuKeyTestCallback, this));
+	menuKeyTest->setPosition(0.0f, menuKeyTest->getContentSize().height * 2.0f);
+	menuItems.pushBack(menuKeyTest);
+
+	auto menuJugar = MenuItemFont::create("Jugar", CC_CALLBACK_1(Menus::MenuJugarCallback, this));
+	menuJugar->setPosition(0.0f, menuJugar->getContentSize().height * 3.0f);
+	menuItems.pushBack(menuJugar);
 
 	/* repeat for as many menu items as needed */
 
@@ -71,53 +75,7 @@ bool Menus::init(){
 
 	#pragma endregion
 
-	/*
-	// add a label shows "Hello World"
-	// create and initialize a label
 
-	
-	float menuItems = 0.0f;
-	float interLin = 1.1f;
-
-	auto lblMenuTitle = Label::createWithTTF("Menuses", "fonts/Marker Felt.ttf", 24);
-	// position the label on the center of the screen
-	// coordenadas 0,0 = centro
-	lblMenuTitle->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - lblMenuTitle->getContentSize().height * ++menuItems*interLin));
-	// add the label as a child to this layer
-	this->addChild(lblMenuTitle, 1);
-	
-	auto lblJugar = Label::createWithTTF("Jugar", "fonts/Marker Felt.ttf", 24);
-	lblJugar->setPosition(Vec2(origin.x + lblJugar->getContentSize().width / 2 + 10.0f, origin.y + visibleSize.height - lblJugar->getContentSize().height * ++menuItems*interLin));
-	this->addChild(lblJugar, 1);
-
-	auto lblSalir = Label::createWithTTF("Salir", "fonts/Marker Felt.ttf", 24);
-	lblSalir->setPosition(Vec2(origin.x + lblSalir->getContentSize().width / 2 + 10.0f, origin.y + visibleSize.height - lblSalir->getContentSize().height * ++menuItems*interLin));
-	this->addChild(lblSalir, 1);
-	
-
-	// create menu, it's an autorelease object
-	auto imgPisha = MenuItemImage::create("uno.png", "dos.png", CC_CALLBACK_1(Menus::MenuJugarCallback, this));
-	imgPisha->setPosition(lblJugar->getPosition());
-	auto menuPisha = Menu::create(imgPisha, NULL);
-	menuPisha->setPosition(Vec2::ZERO);
-	this->addChild(menuPisha, 0);	// por debajo de los label
-
-	auto imgShosho = MenuItemImage::create("uno.png", "dos.png", CC_CALLBACK_1(Menus::MenuJugarCallback, this));
-	imgShosho->setPosition(lblSalir->getPosition());
-	auto menuShosho = Menu::create(imgShosho, NULL);
-	menuShosho->setPosition(Vec2::ZERO);
-	this->addChild(menuShosho, 0);
-
-	*/
-
-	// add "HelloWorld" splash screen"
-	//auto sprite = Sprite::create("HelloWorld.png");
-
-	// position the sprite on the center of the screen
-	//sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-	// add the sprite as a child to this layer
-	//this->addChild(sprite, 0);
 
 
 	return true;
@@ -141,13 +99,23 @@ void Menus::MenuCloseCallback(cocos2d::Ref * pSender){
 }
 
 void Menus::MenuJugarCallback(cocos2d::Ref *pSender){
-	// TODO
-	// sale para que se note O:-)
 
 	// http://www.cocos2d-x.org/wiki/Building_and_Transitioning_Scenes
+	//auto scene = Level1::createScene();
 	auto scene = Level1::createScene();
 	auto director = Director::getInstance();
 	director->replaceScene(scene);
 
-	
+
+}
+
+void Menus::MenuKeyTestCallback(cocos2d::Ref *pSender){
+
+	// http://www.cocos2d-x.org/wiki/Building_and_Transitioning_Scenes
+	//auto scene = Level1::createScene();
+	auto scene = KeyboardTest::createScene();
+	auto director = Director::getInstance();
+	director->replaceScene(scene);
+
+
 }
