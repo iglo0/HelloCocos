@@ -12,7 +12,20 @@ Git user attention
 
         $ git clone https://github.com/iglo0/HelloCocos.git
 
+HECHO
+-----
+
+* Pruebas cargando sprites y moviendolos
+* Se puede disparar
+* Primerísima versión con un enemigo que se mueve y dispara solo, aunque sin colisiones ni nada parecido
+* Hay algo de sonido
+
+
+
 TODO
 ------
 
-* Usarlo para programar un juego sencillo :)
+* Lo más gordo sería organizar los objetos en clases con sus funciones encapsuladas
+* Nada de crear y destruir objetos a tutiplén: instanciar una vez y deshabilitar/habilitar
+* Detectar colisiones y poder impactar en los enemigos
+* Etc. Todo, realmente.
