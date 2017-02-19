@@ -23,7 +23,7 @@ HECHO
 
 
 
-A HACER EN BREVE
+PRÓXIMO
 ------
 
 * Limpieza de código
