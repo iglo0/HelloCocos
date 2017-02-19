@@ -17,15 +17,15 @@ HECHO
 
 * Pruebas cargando sprites y moviendolos
 * Se puede disparar
-* Primerísima versión con un enemigo que se mueve y dispara solo, aunque sin colisiones ni nada parecido
-* Hay algo de sonido
+* Hay un enemigo que se mueve y dispara
+* Pero todo sin colisiones, así que nada "funciona" realmente
+* Sonido
 
 
 
-TODO
+A HACER EN BREVE
 ------
 
-* Lo más gordo sería organizar los objetos en clases con sus funciones encapsuladas
-* Nada de crear y destruir objetos a tutiplén: instanciar una vez y deshabilitar/habilitar
-* Detectar colisiones y poder impactar en los enemigos
-* Etc. Todo, realmente.
+* Limpieza de código
+* Pools para las balas
+* Detectar colisiones
