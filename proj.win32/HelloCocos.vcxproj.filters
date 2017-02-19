@@ -30,6 +30,7 @@
     <ClCompile Include="KeyboardTest.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="Bala.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h">
@@ -50,6 +51,7 @@
     <ClInclude Include="KeyboardTest.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="Bala.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
