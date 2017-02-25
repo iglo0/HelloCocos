@@ -144,22 +144,30 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Classes\AppDelegate.cpp" />
-    <ClCompile Include="..\Classes\Level1.cpp" />
-    <ClCompile Include="Bala.cpp" />
-    <ClCompile Include="KeyboardTest.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Menus.cpp" />
-    <ClCompile Include="MiEscena.cpp" />
+    <ClCompile Include="..\Sources\AppDelegate.cpp" />
+    <ClCompile Include="..\Sources\Bala.cpp" />
+    <ClCompile Include="..\Sources\Enemigo.cpp" />
+    <ClCompile Include="..\Sources\Game.cpp" />
+    <ClCompile Include="..\Sources\Jugador.cpp" />
+    <ClCompile Include="..\Sources\KeyboardTest.cpp" />
+    <ClCompile Include="..\Sources\Level1.cpp" />
+    <ClCompile Include="..\Sources\main.cpp" />
+    <ClCompile Include="..\Sources\Menus.cpp" />
+    <ClCompile Include="..\Sources\MiEscena.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Classes\AppDelegate.h" />
-    <ClInclude Include="..\Classes\Level1.h" />
-    <ClInclude Include="Bala.h" />
-    <ClInclude Include="KeyboardTest.h" />
-    <ClInclude Include="main.h" />
-    <ClInclude Include="Menus.h" />
-    <ClInclude Include="MiEscena.h" />
+    <ClInclude Include="..\Sources\AppDelegate.h" />
+    <ClInclude Include="..\Sources\Bala.h" />
+    <ClInclude Include="..\Sources\Enemigo.h" />
+    <ClInclude Include="..\Sources\Game.h" />
+    <ClInclude Include="..\Sources\Jugador.h" />
+    <ClInclude Include="..\Sources\KeyboardTest.h" />
+    <ClInclude Include="..\Sources\Level1.h" />
+    <ClInclude Include="..\Sources\main.h" />
+    <ClInclude Include="..\Sources\Menus.h" />
+    <ClInclude Include="..\Sources\MiEscena.h" />
+    <ClInclude Include="..\Sources\resource.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\cocos2d\cocos\2d\libcocos2d.vcxproj">
@@ -175,6 +183,9 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

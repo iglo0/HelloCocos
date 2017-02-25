@@ -12,6 +12,32 @@ Git user attention
 
         $ git clone https://github.com/iglo0/HelloCocos.git
 
+
+PRÓXIMO
+------
+
+* Seguir reorganizando el código
+* Pensar cómo gestionar los pools para las balas y/o otros
+* Detectar colisiones
+* Trabajar con la estructura del juego
+	- start screen
+	- menu
+	- gameplay
+	- fin de juego
+	- records
+* Trabajar con el flujo del juego
+	- intro nivel
+	- descripcion de nivel
+	- oleadas de enemigos
+	- boss
+	- periode de inmunidad
+	- arma
+	- power-up
+	- etc...
+
+
+
+
 HECHO
 -----
 
@@ -23,9 +49,3 @@ HECHO
 
 
 
-PRÓXIMO
-------
-
-* Limpieza de código
-* Pools para las balas
-* Detectar colisiones

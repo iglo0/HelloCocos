@@ -1,7 +1,7 @@
 #include "AppDelegate.h"
 //#include "HelloWorldScene.h"
-//#include "..\proj.win32\MiEscena.h"
-#include "..\proj.win32\Menus.h"
+//#include "MiEscena.h"
+#include "Menus.h"
 
 USING_NS_CC;
 
