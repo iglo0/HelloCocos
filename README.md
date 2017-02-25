@@ -19,23 +19,21 @@ PRÓXIMO
 * Seguir reorganizando el código
 * Pensar cómo gestionar los pools para las balas y/o otros
 * Detectar colisiones
-* Trabajar con la estructura del juego
-	- start screen
-	- menu
-	- gameplay
-	- fin de juego
-	- records
-* Trabajar con el flujo del juego
-	- intro nivel
+* Estructura del juego
+	- start screen (NADA)
+	- menu (uno básico)
+	- gameplay (un nivel)
+	- fin de juego (NADA)
+	- records (NADA)
+* Flujo del juego
+	- intro nivel (uno básico)
 	- descripcion de nivel
-	- oleadas de enemigos
-	- boss
-	- periode de inmunidad
-	- arma
-	- power-up
+	- oleadas de enemigos (NADA)
+	- boss (NADA)
+	- periode de inmunidad (NADA)
+	- arma (una de pega)
+	- power-up (NADA)
 	- etc...
-
-
 
 
 HECHO
