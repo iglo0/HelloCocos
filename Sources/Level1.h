@@ -4,7 +4,11 @@
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
 
-#include "..\proj.win32\Bala.h"
+#include "Game.h"
+#include "Bala.h"
+#include "Jugador.h"
+#include "Enemigo.h"
+
 #include <vector>
 
 USING_NS_CC;
@@ -18,7 +22,6 @@ public:
     virtual bool init();
     
     // a selector callback
-	//void menuCloseCallback(cocos2d::Ref* pSender);
 	void menuVuelveCallback(cocos2d::Ref* pSender);
 
 	// keyboard listeners
@@ -34,47 +37,47 @@ public:
 	// otras funciones
 
 	//bool mueveBala(Sprite *bala, float cuanto);	// mueve una bala
-	void mueveBalas(std::vector<Bala *> pool);	// procesa pools de balas
-
-	//bool mueveBalaEnemiga(Sprite *bala, float cuanto);
-	//void mueveBalasEnemigas();
-
-	void mueveProta();
-	void creaNaveProta();
+	void mueveBalas(std::vector<Bala *> pool);	// procesa pool de balas
+	void controlaProta();
+	//void creaNaveProta();
 	void creaEnemigos();
 	void mueveEnemigos(float cuanto);
 	void mueveEnemigo(Sprite *enemigo, float cuanto);
 	void enemigoDispara(Sprite *enemigo);
-
-	void creaPoolBalas(std::vector<Bala *> *pool, int cant, std::string pathSpriteBala, const char *pathSonidoBala, float size);
+	void creaPoolBalas(std::vector<Bala *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed);
 
 private:
-	Sprite *protaSprite,*balaSprite;
+	//Sprite *protaSprite,*balaSprite;
 	bool mueveIzq, mueveDch, mueveArr, mueveAbj;
 	bool dispara;
 	bool sale;	// salir de la pantalla
 	float protaSpeed = 500.0f, balaSpeed = 1000.0f, balaEnemigaSpeed = -750.0f, enemigoSpeed = 100.0f;
 	float deltaT;
 	float tiempoTranscurrido;
+	cocos2d::Label *lblMensajes;
+	bool iniciaTemporizadorCambioEstado = false;	// TODO: todavía no sé muy bien cómo hacerlo, voy a intentar un temporizador genérico para esperas
+	float tiempoIntro = 2.0f;
+	float tiempoJugando = 20.0f;
+	float tiempoFinNivel = 2.0f;
+	float tIni;
+	const char *mensajeIntro = "Level 1 START!";
+	const char *mensajeFin = "GAME OVER";
 
 	Size visibleSize;
 	Vec2 origin;
 
-	// hiyaaa
-	// primera version: a lo bruto
-	// TODO: podría hacer una estructura donde cada elemento tenga el sprite, la funcion que lo controla, etc?
-	// o mejor, encapsularlo en una clase
-	//Vector<Sprite *> balas;
-	Vector<Sprite *> balasEnemigas;
-	Vector<Sprite *> enemigos;
-
-	// pruebas audio
-	CocosDenshion::SimpleAudioEngine *audio;
+	Vector<Sprite *> enemigosDeprecated;
+	std::vector<Enemigo *> enemigos;
 
 	// pruebas
-	std::vector<Bala *> poolBalas;	// mis disparos
-	std::vector<Bala *> poolBalasGordas;	// disparos del jefe
-	std::vector<Bala *> poolBalasEnemigas;	// disparos de los aliens normales
+	std::vector<Bala *> poolBalas;	// pool para mis disparos
+	std::vector<Bala *> poolBalasGordas;	// pool para disparos del jefe
+	std::vector<Bala *> poolBalasEnemigas;	// pool para disparos de los aliens normales
+
+	Jugador *player;
+
+	void precargaSonidosDelNivel();
+
 };
 
 #endif // __LEVEL1_SCENE_H__

@@ -1,6 +1,7 @@
 #include "Menus.h"
 #include "Level1.h"
 #include "KeyboardTest.h"
+#include "Game.h"
 
 USING_NS_CC; // using namespace cocos2d
 
@@ -73,8 +74,9 @@ bool Menus::init(){
 	//miMenu->setPosition(100.0f, 200.0f);
 	this->addChild(miMenu, 1);
 
-	#pragma endregion
+	Game::getInstance()->state = Game::states::menus;
 
+	#pragma endregion
 
 
 

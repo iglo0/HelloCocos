@@ -7,55 +7,86 @@
     <Filter Include="resource">
       <UniqueIdentifier>{715254bc-d70b-4ec5-bf29-467dd3ace079}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src">
-      <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{f3f01d72-2b60-495e-8925-f40edc6f9534}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Classes\AppDelegate.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\Sources\Bala.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Level1.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\Sources\KeyboardTest.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\Sources\Level1.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="MiEscena.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\Sources\main.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Menus.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\Sources\Menus.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="KeyboardTest.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\Sources\MiEscena.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Bala.cpp" />
+    <ClCompile Include="..\Sources\AppDelegate.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Game.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Jugador.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\Enemigo.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Classes\AppDelegate.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\Sources\Bala.h">
+      <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Level1.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\Sources\KeyboardTest.h">
+      <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="main.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\Sources\Level1.h">
+      <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="MiEscena.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\Sources\main.h">
+      <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="Menus.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\Sources\Menus.h">
+      <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="KeyboardTest.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\Sources\MiEscena.h">
+      <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="Bala.h" />
+    <ClInclude Include="..\Sources\resource.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\AppDelegate.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Game.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Jugador.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Enemigo.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
       <Filter>resource</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>
