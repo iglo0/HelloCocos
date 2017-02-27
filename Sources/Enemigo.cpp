@@ -10,7 +10,17 @@ Enemigo::~Enemigo(){
 
 bool Enemigo::creaSprite(Node *nodo, const char *path, float scale, int z){
 	pathSprite = path;
-	sprite = Sprite::create(pathSprite);
+	/*	
+	AutoPolygon ap1 = AutoPolygon(path1);
+	PolygonInfo myInfo = ap1.generateTriangles();//use all default values
+	sprite1 = Sprite::create(myInfo);
+	*/
+
+	AutoPolygon ap = AutoPolygon(pathSprite);
+	PolygonInfo polInfo = ap.generateTriangles(); // use default values
+	sprite = Sprite::create(polInfo);
+
+	//sprite = Sprite::create(pathSprite);
 
 	if(!sprite){
 		return false;

@@ -235,7 +235,12 @@ void Level1::creaEnemigos(){
 		CCLOG("No pude crear enemigo :I");
 	}
 
-	Sprite *enemigo = Sprite::create("aliensprite2.png");
+	AutoPolygon apEnemigo = AutoPolygon("aliensprite2.png");
+	PolygonInfo myInfo = apEnemigo.generateTriangles();//use all default values
+	Sprite *enemigo = Sprite::create(myInfo);
+
+
+	//Sprite *enemigo = Sprite::create("aliensprite2.png");
 
 	//enemigo->setScale(0.5f);
 	// ojo al posicionarlo, que el tamaño es getScale * getContentSize

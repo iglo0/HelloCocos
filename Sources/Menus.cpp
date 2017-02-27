@@ -1,6 +1,7 @@
 #include "Menus.h"
 #include "Level1.h"
 #include "KeyboardTest.h"
+#include "PolyspriteTest.h"
 #include "Game.h"
 
 USING_NS_CC; // using namespace cocos2d
@@ -64,8 +65,12 @@ bool Menus::init(){
 	menuKeyTest->setPosition(0.0f, menuKeyTest->getContentSize().height * 2.0f);
 	menuItems.pushBack(menuKeyTest);
 
+	auto menuSpritesTest = MenuItemFont::create("Sprites test", CC_CALLBACK_1(Menus::MenuPolyspritesCallback, this));
+	menuSpritesTest->setPosition(0.0f, menuSpritesTest->getContentSize().height * 3.0f);
+	menuItems.pushBack(menuSpritesTest);
+
 	auto menuJugar = MenuItemFont::create("Jugar", CC_CALLBACK_1(Menus::MenuJugarCallback, this));
-	menuJugar->setPosition(0.0f, menuJugar->getContentSize().height * 3.0f);
+	menuJugar->setPosition(0.0f, menuJugar->getContentSize().height * 4.0f);
 	menuItems.pushBack(menuJugar);
 
 	/* repeat for as many menu items as needed */
@@ -120,4 +125,11 @@ void Menus::MenuKeyTestCallback(cocos2d::Ref *pSender){
 	director->replaceScene(scene);
 
 
+}
+
+
+void Menus::MenuPolyspritesCallback(cocos2d::Ref *pSender){
+	auto scene = PolyspriteTest::createScene();
+	auto director = Director::getInstance();
+	director->replaceScene(scene);
 }

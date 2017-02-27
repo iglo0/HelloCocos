@@ -9,7 +9,13 @@ Jugador::~Jugador(){
 }
 
 bool Jugador::cargaSprite(){
-	sprite = Sprite::create(pathSprite);
+
+	// con PolygonSprites
+	AutoPolygon ap1 = AutoPolygon(pathSprite);
+	PolygonInfo myInfo = ap1.generateTriangles();//use all default values
+	sprite = Sprite::create(myInfo);
+
+	//sprite = Sprite::create(pathSprite);
 	if(sprite)
 		return true;
 	return false;
@@ -30,6 +36,9 @@ bool Jugador::creaSprite(Node *nodo){
 	pos.y = sprite->getScale()*sprite->getContentSize().height / 2.0f;
 
 	sprite->setPosition(pos);
+	
+	//sprite->getBoundingBox();
+
 	nodo->addChild(sprite, zOrder);
 }
 
