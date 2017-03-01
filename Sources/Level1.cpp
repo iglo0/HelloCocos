@@ -8,9 +8,23 @@
 
 Scene* Level1::createScene() {
     // 'scene' is an autorelease object
-    auto scene = Scene::create();
-    
-    // 'layer' is an autorelease object
+    //auto scene = Scene::create();
+
+
+	// NUEVO: físicas!
+	// Gracias a las físicas obtengo colisiones "gratis", y como un juego tipo space invaders 
+	// no creo que tenga muchos problemas de rendimiento... tiraré por ahí a ver
+	// ----------------------------------------------------------------------------------------------------------------------------------------
+	// INI del motor de físicas Chipmunk
+	auto scene = Scene::createWithPhysics();
+
+	// set the world’s gravity to zero in both directions, which essentially disables gravity
+	scene->getPhysicsWorld()->setGravity(Vec2(0, 0));
+	// enable debug drawing to see your physics bodies
+	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	// ----------------------------------------------------------------------------------------------------------------------------------------
+
+	// 'layer' is an autorelease object
     auto layer = Level1::create();
 
     // add layer as a child to scene
@@ -33,7 +47,7 @@ bool Level1::init() {
 	if ( !Layer::init() ) {
         return false;
     }
-    
+
     //auto visibleSize = Director::getInstance()->getVisibleSize();
 	visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
@@ -51,13 +65,19 @@ bool Level1::init() {
     this->addChild(menu, 1);
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
-	// preparo el control por teclado
+	// eventos
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// input listeners
 	auto listener = EventListenerKeyboard::create();
 	listener->onKeyPressed = CC_CALLBACK_2(Level1::onKeyPressed, this);
 	listener->onKeyReleased = CC_CALLBACK_2(Level1::onKeyReleased, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+
+	// contact listener
+	auto contactListener = EventListenerPhysicsContact::create();
+	contactListener->onContactBegin = CC_CALLBACK_1(Level1::onContactBegin, this);
+	getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
+	// ----------------------------------------------------------------------------------------------------------------------------------------
 
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
@@ -81,11 +101,17 @@ bool Level1::init() {
 
 	// crea al jugador y lo añade a la escena
 	player = new Jugador();
-	if(!player->creaSprite(this)){
+	//if(!player->creaSprite(this)){
+	//	//menuVuelveCallback(this);	// por lo que se ve no puedo cargar una escena nueva en la inicialización...
+	//	sale = true;	// lo primero que hace update es comprobar si ha de salir. OJO que se evalúe antes de hacer nada
+	//	//return false; // mmm esto informará a cocos de algo útil? NO, de hecho le hace cascar
+	//}
+	if( !player->creaSpriteFisicas(this, (int)Game::CategoriaColision::Jugador, (int)Game::CategoriaColision::Enemigo | (int)Game::CategoriaColision::BalaEnemigo) ){
 		//menuVuelveCallback(this);	// por lo que se ve no puedo cargar una escena nueva en la inicialización...
 		sale = true;	// lo primero que hace update es comprobar si ha de salir. OJO que se evalúe antes de hacer nada
-		//return false; // mmm esto informará a cocos de algo útil? NO, de hecho le hace cascar
+						//return false; // mmm esto informará a cocos de algo útil? NO, de hecho le hace cascar
 	}
+
 
 
 	//creaNaveProta();
@@ -94,8 +120,10 @@ bool Level1::init() {
 	// TODO: nota: estaba "precargando" el sonido por cada bala en el pool
 	precargaSonidosDelNivel();
 
-	creaPoolBalas(&poolBalas, 32, "bullet_2_blue.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaSpeed);
-	creaPoolBalas(&poolBalasGordas, 5, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 4.0f, balaEnemigaSpeed);
+	//creaPoolBalas(&poolBalas, 32, "bullet_2_blue.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaSpeed);
+	//creaPoolBalas(&poolBalasGordas, 5, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 4.0f, balaEnemigaSpeed);
+	creaPoolBalasFisica(&poolBalas, 32, "bullet_2_blue.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaSpeed, (int)Game::CategoriaColision::Bala,(int)Game::CategoriaColision::Enemigo);
+	creaPoolBalasFisica(&poolBalasGordas, 5, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 4.0f, balaEnemigaSpeed, (int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador);
 
 	// schedules update every frame with order 0
 	// OJO: el orden se puede definir, primero se ejecutan los de orden más bajo
@@ -135,6 +163,35 @@ void Level1::creaPoolBalas(std::vector<Bala *> *pool, int cant, const char *path
 		tmp->setVelocidad(speed);
 		tmp->setSonido(Bala::sonidosBala::disparo, pathSonidoDisparo);
 		tmp->setSonido(Bala::sonidosBala::impacto, pathSonidoImpacto);
+
+		pool->push_back(tmp);
+
+		// cuelgo cada sprite del nodo actual
+		// o no se mostrará nada
+		// TODO: ummm no sé si debo destruirlos a mano o se encarga cocos
+		addChild(tmp->getSprite());
+	}
+}
+
+void Level1::creaPoolBalasFisica(std::vector<Bala *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed, int tipoColision, int colisionaCon){
+	// pool de balas
+	for(int i = 0; i < cant; i++){
+		//Bala *tmp = new Bala(pathSpriteBala);
+		
+		// TODO: la que estoy montando con la conversion de tipos entre string y const char *...
+		Bala *tmp = new Bala(("Bala " + std::to_string(i)).c_str(), pathSpriteBala, tipoColision, colisionaCon);
+		if(!tmp->getSprite()){
+			CCLOG("ORROR, intentando definir balafisica sin sprite: %s", pathSpriteBala);
+			return;
+		}
+
+		tmp->getSprite()->setScale(scale);
+		tmp->getSprite()->setVisible(false);
+		tmp->setVelocidad(speed);
+		tmp->setSonido(Bala::sonidosBala::disparo, pathSonidoDisparo);
+		tmp->setSonido(Bala::sonidosBala::impacto, pathSonidoImpacto);
+
+		
 
 		pool->push_back(tmp);
 
@@ -245,6 +302,11 @@ void Level1::creaEnemigos(){
 	//enemigo->setScale(0.5f);
 	// ojo al posicionarlo, que el tamaño es getScale * getContentSize
 	enemigo->setPosition(origin.x + visibleSize.width / 2.0f, visibleSize.height - enemigo->getScale()*enemigo->getContentSize().height / 2.0f);
+
+	// TODO: Duda, hace falta definir "colisionoCon" entre todos los actores? Es decir... bala con enemigo y enemigo con bala?
+	// umm parece que si?
+	Game::getInstance()->anadeFisica(enemigo, (int)Game::CategoriaColision::Enemigo, (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::Bala, "El Enemigo GORDO" );
+
 	addChild(enemigo, 0);
 
 	enemigosDeprecated.pushBack(enemigo);
@@ -413,4 +475,34 @@ void Level1::update(float delta){
 	}
 
 
+}
+
+// ----------------------------------------------------------------------------------------------------------------------------------------
+// física
+// ----------------------------------------------------------------------------------------------------------------------------------------
+// physicscontact test
+bool Level1::onContactBegin(PhysicsContact &contact){
+	auto nodeA = contact.getShapeA()->getBody()->getNode();
+	auto nodeB = contact.getShapeB()->getBody()->getNode();
+
+	// TODO: holy shit
+	// esto es lo más feo que he hecho nunca xD
+	// es tarde y estoy cansado...
+	// CCLOG %s saca basura si le pasas un string
+	// const char *s1 = ...getName() no se puede hacer directamente (no suitable conversion...)
+	// así que ...
+	const char *s1 = ((Sprite *)nodeA)->getName().c_str();
+	const char *s2 = ((Sprite *)nodeB)->getName().c_str();
+
+	CCLOG("Colision entre '%s' y '%s'", s1, s2);
+
+	//// ign mis tests
+	//nodeA->setVisible(false);
+	//nodeB->setVisible(false);
+
+	////nodeA->removeFromParent();
+	////nodeB->removeFromParent();
+	//// y esto va a cascar como un hijo de piii
+
+	return true;
 }

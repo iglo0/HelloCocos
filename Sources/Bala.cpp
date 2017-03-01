@@ -2,10 +2,17 @@
 
 Bala::Bala(const char *pathSprite){
 
-	visibleSize = Director::getInstance()->getVisibleSize();
-
 	setSprite(pathSprite);
 	//setSonido(pathSonido);
+
+	active = false;
+}
+
+Bala::Bala(const char *name, const char *pathSprite, int tipoColision, int colisionoCon){
+	if(!setSpriteConFisica(name, pathSprite, tipoColision, colisionoCon)){
+		CCLOG("Bala->sprite '%s'=SIN DEFINIR", pathSprite);
+		return;
+	}
 
 	active = false;
 }
@@ -14,14 +21,11 @@ Bala::~Bala(){
 }
 
 bool Bala::setSprite(const char *ruta){
-	rutaSprite = ruta;
-	sprite = Sprite::create(rutaSprite);
+	sprite = Sprite::create(ruta);
 
 	if(!sprite){
-		CCLOG("Bala->sprite '%s'=SIN DEFINIR", rutaSprite);
 		return false;
 	}
-
 	return true;
 }
 
@@ -66,7 +70,7 @@ void Bala::setVelocidad(float vel){
 
 void Bala::activar(Vec2 posInicial){
 	if(!sprite){
-		CCLOG("Intento de activar una bala sin sprite: %s", rutaSprite);
+		CCLOG("Intento de activar una bala sin sprite");
 		active = false;
 		return;
 	}
@@ -118,7 +122,7 @@ void Bala::mueve(){
 	// super ñapa
 	if(velocidadAbs > 0){
 		// va hacia arriba
-		if(pos.y > visibleSize.height){
+		if(pos.y > Director::getInstance()->getVisibleSize().height){
 			// hay que destruir la bala
 			desActivar();
 		}
@@ -134,4 +138,50 @@ void Bala::mueve(){
 
 }
 
+// colisiones / física
+bool Bala::setSpriteConFisica(const char *name, const char *ruta, int tipoColision, int colisionaCon){
 
+	// para sprites poligonales	
+	AutoPolygon ap1 = AutoPolygon(ruta);
+	sprite = Sprite::create(ap1.generateTriangles());
+
+	// para sprites-caja
+	//sprite = Sprite::create(ruta);
+
+	if(!sprite){
+		CCLOG("Bala->sprite '%s'=SIN DEFINIR", ruta);
+		return false;
+	}
+
+	sprite->setName(name);
+
+	Game::getInstance()->anadeFisica(sprite, tipoColision, colisionaCon, name);
+
+	/* ENCAPSULADO
+	// TODO: PhysicsMaterial OJO
+	// Density=0.1f, Restitution=1.0f, Friction=0
+	// No tengo ni idea, copiado de un ejemplo sencillo para solo colisiones y que funciona
+	fisicaSprite = PhysicsBody::createBox(Size(sprite->getContentSize().width, sprite->getContentSize().height), PhysicsMaterial(0.1f, 1.0f, 0.0f));
+
+	// set the category, collision and contact test bit masks
+	// tipo del objeto
+	fisicaSprite->setCategoryBitmask(tipoColision);
+	// qué tipos de objeto generan eventos de colisión con este?
+	fisicaSprite->setContactTestBitmask(colisionaCon);
+
+	// estableciendo la física como dynamic, el motor no aplicará fuerzas a este objeto
+	// Lo que significa que es controlado por el programador (como iskinetic en Unity)
+	fisicaSprite->setDynamic(true);
+
+	// que objetos deberian afectar a este en las colisiones
+	// (no afectaría por que es dinamico, está puesto por completar)
+	fisicaSprite->setCollisionBitmask((int)Game::CategoriaColision::None);
+
+	sprite->setPhysicsBody(fisicaSprite);
+	*/
+
+
+	// hecho
+
+	return true;
+}

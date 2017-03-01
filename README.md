@@ -13,18 +13,23 @@ Git user attention
         $ git clone https://github.com/iglo0/HelloCocos.git
 
 
-PRÓXIMO
+EN CONSTRUCCIÓN
 ------
-
 * Seguir reorganizando el código
-* Pensar cómo gestionar los pools para las balas y/o otros
 * Detectar colisiones
+	- probando con físicas
 * Estructura del juego
 	- start screen (NADA)
 	- menu (uno básico)
 	- gameplay (un nivel)
 	- fin de juego (NADA)
 	- records (NADA)
+
+		
+PRÓXIMO
+------
+
+* Pensar cómo gestionar los pools para las balas y/o otros
 * Flujo del juego
 	- intro nivel (uno básico)
 	- descripcion de nivel

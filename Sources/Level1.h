@@ -45,6 +45,15 @@ public:
 	void mueveEnemigo(Sprite *enemigo, float cuanto);
 	void enemigoDispara(Sprite *enemigo);
 	void creaPoolBalas(std::vector<Bala *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed);
+	void creaPoolBalasFisica(std::vector<Bala *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed, int tipoColision, int colisionaCon);
+
+
+	// --------------------------------------------------------------
+	// Físicas (o sea, Colisiones)
+	// --------------------------------------------------------------
+
+	// evento colisión. Debe ser público.
+	bool onContactBegin(PhysicsContact &contacto);
 
 private:
 	//Sprite *protaSprite,*balaSprite;
@@ -77,6 +86,8 @@ private:
 	Jugador *player;
 
 	void precargaSonidosDelNivel();
+
+
 
 };
 

@@ -55,6 +55,57 @@ bool Jugador::creaSprite(Node *nodo, Vec2 posIni){
 	nodo->addChild(sprite, zOrder);
 }
 
+bool Jugador::creaSpriteFisicas(Node *nodo, int tipoColision, int colisionaCon){
+	Vec2 pos;
+
+	if(!cargaSprite()){
+		CCLOG("ERROR Cargando sprite jugador: %s", pathSprite);
+		return false;
+	}
+
+	// en llegando aquí hay sprite
+	// le asigno su escala
+	sprite->setScale(spriteScale);
+	// lo situo en el centro
+	pos.x = Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width / 2.0f;
+	pos.y = sprite->getScale()*sprite->getContentSize().height / 2.0f;
+
+	sprite->setPosition(pos);
+
+	// añado física a este sprite
+	Game::getInstance()->anadeFisica(sprite, tipoColision, colisionaCon, "Jugador");
+
+	/*
+	// fisica y colisiones
+	PhysicsBody *fisicaSprite;
+	// TODO: PhysicsMaterial OJO
+	// Density=0.1f, Restitution=1.0f, Friction=0
+	// No tengo ni idea, copiado de un ejemplo sencillo para solo colisiones y que funciona
+	fisicaSprite = PhysicsBody::createBox(Size(sprite->getContentSize().width, sprite->getContentSize().height), PhysicsMaterial(0.1f, 1.0f, 0.0f));
+
+	// set the category, collision and contact test bit masks
+	// tipo del objeto
+	fisicaSprite->setCategoryBitmask(tipoColision);
+	// qué tipos de objeto generan eventos de colisión con este?
+	fisicaSprite->setContactTestBitmask(colisionaCon);
+
+	// estableciendo la física como dynamic, el motor no aplicará fuerzas a este objeto
+	// Lo que significa que es controlado por el programador (como iskinetic en Unity)
+	fisicaSprite->setDynamic(true);
+
+	// que objetos deberian afectar a este en las colisiones
+	// (no afectaría por que es dinamico, está puesto por completar)
+	fisicaSprite->setCollisionBitmask((int)Game::CategoriaColision::None);
+
+	sprite->setPhysicsBody(fisicaSprite);
+	*/
+	// hecho
+
+
+	nodo->addChild(sprite, zOrder);
+
+}
+
 void Jugador::mueve(bool izq, bool dch, bool arr, bool abj){
 	auto deltaT = Director::getInstance()->getDeltaTime();
 	auto visibleSize = Director::getInstance()->getVisibleSize();

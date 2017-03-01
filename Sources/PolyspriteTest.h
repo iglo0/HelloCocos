@@ -39,8 +39,11 @@ public:
 	// mis cosas
 	void megustaElMueveMueve(Sprite *, Vec2 &cant);
 
-	Sprite *sprite1, *sprite2;
-	Vec2 sprite1Accel, sprite2Accel;
+	// physicscontact test?
+	bool onContactBegin(PhysicsContact &contactoConTacto);
+
+	//Sprite *sprite1, *sprite2;
+	//Vec2 sprite1Accel, sprite2Accel;
 
 	struct reboton{
 		Sprite *sprite;
