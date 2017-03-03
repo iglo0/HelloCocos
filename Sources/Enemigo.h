@@ -3,6 +3,8 @@
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
 
+#include "Game.h"
+
 //#include "Bala.h"
 //#include <vector>
 
@@ -13,17 +15,20 @@ public:
 	Enemigo();
 	~Enemigo();
 
-	bool creaSprite(Node *nodo, const char *path, float scale, int zOrder);
+	bool creaSprite(Node *nodo, const char *pathSprite, const char *sonidoMuerte, float scale, int zOrder);
 	Sprite *getSprite();
 	float getScale();
 	void setPosition(Vec2 nuPos);
 	void setPosition(float x, float y);
+	Vec2 getPosition();
+	void impacto();
 
 	float tiempoDisparo = 1.0f;
 	float tIni;
 
 private:
 	const char *pathSprite;
+	const char *pathSonidoMuerte;
 	Sprite *sprite;
 	float spriteScale;
 	int zOrder;

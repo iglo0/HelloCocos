@@ -12,6 +12,17 @@ Git user attention
 
         $ git clone https://github.com/iglo0/HelloCocos.git
 
+		
+HECHO
+-----
+
+* Pruebas cargando sprites y moviendolos
+* Se puede disparar
+* Hay un enemigo que se mueve y dispara
+* Colisiones con físicas, todo de prueba
+* Sonido
+
+
 
 EN CONSTRUCCIÓN
 ------
@@ -40,15 +51,6 @@ PRÓXIMO
 	- power-up (NADA)
 	- etc...
 
-
-HECHO
------
-
-* Pruebas cargando sprites y moviendolos
-* Se puede disparar
-* Hay un enemigo que se mueve y dispara
-* Pero todo sin colisiones, así que nada "funciona" realmente
-* Sonido
 
 
 

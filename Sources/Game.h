@@ -28,7 +28,7 @@ public:
 	void anadeFisica(Sprite *sprite, int tipoColision, int colisionaCon, const char *name="[NONAME]");
 
 
-	typedef enum states{ menus, introNivel, jugando, finNivel };
+	enum states{ menus, introNivel, jugando, finNivel, muerte };
 	
 	states state;
 

@@ -52,18 +52,6 @@ bool Level1::init() {
 	visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
 
-	// verlo en la output window
-	//CCLOG("visiblesize x: %f y: %f", visibleSize.width + origin.x, visibleSize.height + origin.y);
-
-    // add a "close" icon to exit the progress. it's an autorelease object
-	// el "close" icon lo que hace es volver al menú principal, lo mismo que dando a Esc
-    auto vuelveAtras = MenuItemImage::create("CloseNormal.png", "CloseSelected.png", CC_CALLBACK_1(Level1::menuVuelveCallback, this));
-    vuelveAtras->setPosition(Vec2(origin.x + visibleSize.width - vuelveAtras->getContentSize().width/2 ,origin.y + vuelveAtras->getContentSize().height/2));
-    // create menu, it's an autorelease object
-    auto menu = Menu::create(vuelveAtras, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
-
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// eventos
 	// ----------------------------------------------------------------------------------------------------------------------------------------
@@ -77,14 +65,20 @@ bool Level1::init() {
 	auto contactListener = EventListenerPhysicsContact::create();
 	contactListener->onContactBegin = CC_CALLBACK_1(Level1::onContactBegin, this);
 	getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
-	// ----------------------------------------------------------------------------------------------------------------------------------------
-
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// GUI
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
-	lblMensajes = Label::create(mensajeIntro, "Marker Felt", 48.0, cocos2d::Size::ZERO, cocos2d::TextHAlignment::CENTER, cocos2d::TextVAlignment::CENTER);
+	// Botón de vuelta atrás
+	auto vuelveAtras = MenuItemImage::create("CloseNormal.png", "CloseSelected.png", CC_CALLBACK_1(Level1::menuVuelveCallback, this));
+	vuelveAtras->setPosition(Vec2(origin.x + visibleSize.width - vuelveAtras->getContentSize().width / 2, origin.y + vuelveAtras->getContentSize().height / 2));
+	// create menu, it's an autorelease object
+	auto menu = Menu::create(vuelveAtras, NULL);
+	menu->setPosition(Vec2::ZERO);
+	this->addChild(menu, 1);
+
+	lblMensajes = Label::create(mensajeIntro, "fonts/Marker Felt.ttf", 48.0, cocos2d::Size::ZERO, cocos2d::TextHAlignment::CENTER, cocos2d::TextVAlignment::CENTER);
 	lblMensajes->setPosition(origin.x + visibleSize.width / 2.0f, origin.y + visibleSize.height / 2.0f);
 	lblMensajes->setVisible(false);
 	this->addChild(lblMensajes, 1, "lblMensajes");
@@ -96,64 +90,47 @@ bool Level1::init() {
 	mueveAbj = mueveArr = mueveDch = mueveIzq = false;
 	tiempoTranscurrido = 0;
 
-	// "init audio". No se si tiene alguna ventaja acceder a traves de un puntero o de getInstance directamente... 
-	//audio = CocosDenshion::SimpleAudioEngine::getInstance();
-
 	// crea al jugador y lo añade a la escena
 	player = new Jugador();
-	//if(!player->creaSprite(this)){
-	//	//menuVuelveCallback(this);	// por lo que se ve no puedo cargar una escena nueva en la inicialización...
-	//	sale = true;	// lo primero que hace update es comprobar si ha de salir. OJO que se evalúe antes de hacer nada
-	//	//return false; // mmm esto informará a cocos de algo útil? NO, de hecho le hace cascar
-	//}
 	if( !player->creaSpriteFisicas(this, (int)Game::CategoriaColision::Jugador, (int)Game::CategoriaColision::Enemigo | (int)Game::CategoriaColision::BalaEnemigo) ){
-		//menuVuelveCallback(this);	// por lo que se ve no puedo cargar una escena nueva en la inicialización...
-		sale = true;	// lo primero que hace update es comprobar si ha de salir. OJO que se evalúe antes de hacer nada
-						//return false; // mmm esto informará a cocos de algo útil? NO, de hecho le hace cascar
+		// si esto falla, apaga y vámonos
+		sale = true;
 	}
 
-
-
-	//creaNaveProta();
+	// TODO: esto tiene que evolucionar hacia un sistema por oleadas. De momento es para pruebas
 	creaEnemigos();
 	
 	// TODO: nota: estaba "precargando" el sonido por cada bala en el pool
 	precargaSonidosDelNivel();
 
-	//creaPoolBalas(&poolBalas, 32, "bullet_2_blue.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaSpeed);
-	//creaPoolBalas(&poolBalasGordas, 5, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 4.0f, balaEnemigaSpeed);
+	// TODO: Esto también es temporal, de momento para pruebas
+	// tendrá que evolucionar, ¿tendría que hacer un pool por cada tipo de sprite que pueda aparecer en el nivel?
 	creaPoolBalasFisica(&poolBalas, 32, "bullet_2_blue.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaSpeed, (int)Game::CategoriaColision::Bala,(int)Game::CategoriaColision::Enemigo);
+	creaPoolBalasFisica(&poolBalasEnemigas, 5, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaEnemigaSpeed, (int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador);
 	creaPoolBalasFisica(&poolBalasGordas, 5, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 4.0f, balaEnemigaSpeed, (int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador);
 
-	// schedules update every frame with order 0
-	// OJO: el orden se puede definir, primero se ejecutan los de orden más bajo
-	this->scheduleUpdate();
+	// TODO: Otra temporalidad a falta de darle una vuelta. Indica el estado inicial de esta escena
+	Game::getInstance()->state = Game::states::introNivel;
 
+	// variable para saber si tengo que resetear o no el tiempo transcurrido en el temporizador. Lo utilizo para cambiar de estados, por ejemplo.
+	iniciaTemporizadorCambioEstado = true;
+
+
+	// schedules update every frame with default order 0. Lower orders execute first
+	this->scheduleUpdate();
 	// displays fps
 	Director::getInstance()->setDisplayStats(true);
-
-	Game::getInstance()->state = Game::states::introNivel;
-	iniciaTemporizadorCambioEstado = true;
 
 	return true;
 }
 
-void Level1::precargaSonidosDelNivel(){
+void Level1::precargaSonidosDelNivel() {
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("sonidos/shoot.wav");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("sonidos/invaderkilled.wav");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("sonidos/explosion.wav");
 }
 
-//void Level1::creaNaveProta(){
-//	protaSprite = Sprite::create("spaceshipspr.png");
-//
-//	// creo al prota en la parte inferior
-//	// reduzco a la mitad el sprite
-//	protaSprite->setScale(0.5f);
-//	// ojo al posicionarlo, que el tamaño es getScale * getContentSize
-//	protaSprite->setPosition(origin.x + visibleSize.width / 2.0f, protaSprite->getScale()*protaSprite->getContentSize().height / 2.0f);
-//	addChild(protaSprite, 0);
-//
-//}
-
+// crea un pool de balas. El que lo haga tendrá que saber el tipo y demás.
 void Level1::creaPoolBalas(std::vector<Bala *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed){
 	// pool de balas
 	for(int i = 0; i < cant; i++){
@@ -173,11 +150,10 @@ void Level1::creaPoolBalas(std::vector<Bala *> *pool, int cant, const char *path
 	}
 }
 
+// crea un pool de balas con física para las colisiones. El que lo haga tendrá que saber el tipo y demás.
 void Level1::creaPoolBalasFisica(std::vector<Bala *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed, int tipoColision, int colisionaCon){
 	// pool de balas
 	for(int i = 0; i < cant; i++){
-		//Bala *tmp = new Bala(pathSpriteBala);
-		
 		// TODO: la que estoy montando con la conversion de tipos entre string y const char *...
 		Bala *tmp = new Bala(("Bala " + std::to_string(i)).c_str(), pathSpriteBala, tipoColision, colisionaCon);
 		if(!tmp->getSprite()){
@@ -187,11 +163,10 @@ void Level1::creaPoolBalasFisica(std::vector<Bala *> *pool, int cant, const char
 
 		tmp->getSprite()->setScale(scale);
 		tmp->getSprite()->setVisible(false);
+		// la velocidad varía la dirección (positiva o negativa)
 		tmp->setVelocidad(speed);
 		tmp->setSonido(Bala::sonidosBala::disparo, pathSonidoDisparo);
 		tmp->setSonido(Bala::sonidosBala::impacto, pathSonidoImpacto);
-
-		
 
 		pool->push_back(tmp);
 
@@ -282,15 +257,19 @@ void Level1::creaEnemigos(){
 
 	Enemigo *tmp = new Enemigo;
 
-	if(tmp->creaSprite(this, "Spaceship15.png", 0.5f, 0)){
+	if(tmp->creaSprite(this, "Spaceship15.png", "sonidos/invaderkilled.wav",  0.5f, 0)){
 
 		tmp->setPosition(origin.x + visibleSize.width / 2.0f, visibleSize.height - tmp->getScale()*tmp->getSprite()->getContentSize().height / 2.0f);
 		tmp->getSprite()->setRotation(180.0f);	// esta está al revés :>
+
+		tmp->tIni = tiempoTranscurrido;
 
 		enemigos.push_back(tmp);
 	} else{
 		CCLOG("No pude crear enemigo :I");
 	}
+
+	/* // EL Alien gordo
 
 	AutoPolygon apEnemigo = AutoPolygon("aliensprite2.png");
 	PolygonInfo myInfo = apEnemigo.generateTriangles();//use all default values
@@ -310,19 +289,19 @@ void Level1::creaEnemigos(){
 	addChild(enemigo, 0);
 
 	enemigosDeprecated.pushBack(enemigo);
-
+	*/
 }
 
 void Level1::mueveEnemigos(float cuanto){
-	for(auto e = enemigosDeprecated.cbegin(); e != enemigosDeprecated.cend(); ++e){
+	//for(auto e = enemigosDeprecated.cbegin(); e != enemigosDeprecated.cend(); ++e){
+	//	mueveEnemigo(*e, cuanto);
+	//}
+	for(auto e = enemigos.cbegin(); e != enemigos.cend(); ++e){
 		mueveEnemigo(*e, cuanto);
 	}
 }
 
-void Level1::mueveEnemigo(Sprite *enemigo, float cuanto){
-	// TODO: OJOO que las variables static no se regeneran cuando se resetea la escena, esto está mal.
-	static float tIni = tiempoTranscurrido;
-
+void Level1::mueveEnemigo(Enemigo *enemigo, float cuanto){
 	// esto tendrá que ser por cada enemigo, de momento todos igual
 	static bool mueveIzq = true;
 
@@ -350,11 +329,11 @@ void Level1::mueveEnemigo(Sprite *enemigo, float cuanto){
 
 	enemigo->setPosition(pos);
 
-	if(tiempoTranscurrido - tIni > 1.0f){
+	if(tiempoTranscurrido - enemigo->tIni > enemigo->tiempoDisparo ){
 		// reseteo contador
-		tIni = tiempoTranscurrido;
+		enemigo->tIni = tiempoTranscurrido;
 
-		enemigoDispara(enemigo);
+		enemigoDispara(enemigo->getSprite());
 	}
 }
 
@@ -364,7 +343,8 @@ void Level1::enemigoDispara(Sprite *enemigo){
 		return;
 	}
 	// escoge una bala del pool que esté libre
-	for(auto b = poolBalasGordas.cbegin(); b != poolBalasGordas.cend(); ++b){
+	//for(auto b = poolBalasGordas.cbegin(); b != poolBalasGordas.cend(); ++b){
+	for(auto b = poolBalasEnemigas.cbegin(); b != poolBalasEnemigas.cend(); ++b){
 		if(!(*b)->isActive()){
 			// tengo una libre
 			(*b)->activar(enemigo->getPosition());
@@ -406,15 +386,12 @@ void Level1::update(float delta){
 	deltaT = delta;
 	tiempoTranscurrido += delta;
 
-	//auto visibleSize = Director::getInstance()->getVisibleSize();
-
-
-	// TODO: según el estado del juego, hace una cosa u otra
+	// TODO: El juego se controla con estados
 	switch(Game::getInstance()->state){
 	case Game::states::introNivel:
 		// empieza a contar el tiempo de introNivel
 		if(iniciaTemporizadorCambioEstado){
-			tIni = tiempoTranscurrido;
+			tIniCambiaEstado = tiempoTranscurrido;
 			iniciaTemporizadorCambioEstado = false;
 
 			lblMensajes->setString(mensajeIntro);
@@ -422,7 +399,7 @@ void Level1::update(float delta){
 
 		}
 
-		if(tiempoTranscurrido - tIni >= tiempoIntro){
+		if(tiempoTranscurrido - tIniCambiaEstado >= tiempoIntro){
 			lblMensajes->setVisible(false);
 
 			Game::getInstance()->state = Game::states::jugando;
@@ -433,7 +410,7 @@ void Level1::update(float delta){
 		break;
 	case Game::states::jugando:
 		if(iniciaTemporizadorCambioEstado){
-			tIni = tiempoTranscurrido;
+			tIniCambiaEstado = tiempoTranscurrido;
 			iniciaTemporizadorCambioEstado = false;
 		}
 
@@ -455,25 +432,39 @@ void Level1::update(float delta){
 		break;
 	case Game::states::finNivel:
 		if(iniciaTemporizadorCambioEstado){
-			tIni = tiempoTranscurrido;
+			tIniCambiaEstado = tiempoTranscurrido;
 			iniciaTemporizadorCambioEstado = false;
 		}
 
 		lblMensajes->setString(mensajeFin);
 		lblMensajes->setVisible(true);
 
-		if(tiempoTranscurrido - tIni >= tiempoFinNivel){
+		if(tiempoTranscurrido - tIniCambiaEstado >= tiempoFinNivel){
 			Game::getInstance()->state = Game::states::introNivel;
 			// empieza a contar hacia el gameOver
 			iniciaTemporizadorCambioEstado = true;
 		}
 
 		break;
+	case Game::states::muerte:
+		if(iniciaTemporizadorCambioEstado){
+			tIniCambiaEstado = tiempoTranscurrido;
+			iniciaTemporizadorCambioEstado = false;
+		}
+
+		lblMensajes->setString(mensajeMuerte);
+		lblMensajes->setVisible(true);
+
+		if(tiempoTranscurrido - tIniCambiaEstado >= tiempoMuerte){
+			Game::getInstance()->state = Game::states::introNivel;
+			// empieza a contar hacia el gameOver
+			iniciaTemporizadorCambioEstado = true;
+		}
+
 	default:
 		CCLOG("Gamestate desconocido: %d", Game::getInstance()->state);
 		break;
 	}
-
 
 }
 
@@ -482,19 +473,31 @@ void Level1::update(float delta){
 // ----------------------------------------------------------------------------------------------------------------------------------------
 // physicscontact test
 bool Level1::onContactBegin(PhysicsContact &contact){
-	auto nodeA = contact.getShapeA()->getBody()->getNode();
-	auto nodeB = contact.getShapeB()->getBody()->getNode();
+	//Node *nodeA = contact.getShapeA()->getBody()->getNode();
+	//Node *nodeB = contact.getShapeB()->getBody()->getNode();
+
+	//Sprite *spriteA, *spriteB;	// puedo dar por sentado que van a ser sprites
+
+	//spriteA = (Sprite *)contact.getShapeA()->getBody()->getNode();
+	//spriteB = (Sprite *)contact.getShapeB()->getBody()->getNode();
+
+	gestionaImpacto((Sprite *)contact.getShapeA()->getBody()->getNode());
+	gestionaImpacto((Sprite *)contact.getShapeB()->getBody()->getNode());
 
 	// TODO: holy shit
-	// esto es lo más feo que he hecho nunca xD
-	// es tarde y estoy cansado...
-	// CCLOG %s saca basura si le pasas un string
-	// const char *s1 = ...getName() no se puede hacer directamente (no suitable conversion...)
-	// así que ...
-	const char *s1 = ((Sprite *)nodeA)->getName().c_str();
-	const char *s2 = ((Sprite *)nodeB)->getName().c_str();
+	// Tras unas pruebas rápidas, lo más fiable que he visto para los %s de CCLOG es pasarle const char *
+	// node->getName() no es accesible
+	//CCLOG("Colision entre '%s' y '%s'", ((Sprite *)nodeA)->getName().c_str(), ((Sprite *)nodeB)->getName().c_str());
 
-	CCLOG("Colision entre '%s' y '%s'", s1, s2);
+
+	// TODO: ¿Cómo llego del sprite * a mi objeto?
+	
+	// Primera aproximación
+	// TODO: puedo dar por sentadas más cosas... si las categorías de colisión están bien no necesito comprobar nada...?
+	// O sea, colisión = impacto destructivo de algún tipo
+
+	
+
 
 	//// ign mis tests
 	//nodeA->setVisible(false);
@@ -502,7 +505,63 @@ bool Level1::onContactBegin(PhysicsContact &contact){
 
 	////nodeA->removeFromParent();
 	////nodeB->removeFromParent();
-	//// y esto va a cascar como un hijo de piii
 
 	return true;
+}
+
+void Level1::gestionaImpacto(Sprite *sprite){
+	if(!sprite){
+		CCLOG("impacto sin sprite?");
+		return;
+	}
+	
+	switch(sprite->getTag()){
+	case (int)Game::CategoriaColision::Bala:
+	case (int)Game::CategoriaColision::BalaEnemigo:
+		// las balas desaparecen
+
+		Bala *balaTmp;
+		// alehoop!
+		balaTmp = (Bala *)sprite->getUserData();
+		if(balaTmp){
+			balaTmp->reproduceSonido(Bala::impacto);
+			balaTmp->desActivar();
+		} else{
+			CCLOG("catacroker, no era una bala");
+		}
+		break;
+	case (int)Game::CategoriaColision::Enemigo:
+		// el enemigo sufre daño o muere
+		Enemigo *enemigoTmp;
+		enemigoTmp = (Enemigo *)sprite->getUserData();
+		if(enemigoTmp){
+			enemigoTmp->impacto();
+			//enemigoTmp->desActivar();
+		} else{
+			CCLOG("catacroker, no era un enemigo");
+		}
+
+		break;
+	case (int)Game::CategoriaColision::Jugador:
+		// el jugador sufre daño o muere
+		Jugador *jugadorTmp;
+		jugadorTmp = (Jugador *)sprite->getUserData();
+		if(jugadorTmp){
+			jugadorTmp->impacto();
+			//jugadorTmp->desActivar();
+
+			Game::getInstance()->state = Game::states::muerte;
+			iniciaTemporizadorCambioEstado = true;
+
+		} else{
+			CCLOG("catacroker, no era un jugador");
+		}
+
+		break;
+	default:
+		// wtf tipo de objeto ha venido?
+		CCLOG("tipo de objeto desconocido en colision: %d", sprite->getTag());
+		break;
+
+	}
 }

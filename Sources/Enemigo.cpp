@@ -8,8 +8,8 @@ Enemigo::~Enemigo(){
 
 }
 
-bool Enemigo::creaSprite(Node *nodo, const char *path, float scale, int z){
-	pathSprite = path;
+bool Enemigo::creaSprite(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, int z){
+	pathSprite = pathSprite;
 	/*	
 	AutoPolygon ap1 = AutoPolygon(path1);
 	PolygonInfo myInfo = ap1.generateTriangles();//use all default values
@@ -20,6 +20,8 @@ bool Enemigo::creaSprite(Node *nodo, const char *path, float scale, int z){
 	PolygonInfo polInfo = ap.generateTriangles(); // use default values
 	sprite = Sprite::create(polInfo);
 
+	pathSonidoMuerte = rutaSonidoMuerte;
+
 	//sprite = Sprite::create(pathSprite);
 
 	if(!sprite){
@@ -28,8 +30,16 @@ bool Enemigo::creaSprite(Node *nodo, const char *path, float scale, int z){
 
 	spriteScale = scale;
 	sprite->setScale(spriteScale);
-
+	//TODO: ya tengo para recuperar mis datos :)
+	sprite->setUserData(this);
+	// y su tipo
+	sprite->setTag((int)Game::CategoriaColision::Enemigo);
 	zOrder = z;
+	
+
+	// y por ultimo le asigno la colision
+	Game::getInstance()->anadeFisica(sprite, (int)Game::CategoriaColision::Enemigo, (int)Game::CategoriaColision::Bala | (int)Game::CategoriaColision::Jugador, "Enemigo");
+
 	nodo->addChild(sprite, zOrder);
 
 	return true;
@@ -49,6 +59,22 @@ void Enemigo::setPosition(Vec2 nuPos){
 
 Sprite *Enemigo::getSprite(){
 	return sprite;
+}
+
+Vec2 Enemigo::getPosition(){
+	return sprite->getPosition();
+}
+
+void Enemigo::impacto(){
+	// un algo impacta en el enemigo
+
+	// pierde escudo
+
+	// pierde vida
+
+	// o muere
+	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(pathSonidoMuerte);
+
 }
 
 /*

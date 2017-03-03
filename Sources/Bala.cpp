@@ -76,6 +76,10 @@ void Bala::activar(Vec2 posInicial){
 	}
 
 	active = true;
+	
+	if(sprite->getPhysicsBody()){
+		sprite->getPhysicsBody()->setEnabled(true);
+	}
 
 	sprite->setVisible(true);
 	sprite->setPosition(posInicial);
@@ -90,6 +94,11 @@ void Bala::desActivar(){
 
 	// o lo muevo fuera de la pantalla. Esto me parece más limpio.
 	sprite->setVisible(false);
+
+	if(sprite->getPhysicsBody()){
+		sprite->getPhysicsBody()->setEnabled(false);
+	}
+
 }
 
 void Bala::reproduceSonido(sonidosBala sb){
@@ -156,6 +165,12 @@ bool Bala::setSpriteConFisica(const char *name, const char *ruta, int tipoColisi
 	sprite->setName(name);
 
 	Game::getInstance()->anadeFisica(sprite, tipoColision, colisionaCon, name);
+
+	//TODO: ya tengo para recuperar mis datos :)
+	sprite->setUserData(this);
+	// y su tipo
+	sprite->setTag((int)Game::CategoriaColision::Bala);
+
 
 	/* ENCAPSULADO
 	// TODO: PhysicsMaterial OJO

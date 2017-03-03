@@ -35,7 +35,6 @@ void Game::anadeFisica(Sprite *sprite, int tipoColision, int colisionaCon, const
 
 	sprite->setPhysicsBody(fisicaSprite);
 
-	
 	sprite->setName(name);
 
 	// hecho

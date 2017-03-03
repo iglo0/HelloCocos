@@ -42,11 +42,12 @@ public:
 	//void creaNaveProta();
 	void creaEnemigos();
 	void mueveEnemigos(float cuanto);
-	void mueveEnemigo(Sprite *enemigo, float cuanto);
+	void mueveEnemigo(Enemigo *enemigo, float cuanto);
 	void enemigoDispara(Sprite *enemigo);
 	void creaPoolBalas(std::vector<Bala *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed);
 	void creaPoolBalasFisica(std::vector<Bala *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed, int tipoColision, int colisionaCon);
-
+	// gestiona un impacto desde el sprite colisionado. El sprite deberá tener defindo setUserData() y setTag() para que esto funcione
+	void gestionaImpacto(Sprite *sprite);
 
 	// --------------------------------------------------------------
 	// Físicas (o sea, Colisiones)
@@ -68,9 +69,11 @@ private:
 	float tiempoIntro = 2.0f;
 	float tiempoJugando = 20.0f;
 	float tiempoFinNivel = 2.0f;
-	float tIni;
+	float tiempoMuerte = 5.0f;
+	float tIniCambiaEstado;
 	const char *mensajeIntro = "Level 1 START!";
 	const char *mensajeFin = "GAME OVER";
+	const char *mensajeMuerte = "MUERE!";
 
 	Size visibleSize;
 	Vec2 origin;

@@ -75,6 +75,10 @@ bool Jugador::creaSpriteFisicas(Node *nodo, int tipoColision, int colisionaCon){
 	// añado física a este sprite
 	Game::getInstance()->anadeFisica(sprite, tipoColision, colisionaCon, "Jugador");
 
+	// preparando el impacto
+	sprite->setTag((int)Game::CategoriaColision::Jugador);
+	sprite->setUserData(this);
+
 	/*
 	// fisica y colisiones
 	PhysicsBody *fisicaSprite;
@@ -160,4 +164,12 @@ void Jugador::dispara(std::vector<Bala *> &pool){
 			break;
 		}
 	}
+}
+
+
+void Jugador::impacto(){
+	// espero que estés cacheado
+	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(pathSonidoMuerte);
+	// a ver que pasa
+	//Game::getInstance()->state = Game::states::muerte;
 }

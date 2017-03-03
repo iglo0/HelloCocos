@@ -24,11 +24,14 @@ public:
 	void mueve(bool izq, bool dch, bool arr, bool abj);
 	void dispara(std::vector<Bala *> &pool);
 	//void setPlayerSpeed(float);
+	// jugador recibe un impacto. Oh noes!
+	void impacto();
 
 	//Vec2 getPosition();
 
 private:
 	const char *pathSprite = "spaceshipspr.png";
+	const char *pathSonidoMuerte = "sonidos/explosion.wav";
 	Sprite *sprite;
 	float spriteScale = 0.5f;	// escala del sprite (a piñón)
 	int zOrder = 0;	// zOrder del jugador
