@@ -8,6 +8,8 @@
 #include "Bala.h"
 #include "Jugador.h"
 #include "Enemigo.h"
+#include "Menus.h"
+#include "Horda.h"
 
 #include <vector>
 
@@ -61,7 +63,7 @@ private:
 	bool mueveIzq, mueveDch, mueveArr, mueveAbj;
 	bool dispara;
 	bool sale;	// salir de la pantalla
-	float protaSpeed = 500.0f, balaSpeed = 1000.0f, balaEnemigaSpeed = -750.0f, enemigoSpeed = 100.0f;
+	float protaSpeed = 500.0f, balaSpeed = 333.3f, balaEnemigaSpeed = -750.0f, enemigoSpeed = 100.0f;
 	float deltaT;
 	float tiempoTranscurrido;
 	cocos2d::Label *lblMensajes;

@@ -8,7 +8,7 @@ Enemigo::~Enemigo(){
 
 }
 
-bool Enemigo::creaSprite(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, int z){
+Sprite *Enemigo::creaSprite(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, int z){
 	pathSprite = pathSprite;
 	/*	
 	AutoPolygon ap1 = AutoPolygon(path1);
@@ -25,12 +25,12 @@ bool Enemigo::creaSprite(Node *nodo, const char *pathSprite, const char *rutaSon
 	//sprite = Sprite::create(pathSprite);
 
 	if(!sprite){
-		return false;
+		return nullptr;
 	}
 
 	spriteScale = scale;
 	sprite->setScale(spriteScale);
-	//TODO: ya tengo para recuperar mis datos :)
+	//HACK: ya tengo para recuperar mis datos :)
 	sprite->setUserData(this);
 	// y su tipo
 	sprite->setTag((int)Game::CategoriaColision::Enemigo);
@@ -42,7 +42,7 @@ bool Enemigo::creaSprite(Node *nodo, const char *pathSprite, const char *rutaSon
 
 	nodo->addChild(sprite, zOrder);
 
-	return true;
+	return sprite;
 }
 
 float Enemigo::getScale(){
@@ -75,6 +75,19 @@ void Enemigo::impacto(){
 	// o muere
 	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(pathSonidoMuerte);
 
+}
+
+void Enemigo::desActivar(){
+	sprite->setPosition(Vec2::ZERO);
+	sprite->setVisible(false);
+	sprite->getPhysicsBody()->setEnabled(false);
+
+}
+
+void Enemigo::activar(Vec2 posicion){
+	sprite->setPosition(posicion);
+	sprite->setVisible(true);
+	sprite->getPhysicsBody()->setEnabled(true);
 }
 
 /*

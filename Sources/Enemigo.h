@@ -15,13 +15,15 @@ public:
 	Enemigo();
 	~Enemigo();
 
-	bool creaSprite(Node *nodo, const char *pathSprite, const char *sonidoMuerte, float scale, int zOrder);
+	Sprite *creaSprite(Node *nodo, const char *pathSprite, const char *sonidoMuerte, float scale, int zOrder);
 	Sprite *getSprite();
 	float getScale();
 	void setPosition(Vec2 nuPos);
 	void setPosition(float x, float y);
 	Vec2 getPosition();
 	void impacto();
+	void desActivar();
+	void activar(Vec2);	// reactiva el enemigo en la posicion
 
 	float tiempoDisparo = 1.0f;
 	float tIni;

@@ -45,6 +45,9 @@
     <ClCompile Include="..\Sources\PolyspriteTest.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\Sources\Horda.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Sources\Bala.h">
@@ -84,6 +87,9 @@
       <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\PolyspriteTest.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Horda.h">
       <Filter>Sources</Filter>
     </ClInclude>
   </ItemGroup>

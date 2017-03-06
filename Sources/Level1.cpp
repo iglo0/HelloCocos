@@ -1,7 +1,7 @@
 #include "Level1.h"
-#include "Menus.h"	// Oops, la he cagado con la estructura :/
 
-// TODO: Ojo! 
+
+// Ojo! 
 // Este USING aquí tiene que estar en Level1.h
 // Si espero aquí a ponerlo, no compila pero no marca error tampoco en el .h
 //USING_NS_CC;
@@ -21,7 +21,7 @@ Scene* Level1::createScene() {
 	// set the world’s gravity to zero in both directions, which essentially disables gravity
 	scene->getPhysicsWorld()->setGravity(Vec2(0, 0));
 	// enable debug drawing to see your physics bodies
-	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
 	// 'layer' is an autorelease object
@@ -92,6 +92,8 @@ bool Level1::init() {
 
 	// crea al jugador y lo añade a la escena
 	player = new Jugador();
+	// TODO: Ojo que creaSpriteFisicas antes devolvía bool y ahora devuelve Sprite *
+	// En cualquier caso la comparacion if(!...) es lo mismo. Pero ojo.
 	if( !player->creaSpriteFisicas(this, (int)Game::CategoriaColision::Jugador, (int)Game::CategoriaColision::Enemigo | (int)Game::CategoriaColision::BalaEnemigo) ){
 		// si esto falla, apaga y vámonos
 		sale = true;
@@ -100,16 +102,16 @@ bool Level1::init() {
 	// TODO: esto tiene que evolucionar hacia un sistema por oleadas. De momento es para pruebas
 	creaEnemigos();
 	
-	// TODO: nota: estaba "precargando" el sonido por cada bala en el pool
+	// nota: estaba "precargando" el sonido por cada bala en el pool
 	precargaSonidosDelNivel();
 
-	// TODO: Esto también es temporal, de momento para pruebas
+	// HACK: Esto también es temporal, de momento para pruebas
 	// tendrá que evolucionar, ¿tendría que hacer un pool por cada tipo de sprite que pueda aparecer en el nivel?
-	creaPoolBalasFisica(&poolBalas, 32, "bullet_2_blue.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaSpeed, (int)Game::CategoriaColision::Bala,(int)Game::CategoriaColision::Enemigo);
+	creaPoolBalasFisica(&poolBalas, 1, "bullet_2_blue.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaSpeed, (int)Game::CategoriaColision::Bala,(int)Game::CategoriaColision::Enemigo);
 	creaPoolBalasFisica(&poolBalasEnemigas, 5, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaEnemigaSpeed, (int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador);
 	creaPoolBalasFisica(&poolBalasGordas, 5, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 4.0f, balaEnemigaSpeed, (int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador);
 
-	// TODO: Otra temporalidad a falta de darle una vuelta. Indica el estado inicial de esta escena
+	// HACK: Otra temporalidad a falta de darle una vuelta. Indica el estado inicial de esta escena
 	Game::getInstance()->state = Game::states::introNivel;
 
 	// variable para saber si tengo que resetear o no el tiempo transcurrido en el temporizador. Lo utilizo para cambiar de estados, por ejemplo.
@@ -253,8 +255,25 @@ void Level1::mueveBalas(std::vector<Bala *> pool){
 }
 
 void Level1::creaEnemigos(){
-	// TODO: Crear una horda
 
+	// HACK: no tengo muy claro lo que estoy haciendo. 
+	// Si tmp->CreaSprite(this...) funciona, por qué new Horda(this) no???
+	// this es un Nodo? Layer es subclase de Nodo...
+	Vec2 posIniHorda;
+	posIniHorda.x = 0;
+	posIniHorda.y = visibleSize.height;
+
+	Horda *horda = new Horda(this, posIniHorda);
+
+	//horda->creaHorda(4, 4);
+	horda->creaFila(4, Horda::tipoEnemigo::tipo2, 0, 200.f);
+	horda->creaFila(4, Horda::tipoEnemigo::tipo1, 100.f, 200.f);
+	horda->creaFila(4, Horda::tipoEnemigo::tipo2, 300.f, 200.f);
+	horda->creaFila(4, Horda::tipoEnemigo::tipo1, 400.f, 200.f);
+
+
+	// TODO: Crear una horda
+	/*
 	Enemigo *tmp = new Enemigo;
 
 	if(tmp->creaSprite(this, "Spaceship15.png", "sonidos/invaderkilled.wav",  0.5f, 0)){
@@ -268,7 +287,7 @@ void Level1::creaEnemigos(){
 	} else{
 		CCLOG("No pude crear enemigo :I");
 	}
-
+	*/
 	/* // EL Alien gordo
 
 	AutoPolygon apEnemigo = AutoPolygon("aliensprite2.png");
@@ -292,10 +311,8 @@ void Level1::creaEnemigos(){
 	*/
 }
 
+/*
 void Level1::mueveEnemigos(float cuanto){
-	//for(auto e = enemigosDeprecated.cbegin(); e != enemigosDeprecated.cend(); ++e){
-	//	mueveEnemigo(*e, cuanto);
-	//}
 	for(auto e = enemigos.cbegin(); e != enemigos.cend(); ++e){
 		mueveEnemigo(*e, cuanto);
 	}
@@ -352,7 +369,7 @@ void Level1::enemigoDispara(Sprite *enemigo){
 		}
 	}
 }
-
+*/
 
 void Level1::controlaProta(){
 
@@ -362,16 +379,6 @@ void Level1::controlaProta(){
 	if(dispara){
 		//dispara = false;	// de one en one
 		player->dispara(poolBalas);
-
-		//					// con pool de balas
-		//for(auto b = poolBalas.cbegin(); b != poolBalas.cend(); ++b){ // por que es ++b 
-		//															  // busco una bala inactiva
-		//	if(!(*b)->isActive()){
-		//		(*b)->activar(protaSprite->getPosition(), balaSpeed);
-		//		break;	// no me interesa el resto
-		//	}
-		//}
-
 	}
 }
 
@@ -386,7 +393,7 @@ void Level1::update(float delta){
 	deltaT = delta;
 	tiempoTranscurrido += delta;
 
-	// TODO: El juego se controla con estados
+	// El juego se controla con estados
 	switch(Game::getInstance()->state){
 	case Game::states::introNivel:
 		// empieza a contar el tiempo de introNivel
@@ -416,19 +423,12 @@ void Level1::update(float delta){
 
 		controlaProta();
 
-		mueveEnemigos(delta * enemigoSpeed);
+		//mueveEnemigos(delta * enemigoSpeed);
 
 		mueveBalas(poolBalas);
 		mueveBalas(poolBalasEnemigas);
 		mueveBalas(poolBalasGordas);
 
-		/*
-		if(tiempoTranscurrido - tIni >= tiempoJugando){
-			Game::getInstance()->state = Game::states::finNivel;
-			// empieza a contar hacia el gameOver
-			iniciaTemporizadorCambioEstado = true;
-		}
-		*/
 		break;
 	case Game::states::finNivel:
 		if(iniciaTemporizadorCambioEstado){
@@ -473,35 +473,14 @@ void Level1::update(float delta){
 // ----------------------------------------------------------------------------------------------------------------------------------------
 // physicscontact test
 bool Level1::onContactBegin(PhysicsContact &contact){
+	// HACK: Gestion de impactos, primera version que funciona
+
 	//Node *nodeA = contact.getShapeA()->getBody()->getNode();
 	//Node *nodeB = contact.getShapeB()->getBody()->getNode();
 
-	//Sprite *spriteA, *spriteB;	// puedo dar por sentado que van a ser sprites
-
-	//spriteA = (Sprite *)contact.getShapeA()->getBody()->getNode();
-	//spriteB = (Sprite *)contact.getShapeB()->getBody()->getNode();
-
+	// envía el impacto a los dos "impactantes"
 	gestionaImpacto((Sprite *)contact.getShapeA()->getBody()->getNode());
 	gestionaImpacto((Sprite *)contact.getShapeB()->getBody()->getNode());
-
-	// TODO: holy shit
-	// Tras unas pruebas rápidas, lo más fiable que he visto para los %s de CCLOG es pasarle const char *
-	// node->getName() no es accesible
-	//CCLOG("Colision entre '%s' y '%s'", ((Sprite *)nodeA)->getName().c_str(), ((Sprite *)nodeB)->getName().c_str());
-
-
-	// TODO: ¿Cómo llego del sprite * a mi objeto?
-	
-	// Primera aproximación
-	// TODO: puedo dar por sentadas más cosas... si las categorías de colisión están bien no necesito comprobar nada...?
-	// O sea, colisión = impacto destructivo de algún tipo
-
-	
-
-
-	//// ign mis tests
-	//nodeA->setVisible(false);
-	//nodeB->setVisible(false);
 
 	////nodeA->removeFromParent();
 	////nodeB->removeFromParent();
@@ -511,7 +490,7 @@ bool Level1::onContactBegin(PhysicsContact &contact){
 
 void Level1::gestionaImpacto(Sprite *sprite){
 	if(!sprite){
-		CCLOG("impacto sin sprite?");
+		CCLOG("ORROR: impacto sin sprite?");
 		return;
 	}
 	
@@ -536,7 +515,7 @@ void Level1::gestionaImpacto(Sprite *sprite){
 		enemigoTmp = (Enemigo *)sprite->getUserData();
 		if(enemigoTmp){
 			enemigoTmp->impacto();
-			//enemigoTmp->desActivar();
+			enemigoTmp->desActivar();
 		} else{
 			CCLOG("catacroker, no era un enemigo");
 		}

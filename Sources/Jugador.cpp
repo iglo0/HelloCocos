@@ -55,12 +55,12 @@ bool Jugador::creaSprite(Node *nodo, Vec2 posIni){
 	nodo->addChild(sprite, zOrder);
 }
 
-bool Jugador::creaSpriteFisicas(Node *nodo, int tipoColision, int colisionaCon){
+Sprite *Jugador::creaSpriteFisicas(Node *nodo, int tipoColision, int colisionaCon){
 	Vec2 pos;
 
 	if(!cargaSprite()){
 		CCLOG("ERROR Cargando sprite jugador: %s", pathSprite);
-		return false;
+		return nullptr;
 	}
 
 	// en llegando aquí hay sprite
@@ -107,6 +107,8 @@ bool Jugador::creaSpriteFisicas(Node *nodo, int tipoColision, int colisionaCon){
 
 
 	nodo->addChild(sprite, zOrder);
+
+	return sprite;
 
 }
 

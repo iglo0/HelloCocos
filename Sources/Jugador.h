@@ -18,7 +18,7 @@ public:
 	// Crea al jugador en la posicion indicada
 	bool creaSprite(Node *nodo, Vec2 posInicial);
 
-	bool creaSpriteFisicas(Node *nodo, int tipoColision, int colisionaCon);
+	Sprite *creaSpriteFisicas(Node *nodo, int tipoColision, int colisionaCon);
 
 	//void mueve(bool htal, bool vcal, float cant);
 	void mueve(bool izq, bool dch, bool arr, bool abj);
