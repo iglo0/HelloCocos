@@ -48,6 +48,8 @@ bool Level1::init() {
         return false;
     }
 
+	gameInstance = Game::getInstance();
+
     //auto visibleSize = Director::getInstance()->getVisibleSize();
 	visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
@@ -88,7 +90,7 @@ bool Level1::init() {
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
 	mueveAbj = mueveArr = mueveDch = mueveIzq = false;
-	tiempoTranscurrido = 0;
+	gameInstance->ellapsedTime = 0;
 
 	// crea al jugador y lo añade a la escena
 	player = new Jugador();
@@ -107,7 +109,7 @@ bool Level1::init() {
 
 	// HACK: Esto también es temporal, de momento para pruebas
 	// tendrá que evolucionar, ¿tendría que hacer un pool por cada tipo de sprite que pueda aparecer en el nivel?
-	creaPoolBalasFisica(&poolBalas, 1, "bullet_2_blue.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaSpeed, (int)Game::CategoriaColision::Bala,(int)Game::CategoriaColision::Enemigo);
+	creaPoolBalasFisica(&poolBalas, 8, "bullet_2_blue.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaSpeed, (int)Game::CategoriaColision::Bala,(int)Game::CategoriaColision::Enemigo);
 	creaPoolBalasFisica(&poolBalasEnemigas, 5, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaEnemigaSpeed, (int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador);
 	creaPoolBalasFisica(&poolBalasGordas, 5, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 4.0f, balaEnemigaSpeed, (int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador);
 
@@ -265,12 +267,15 @@ void Level1::creaEnemigos(){
 
 	Horda *horda = new Horda(this, posIniHorda);
 
+	horda->creaHorda(8, 4);
+
+	/*
 	//horda->creaHorda(4, 4);
 	horda->creaFila(4, Horda::tipoEnemigo::tipo2, 0, 200.f);
 	horda->creaFila(4, Horda::tipoEnemigo::tipo1, 100.f, 200.f);
 	horda->creaFila(4, Horda::tipoEnemigo::tipo2, 300.f, 200.f);
 	horda->creaFila(4, Horda::tipoEnemigo::tipo1, 400.f, 200.f);
-
+	*/
 
 	// TODO: Crear una horda
 	/*
@@ -390,15 +395,16 @@ void Level1::update(float delta){
 	}
 
 	// así tengo siempre una referencia
-	deltaT = delta;
-	tiempoTranscurrido += delta;
+	//deltaT = delta;
+	//tiempoTranscurrido += delta;
+	gameInstance->ellapsedTime += delta;
 
 	// El juego se controla con estados
 	switch(Game::getInstance()->state){
 	case Game::states::introNivel:
 		// empieza a contar el tiempo de introNivel
 		if(iniciaTemporizadorCambioEstado){
-			tIniCambiaEstado = tiempoTranscurrido;
+			tIniCambiaEstado = gameInstance->ellapsedTime;
 			iniciaTemporizadorCambioEstado = false;
 
 			lblMensajes->setString(mensajeIntro);
@@ -406,7 +412,7 @@ void Level1::update(float delta){
 
 		}
 
-		if(tiempoTranscurrido - tIniCambiaEstado >= tiempoIntro){
+		if(gameInstance->ellapsedTime - tIniCambiaEstado >= tiempoIntro){
 			lblMensajes->setVisible(false);
 
 			Game::getInstance()->state = Game::states::jugando;
@@ -417,7 +423,7 @@ void Level1::update(float delta){
 		break;
 	case Game::states::jugando:
 		if(iniciaTemporizadorCambioEstado){
-			tIniCambiaEstado = tiempoTranscurrido;
+			tIniCambiaEstado = gameInstance->ellapsedTime;
 			iniciaTemporizadorCambioEstado = false;
 		}
 
@@ -432,14 +438,14 @@ void Level1::update(float delta){
 		break;
 	case Game::states::finNivel:
 		if(iniciaTemporizadorCambioEstado){
-			tIniCambiaEstado = tiempoTranscurrido;
+			tIniCambiaEstado = gameInstance->ellapsedTime;
 			iniciaTemporizadorCambioEstado = false;
 		}
 
 		lblMensajes->setString(mensajeFin);
 		lblMensajes->setVisible(true);
 
-		if(tiempoTranscurrido - tIniCambiaEstado >= tiempoFinNivel){
+		if(gameInstance->ellapsedTime - tIniCambiaEstado >= tiempoFinNivel){
 			Game::getInstance()->state = Game::states::introNivel;
 			// empieza a contar hacia el gameOver
 			iniciaTemporizadorCambioEstado = true;
@@ -448,14 +454,14 @@ void Level1::update(float delta){
 		break;
 	case Game::states::muerte:
 		if(iniciaTemporizadorCambioEstado){
-			tIniCambiaEstado = tiempoTranscurrido;
+			tIniCambiaEstado = gameInstance->ellapsedTime;
 			iniciaTemporizadorCambioEstado = false;
 		}
 
 		lblMensajes->setString(mensajeMuerte);
 		lblMensajes->setVisible(true);
 
-		if(tiempoTranscurrido - tIniCambiaEstado >= tiempoMuerte){
+		if(gameInstance->ellapsedTime - tIniCambiaEstado >= tiempoMuerte){
 			Game::getInstance()->state = Game::states::introNivel;
 			// empieza a contar hacia el gameOver
 			iniciaTemporizadorCambioEstado = true;

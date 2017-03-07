@@ -59,13 +59,15 @@ public:
 	bool onContactBegin(PhysicsContact &contacto);
 
 private:
+	Game *gameInstance;	// cacheo la instancia de Game
+
 	//Sprite *protaSprite,*balaSprite;
 	bool mueveIzq, mueveDch, mueveArr, mueveAbj;
 	bool dispara;
 	bool sale;	// salir de la pantalla
 	float protaSpeed = 500.0f, balaSpeed = 333.3f, balaEnemigaSpeed = -750.0f, enemigoSpeed = 100.0f;
-	float deltaT;
-	float tiempoTranscurrido;
+	//float deltaT;
+	//float tiempoTranscurrido;
 	cocos2d::Label *lblMensajes;
 	bool iniciaTemporizadorCambioEstado = false;	// TODO: todavía no sé muy bien cómo hacerlo, voy a intentar un temporizador genérico para esperas
 	float tiempoIntro = 2.0f;

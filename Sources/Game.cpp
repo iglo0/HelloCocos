@@ -1,7 +1,5 @@
 #include "Game.h"
 
-Game::Game(){
-}
 
 void Game::anadeFisica(Sprite *sprite, int tipoColision, int colisionaCon, const char *name){
 
