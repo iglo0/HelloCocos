@@ -1,51 +1,57 @@
 #include "Horda.h"
 
 // no me termino de hacer a esta sintaxis :>
-Horda::Horda(Node *n, Vec2 posIni) : nodoPadre(n), posInicio(posIni) {
-	// HACK: temporalmente mientras veo como estructurarlo...
-	Sprite *tmp = Sprite::create(enemigoT1PathSprite);
+Horda::Horda(Node *n, Vec2 posIni) : nodoPadre(n), coordenadasInicioHorda(posIni){}
+	//// HACK: temporalmente mientras veo como estructurarlo...
+	//Sprite *tmp = Sprite::create(enemigoT1PathSprite);
 
-	if(tmp != nullptr){
-		dimensionesEnemigoT1 = tmp->getContentSize() * escalaEnemigoT1;
+	//if(tmp != nullptr){
+	//	dimensionesEnemigoT1 = tmp->getContentSize() * escalaEnemigoT1;
+	//}
+
+	//tmp = Sprite::create(enemigoT2PathSprite);
+	//if(tmp != nullptr){
+	//	dimensionesEnemigoT2 = tmp->getContentSize() * escalaEnemigoT2;
+	//}
+//}
+
+
+void Horda::creaHorda(int dimX, int dimY){
+	// quiero hacer algo con esto?
+
+	dimensionesHordaX = dimX;
+	dimensionesHordaY = dimY;
+
+	for(int i = 0; i < dimY; i++){
+		creaFila(dimX, Horda::tipoEnemigo::tipo1, i);
 	}
 
-	tmp = Sprite::create(enemigoT2PathSprite);
-	if(tmp != nullptr){
-		dimensionesEnemigoT2 = tmp->getContentSize() * escalaEnemigoT2;
-	}
+	// con la horda creada... reasigno las posiciones
 
 }
 
-void Horda::creaFila(int cant, enum tipoEnemigo tipo, float coordY, float separacionX){
+void Horda::creaFila(int cant, enum tipoEnemigo tipo, int numFila){
 	std::vector <Enemigo *> fila;
+	Enemigo *tmp;
 
 	for(int i = 0; i < cant; i++){
 		// TODO: configurar bien los desplazamientos
-		fila.push_back(creaEnemigo(tipo, coordY, (float)i * separacionX));
+		tmp = creaEnemigo(tipo, i, numFila);
+
+		//tmp->setPosition(coordenadasNaveEnXY(i, numFila));
+
+		fila.push_back(tmp);
 	}
+
+	horda.push_back(fila);
 }
 
-void Horda::creaHorda(int dimX, int dimY){
-	// TODO: quiero hacer algo con esto?
-}
 
-Enemigo *Horda::creaEnemigo(enum tipoEnemigo t, float coordY, float desplX){
+Enemigo *Horda::creaEnemigo(enum tipoEnemigo t, int x, int y){
 
 	Enemigo *tmp = new Enemigo;
 	Sprite *spriteTmp;
 
-	Vec2 pos = posInicio;
-
-	// HACK: Otra cosa a mejorar
-	if(t == tipoEnemigo::tipo1){
-		pos.x += dimensionesEnemigoT1.x;
-		pos.y -= dimensionesEnemigoT1.y + coordY;
-	} else if(t == tipoEnemigo::tipo2){
-		pos.x += dimensionesEnemigoT2.x;
-		pos.y -= dimensionesEnemigoT2.y + coordY;
-	}
-
-	pos.x += desplX;
 	// ojo que creaSprite YA añade el hijo al nodo y no hace falta hacerlo luego
 	switch(t){
 	case tipoEnemigo::tipo1:
@@ -59,12 +65,10 @@ Enemigo *Horda::creaEnemigo(enum tipoEnemigo t, float coordY, float desplX){
 	}
 
 	if(spriteTmp){
-		//spriteTmp = tmp->getSprite();
-		//spriteTmp->setName("Enemigo");
 		spriteTmp->setUserData(tmp);
 		spriteTmp->setTag((int)Game::CategoriaColision::Enemigo);
 
-		spriteTmp->setPosition(pos);
+		spriteTmp->setPosition(coordenadasNaveEnXY(x,y));
 
 		Game::getInstance()->anadeFisica(spriteTmp, (int)Game::CategoriaColision::Enemigo, (int)Game::CategoriaColision::Bala | (int)Game::CategoriaColision::Jugador, "Enemigo");
 
@@ -77,4 +81,49 @@ Enemigo *Horda::creaEnemigo(enum tipoEnemigo t, float coordY, float desplX){
 		CCLOG("CASCOTE! Movida creando un enemigo de la horda!");
 		return nullptr;
 	}
+}
+
+Vec2 Horda::coordenadasNaveEnXY(int x, int y){
+
+	// TODO: sacar todos los cálculos que pueda y almacenarlos en variables, en vez de repetirlos con CADA nave
+	// ahora estoy dándole vueltas
+
+	if(x >= dimensionesHordaX || y >= dimensionesHordaY) {
+		CCLOG("Te has pasado con las coordenadas");
+		return nullptr;
+	}
+	cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+	float marginX = 200.f;
+	float marginY = 200.f;
+
+	// TODO: y si... en vez de repartir los enemigos por el ancho y alto, mejor repartirlos solo por el ancho, el alto que sea fijo?
+
+
+	float originX = 0;	// posicion arbitraria de la x máxima para un sprite (para que no se corte por la izquierda). MEH posiblemente con el margen vale
+	float originY = 50.f;	// posicion arbitraria de la y máxima para un sprite (para que no se corte por arriba). El margen NO vale porque no los quiero centrados verticalmente
+	float sepX, sepY;
+
+	separacionHordaX = (visibleSize.width - marginX) / dimensionesHordaX;
+	//separacionHordaY = (visibleSize.height - marginY) / dimensionesHordaY;
+	separacionHordaY = 100.f;
+
+	// distribuye los enemigos en el ancho/alto de la pantalla menos los margenes
+
+	Vec2 tmp = coordenadasInicioHorda;
+
+	tmp.x += originX + marginX + separacionHordaX * x;
+	// umm el margenY no lo uso para desplazar hacia abajo las naves enemigas
+	// quiero que empiecen siempre desde arriba
+	//tmp.y -= marginY + separacionHordaY * y;
+	tmp.y -= originY + separacionHordaY * y;
+
+	return tmp;
+
+	//Enemigo *tmp;
+
+	//// TODO: Esto funciona, verdad?
+	//tmp = horda[x][y];
+	//// oh yeah
+	//return tmp->getPosition();
+
 }

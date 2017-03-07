@@ -79,6 +79,8 @@ bool Menus::init(){
 	//miMenu->setPosition(100.0f, 200.0f);
 	this->addChild(miMenu, 1);
 
+	// HACK: tengo que aprender a gestionar el tiempo transcurrido de forma más decente
+	Game::getInstance()->ellapsedTime = 0;
 	Game::getInstance()->state = Game::states::menus;
 
 	#pragma endregion

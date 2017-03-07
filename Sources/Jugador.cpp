@@ -1,7 +1,11 @@
 #include "Jugador.h"
 
 Jugador::Jugador(){
-
+	// TODO: Siempre pasa por aqui?
+	CCLOG("Creando jugador");
+	gameInstance = Game::getInstance();
+	// HACK: alguien habrá inicializado esto un par de escenas atrás. Antes que haya jugador al menos O:-)
+	tIniDelay = gameInstance->ellapsedTime;
 }
 
 Jugador::~Jugador(){
@@ -79,37 +83,12 @@ Sprite *Jugador::creaSpriteFisicas(Node *nodo, int tipoColision, int colisionaCo
 	sprite->setTag((int)Game::CategoriaColision::Jugador);
 	sprite->setUserData(this);
 
-	/*
-	// fisica y colisiones
-	PhysicsBody *fisicaSprite;
-	// TODO: PhysicsMaterial OJO
-	// Density=0.1f, Restitution=1.0f, Friction=0
-	// No tengo ni idea, copiado de un ejemplo sencillo para solo colisiones y que funciona
-	fisicaSprite = PhysicsBody::createBox(Size(sprite->getContentSize().width, sprite->getContentSize().height), PhysicsMaterial(0.1f, 1.0f, 0.0f));
 
-	// set the category, collision and contact test bit masks
-	// tipo del objeto
-	fisicaSprite->setCategoryBitmask(tipoColision);
-	// qué tipos de objeto generan eventos de colisión con este?
-	fisicaSprite->setContactTestBitmask(colisionaCon);
-
-	// estableciendo la física como dynamic, el motor no aplicará fuerzas a este objeto
-	// Lo que significa que es controlado por el programador (como iskinetic en Unity)
-	fisicaSprite->setDynamic(true);
-
-	// que objetos deberian afectar a este en las colisiones
-	// (no afectaría por que es dinamico, está puesto por completar)
-	fisicaSprite->setCollisionBitmask((int)Game::CategoriaColision::None);
-
-	sprite->setPhysicsBody(fisicaSprite);
-	*/
 	// hecho
-
 
 	nodo->addChild(sprite, zOrder);
 
 	return sprite;
-
 }
 
 void Jugador::mueve(bool izq, bool dch, bool arr, bool abj){
@@ -154,6 +133,13 @@ void Jugador::mueve(bool izq, bool dch, bool arr, bool abj){
 }
 
 void Jugador::dispara(std::vector<Bala *> &pool){
+	if(gameInstance->ellapsedTime - tIniDelay < delayDisparo){
+		return;
+	}
+
+	// empiezo a contar hasta el proximo disparo
+	tIniDelay = gameInstance->ellapsedTime;
+
 	// le paso un pool 
 	for(auto b = pool.cbegin(); b != pool.cend(); ++b){
 		if(!(*b)->isActive()){

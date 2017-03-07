@@ -8,7 +8,7 @@ USING_NS_CC;
 class Game{
 private:
 	// entiendo que los mantengo privados para que nadie lo pueda llamar desde fuera
-	Game();
+	Game(){};
 	// nadie debería poder destruir esta clase
 	//~Game();
 
@@ -23,6 +23,10 @@ public:
 
 	// devuelve la instancia, y la primera vez que se hace la inicializa
 	static Game *getInstance(){ static Game *instance = new Game; return instance; }
+
+	// HACK: tengo que aprender a gestionar el tiempo mejor
+	// la idea es que desde la escena que sea, vaya añadiendo el deltaT en cada Update, para saber así el tiempo transcurrido desde el inicio de la escena, al menos
+	float ellapsedTime;
 
 	// prueba fisica
 	void anadeFisica(Sprite *sprite, int tipoColision, int colisionaCon, const char *name="[NONAME]");
