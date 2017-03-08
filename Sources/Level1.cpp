@@ -101,17 +101,20 @@ bool Level1::init() {
 		sale = true;
 	}
 
-	// TODO: esto tiene que evolucionar hacia un sistema por oleadas. De momento es para pruebas
-	creaEnemigos();
-	
 	// nota: estaba "precargando" el sonido por cada bala en el pool
 	precargaSonidosDelNivel();
 
 	// HACK: Esto también es temporal, de momento para pruebas
 	// tendrá que evolucionar, ¿tendría que hacer un pool por cada tipo de sprite que pueda aparecer en el nivel?
 	creaPoolBalasFisica(&poolBalas, 8, "bullet_2_blue.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaSpeed, (int)Game::CategoriaColision::Bala,(int)Game::CategoriaColision::Enemigo);
-	creaPoolBalasFisica(&poolBalasEnemigas, 5, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaEnemigaSpeed, (int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador);
+	creaPoolBalasFisica(&poolBalasEnemigas, 32, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaEnemigaSpeed, (int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador);
+	// TODO: temp. Balas inofensivas
+	//creaPoolBalasFisica(&poolBalasEnemigas, 320, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaEnemigaSpeed, (int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::None);
 	creaPoolBalasFisica(&poolBalasGordas, 5, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 4.0f, balaEnemigaSpeed, (int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador);
+
+
+	// TODO: esto tiene que evolucionar hacia un sistema por oleadas. De momento es para pruebas
+	creaEnemigos();
 
 	// HACK: Otra temporalidad a falta de darle una vuelta. Indica el estado inicial de esta escena
 	Game::getInstance()->state = Game::states::introNivel;
@@ -265,9 +268,9 @@ void Level1::creaEnemigos(){
 	posIniHorda.x = 0;
 	posIniHorda.y = visibleSize.height;
 
-	Horda *horda = new Horda(this, posIniHorda);
+	hordaActual = new Horda(this, posIniHorda);
 
-	horda->creaHorda(8, 4);
+	hordaActual->creaHorda(8, 4, poolBalasEnemigas);
 
 	/*
 	//horda->creaHorda(4, 4);
@@ -429,6 +432,11 @@ void Level1::update(float delta){
 
 		controlaProta();
 
+		// enemigos
+		if(hordaActual){
+			hordaActual->tick();
+		}
+
 		//mueveEnemigos(delta * enemigoSpeed);
 
 		mueveBalas(poolBalas);
@@ -466,6 +474,7 @@ void Level1::update(float delta){
 			// empieza a contar hacia el gameOver
 			iniciaTemporizadorCambioEstado = true;
 		}
+		break;
 
 	default:
 		CCLOG("Gamestate desconocido: %d", Game::getInstance()->state);

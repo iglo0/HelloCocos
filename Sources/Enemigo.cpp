@@ -57,6 +57,12 @@ void Enemigo::setPosition(Vec2 nuPos){
 	sprite->setPosition(nuPos);
 }
 
+void Enemigo::mueveRelativo(Vec2 cant){
+	// ojo que venga multiplicado por deltaT
+
+	setPosition(getPosition() + cant);
+}
+
 Sprite *Enemigo::getSprite(){
 	return sprite;
 }
@@ -78,7 +84,9 @@ void Enemigo::impacto(){
 }
 
 void Enemigo::desActivar(){
-	sprite->setPosition(Vec2::ZERO);
+	// bueno, si lo desactivo no puedo obtener su ultima posicion (por ejemplo lo uso desde la horda)
+	// y al hacerlo invisible y sin fisica ergo colisiones, digo yo que no hace falta moverlo a (cualquiersitio,dondesea)
+	//sprite->setPosition(Vec2::ZERO);
 	sprite->setVisible(false);
 	sprite->getPhysicsBody()->setEnabled(false);
 
@@ -88,6 +96,11 @@ void Enemigo::activar(Vec2 posicion){
 	sprite->setPosition(posicion);
 	sprite->setVisible(true);
 	sprite->getPhysicsBody()->setEnabled(true);
+}
+
+bool Enemigo::estaActivo(){
+	// TODO: es una manera
+	return sprite->isVisible();
 }
 
 /*

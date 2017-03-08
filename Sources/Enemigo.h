@@ -21,9 +21,11 @@ public:
 	void setPosition(Vec2 nuPos);
 	void setPosition(float x, float y);
 	Vec2 getPosition();
+	void mueveRelativo(Vec2); // suma Vec2 a la posicion actual
 	void impacto();
 	void desActivar();
 	void activar(Vec2);	// reactiva el enemigo en la posicion
+	bool estaActivo();	// como está el enemigo?
 
 	float tiempoDisparo = 1.0f;
 	float tIni;
