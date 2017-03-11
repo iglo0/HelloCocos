@@ -24,17 +24,17 @@ public:
 	// constructor
 	// -----------------------------------------------------------------------------------------------------------------------------------------
 	Horda(Node *, Vec2 posInicio);
+	~Horda();
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------
 	// variables miembro
 	// -----------------------------------------------------------------------------------------------------------------------------------------
-	Node *nodoPadre; // el nodo al que añadir la horda (o dónde añado los sprites)
 	enum tipoEnemigo{ tipo1, tipo2 };	// placeholder 
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------
 	// funciones públicas
 	// -----------------------------------------------------------------------------------------------------------------------------------------
-	void creaHorda(int dimX, int dimY, std::vector<Bala *> &pool);
+	void creaHorda(int dimX, int dimY, std::vector<Bala *> &pool, float velMovHtal = 50.f, float velMovVcal = 10.f, int probDisparoAleat = RAND_MAX / 33);
 	void tick(); // TODO: llamo a este metodo desde fuera para ejecutar un ciclo? Cómo debería organizar esto?
 
 protected:
@@ -56,19 +56,16 @@ protected:
 	// ................................................................................................................................
 	// dinámicas de los bichos
 	bool moverALaIzquierda = true; // en que direccion se mueve la horda (primero a un lado y luego al otro y así hasta ...)
-	float velMovimientoHorizontal = 50.f; // cuanto mueven en horizontal hasta llegar al borde y dar la vuelta
-	float velMovimientoVertical = 10.f; // no se
+	float velMovimientoHorizontal; // cuanto mueven en horizontal hasta llegar al borde y dar la vuelta
+	float velMovimientoVertical; // no se
 	int nCiclosMovimientoHorizontal; // cuantos ciclos llevan
-	int probabilidadDisparoAleatoria = RAND_MAX / 33; // Probabilidad cada "tick" que alguno de los monstruos dispare
+	int probabilidadDisparoAleatoria; // Probabilidad cada "tick" que alguno de los monstruos dispare
 	// TODO: si lo llamo cada Tick cuantos más fps más te disparan O:-)
-	Vec2 desplazamientoHorda; // cual es el desplazamiento actual de la horda con respecto a origen
+	Vec2 desplazamientoHorda; // cual es el desplazamiento actual de la horda con respecto a ori... NO! con respecto al frame anterior.
 	bool cambiarDireccion(); // decide si toca cambiar de direccion
+	Enemigo *enemigoIzquierdo, *enemigoDerecho;	// enemigos que uso como control de donde está el borde de la horda
 	// ................................................................................................................................
 
-	// "array" de n x m enemigos. Los vectores no solo son fáciles de definir, encima se pueden acceder por índices como un array
-	std::vector <std::vector<Enemigo *> > horda;
-
-	std::vector<Bala *> poolBalas;	// pool para sus disparos. Crearlo desde fuera o dentro? mmm...
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------
 	// funciones privadas
@@ -85,13 +82,25 @@ protected:
 
 	// dado un punto de la matriz, en qué coordenadas de pantalla habría que pintar la nave correspondiente?
 	Vec2 coordenadasInicialesNaveEnXY(int, int);
-	Vec2 coordenadasNaveEnXY(int, int);
-	Enemigo *enemigoEnXY(int, int);
+	//Vec2 coordenadasNaveEnXY(int, int);
+	//Enemigo *enemigoEnXY(int, int);
 
 	// dinámicas de la horda
 	void mueve();
 	void dispara();
 	void baja();
+
+	// -----------------------------------------------------------------------------------------------------------------------------------------
+	// variables privadas
+	// -----------------------------------------------------------------------------------------------------------------------------------------
+	// el nodo del que "cuelga" la horda. Solo lo uso para quitar sprites remanentes al borrar la clase
+	Node *nodoPadre;
+
+	// "array" de n x m enemigos. Los vectores no solo son fáciles de definir, encima se pueden acceder por índices como un array
+	//std::vector <std::vector<Enemigo *> > horda;
+	std::vector<Enemigo *> horda;
+	std::vector<Bala *> poolBalas;	// pool para sus disparos. Crearlo desde fuera o dentro? mmm...
+	std::vector<Enemigo *> listaEnemigosVivos();
 
 	// ha sido destruida la horda?
 	bool hordaDestruida();

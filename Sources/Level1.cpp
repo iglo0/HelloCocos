@@ -114,10 +114,10 @@ bool Level1::init() {
 
 
 	// TODO: esto tiene que evolucionar hacia un sistema por oleadas. De momento es para pruebas
-	creaEnemigos();
+	//creaEnemigos();
 
 	// HACK: Otra temporalidad a falta de darle una vuelta. Indica el estado inicial de esta escena
-	Game::getInstance()->state = Game::states::introNivel;
+	Game::getInstance()->estadoActual = Game::estadosJuego::introNivel;
 
 	// variable para saber si tengo que resetear o no el tiempo transcurrido en el temporizador. Lo utilizo para cambiar de estados, por ejemplo.
 	iniciaTemporizadorCambioEstado = true;
@@ -261,62 +261,45 @@ void Level1::mueveBalas(std::vector<Bala *> pool){
 
 void Level1::creaEnemigos(){
 
-	// HACK: no tengo muy claro lo que estoy haciendo. 
-	// Si tmp->CreaSprite(this...) funciona, por qué new Horda(this) no???
-	// this es un Nodo? Layer es subclase de Nodo...
+	// TODO: limpiar de verdad la horda vieja
+	if(hordaActual)
+		delete hordaActual;
+
+	hordaActual = hordaNivel(nivelActual);
+}
+
+Horda *Level1::hordaNivel(int nivel){
+	Horda *tmp;
+
 	Vec2 posIniHorda;
 	posIniHorda.x = 0;
 	posIniHorda.y = visibleSize.height;
 
-	hordaActual = new Horda(this, posIniHorda);
+	tmp = new Horda(this, posIniHorda);
 
-	hordaActual->creaHorda(8, 4, poolBalasEnemigas);
+	// TODO: primer intento de progresion
+	if(nivelActual > 5){
+		tmp->creaHorda(10, 8, poolBalasEnemigas, 350.f, 10.f, RAND_MAX / 10);
 
-	/*
-	//horda->creaHorda(4, 4);
-	horda->creaFila(4, Horda::tipoEnemigo::tipo2, 0, 200.f);
-	horda->creaFila(4, Horda::tipoEnemigo::tipo1, 100.f, 200.f);
-	horda->creaFila(4, Horda::tipoEnemigo::tipo2, 300.f, 200.f);
-	horda->creaFila(4, Horda::tipoEnemigo::tipo1, 400.f, 200.f);
-	*/
+	} else if(nivelActual > 4){
+		tmp->creaHorda(8, 6, poolBalasEnemigas, 250.f, 10.f, RAND_MAX / 12);
 
-	// TODO: Crear una horda
-	/*
-	Enemigo *tmp = new Enemigo;
+	} else if(nivelActual > 3){
+		tmp->creaHorda(6, 5, poolBalasEnemigas, 200.f, 10.f, RAND_MAX / 15);
 
-	if(tmp->creaSprite(this, "Spaceship15.png", "sonidos/invaderkilled.wav",  0.5f, 0)){
+	} else if(nivelActual > 2){
+		tmp->creaHorda(5, 4, poolBalasEnemigas, 150.f, 10.f, RAND_MAX / 30);
 
-		tmp->setPosition(origin.x + visibleSize.width / 2.0f, visibleSize.height - tmp->getScale()*tmp->getSprite()->getContentSize().height / 2.0f);
-		tmp->getSprite()->setRotation(180.0f);	// esta está al revés :>
+	} else if(nivelActual > 1){
+		tmp->creaHorda(4, 3, poolBalasEnemigas, 100.f, 10.f, RAND_MAX / 45);
 
-		tmp->tIni = tiempoTranscurrido;
-
-		enemigos.push_back(tmp);
 	} else{
-		CCLOG("No pude crear enemigo :I");
+		// primer nivel
+		tmp->creaHorda(4, 3, poolBalasEnemigas, 50.f, 10.f, RAND_MAX / 60);
 	}
-	*/
-	/* // EL Alien gordo
 
-	AutoPolygon apEnemigo = AutoPolygon("aliensprite2.png");
-	PolygonInfo myInfo = apEnemigo.generateTriangles();//use all default values
-	Sprite *enemigo = Sprite::create(myInfo);
+	return tmp;
 
-
-	//Sprite *enemigo = Sprite::create("aliensprite2.png");
-
-	//enemigo->setScale(0.5f);
-	// ojo al posicionarlo, que el tamaño es getScale * getContentSize
-	enemigo->setPosition(origin.x + visibleSize.width / 2.0f, visibleSize.height - enemigo->getScale()*enemigo->getContentSize().height / 2.0f);
-
-	// TODO: Duda, hace falta definir "colisionoCon" entre todos los actores? Es decir... bala con enemigo y enemigo con bala?
-	// umm parece que si?
-	Game::getInstance()->anadeFisica(enemigo, (int)Game::CategoriaColision::Enemigo, (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::Bala, "El Enemigo GORDO" );
-
-	addChild(enemigo, 0);
-
-	enemigosDeprecated.pushBack(enemigo);
-	*/
 }
 
 /*
@@ -403,28 +386,30 @@ void Level1::update(float delta){
 	gameInstance->ellapsedTime += delta;
 
 	// El juego se controla con estados
-	switch(Game::getInstance()->state){
-	case Game::states::introNivel:
+	switch(Game::getInstance()->estadoActual){
+	case Game::estadosJuego::introNivel:
 		// empieza a contar el tiempo de introNivel
 		if(iniciaTemporizadorCambioEstado){
 			tIniCambiaEstado = gameInstance->ellapsedTime;
 			iniciaTemporizadorCambioEstado = false;
-
+			mensajeIntro = "Level " + std::to_string(nivelActual) + ". START!";
 			lblMensajes->setString(mensajeIntro);
 			lblMensajes->setVisible(true);
+
+			creaEnemigos();
 
 		}
 
 		if(gameInstance->ellapsedTime - tIniCambiaEstado >= tiempoIntro){
 			lblMensajes->setVisible(false);
 
-			Game::getInstance()->state = Game::states::jugando;
+			Game::getInstance()->estadoActual = Game::estadosJuego::jugando;
 			// empieza a contar hacia el gameOver
 			iniciaTemporizadorCambioEstado = true;
 		}
 
 		break;
-	case Game::states::jugando:
+	case Game::estadosJuego::jugando:
 		if(iniciaTemporizadorCambioEstado){
 			tIniCambiaEstado = gameInstance->ellapsedTime;
 			iniciaTemporizadorCambioEstado = false;
@@ -444,7 +429,7 @@ void Level1::update(float delta){
 		mueveBalas(poolBalasGordas);
 
 		break;
-	case Game::states::finNivel:
+	case Game::estadosJuego::finNivel:
 		if(iniciaTemporizadorCambioEstado){
 			tIniCambiaEstado = gameInstance->ellapsedTime;
 			iniciaTemporizadorCambioEstado = false;
@@ -454,13 +439,16 @@ void Level1::update(float delta){
 		lblMensajes->setVisible(true);
 
 		if(gameInstance->ellapsedTime - tIniCambiaEstado >= tiempoFinNivel){
-			Game::getInstance()->state = Game::states::introNivel;
+			Game::getInstance()->estadoActual = Game::estadosJuego::introNivel;
 			// empieza a contar hacia el gameOver
 			iniciaTemporizadorCambioEstado = true;
 		}
 
 		break;
-	case Game::states::muerte:
+	case Game::estadosJuego::finHorda:
+		subeNivel();
+		break;
+	case Game::estadosJuego::muerte:
 		if(iniciaTemporizadorCambioEstado){
 			tIniCambiaEstado = gameInstance->ellapsedTime;
 			iniciaTemporizadorCambioEstado = false;
@@ -470,17 +458,39 @@ void Level1::update(float delta){
 		lblMensajes->setVisible(true);
 
 		if(gameInstance->ellapsedTime - tIniCambiaEstado >= tiempoMuerte){
-			Game::getInstance()->state = Game::states::introNivel;
+			Game::getInstance()->estadoActual = Game::estadosJuego::introNivel;
 			// empieza a contar hacia el gameOver
 			iniciaTemporizadorCambioEstado = true;
 		}
 		break;
 
 	default:
-		CCLOG("Gamestate desconocido: %d", Game::getInstance()->state);
+		CCLOG("Gamestate desconocido: %d", Game::getInstance()->estadoActual);
 		break;
 	}
 
+}
+
+void Level1::subeNivel(){
+
+	if(iniciaTemporizadorCambioEstado){
+		tIniCambiaEstado = gameInstance->ellapsedTime;
+		iniciaTemporizadorCambioEstado = false;
+	}
+
+	lblMensajes->setString(mensajeFinHorda);
+	lblMensajes->setVisible(true);
+
+	if(gameInstance->ellapsedTime - tIniCambiaEstado >= tiempoFinHorda){
+		Game::getInstance()->estadoActual = Game::estadosJuego::introNivel;
+
+		// TODO: Pruebas. CreaEnemigos ahora se encarga de crear hordas más dificiles por cada "nivel"
+		// CreaEnemigos se llama en introNivel
+		nivelActual++;
+
+		// empieza a contar hacia... nada realmente
+		iniciaTemporizadorCambioEstado = true;
+	}
 }
 
 // ----------------------------------------------------------------------------------------------------------------------------------------
@@ -529,7 +539,7 @@ void Level1::gestionaImpacto(Sprite *sprite){
 		Enemigo *enemigoTmp;
 		enemigoTmp = (Enemigo *)sprite->getUserData();
 		if(enemigoTmp){
-			enemigoTmp->impacto();
+			enemigoTmp->impacto(1.0f);
 			enemigoTmp->desActivar();
 		} else{
 			CCLOG("catacroker, no era un enemigo");
@@ -541,10 +551,10 @@ void Level1::gestionaImpacto(Sprite *sprite){
 		Jugador *jugadorTmp;
 		jugadorTmp = (Jugador *)sprite->getUserData();
 		if(jugadorTmp){
-			jugadorTmp->impacto();
+			jugadorTmp->impacto(1.0f);
 			//jugadorTmp->desActivar();
 
-			Game::getInstance()->state = Game::states::muerte;
+			Game::getInstance()->estadoActual = Game::estadosJuego::muerte;
 			iniciaTemporizadorCambioEstado = true;
 
 		} else{

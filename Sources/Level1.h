@@ -66,6 +66,7 @@ private:
 	bool dispara;
 	bool sale;	// salir de la pantalla
 	float protaSpeed = 500.0f, balaSpeed = 333.3f, balaEnemigaSpeed = -333.3f;// , enemigoSpeed = 100.0f;
+	int nivelActual = 1;
 	//float deltaT;
 	//float tiempoTranscurrido;
 	cocos2d::Label *lblMensajes;
@@ -74,10 +75,13 @@ private:
 	float tiempoJugando = 20.0f;
 	float tiempoFinNivel = 2.0f;
 	float tiempoMuerte = 5.0f;
+	float tiempoFinHorda = 2.0f;
 	float tIniCambiaEstado;
-	const char *mensajeIntro = "Level 1 START!";
+	//const char *mensajeIntro = "Level 1 START!";
+	std::string mensajeIntro;
 	const char *mensajeFin = "GAME OVER";
-	const char *mensajeMuerte = "MUERE!";
+	const char *mensajeMuerte = "HUEHUEHUEHUEHUE";
+	const char *mensajeFinHorda = "Congrats y tal. Ahora vas a flipar!";
 
 	Size visibleSize;
 	Vec2 origin;
@@ -95,8 +99,8 @@ private:
 	Jugador *player;
 
 	void precargaSonidosDelNivel();
-
-
+	void subeNivel();
+	Horda *hordaNivel(int nivel);
 
 };
 

@@ -81,7 +81,7 @@ bool Menus::init(){
 
 	// HACK: tengo que aprender a gestionar el tiempo transcurrido de forma más decente
 	Game::getInstance()->ellapsedTime = 0;
-	Game::getInstance()->state = Game::states::menus;
+	Game::getInstance()->estadoActual = Game::estadosJuego::menus;
 
 	#pragma endregion
 

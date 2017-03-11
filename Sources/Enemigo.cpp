@@ -5,6 +5,14 @@ Enemigo::Enemigo(){
 }
 
 Enemigo::~Enemigo(){
+	CCLOG("Memoria del Enemigo destruida?");
+
+	// los cocos2d::sprites son autoliberados
+	//if(sprite){
+	//}
+	// TODO: en realidad no hago ningún new en la clase así que tampoco tocan deletes?
+
+	// retirar el sprite del nodo lo único, pero de cual? Cómo saberlo sin parámetros? Tendría que capturarlo en una variable miembro?
 
 }
 
@@ -71,7 +79,7 @@ Vec2 Enemigo::getPosition(){
 	return sprite->getPosition();
 }
 
-void Enemigo::impacto(){
+void Enemigo::impacto(float dmg){
 	// un algo impacta en el enemigo
 
 	// pierde escudo

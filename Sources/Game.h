@@ -32,9 +32,9 @@ public:
 	void anadeFisica(Sprite *sprite, int tipoColision, int colisionaCon, const char *name="[NONAME]");
 
 
-	enum states{ menus, introNivel, jugando, finNivel, muerte };
+	enum estadosJuego{ menus, introNivel, jugando, finNivel, finHorda, muerte };
 	
-	states state;
+	estadosJuego estadoActual;
 
 	// TODO: ES ESTE UN BUEN SITIO PARA ESTO???
 	// Quiero? que las categorías estén accesibles en todas partes

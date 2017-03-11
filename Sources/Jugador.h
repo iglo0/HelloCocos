@@ -25,7 +25,7 @@ public:
 	void dispara(std::vector<Bala *> &pool);
 	//void setPlayerSpeed(float);
 	// jugador recibe un impacto. Oh noes!
-	void impacto();
+	void impacto(float dmg);
 
 	//Vec2 getPosition();
 

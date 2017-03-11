@@ -8,32 +8,75 @@ Horda::Horda(Node *n, Vec2 posIni) : nodoPadre(n), coordenadasInicioHorda(posIni
 }
 
 
-void Horda::creaHorda(int dimX, int dimY, std::vector<Bala *> &pool){
+Horda::~Horda(){
+	CCLOG("Horda says: Bye bye!");
+
+	// TODO: de hecho no debería borrar los enemigos sino hacer otro pool con ellos y activarlos/desactivarlos
+	for(auto ene = horda.cbegin(); ene != horda.cend(); ++ene){
+		if(nodoPadre){
+			nodoPadre->removeChild((*ene)->getSprite());
+		}
+
+		delete (*ene);
+	}
+
+	// del pool de balas me encargaría en la clase Level1
+}
+
+
+void Horda::creaHorda(int dimX, int dimY, std::vector<Bala *> &pool, float velMovHtal, float velMovVcal, int probDisparoAleat){
 	poolBalas = pool;
+
+	// TODO: parametros de comportamiento
+	velMovimientoHorizontal = velMovHtal;
+	velMovimientoVertical = velMovVcal;
+	probabilidadDisparoAleatoria = probDisparoAleat;
 
 	dimensionesHordaX = dimX;
 	dimensionesHordaY = dimY;
 
-	for(int i = 0; i < dimY; i++){
-		creaFila(dimX, Horda::tipoEnemigo::tipo2, i);
-	}
-}
+	//for(int i = 0; i < dimY; i++){
+	//	creaFila(dimX, Horda::tipoEnemigo::tipo2, i);
+	//}
 
-void Horda::creaFila(int cant, enum tipoEnemigo tipo, int numFila){
-	std::vector <Enemigo *> fila;
+	// TODO: pensandolo un poco mejor, no tienen por que ser arrays bidimensionales
+	// lo creo como si lo fuera, pero el resto de veces lo navego como una lista lineal
 	Enemigo *tmp;
+	for(int y = 0; y < dimY; y++){
+		for(int x = 0; x < dimX; x++){
+			tmp = creaEnemigo(tipo2, x, y);
+			horda.push_back(tmp);
 
-	for(int i = 0; i < cant; i++){
-		// TODO: configurar bien los desplazamientos
-		// cada enemigo se coloca a si mismo en pantalla según su fila y columna
-		tmp = creaEnemigo(tipo, i, numFila);
-
-		fila.push_back(tmp);
+			// lo asigna por cada fila... 
+			// TODO: no se si es mas rapido repetir asignaciones de punteros o un par de comprobaciones más...
+			if(x == 0){
+				enemigoIzquierdo = tmp;
+			} 
+			// en el caso particular de una horda de 1 también tiene que ejecutarse
+			// así que no vale el if..else original
+			if(x == dimX - 1){
+				enemigoDerecho = tmp;
+			}
+		}
 	}
 
-	horda.push_back(fila);
 }
 
+//void Horda::creaFila(int cant, enum tipoEnemigo tipo, int numFila){
+//	std::vector <Enemigo *> fila;
+//	Enemigo *tmp;
+//
+//	for(int i = 0; i < cant; i++){
+//		// TODO: configurar bien los desplazamientos
+//		// cada enemigo se coloca a si mismo en pantalla según su fila y columna
+//		tmp = creaEnemigo(tipo, i, numFila);
+//
+//		fila.push_back(tmp);
+//	}
+//
+//	horda.push_back(fila);
+//}
+//
 
 Enemigo *Horda::creaEnemigo(enum tipoEnemigo t, int x, int y){
 
@@ -72,18 +115,18 @@ Enemigo *Horda::creaEnemigo(enum tipoEnemigo t, int x, int y){
 	}
 }
 
-Vec2 Horda::coordenadasNaveEnXY(int x, int y){
-	Enemigo *tmp = enemigoEnXY(x, y);
+//Vec2 Horda::coordenadasNaveEnXY(int x, int y){
+//	Enemigo *tmp = enemigoEnXY(x, y);
+//
+//	// este activo o no
+//	return tmp->getPosition();
+//}
 
-	// este activo o no
-	return tmp->getPosition();
-}
-
-Enemigo *Horda::enemigoEnXY(int x, int y){
-	return horda[y][x];
-
-}
-
+//Enemigo *Horda::enemigoEnXY(int x, int y){
+//	return horda[y][x];
+//
+//}
+//
 
 
 Vec2 Horda::coordenadasInicialesNaveEnXY(int x, int y){
@@ -166,17 +209,25 @@ void Horda::mueve(){
 		}
 	}
 
-	// por cada fila de la horda
-	// y por cada enemigo de la fila, los voy moviendo
-	int x;
-	int y = 0;
-	for(auto fila = horda.cbegin(); fila != horda.cend(); ++fila,y++){
-		x = 0;
-		for(auto enemigo = (*fila).cbegin(); enemigo != (*fila).cend(); ++enemigo, x++){
-			(*enemigo)->setPosition(coordenadasNaveEnXY(x, y) + desplazamientoHorda);
-			//(*enemigo)->mueveRelativo(desplazamientoHorda);
-		}
+	//// por cada fila de la horda
+	//// y por cada enemigo de la fila, los voy moviendo
+	//int x;
+	//int y = 0;
+	//for(auto fila = horda.cbegin(); fila != horda.cend(); ++fila,y++){
+	//	x = 0;
+	//	for(auto enemigo = (*fila).cbegin(); enemigo != (*fila).cend(); ++enemigo, x++){
+	//		(*enemigo)->setPosition(coordenadasNaveEnXY(x, y) + desplazamientoHorda);
+	//		//(*enemigo)->mueveRelativo(desplazamientoHorda);
+	//	}
+	//}
+
+	//Vec2 posTmp;
+	for(auto ene = horda.cbegin(); ene != horda.cend(); ++ene){
+		//posTmp = (*pene)->getPosition() + desplazamientoHorda;
+		//(*pene)->setPosition(posTmp);
+		(*ene)->mueveRelativo(desplazamientoHorda);
 	}
+
 }
 
 bool Horda::cambiarDireccion(){
@@ -188,13 +239,22 @@ bool Horda::cambiarDireccion(){
 
 	if(moverALaIzquierda){
 		// por ejemplo 
-		posEnemigoUltimo = coordenadasNaveEnXY(0, 0);
-		if(posEnemigoUltimo.x < 0){
+		//posEnemigoUltimo = coordenadasNaveEnXY(0, 0);
+		//if(posEnemigoUltimo.x < 0){
+		//	return true;
+		//}
+
+		if(enemigoIzquierdo->getPosition().x < 0){
 			return true;
 		}
+
 	} else{
-		posEnemigoUltimo = coordenadasNaveEnXY(dimensionesHordaX-1, 0);
-		if(posEnemigoUltimo.x > bordeDerechoX){
+		//posEnemigoUltimo = coordenadasNaveEnXY(dimensionesHordaX-1, 0);
+		//if(posEnemigoUltimo.x > bordeDerechoX){
+		//	return true;
+		//}
+
+		if(enemigoDerecho->getPosition().x > bordeDerechoX){
 			return true;
 		}
 	}
@@ -203,82 +263,42 @@ bool Horda::cambiarDireccion(){
 
 }
 
+std::vector<Enemigo *> Horda::listaEnemigosVivos(){
+	std::vector<Enemigo *> tmp;
 
-void Horda::dispara(){
-	// oki, disparo pero... quien?
-	// TODO: Comprobar que el enemigo existe, antes :>
-	int dispX, dispY;
-	bool encontradoUnoVivo = true;
-	dispX = RandomHelper::random_int(0, dimensionesHordaX - 1);
-	dispY = RandomHelper::random_int(0, dimensionesHordaY - 1);
-
-	//// dis motherfucker
-	//Enemigo *tmp = naveEnXY(dispX, dispY);
-
-	//// TODO: y si está desactivado,qué?
-	//// pues... voy a empezar no disparando y a ver qué tal queda
-	//if(!tmp->estaActivo())
-	//	return;
-	//// ok. Queda horrible, al final no dispara nadie.
-	//// tendré que buscar de otro modo
-
-
-	// v2
-	// =================================
-	// =================================
-	// =================================
-	// TODO: HE CREADO UN MONSTRUO
-	// =================================
-	// =================================
-	// =================================
-	// Además que está mal, cuando empiezan a faltar muchos enemigos, las balas se van casi todas al primero
-
-	// Tendré que buscar el primero libre de otra forma
-
-	Enemigo *tmp;
-	int x, y;
-
-	// empiezo el circo de buscar uno activo
-	// por hacer algo, recorro desde el x,y random hasta el final del array
-	// y vuelvo a empezar desde 0,0 hasta el x,y random
-	x = dispX;
-	y = dispY;
-
-	tmp = enemigoEnXY(x, y);
-	while(!tmp->estaActivo())  {
-		// vaya hombre, el que tocaba no está vivo
-
-		// busco el siguiente
-
-		if(++x >= dimensionesHordaX){
-			x = 0;
-			y++;
+	for(auto ene = horda.cbegin(); ene != horda.cend(); ++ene){
+		if((*ene)->estaActivo()){
+			tmp.push_back(*ene);
 		}
-		if(y >= dimensionesHordaY){
-			y = 0;
-			x = 0;
-		}
-
-		CCLOG("(x,y)=(%d,%d)", x, y);
-
-		// condicion extra de salida, cuando vuelvo a llegar al enemigo inicial, salgo derrotado
-		if(x == dispX && y == dispY){
-			encontradoUnoVivo = false;
-			break;
-		}
-
-		tmp = enemigoEnXY(x, y);
-
 	}
 
+	if(tmp.cbegin() == tmp.cend()){
+		CCLOG("HORDA DESTRUIDA!");
+		Game::getInstance()->estadoActual = Game::finHorda;
+	}
 
-	if(!encontradoUnoVivo){
-		// TODO: WTF, la horda no debería existir, bug, bug!
-		CCLOG("WTF, la horda no debería existir, bug, bug!");
+	return tmp;
+}
+
+
+void Horda::dispara(){
+	std::vector<Enemigo *> enemigosQueQuedan;
+
+	enemigosQueQuedan = listaEnemigosVivos();
+
+	int iMax = (int)enemigosQueQuedan.size()-1;
+
+	if(iMax < 0){
+		// si no quedan enemigos
+		// tendría que parar en algún sitio, supongo que no debería llegar aquí
+		CCLOG ("intento de disparar sin enemigos");
 		return;
 	}
 
-	Vec2 pos = tmp->getPosition();
+	// dispara, pero quien?
+	int i = RandomHelper::random_int(0, iMax);
+	Vec2 posBala = enemigosQueQuedan[i]->getPosition();
+	posBala.y += 20.f;
 
 	for(auto b = poolBalas.cbegin(); b != poolBalas.cend(); ++b){
 		if(!(*b)->isActive()){
@@ -286,17 +306,18 @@ void Horda::dispara(){
 
 			//Vec2 pos = sprite->getPosition();
 			// la pongo un poco más abajo (+ hacia abajo)
-			pos.y += 20.0f;
+			//pos.y += 20.0f;
+			//posBala.y += 20.0f;
 
-			(*b)->activar(pos);
+			//(*b)->activar(pos);
+			(*b)->activar(posBala);
 			break;
 		}
 	}
-
-
 }
 
 void Horda::baja(){
+	CCLOG("Movimiento hacia abajo por implementar");
 }
 
 

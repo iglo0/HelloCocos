@@ -114,19 +114,19 @@ void Jugador::mueve(bool izq, bool dch, bool arr, bool abj){
 		}
 	}
 
-
+	// TODO: solo movimento horizontal
 	if(arr) { 
-		position.y += playerSpeed * deltaT;
-		if(position.y > visibleSize.height){
-			position.y = visibleSize.height;
-		} 
+		//position.y += playerSpeed * deltaT;
+		//if(position.y > visibleSize.height){
+		//	position.y = visibleSize.height;
+		//} 
 	}
 
 	if(abj){
-		position.y -= playerSpeed * deltaT;
-		if(position.y < 0.0f){
-			position.y = 0.0f;
-		}
+		//position.y -= playerSpeed * deltaT;
+		//if(position.y < 0.0f){
+		//	position.y = 0.0f;
+		//}
 	}
 
 	sprite->setPosition(position);
@@ -155,7 +155,7 @@ void Jugador::dispara(std::vector<Bala *> &pool){
 }
 
 
-void Jugador::impacto(){
+void Jugador::impacto(float dmg){
 	// espero que estés cacheado
 	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(pathSonidoMuerte);
 	// a ver que pasa
