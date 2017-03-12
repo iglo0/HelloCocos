@@ -1,9 +1,11 @@
 #include "Jugador.h"
 
-Jugador::Jugador(){
+Jugador::Jugador(float hp) : puntosDeGolpeIniciales(hp), puntosDeGolpeActuales(hp) {
 	// TODO: Siempre pasa por aqui?
 	CCLOG("Creando jugador");
 	gameInstance = Game::getInstance();
+	//puntosDeGolpeActuales = puntosDeGolpeIniciales;
+
 	// HACK: alguien habrá inicializado esto un par de escenas atrás. Antes que haya jugador al menos O:-)
 	tIniDelay = gameInstance->ellapsedTime;
 }
@@ -155,9 +157,73 @@ void Jugador::dispara(std::vector<Bala *> &pool){
 }
 
 
-void Jugador::impacto(float dmg){
-	// espero que estés cacheado
-	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(pathSonidoMuerte);
-	// a ver que pasa
-	//Game::getInstance()->state = Game::states::muerte;
+bool Jugador::impacto(float dmg){
+	// Hay escudo?
+	// pseudocódigo
+	// caso de haber escudo, calcula cuanta vida absorbe
+	//float dmgRestante = impactoEscudo(dmg);
+
+	// quitar vida
+	puntosDeGolpeActuales -= dmg;
+
+	if(puntosDeGolpeActuales <= 0){
+		// espero que estés cacheado
+		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(pathSonidoMuerte);
+		// a ver que pasa
+		return true;
+	} else{
+		// efecto de daño
+		float porcen = puntosDeGolpeActuales / puntosDeGolpeIniciales;
+
+		// Actions
+		// http://www.cocos2d-x.org/wiki/Actions
+		// By -> relative, To -> absoulte
+
+		// Tints a node to the specified RGB values
+		// GLubyte = unsigned char
+		GLubyte val = 255 * porcen;
+		if(val < 128)
+			val = 128;
+		auto tintTo = TintTo::create(0.5f, val, val, val);
+		sprite->runAction(tintTo);
+
+		// Sequences
+
+		// create a few actions.
+		auto tintIda = TintTo::create(0.05, Color3B(255, 0, 0));
+		auto tintVuelta = TintTo::create(0.05, Color3B(255, 255, 255));
+
+		float escalaOri = sprite->getScale();
+		auto escalaIda = ScaleTo::create(0.05, escalaOri * 1.1);
+		auto escalaVuelta = ScaleTo::create(0.05, escalaOri);
+
+		auto callbackTint = CallFunc::create([](){
+			log("Tintorro!");
+		});
+
+		auto callbackScale = CallFunc::create([](){
+			log ("Scaled");
+		});
+
+		// create a sequence with the actions and callbacks
+		// TODO: mirar usos de los callbacks
+		auto seq = Sequence::create(escalaIda, callbackScale, tintIda, tintVuelta, nullptr);
+
+		// run it
+		sprite->runAction(seq);
+
+
+		return false;
+	}
+
+
+}
+
+
+void Jugador::resetea(){
+	// TODO: cosas a hacer tras morir
+	// para empezar y de momento:
+	puntosDeGolpeActuales = puntosDeGolpeIniciales;
+
+	// TODO: restituir el Tinte
 }

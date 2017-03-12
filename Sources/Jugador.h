@@ -10,7 +10,7 @@ USING_NS_CC;
 
 class Jugador {
 public:
-	Jugador();
+	Jugador(float hp);
 	~Jugador();
 
 	// Crea al jugador en el centro
@@ -24,8 +24,10 @@ public:
 	void mueve(bool izq, bool dch, bool arr, bool abj);
 	void dispara(std::vector<Bala *> &pool);
 	//void setPlayerSpeed(float);
-	// jugador recibe un impacto. Oh noes!
-	void impacto(float dmg);
+	// jugador recibe un impacto. Oh noes! Devuelve si eso lo ha destruido o no
+	bool impacto(float dmg);
+	void resetea();
+
 
 	//Vec2 getPosition();
 
@@ -38,8 +40,7 @@ private:
 	float spriteScale = 0.5f;	// escala del sprite (a piñón)
 	int zOrder = 0;	// zOrder del jugador
 	//Vec2 position;	// ya tengo la posicion de sprite
-	float playerSpeed = 500.0f;
-
+	float playerSpeed = 300.0f;
 	// TODO: ¿es esta la forma mas conveniente de controlar el tiempo? (c++11 btw)
 	//std::chrono::time_point<std::chrono::system_clock> tIniDisparo;
 	//std::chrono::duration<double> delayDisparo = 1.2;
@@ -48,6 +49,7 @@ private:
 	//end = std::chrono::system_clock::now();
 	//std::chrono::duration<double> elapsed_seconds = end - start; // pensaba que  elapsed_seconds sería double, pero no :(
 	
+	float puntosDeGolpeActuales, puntosDeGolpeIniciales;
 
 	float delayDisparo = 0.3f;	// TODO: delay entre disparos (esto podría estar definido en la bala mas bien, así distintos tipos de disparo tendrían distinto delay)
 	float tIniDelay;	// empieza a contar desde el ultimo disparo

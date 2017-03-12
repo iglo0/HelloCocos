@@ -8,11 +8,14 @@ Bala::Bala(const char *pathSprite){
 	active = false;
 }
 
-Bala::Bala(const char *name, const char *pathSprite, int tipoColision, int colisionoCon){
+Bala::Bala(const char *name, const char *pathSprite, int tipoColision, int colisionoCon, float dmg){
+	danyoBala = dmg;
+
 	if(!setSpriteConFisica(name, pathSprite, tipoColision, colisionoCon)){
 		CCLOG("Bala->sprite '%s'=SIN DEFINIR", pathSprite);
 		return;
 	}
+
 
 	active = false;
 }
@@ -175,4 +178,8 @@ bool Bala::setSpriteConFisica(const char *name, const char *ruta, int tipoColisi
 	// hecho
 
 	return true;
+}
+
+float Bala::getDanyoBala() {
+	return danyoBala;
 }

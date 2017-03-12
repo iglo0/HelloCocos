@@ -24,7 +24,7 @@ Horda::~Horda(){
 }
 
 
-void Horda::creaHorda(int dimX, int dimY, std::vector<Bala *> &pool, float velMovHtal, float velMovVcal, int probDisparoAleat){
+void Horda::creaHorda(int dimX, int dimY, std::vector<Bala *> &pool, float velMovHtal, float velMovVcal, int probDisparoAleat, float dmg){
 	poolBalas = pool;
 
 	// TODO: parametros de comportamiento
@@ -44,7 +44,7 @@ void Horda::creaHorda(int dimX, int dimY, std::vector<Bala *> &pool, float velMo
 	Enemigo *tmp;
 	for(int y = 0; y < dimY; y++){
 		for(int x = 0; x < dimX; x++){
-			tmp = creaEnemigo(tipo2, x, y);
+			tmp = creaEnemigo(tipo2, x, y, dmg);
 			horda.push_back(tmp);
 
 			// lo asigna por cada fila... 
@@ -78,7 +78,7 @@ void Horda::creaHorda(int dimX, int dimY, std::vector<Bala *> &pool, float velMo
 //}
 //
 
-Enemigo *Horda::creaEnemigo(enum tipoEnemigo t, int x, int y){
+Enemigo *Horda::creaEnemigo(enum tipoEnemigo t, int x, int y, float vida){
 
 	Enemigo *tmp = new Enemigo;
 	Sprite *spriteTmp;
@@ -87,10 +87,10 @@ Enemigo *Horda::creaEnemigo(enum tipoEnemigo t, int x, int y){
 	// TODO: de momento cada bicho dispara el mismo tipo de bala
 	switch(t){
 	case tipoEnemigo::tipo1:
-		spriteTmp = tmp->creaSprite(nodoPadre, enemigoT1PathSprite, enemigoPathSonidoMuerte, escalaEnemigoT1, 0);
+		spriteTmp = tmp->creaSprite(nodoPadre, enemigoT1PathSprite, enemigoPathSonidoMuerte, escalaEnemigoT1, 0, vida);
 		break;
 	case tipoEnemigo::tipo2:
-		spriteTmp = tmp->creaSprite(nodoPadre, enemigoT2PathSprite, enemigoPathSonidoMuerte, escalaEnemigoT2, 0);
+		spriteTmp = tmp->creaSprite(nodoPadre, enemigoT2PathSprite, enemigoPathSonidoMuerte, escalaEnemigoT2, 0, vida);
 		break;
 	default:
 		break;
@@ -115,24 +115,9 @@ Enemigo *Horda::creaEnemigo(enum tipoEnemigo t, int x, int y){
 	}
 }
 
-//Vec2 Horda::coordenadasNaveEnXY(int x, int y){
-//	Enemigo *tmp = enemigoEnXY(x, y);
-//
-//	// este activo o no
-//	return tmp->getPosition();
-//}
-
-//Enemigo *Horda::enemigoEnXY(int x, int y){
-//	return horda[y][x];
-//
-//}
-//
-
-
 Vec2 Horda::coordenadasInicialesNaveEnXY(int x, int y){
 
-	// TODO: sacar todos los cálculos que pueda y almacenarlos en variables, en vez de repetirlos con CADA nave
-	// ahora estoy dándole vueltas
+	// TODO: sacar todos los cálculos que pueda y almacenarlos en variables, en vez de repetirlos con CADA nave?
 
 	if(x >= dimensionesHordaX || y >= dimensionesHordaY) {
 		CCLOG("Te has pasado con las coordenadas");
@@ -181,6 +166,7 @@ void Horda::tick(){
 
 	mueve();
 
+	// TODO: esto mejor llevarlo a cada Enemigo creo yo
 	// disparo o que?
 	//dispara(); // !
 	if(random() < probabilidadDisparoAleatoria){
@@ -196,35 +182,18 @@ void Horda::mueve(){
 
 	if(moverALaIzquierda){
 		desplazamientoHorda = -deltaT * velMovimientoHorizontal * Vec2(1.f, 0);
-		//CCLOG("Despl: %f", desplazamientoHorda.x);
 		if(cambiarDireccion()){
 			nCiclosMovimientoHorizontal++;
 			moverALaIzquierda = false;
 		}
 	} else {
 		desplazamientoHorda = deltaT * velMovimientoHorizontal * Vec2(1.f, 0);
-		//CCLOG("Despl: %f", desplazamientoHorda.x);
 		if(cambiarDireccion()){
 			moverALaIzquierda = true;
 		}
 	}
 
-	//// por cada fila de la horda
-	//// y por cada enemigo de la fila, los voy moviendo
-	//int x;
-	//int y = 0;
-	//for(auto fila = horda.cbegin(); fila != horda.cend(); ++fila,y++){
-	//	x = 0;
-	//	for(auto enemigo = (*fila).cbegin(); enemigo != (*fila).cend(); ++enemigo, x++){
-	//		(*enemigo)->setPosition(coordenadasNaveEnXY(x, y) + desplazamientoHorda);
-	//		//(*enemigo)->mueveRelativo(desplazamientoHorda);
-	//	}
-	//}
-
-	//Vec2 posTmp;
 	for(auto ene = horda.cbegin(); ene != horda.cend(); ++ene){
-		//posTmp = (*pene)->getPosition() + desplazamientoHorda;
-		//(*pene)->setPosition(posTmp);
 		(*ene)->mueveRelativo(desplazamientoHorda);
 	}
 
@@ -238,29 +207,17 @@ bool Horda::cambiarDireccion(){
 	float bordeDerechoX = Director::getInstance()->getVisibleSize().width;
 
 	if(moverALaIzquierda){
-		// por ejemplo 
-		//posEnemigoUltimo = coordenadasNaveEnXY(0, 0);
-		//if(posEnemigoUltimo.x < 0){
-		//	return true;
-		//}
-
 		if(enemigoIzquierdo->getPosition().x < 0){
 			return true;
 		}
 
 	} else{
-		//posEnemigoUltimo = coordenadasNaveEnXY(dimensionesHordaX-1, 0);
-		//if(posEnemigoUltimo.x > bordeDerechoX){
-		//	return true;
-		//}
-
 		if(enemigoDerecho->getPosition().x > bordeDerechoX){
 			return true;
 		}
 	}
 
 	return false;
-
 }
 
 std::vector<Enemigo *> Horda::listaEnemigosVivos(){
@@ -302,14 +259,6 @@ void Horda::dispara(){
 
 	for(auto b = poolBalas.cbegin(); b != poolBalas.cend(); ++b){
 		if(!(*b)->isActive()){
-			// uso esta bala
-
-			//Vec2 pos = sprite->getPosition();
-			// la pongo un poco más abajo (+ hacia abajo)
-			//pos.y += 20.0f;
-			//posBala.y += 20.0f;
-
-			//(*b)->activar(pos);
 			(*b)->activar(posBala);
 			break;
 		}

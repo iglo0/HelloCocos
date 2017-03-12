@@ -14,8 +14,9 @@ USING_NS_CC;
 class Bala {
 public:
 	Bala(const char *pathSprite);	// bala sin fisica
-	Bala(const char *name, const char *pathSprite, int tipoColision, int colisionoCon);	// bala con física
+	Bala(const char *name, const char *pathSprite, int tipoColision, int colisionoCon, float dmg=1.0f);	// bala con física
 	~Bala();
+	float getDanyoBala();
 
 	enum tiposBala{ balaTipo1, balaTipo2};
 	enum sonidosBala { disparo, impacto};
@@ -55,6 +56,7 @@ private:
 	float velocidadAbs;
 	//cocos2d::Size visibleSize;
 	tiposBala tipoBala;
+	float danyoBala;
 
 	bool active = true;	// si esta bala está activa o está a la espera de ser utilizada
 };

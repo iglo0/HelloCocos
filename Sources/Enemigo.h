@@ -15,7 +15,7 @@ public:
 	Enemigo();
 	~Enemigo();
 
-	Sprite *creaSprite(Node *nodo, const char *pathSprite, const char *sonidoMuerte, float scale, int zOrder);
+	Sprite *creaSprite(Node *nodo, const char *pathSprite, const char *sonidoMuerte, float scale, int zOrder, float hp=1.f);
 	Sprite *getSprite();
 	float getScale();
 	void setPosition(Vec2 nuPos);
@@ -36,6 +36,8 @@ private:
 	Sprite *sprite;
 	float spriteScale;
 	int zOrder;
+	float puntosDeGolpeIniciales;
+	float puntosDeGolpeActuales;
 
 	/*
 	// Crea al jugador en el centro

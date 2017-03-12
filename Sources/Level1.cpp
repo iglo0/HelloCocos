@@ -93,7 +93,7 @@ bool Level1::init() {
 	gameInstance->ellapsedTime = 0;
 
 	// crea al jugador y lo añade a la escena
-	player = new Jugador();
+	player = new Jugador(2.0f);
 	// TODO: Ojo que creaSpriteFisicas antes devolvía bool y ahora devuelve Sprite *
 	// En cualquier caso la comparacion if(!...) es lo mismo. Pero ojo.
 	if( !player->creaSpriteFisicas(this, (int)Game::CategoriaColision::Jugador, (int)Game::CategoriaColision::Enemigo | (int)Game::CategoriaColision::BalaEnemigo) ){
@@ -279,88 +279,28 @@ Horda *Level1::hordaNivel(int nivel){
 
 	// TODO: primer intento de progresion
 	if(nivelActual > 5){
-		tmp->creaHorda(10, 8, poolBalasEnemigas, 350.f, 10.f, RAND_MAX / 10);
+		tmp->creaHorda(10, 8, poolBalasEnemigas, 350.f, 10.f, RAND_MAX / 10, 6.0);
 
 	} else if(nivelActual > 4){
-		tmp->creaHorda(8, 6, poolBalasEnemigas, 250.f, 10.f, RAND_MAX / 12);
+		tmp->creaHorda(8, 6, poolBalasEnemigas, 250.f, 10.f, RAND_MAX / 12, 4.0);
 
 	} else if(nivelActual > 3){
-		tmp->creaHorda(6, 5, poolBalasEnemigas, 200.f, 10.f, RAND_MAX / 15);
+		tmp->creaHorda(6, 5, poolBalasEnemigas, 200.f, 10.f, RAND_MAX / 15, 3.0);
 
 	} else if(nivelActual > 2){
-		tmp->creaHorda(5, 4, poolBalasEnemigas, 150.f, 10.f, RAND_MAX / 30);
+		tmp->creaHorda(5, 4, poolBalasEnemigas, 150.f, 10.f, RAND_MAX / 30, 2.0);
 
 	} else if(nivelActual > 1){
-		tmp->creaHorda(4, 3, poolBalasEnemigas, 100.f, 10.f, RAND_MAX / 45);
+		tmp->creaHorda(4, 3, poolBalasEnemigas, 100.f, 10.f, RAND_MAX / 45, 2.0);
 
 	} else{
 		// primer nivel
-		tmp->creaHorda(4, 3, poolBalasEnemigas, 50.f, 10.f, RAND_MAX / 60);
+		tmp->creaHorda(2, 2, poolBalasEnemigas, 50.f, 10.f, RAND_MAX / 60, 1.0);
 	}
 
 	return tmp;
 
 }
-
-/*
-void Level1::mueveEnemigos(float cuanto){
-	for(auto e = enemigos.cbegin(); e != enemigos.cend(); ++e){
-		mueveEnemigo(*e, cuanto);
-	}
-}
-
-void Level1::mueveEnemigo(Enemigo *enemigo, float cuanto){
-	// esto tendrá que ser por cada enemigo, de momento todos igual
-	static bool mueveIzq = true;
-
-	if(!enemigo){
-		CCLOG("Enemigo sin inicializar");
-		return;
-	}
-
-	Vec2 pos = enemigo->getPosition();
-
-	if(mueveIzq){
-
-		pos.x -= cuanto;
-
-		if(pos.x < 0){
-			mueveIzq = false;
-		}
-	} else{
-		pos.x += cuanto;
-
-		if(pos.x > visibleSize.width){
-			mueveIzq = true;
-		}
-	}
-
-	enemigo->setPosition(pos);
-
-	if(tiempoTranscurrido - enemigo->tIni > enemigo->tiempoDisparo ){
-		// reseteo contador
-		enemigo->tIni = tiempoTranscurrido;
-
-		enemigoDispara(enemigo->getSprite());
-	}
-}
-
-void Level1::enemigoDispara(Sprite *enemigo){
-	if(!enemigo){
-		CCLOG("ERROR. Intento de disparo de enemigo sin sprite");
-		return;
-	}
-	// escoge una bala del pool que esté libre
-	//for(auto b = poolBalasGordas.cbegin(); b != poolBalasGordas.cend(); ++b){
-	for(auto b = poolBalasEnemigas.cbegin(); b != poolBalasEnemigas.cend(); ++b){
-		if(!(*b)->isActive()){
-			// tengo una libre
-			(*b)->activar(enemigo->getPosition());
-			break;
-		}
-	}
-}
-*/
 
 void Level1::controlaProta(){
 
@@ -457,6 +397,8 @@ void Level1::update(float delta){
 		lblMensajes->setString(mensajeMuerte);
 		lblMensajes->setVisible(true);
 
+		player->resetea();
+
 		if(gameInstance->ellapsedTime - tIniCambiaEstado >= tiempoMuerte){
 			Game::getInstance()->estadoActual = Game::estadosJuego::introNivel;
 			// empieza a contar hacia el gameOver
@@ -493,19 +435,47 @@ void Level1::subeNivel(){
 	}
 }
 
+float Level1::calculaDanyoImpacto(Sprite *sprA, Sprite *sprB){
+	Bala *balaTmp;
+
+	if(sprA->getTag() == (int)Game::CategoriaColision::Bala || sprA->getTag() == (int)Game::CategoriaColision::BalaEnemigo){
+		balaTmp = (Bala *)sprA->getUserData();
+		return balaTmp->getDanyoBala();
+	} else if(sprB->getTag() == (int)Game::CategoriaColision::Bala || sprB->getTag() == (int)Game::CategoriaColision::BalaEnemigo){
+		balaTmp = (Bala *)sprB->getUserData();
+		return balaTmp->getDanyoBala();
+	}
+
+	CCLOG("Daño por defecto en impacto");
+
+	return 1.f;
+}
+
 // ----------------------------------------------------------------------------------------------------------------------------------------
 // física
 // ----------------------------------------------------------------------------------------------------------------------------------------
 // physicscontact test
 bool Level1::onContactBegin(PhysicsContact &contact){
+	float dmg;
+
+	Sprite *sprA, *sprB;
+	Bala *balaTmp;
+
 	// HACK: Gestion de impactos, primera version que funciona
 
 	//Node *nodeA = contact.getShapeA()->getBody()->getNode();
 	//Node *nodeB = contact.getShapeB()->getBody()->getNode();
 
 	// envía el impacto a los dos "impactantes"
-	gestionaImpacto((Sprite *)contact.getShapeA()->getBody()->getNode());
-	gestionaImpacto((Sprite *)contact.getShapeB()->getBody()->getNode());
+
+	sprA = (Sprite *)contact.getShapeA()->getBody()->getNode();
+	sprB = (Sprite *)contact.getShapeB()->getBody()->getNode();
+
+	dmg = calculaDanyoImpacto(sprA, sprB);
+
+	// HACK: a todos les paso el daño pero no todos hacen algo con el
+	gestionaImpacto(sprA, dmg);
+	gestionaImpacto(sprB, dmg);
 
 	////nodeA->removeFromParent();
 	////nodeB->removeFromParent();
@@ -513,7 +483,7 @@ bool Level1::onContactBegin(PhysicsContact &contact){
 	return true;
 }
 
-void Level1::gestionaImpacto(Sprite *sprite){
+void Level1::gestionaImpacto(Sprite *sprite, float dmg){
 	if(!sprite){
 		CCLOG("ORROR: impacto sin sprite?");
 		return;
@@ -523,7 +493,6 @@ void Level1::gestionaImpacto(Sprite *sprite){
 	case (int)Game::CategoriaColision::Bala:
 	case (int)Game::CategoriaColision::BalaEnemigo:
 		// las balas desaparecen
-
 		Bala *balaTmp;
 		// alehoop!
 		balaTmp = (Bala *)sprite->getUserData();
@@ -539,8 +508,10 @@ void Level1::gestionaImpacto(Sprite *sprite){
 		Enemigo *enemigoTmp;
 		enemigoTmp = (Enemigo *)sprite->getUserData();
 		if(enemigoTmp){
-			enemigoTmp->impacto(1.0f);
-			enemigoTmp->desActivar();
+			// TODO: que situacion mas peluda, tengo que acceder ahora al daño de la bala...
+			enemigoTmp->impacto(dmg);
+			// esto que lo haga el enemigo mismo
+			//enemigoTmp->desActivar();
 		} else{
 			CCLOG("catacroker, no era un enemigo");
 		}
@@ -551,12 +522,13 @@ void Level1::gestionaImpacto(Sprite *sprite){
 		Jugador *jugadorTmp;
 		jugadorTmp = (Jugador *)sprite->getUserData();
 		if(jugadorTmp){
-			jugadorTmp->impacto(1.0f);
-			//jugadorTmp->desActivar();
-
-			Game::getInstance()->estadoActual = Game::estadosJuego::muerte;
-			iniciaTemporizadorCambioEstado = true;
-
+			// La clase impacto deberá gestionar también el cambio de estado si se nos muere el prota
+			// HACK: pues de momento no, por como gestiono el tema con las variables de iniciar esperas...
+			if(jugadorTmp->impacto(dmg)){
+				// el jugador se ha muerto
+				Game::getInstance()->estadoActual = Game::estadosJuego::muerte;
+				iniciaTemporizadorCambioEstado = true;
+			}
 		} else{
 			CCLOG("catacroker, no era un jugador");
 		}

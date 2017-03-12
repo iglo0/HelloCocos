@@ -16,7 +16,7 @@ Enemigo::~Enemigo(){
 
 }
 
-Sprite *Enemigo::creaSprite(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, int z){
+Sprite *Enemigo::creaSprite(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, int z, float hp){
 	pathSprite = pathSprite;
 	/*	
 	AutoPolygon ap1 = AutoPolygon(path1);
@@ -44,6 +44,8 @@ Sprite *Enemigo::creaSprite(Node *nodo, const char *pathSprite, const char *ruta
 	sprite->setTag((int)Game::CategoriaColision::Enemigo);
 	zOrder = z;
 	
+	puntosDeGolpeIniciales = hp;
+	puntosDeGolpeActuales = puntosDeGolpeIniciales;
 
 	// y por ultimo le asigno la colision
 	Game::getInstance()->anadeFisica(sprite, (int)Game::CategoriaColision::Enemigo, (int)Game::CategoriaColision::Bala | (int)Game::CategoriaColision::Jugador, "Enemigo");
@@ -85,9 +87,79 @@ void Enemigo::impacto(float dmg){
 	// pierde escudo
 
 	// pierde vida
-
+	puntosDeGolpeActuales -= dmg;
+	
 	// o muere
-	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(pathSonidoMuerte);
+	if(puntosDeGolpeActuales <= 0){
+		// TODO: estaría guay hacer algún efecto tipo que el enemigo se caiga o algo
+
+		desActivar();
+
+	} else{
+		// efecto de daño
+		float porcen = puntosDeGolpeActuales / puntosDeGolpeIniciales;
+
+		// Actions
+		// http://www.cocos2d-x.org/wiki/Actions
+		// By -> relative, To -> absoulte
+
+		// Scale uniformly by 3x over 2 seconds
+		//auto scaleTo = ScaleTo::create(0.1f, sprite->getScale()*1.1f);
+		//sprite->runAction(scaleTo);
+
+		// Tints a node to the specified RGB values
+		// GLubyte = unsigned char
+		GLubyte val = 255 * porcen;
+		if(val < 128)
+			val = 128;
+		auto tintTo = TintTo::create(0.5f, val, val, val);
+		sprite->runAction(tintTo);
+
+		// Tints a node BY the delta of the specified RGB values.
+		//auto tintBy = TintBy::create(0.1f, 32, 0, 0);
+		//sprite->runAction(tintBy);
+
+		// Sequences
+
+		// create a few actions.
+		auto jump = JumpBy::create(0.5, Vec2(0, 0), 10, 1);
+
+		//auto rotate = RotateTo::create(2.0f, 10);
+
+		auto tintIda = TintTo::create(0.05, Color3B(255, 0, 0));
+		auto tintVuelta = TintTo::create(0.05, Color3B(255, 255, 255));
+
+		float escalaOri = sprite->getScale();
+
+		auto escalaIda = ScaleTo::create(0.05, escalaOri * 1.1);
+		auto escalaVuelta = ScaleTo::create(0.05, escalaOri);
+
+		// create a few callbacks
+		auto callbackJump = CallFunc::create([](){
+			log("Jumped!");
+		});
+
+		auto callbackRotate = CallFunc::create([](){
+			log("Rotated!");
+		});
+
+		auto callbackTint = CallFunc::create([](){
+			log("Tintorro!");
+		});
+
+		auto callbackScale = CallFunc::create([](){
+			log ("Scaled");
+		});
+
+		// create a sequence with the actions and callbacks
+		// TODO: mirar usos de los callbacks
+		auto seq = Sequence::create(tintIda, callbackTint, jump, callbackJump, tintVuelta, nullptr);
+
+		// run it
+		sprite->runAction(seq);
+
+	}
+
 
 }
 
@@ -110,99 +182,3 @@ bool Enemigo::estaActivo(){
 	// TODO: es una manera
 	return sprite->isVisible();
 }
-
-/*
-bool Jugador::cargaSprite(){
-	sprite = Sprite::create(pathSprite);
-	if(sprite)
-		return true;
-	return false;
-}
-
-bool Jugador::creaSprite(Node *nodo){
-	Vec2 pos;
-
-	if(!cargaSprite()){
-		return false;
-	}
-
-	// en llegando aquí hay sprite
-	// le asigno su escala
-	sprite->setScale(spriteScale);
-	// lo situo en el centro
-	pos.x = Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width / 2.0f;
-	pos.y = sprite->getScale()*sprite->getContentSize().height / 2.0f;
-
-	sprite->setPosition(pos);
-	nodo->addChild(sprite, zOrder);
-}
-
-bool Jugador::creaSprite(Node *nodo, Vec2 posIni){
-	// intenta crear un sprite si no se ha hecho antes
-	if(!cargaSprite()){
-		return false;
-	} 
-
-	// llegando aquí tengo un sprite perfectamente cargado por alguien
-	// falta: ajustar tamaño y posición
-	sprite->setScale(spriteScale);
-	sprite->setPosition(posIni);
-	nodo->addChild(sprite, zOrder);
-}
-
-void Jugador::mueve(bool izq, bool dch, bool arr, bool abj){
-	auto deltaT = Director::getInstance()->getDeltaTime();
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-
-	Vec2 position = sprite->getPosition();
-
-	// movimiento de la nave
-	if(izq){
-		// hace el movimiento independiente de framerates
-		position.x -= playerSpeed * deltaT;
-
-		// comprueba los márgenes
-		if(position.x < 0){
-			position.x = 0;
-		} 
-	}
-	if(dch){
-		position.x += playerSpeed * deltaT;
-		if(position.x > visibleSize.width){
-			position.x = visibleSize.width;
-		}
-	}
-
-
-	if(arr) { 
-		position.y += playerSpeed * deltaT;
-		if(position.y > visibleSize.height){
-			position.y = visibleSize.height;
-		} 
-	}
-
-	if(abj){
-		position.y -= playerSpeed * deltaT;
-		if(position.y < 0.0f){
-			position.y = 0.0f;
-		}
-	}
-
-	sprite->setPosition(position);
-}
-
-void Jugador::dispara(std::vector<Bala *> &pool){
-	// le paso un pool 
-	for(auto b = pool.cbegin(); b != pool.cend(); ++b){
-		if(!(*b)->isActive()){
-			// uso esta bala
-			
-			Vec2 pos = sprite->getPosition();
-			pos.y += 20.0f;
-
-			(*b)->activar(pos);
-			break;
-		}
-	}
-}
-*/

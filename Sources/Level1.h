@@ -49,7 +49,7 @@ public:
 	void creaPoolBalas(std::vector<Bala *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed);
 	void creaPoolBalasFisica(std::vector<Bala *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed, int tipoColision, int colisionaCon);
 	// gestiona un impacto desde el sprite colisionado. El sprite deberá tener defindo setUserData() y setTag() para que esto funcione
-	void gestionaImpacto(Sprite *sprite);
+	void gestionaImpacto(Sprite *sprite, float dmg);
 
 	// --------------------------------------------------------------
 	// Físicas (o sea, Colisiones)
@@ -101,6 +101,7 @@ private:
 	void precargaSonidosDelNivel();
 	void subeNivel();
 	Horda *hordaNivel(int nivel);
+	float calculaDanyoImpacto(Sprite *, Sprite *);	// calcula el daño que se hacen dos sprites al chocar (caso más común: balas vs cosas)
 
 };
 

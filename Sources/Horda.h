@@ -34,7 +34,7 @@ public:
 	// -----------------------------------------------------------------------------------------------------------------------------------------
 	// funciones públicas
 	// -----------------------------------------------------------------------------------------------------------------------------------------
-	void creaHorda(int dimX, int dimY, std::vector<Bala *> &pool, float velMovHtal = 50.f, float velMovVcal = 10.f, int probDisparoAleat = RAND_MAX / 33);
+	void creaHorda(int dimX, int dimY, std::vector<Bala *> &pool, float velMovHtal = 50.f, float velMovVcal = 10.f, int probDisparoAleat = RAND_MAX / 33, float dmg=1.f);
 	void tick(); // TODO: llamo a este metodo desde fuera para ejecutar un ciclo? Cómo debería organizar esto?
 
 protected:
@@ -72,13 +72,13 @@ protected:
 	// -----------------------------------------------------------------------------------------------------------------------------------------
 
 	// crea una fila de n enemigos
-	void creaFila(int cant, enum tipoEnemigo t, int numFila);	// numFila es para que sepa que coordenadas le tocan
+	//void creaFila(int cant, enum tipoEnemigo t, int numFila);	// numFila es para que sepa que coordenadas le tocan
 
 	// crea un enemigo de tipo t, en la posicion de la matriz x,y
 	// TODO: y si en vez de eso los creo como hijos de un objeto por definir?
 	// así moviendo el objeto ese movería todos los hijos a la vez... mmm...
 	// (pensando como con Unity, no sé si Cocos se comportará igual)
-	Enemigo *creaEnemigo(enum tipoEnemigo t, int x, int y);
+	Enemigo *creaEnemigo(enum tipoEnemigo t, int x, int y, float vida=1.f);
 
 	// dado un punto de la matriz, en qué coordenadas de pantalla habría que pintar la nave correspondiente?
 	Vec2 coordenadasInicialesNaveEnXY(int, int);
