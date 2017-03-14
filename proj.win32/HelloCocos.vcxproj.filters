@@ -48,6 +48,9 @@
     <ClCompile Include="..\Sources\Horda.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\Sources\Pool.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Sources\Bala.h">
@@ -90,6 +93,9 @@
       <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\Horda.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Pool.h">
       <Filter>Sources</Filter>
     </ClInclude>
   </ItemGroup>

@@ -219,6 +219,13 @@ bool Jugador::impacto(float dmg){
 
 }
 
+Vec2 Jugador::getPosition(){
+	return sprite->getPosition();
+}
+
+Sprite *Jugador::getSprite(){
+	return sprite;
+}
 
 void Jugador::resetea(){
 	// TODO: cosas a hacer tras morir

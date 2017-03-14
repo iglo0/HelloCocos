@@ -10,6 +10,9 @@
 #include "Enemigo.h"
 #include "Menus.h"
 #include "Horda.h"
+// testz
+#include "Pool.h"
+// ------------------------
 
 #include <vector>
 
@@ -95,6 +98,7 @@ private:
 	std::vector<Bala *> poolBalas;	// pool para mis disparos
 	std::vector<Bala *> poolBalasGordas;	// pool para disparos del jefe
 	std::vector<Bala *> poolBalasEnemigas;	// pool para disparos de los aliens normales
+	Pool *poolEscudos;
 
 	Jugador *player;
 

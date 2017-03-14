@@ -17,9 +17,10 @@ HECHO
 -----
 
 * Pruebas cargando sprites y moviendolos
+* Colisiones con físicas, imprecisas
 * Se puede disparar
-* Hay un enemigo que se mueve y dispara
-* Colisiones con físicas, todo de prueba
+* Hay enemigos que se mueven y disparan
+* Se pueden destruir y salen más
 * Sonido
 
 
@@ -27,29 +28,31 @@ HECHO
 EN CONSTRUCCIÓN
 ------
 * Seguir reorganizando el código
-* Detectar colisiones
-	- probando con físicas
 * Estructura del juego
 	- start screen (NADA)
 	- menu (uno básico)
-	- gameplay (un nivel)
+	- gameplay (un nivel, cambiante)
 	- fin de juego (NADA)
 	- records (NADA)
-
+* Pensar cómo gestionar los pools para las balas y/o otros
+* Power-ups
+	- Escudo
+* Flujo del juego
+	- intro nivel (uno básico)
+	- oleadas de enemigos
 		
 PRÓXIMO
 ------
 
-* Pensar cómo gestionar los pools para las balas y/o otros
+* Detectar colisiones con precisión
 * Flujo del juego
-	- intro nivel (uno básico)
 	- descripcion de nivel
-	- oleadas de enemigos (NADA)
 	- boss (NADA)
 	- periode de inmunidad (NADA)
-	- arma (una de pega)
-	- power-up (NADA)
 	- etc...
+* Power-ups
+	- arma (una de pega)
+* Animaciones
 
 
 

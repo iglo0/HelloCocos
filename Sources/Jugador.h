@@ -27,9 +27,8 @@ public:
 	// jugador recibe un impacto. Oh noes! Devuelve si eso lo ha destruido o no
 	bool impacto(float dmg);
 	void resetea();
-
-
-	//Vec2 getPosition();
+	Vec2 getPosition();
+	Sprite *getSprite();
 
 private:
 	Game *gameInstance;

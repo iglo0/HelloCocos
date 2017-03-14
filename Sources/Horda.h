@@ -8,7 +8,7 @@
 
 USING_NS_CC;
 
-class Horda : cocos2d::Layer{
+class Horda {
 
 /*
 // Horda de enemigos. Básicamente un array de n x m

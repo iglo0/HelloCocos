@@ -112,6 +112,15 @@ bool Level1::init() {
 	//creaPoolBalasFisica(&poolBalasEnemigas, 320, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaEnemigaSpeed, (int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::None);
 	creaPoolBalasFisica(&poolBalasGordas, 5, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 4.0f, balaEnemigaSpeed, (int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador);
 
+	// TESTTT
+	poolEscudos = new Pool(player->getSprite());
+	if(!poolEscudos->creaPoolSprites(50, "shields.png",1,1,0, "escudo")) {
+		CCLOG ("nia nia nia niaaaaaa");
+	}
+
+	poolEscudos->activa(Vec2::ZERO);// el padre es el prota asi que...
+	//removeChild(tmpEscudo);
+	//player->getSprite()->addChild(tmpEscudo);
 
 	// TODO: esto tiene que evolucionar hacia un sistema por oleadas. De momento es para pruebas
 	//creaEnemigos();
@@ -121,6 +130,22 @@ bool Level1::init() {
 
 	// variable para saber si tengo que resetear o no el tiempo transcurrido en el temporizador. Lo utilizo para cambiar de estados, por ejemplo.
 	iniciaTemporizadorCambioEstado = true;
+
+
+	// ----------------------------------------------------------------------------------------------------------------------------------------
+	// testz
+	// ----------------------------------------------------------------------------------------------------------------------------------------
+
+	// 2 gradientes de fondo
+	auto layer1 = LayerGradient::create(Color4B(0, 0, 0, 255), Color4B(0, 0, 127, 255));
+	layer1->setContentSize(Size(visibleSize.width, visibleSize.height/2.0f));
+	layer1->setPosition(Vec2(0, visibleSize.height / 2.0f));
+	addChild(layer1, -1);
+
+	auto layer2 = LayerGradient::create(Color4B(0, 0, 128, 255), Color4B(0, 160, 180, 255));
+	layer2->setContentSize(Size(visibleSize.width, visibleSize.height/2.0f));
+	layer2->setPosition(Vec2(0, 0));
+	addChild(layer2, -1);
 
 
 	// schedules update every frame with default order 0. Lower orders execute first
