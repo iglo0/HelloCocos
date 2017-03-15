@@ -157,6 +157,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Sources\MiEscena.cpp" />
     <ClCompile Include="..\Sources\PolyspriteTest.cpp" />
     <ClCompile Include="..\Sources\Pool.cpp" />
+    <ClCompile Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\Testz.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Sources\AppDelegate.h" />
@@ -173,6 +174,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Sources\PolyspriteTest.h" />
     <ClInclude Include="..\Sources\Pool.h" />
     <ClInclude Include="..\Sources\resource.h" />
+    <ClInclude Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\Testz.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

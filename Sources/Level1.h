@@ -12,6 +12,7 @@
 #include "Horda.h"
 // testz
 #include "Pool.h"
+#include "Testz.h"
 // ------------------------
 
 #include <vector>
@@ -51,8 +52,11 @@ public:
 	//void enemigoDispara(Sprite *enemigo);
 	void creaPoolBalas(std::vector<Bala *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed);
 	void creaPoolBalasFisica(std::vector<Bala *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed, int tipoColision, int colisionaCon);
+	void desactivaPool(std::vector<Bala *> &pool);
 	// gestiona un impacto desde el sprite colisionado. El sprite deberá tener defindo setUserData() y setTag() para que esto funcione
 	void gestionaImpacto(Sprite *sprite, float dmg);
+
+
 
 	// --------------------------------------------------------------
 	// Físicas (o sea, Colisiones)

@@ -106,7 +106,13 @@ void Bala::reproduceSonido(sonidosBala sb){
 	if(active){
 		switch(sb){
 		case sonidosBala::disparo:
-			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(rutaSonidoDisparo, false); 
+			// audioengine si parece que soporta efectos pero no encuentro ejemplos de uso
+			//AudioEngine::play2d("mi carro me lo robaron");
+			cocos2d::experimental::AudioProfile *audioProfile;
+			cocos2d::experimental::AudioEngine::play2d(rutaSonidoDisparo, false, 1.0f, nullptr);
+		
+			// TODO: no pitch/pan/gain on win32. Doh!
+			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(rutaSonidoDisparo, false, 1.0f,0.0f,1.0f);
 			break;
 		case sonidosBala::impacto:
 			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(rutaSonidoImpacto, false); 

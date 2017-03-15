@@ -1,17 +1,18 @@
 #include "Pool.h"
 
-Pool::Pool(Node *nodo) : nodoPadre(nodo){}
+Pool::Pool(){}
+//Pool::Pool(Node *nodo) : nodoPadre(nodo){}
 
 Pool::~Pool(){
 
 }
 
 
-bool Pool::creaPoolSprites(int cant, const char *spritePath, int zOrder, float scale, float rotation, const char *name){
-	return creaPoolSprites(cant, spritePath, zOrder, scale, rotation, name, (int)Game::CategoriaColision::None, (int)Game::CategoriaColision::None, nullptr);
+bool Pool::creaPoolSprites(int cant, const char *spritePath, float scale, float rotation, const char *name){
+	return creaPoolSprites(cant, spritePath, scale, rotation, name, (int)Game::CategoriaColision::None, (int)Game::CategoriaColision::None, nullptr);
 }
 
-bool Pool::creaPoolSprites(int cant, const char *spritePath, int zOrder, float scale, float rotation, const char *name, int tipoColision, int colisionaCon, void *clasePadre){
+bool Pool::creaPoolSprites(int cant, const char *spritePath, float scale, float rotation, const char *name, int tipoColision, int colisionaCon, void *clasePadre){
 	Sprite *tmp;
 	
 	for(int i = 0; i < cant; i++){
@@ -51,7 +52,7 @@ bool Pool::creaPoolSprites(int cant, const char *spritePath, int zOrder, float s
 			tmp->setName(name + std::to_string(i));
 		}
 
-		nodoPadre->addChild(tmp, zOrder);
+		//nodoPadre->addChild(tmp, zOrder);
 
 		// hecho
 		pool.push_back(tmp);
@@ -67,19 +68,30 @@ void Pool::desActiva(Sprite *sprite){
 	if(p){
 		p->setEnabled(false);
 	}
+
+	if(sprite->getParent() != nullptr){
+		sprite->getParent()->removeChild(sprite);
+	}
 }
 
-Sprite *Pool::activa(Vec2 pos){
+Sprite *Pool::activa(Vec2 posRel, Sprite *spritePadre, int zOrder){
+	if(!spritePadre){
+		CCLOG ("Pool tiene que tener padre, saliendo");
+		return nullptr;
+	}
+
 	for(auto tmp = pool.cbegin(); tmp != pool.cend(); ++tmp){
 		if(!(*tmp)->isVisible()){
 			// este me vale
+			(*tmp)->setPosition(posRel + spritePadre->convertToNodeSpace(spritePadre->getPosition()));
+			spritePadre->addChild(*tmp, zOrder);
 
-			(*tmp)->setPosition(pos);
-			(*tmp)->setVisible(true);
 			PhysicsBody *p = (*tmp)->getPhysicsBody();
 			if(p){
 				p->setEnabled(true);
 			}
+
+			(*tmp)->setVisible(true);
 
 			return *tmp;
 		}
@@ -88,4 +100,29 @@ Sprite *Pool::activa(Vec2 pos){
 	return nullptr;
 }
 		
-		
+Sprite *Pool::activa(Vec2 posAbs, Node *nodePadre, int zOrder){
+	if(!nodePadre){
+		CCLOG ("Pool tiene que tener padre, saliendo");
+		return nullptr;
+	}
+
+	for(auto tmp = pool.cbegin(); tmp != pool.cend(); ++tmp){
+		if(!(*tmp)->isVisible()){
+			// este me vale
+			(*tmp)->setPosition(posAbs);
+			nodePadre->addChild(*tmp, zOrder);
+
+			PhysicsBody *p = (*tmp)->getPhysicsBody();
+			if(p){
+				p->setEnabled(true);
+			}
+
+			(*tmp)->setVisible(true);
+
+			return *tmp;
+		}
+	}
+
+	return nullptr;
+
+}

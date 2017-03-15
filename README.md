@@ -28,17 +28,10 @@ HECHO
 EN CONSTRUCCIÓN
 ------
 * Seguir reorganizando el código
-* Estructura del juego
-	- start screen (NADA)
-	- menu (uno básico)
-	- gameplay (un nivel, cambiante)
-	- fin de juego (NADA)
-	- records (NADA)
 * Pensar cómo gestionar los pools para las balas y/o otros
 * Power-ups
 	- Escudo
 * Flujo del juego
-	- intro nivel (uno básico)
 	- oleadas de enemigos
 		
 PRÓXIMO
@@ -46,10 +39,17 @@ PRÓXIMO
 
 * Detectar colisiones con precisión
 * Flujo del juego
+	- intro nivel (uno básico)
 	- descripcion de nivel
 	- boss (NADA)
 	- periode de inmunidad (NADA)
 	- etc...
+* Estructura del juego
+	- start screen (NADA)
+	- menu (uno básico)
+	- gameplay (un nivel, cambiante)
+	- fin de juego (NADA)
+	- records (NADA)
 * Power-ups
 	- arma (una de pega)
 * Animaciones

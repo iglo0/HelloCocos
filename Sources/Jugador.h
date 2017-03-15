@@ -4,6 +4,7 @@
 #include "SimpleAudioEngine.h"
 
 #include "Bala.h"
+#include "Pool.h"
 #include <vector>
 
 USING_NS_CC;
@@ -30,6 +31,8 @@ public:
 	Vec2 getPosition();
 	Sprite *getSprite();
 
+	
+
 private:
 	Game *gameInstance;
 
@@ -50,7 +53,7 @@ private:
 	
 	float puntosDeGolpeActuales, puntosDeGolpeIniciales;
 
-	float delayDisparo = 0.3f;	// TODO: delay entre disparos (esto podría estar definido en la bala mas bien, así distintos tipos de disparo tendrían distinto delay)
+	float delayDisparo = 0.1f;	// TODO: delay entre disparos (esto podría estar definido en la bala mas bien, así distintos tipos de disparo tendrían distinto delay)
 	float tIniDelay;	// empieza a contar desde el ultimo disparo
 
 	//void setPosition(Vec2);

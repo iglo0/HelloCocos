@@ -97,7 +97,7 @@ bool Level1::init() {
 	// TODO: Ojo que creaSpriteFisicas antes devolvía bool y ahora devuelve Sprite *
 	// En cualquier caso la comparacion if(!...) es lo mismo. Pero ojo.
 	if( !player->creaSpriteFisicas(this, (int)Game::CategoriaColision::Jugador, (int)Game::CategoriaColision::Enemigo | (int)Game::CategoriaColision::BalaEnemigo) ){
-		// si esto falla, apaga y vámonos
+		// si esto ha fallado, apaga y vámonos
 		sale = true;
 	}
 
@@ -106,35 +106,48 @@ bool Level1::init() {
 
 	// HACK: Esto también es temporal, de momento para pruebas
 	// tendrá que evolucionar, ¿tendría que hacer un pool por cada tipo de sprite que pueda aparecer en el nivel?
-	creaPoolBalasFisica(&poolBalas, 8, "bullet_2_blue.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaSpeed, (int)Game::CategoriaColision::Bala,(int)Game::CategoriaColision::Enemigo);
+	creaPoolBalasFisica(&poolBalas, 88, "bullet_2_blue.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaSpeed, (int)Game::CategoriaColision::Bala,(int)Game::CategoriaColision::Enemigo);
 	creaPoolBalasFisica(&poolBalasEnemigas, 32, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaEnemigaSpeed, (int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador);
 	// TODO: temp. Balas inofensivas
 	//creaPoolBalasFisica(&poolBalasEnemigas, 320, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaEnemigaSpeed, (int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::None);
 	creaPoolBalasFisica(&poolBalasGordas, 5, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 4.0f, balaEnemigaSpeed, (int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador);
 
 	// TESTTT
-	poolEscudos = new Pool(player->getSprite());
-	if(!poolEscudos->creaPoolSprites(50, "shields.png",1,1,0, "escudo")) {
-		CCLOG ("nia nia nia niaaaaaa");
+	// TODO: Pero si el escudo queda asignado a una layer por comodidad mía...
+	// de qué sirve tener un pool si tengo que andar cambiando el padre en tiempo real? Eso se notaría en rendimiento?
+	poolEscudos = new Pool();// player->getSprite());
+	if(!poolEscudos->creaPoolSprites(1, "shields.png",1,1,"escudo")) {
+		CCLOG ("pool fallido etc");
 	}
 
-	poolEscudos->activa(Vec2::ZERO);// el padre es el prota asi que...
-	//removeChild(tmpEscudo);
-	//player->getSprite()->addChild(tmpEscudo);
+//	player->poolEscudos = poolEscudos;
 
-	// TODO: esto tiene que evolucionar hacia un sistema por oleadas. De momento es para pruebas
-	//creaEnemigos();
+	// hum, (0,0) es el centro de un sprite pero la esquina inferior izquierda de una layer.
+	// hay que convertir de un espacio de coordenadas a otro
+	//Sprite *escudoSpriteTmp = poolEscudos->activa(Vec2::ZERO, this, 0);
+	//poolEscudos->desActiva(escudoSpriteTmp);
+	// TODO: y tampoco es que tenga sentido hacer un pool de escudos... el prota tendrá uno sí o no, y los enemigos todavía tengo que ver cómo los "powerupeo"
+	poolEscudos->activa(Vec2::ZERO, player->getSprite(), 1);
 
-	// HACK: Otra temporalidad a falta de darle una vuelta. Indica el estado inicial de esta escena
+
+
+
+	// Indica el estado inicial de esta escena
 	Game::getInstance()->estadoActual = Game::estadosJuego::introNivel;
 
 	// variable para saber si tengo que resetear o no el tiempo transcurrido en el temporizador. Lo utilizo para cambiar de estados, por ejemplo.
+	// OJO! De uno en uno :)
 	iniciaTemporizadorCambioEstado = true;
 
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// testz
 	// ----------------------------------------------------------------------------------------------------------------------------------------
+
+	// TODO: Nueva nave con herencia... queda un laargo camino
+	//Nave *nave = new Nave;
+	//nave->setSprite(this,"aliensprite2.png",1);
+
 
 	// 2 gradientes de fondo
 	auto layer1 = LayerGradient::create(Color4B(0, 0, 0, 255), Color4B(0, 0, 127, 255));
@@ -206,6 +219,12 @@ void Level1::creaPoolBalasFisica(std::vector<Bala *> *pool, int cant, const char
 		// o no se mostrará nada
 		// TODO: ummm no sé si debo destruirlos a mano o se encarga cocos
 		addChild(tmp->getSprite());
+	}
+}
+
+void Level1::desactivaPool(std::vector<Bala*> &pool){
+	for(auto b = pool.cbegin(); b != pool.cend(); ++b){
+		(*b)->desActivar();
 	}
 }
 
@@ -330,6 +349,8 @@ Horda *Level1::hordaNivel(int nivel){
 void Level1::controlaProta(){
 
 	player->mueve(mueveIzq, mueveDch, mueveArr, mueveAbj);
+	// limito el movimiento izquierda y derecha
+	//player->mueve(mueveIzq, mueveDch, false, false);
 
 
 	if(dispara){
@@ -411,6 +432,8 @@ void Level1::update(float delta){
 
 		break;
 	case Game::estadosJuego::finHorda:
+		desactivaPool(poolBalas);
+		desactivaPool(poolBalasEnemigas);
 		subeNivel();
 		break;
 	case Game::estadosJuego::muerte:

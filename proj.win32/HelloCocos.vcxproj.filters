@@ -51,6 +51,9 @@
     <ClCompile Include="..\Sources\Pool.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\Testz.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Sources\Bala.h">
@@ -96,6 +99,9 @@
       <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\Pool.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\Testz.h">
       <Filter>Sources</Filter>
     </ClInclude>
   </ItemGroup>

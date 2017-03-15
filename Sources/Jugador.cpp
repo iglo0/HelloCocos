@@ -118,17 +118,17 @@ void Jugador::mueve(bool izq, bool dch, bool arr, bool abj){
 
 	// TODO: solo movimento horizontal
 	if(arr) { 
-		//position.y += playerSpeed * deltaT;
-		//if(position.y > visibleSize.height){
-		//	position.y = visibleSize.height;
-		//} 
+		position.y += playerSpeed * deltaT;
+		if(position.y > visibleSize.height){
+			position.y = visibleSize.height;
+		} 
 	}
 
 	if(abj){
-		//position.y -= playerSpeed * deltaT;
-		//if(position.y < 0.0f){
-		//	position.y = 0.0f;
-		//}
+		position.y -= playerSpeed * deltaT;
+		if(position.y < 0.0f){
+			position.y = 0.0f;
+		}
 	}
 
 	sprite->setPosition(position);
@@ -190,12 +190,12 @@ bool Jugador::impacto(float dmg){
 		// Sequences
 
 		// create a few actions.
-		auto tintIda = TintTo::create(0.05, Color3B(255, 0, 0));
-		auto tintVuelta = TintTo::create(0.05, Color3B(255, 255, 255));
+		auto tintIda = TintTo::create(0.05f, Color3B(255, 0, 0));
+		auto tintVuelta = TintTo::create(0.05f, Color3B(255, 255, 255));
 
 		float escalaOri = sprite->getScale();
-		auto escalaIda = ScaleTo::create(0.05, escalaOri * 1.1);
-		auto escalaVuelta = ScaleTo::create(0.05, escalaOri);
+		auto escalaIda = ScaleTo::create(0.05f, escalaOri * 1.1);
+		auto escalaVuelta = ScaleTo::create(0.05f, escalaOri);
 
 		auto callbackTint = CallFunc::create([](){
 			log("Tintorro!");

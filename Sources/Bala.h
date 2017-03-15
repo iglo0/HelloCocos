@@ -2,6 +2,7 @@
 
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
+#include "AudioEngine.h"
 
 #include "Game.h"
 
@@ -25,7 +26,7 @@ public:
 	void init(const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, enum tiposBala tb);	// inicializa todo el sistema para este tipo de Bala
 
 	// mueve la bala segun su velocidad 
-	void mueve();
+	virtual void mueve();
 
 	bool setSpriteConFisica(const char *name, const char *ruta, int tipoColision, int colisionaCon);
 
@@ -61,3 +62,7 @@ private:
 	bool active = true;	// si esta bala está activa o está a la espera de ser utilizada
 };
 
+class Balagorda : Bala{
+	void mueve();
+
+};
