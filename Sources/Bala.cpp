@@ -171,7 +171,8 @@ bool Bala::setSpriteConFisica(const char *name, const char *ruta, int tipoColisi
 
 	sprite->setName(name);
 
-	Game::getInstance()->anadeFisica(sprite, tipoColision, colisionaCon, name);
+	//Game::getInstance()->anadeFisica(sprite, tipoColision, colisionaCon, name);
+	Game::anadeFisica(sprite, tipoColision, colisionaCon, name);
 
 	// la detección de colisiones empieza desactivada
 	sprite->getPhysicsBody()->setEnabled(false);

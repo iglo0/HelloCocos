@@ -38,7 +38,8 @@ bool Pool::creaPoolSprites(int cant, const char *spritePath, float scale, float 
 		// Tiene física? Me pongo con ello
 		if(tipoColision != (int)Game::CategoriaColision::None){
 			// con física
-			Game::getInstance()->anadeFisica(tmp, tipoColision, colisionaCon, (name + std::to_string(i)).c_str());
+			//Game::getInstance()->anadeFisica(tmp, tipoColision, colisionaCon, (name + std::to_string(i)).c_str());
+			Game::anadeFisica(tmp, tipoColision, colisionaCon, (name + std::to_string(i)).c_str());
 
 			// la detección de colisiones empieza desactivada
 			tmp->getPhysicsBody()->setEnabled(false);

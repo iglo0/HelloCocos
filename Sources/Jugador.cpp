@@ -46,6 +46,7 @@ bool Jugador::creaSprite(Node *nodo){
 	//sprite->getBoundingBox();
 
 	nodo->addChild(sprite, zOrder);
+	return true;
 }
 
 bool Jugador::creaSprite(Node *nodo, Vec2 posIni){
@@ -59,6 +60,7 @@ bool Jugador::creaSprite(Node *nodo, Vec2 posIni){
 	sprite->setScale(spriteScale);
 	sprite->setPosition(posIni);
 	nodo->addChild(sprite, zOrder);
+	return true;
 }
 
 Sprite *Jugador::creaSpriteFisicas(Node *nodo, int tipoColision, int colisionaCon){
@@ -79,7 +81,8 @@ Sprite *Jugador::creaSpriteFisicas(Node *nodo, int tipoColision, int colisionaCo
 	sprite->setPosition(pos);
 
 	// añado física a este sprite
-	Game::getInstance()->anadeFisica(sprite, tipoColision, colisionaCon, "Jugador");
+	//Game::getInstance()->anadeFisica(sprite, tipoColision, colisionaCon, "Jugador");
+	Game::anadeFisica(sprite, tipoColision, colisionaCon, "Jugador");
 
 	// preparando el impacto
 	sprite->setTag((int)Game::CategoriaColision::Jugador);
@@ -163,6 +166,16 @@ bool Jugador::impacto(float dmg){
 	// caso de haber escudo, calcula cuanta vida absorbe
 	//float dmgRestante = impactoEscudo(dmg);
 
+	if(escudo){
+		// el escudo absorbe parte del daño y devuelve lo que queda
+		dmg = escudo->impacto(dmg);
+	}
+
+	// si el daño ha quedado en el escudo, vuelve sin efectos adicionales
+	if(dmg <= 0){
+		return false;
+	}
+
 	// quitar vida
 	puntosDeGolpeActuales -= dmg;
 
@@ -207,7 +220,7 @@ bool Jugador::impacto(float dmg){
 
 		// create a sequence with the actions and callbacks
 		// TODO: mirar usos de los callbacks
-		auto seq = Sequence::create(escalaIda, callbackScale, tintIda, tintVuelta, nullptr);
+		auto seq = Sequence::create(escalaIda, callbackScale, tintIda, tintVuelta, escalaVuelta, callbackScale, nullptr);
 
 		// run it
 		sprite->runAction(seq);

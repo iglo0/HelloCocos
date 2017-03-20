@@ -7,16 +7,14 @@
 //USING_NS_CC;
 
 Scene* Level1::createScene() {
-    // 'scene' is an autorelease object
-    //auto scene = Scene::create();
-
-
 	// NUEVO: físicas!
 	// Gracias a las físicas obtengo colisiones "gratis", y como un juego tipo space invaders 
 	// no creo que tenga muchos problemas de rendimiento... tiraré por ahí a ver
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// INI del motor de físicas Chipmunk
 	auto scene = Scene::createWithPhysics();
+	// 'scene' is an autorelease object
+	//auto scene = Scene::create();
 
 	// set the world’s gravity to zero in both directions, which essentially disables gravity
 	scene->getPhysicsWorld()->setGravity(Vec2(0, 0));
@@ -58,6 +56,7 @@ bool Level1::init() {
 	// eventos
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// input listeners
+	// TODO: usar la clase InputComponent
 	auto listener = EventListenerKeyboard::create();
 	listener->onKeyPressed = CC_CALLBACK_2(Level1::onKeyPressed, this);
 	listener->onKeyReleased = CC_CALLBACK_2(Level1::onKeyReleased, this);
@@ -97,6 +96,7 @@ bool Level1::init() {
 	// TODO: Ojo que creaSpriteFisicas antes devolvía bool y ahora devuelve Sprite *
 	// En cualquier caso la comparacion if(!...) es lo mismo. Pero ojo.
 	if( !player->creaSpriteFisicas(this, (int)Game::CategoriaColision::Jugador, (int)Game::CategoriaColision::Enemigo | (int)Game::CategoriaColision::BalaEnemigo) ){
+		CCLOG("player->creaSpriteFisicas FALLIDO. FALTA LA OPCION DE SALIR. CASQUES INMINENTES >.<");
 		// si esto ha fallado, apaga y vámonos
 		sale = true;
 	}
@@ -108,48 +108,25 @@ bool Level1::init() {
 	// tendrá que evolucionar, ¿tendría que hacer un pool por cada tipo de sprite que pueda aparecer en el nivel?
 	creaPoolBalasFisica(&poolBalas, 88, "bullet_2_blue.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaSpeed, (int)Game::CategoriaColision::Bala,(int)Game::CategoriaColision::Enemigo);
 	creaPoolBalasFisica(&poolBalasEnemigas, 32, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaEnemigaSpeed, (int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador);
-	// TODO: temp. Balas inofensivas
-	//creaPoolBalasFisica(&poolBalasEnemigas, 320, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaEnemigaSpeed, (int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::None);
 	creaPoolBalasFisica(&poolBalasGordas, 5, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 4.0f, balaEnemigaSpeed, (int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador);
 
 	// TESTTT
-	// TODO: Pero si el escudo queda asignado a una layer por comodidad mía...
-	// de qué sirve tener un pool si tengo que andar cambiando el padre en tiempo real? Eso se notaría en rendimiento?
-	poolEscudos = new Pool();// player->getSprite());
-	if(!poolEscudos->creaPoolSprites(1, "shields.png",1,1,"escudo")) {
-		CCLOG ("pool fallido etc");
-	}
-
-//	player->poolEscudos = poolEscudos;
-
-	// hum, (0,0) es el centro de un sprite pero la esquina inferior izquierda de una layer.
-	// hay que convertir de un espacio de coordenadas a otro
-	//Sprite *escudoSpriteTmp = poolEscudos->activa(Vec2::ZERO, this, 0);
-	//poolEscudos->desActiva(escudoSpriteTmp);
-	// TODO: y tampoco es que tenga sentido hacer un pool de escudos... el prota tendrá uno sí o no, y los enemigos todavía tengo que ver cómo los "powerupeo"
-	poolEscudos->activa(Vec2::ZERO, player->getSprite(), 1);
-
-
-
+	Escudo *escudo = new Escudo(player->getSprite(), 1.0f, 0.33f);
+	player->escudo = escudo;
 
 	// Indica el estado inicial de esta escena
-	Game::getInstance()->estadoActual = Game::estadosJuego::introNivel;
+	gameInstance->estadoActual = Game::estadosJuego::introNivel;
 
 	// variable para saber si tengo que resetear o no el tiempo transcurrido en el temporizador. Lo utilizo para cambiar de estados, por ejemplo.
 	// OJO! De uno en uno :)
 	iniciaTemporizadorCambioEstado = true;
 
-
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// testz
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
-	// TODO: Nueva nave con herencia... queda un laargo camino
-	//Nave *nave = new Nave;
-	//nave->setSprite(this,"aliensprite2.png",1);
-
-
-	// 2 gradientes de fondo
+	// 2 gradientes de fondo por poner algo
+	// TODO: quiero hacer un cielo estrellado o algún otro tipo de fondo
 	auto layer1 = LayerGradient::create(Color4B(0, 0, 0, 255), Color4B(0, 0, 127, 255));
 	layer1->setContentSize(Size(visibleSize.width, visibleSize.height/2.0f));
 	layer1->setPosition(Vec2(0, visibleSize.height / 2.0f));
@@ -354,7 +331,7 @@ void Level1::controlaProta(){
 
 
 	if(dispara){
-		//dispara = false;	// de one en one
+		// dispara() se encarga de poner un delay entre disparos
 		player->dispara(poolBalas);
 	}
 }
@@ -366,13 +343,14 @@ void Level1::update(float delta){
 		return;
 	}
 
-	// así tengo siempre una referencia
-	//deltaT = delta;
-	//tiempoTranscurrido += delta;
+
 	gameInstance->ellapsedTime += delta;
 
+	// test
+	player->escudo->update(delta);
+
 	// El juego se controla con estados
-	switch(Game::getInstance()->estadoActual){
+	switch(gameInstance->estadoActual){
 	case Game::estadosJuego::introNivel:
 		// empieza a contar el tiempo de introNivel
 		if(iniciaTemporizadorCambioEstado){
@@ -389,7 +367,7 @@ void Level1::update(float delta){
 		if(gameInstance->ellapsedTime - tIniCambiaEstado >= tiempoIntro){
 			lblMensajes->setVisible(false);
 
-			Game::getInstance()->estadoActual = Game::estadosJuego::jugando;
+			gameInstance->estadoActual = Game::estadosJuego::jugando;
 			// empieza a contar hacia el gameOver
 			iniciaTemporizadorCambioEstado = true;
 		}
@@ -425,7 +403,7 @@ void Level1::update(float delta){
 		lblMensajes->setVisible(true);
 
 		if(gameInstance->ellapsedTime - tIniCambiaEstado >= tiempoFinNivel){
-			Game::getInstance()->estadoActual = Game::estadosJuego::introNivel;
+			gameInstance->estadoActual = Game::estadosJuego::introNivel;
 			// empieza a contar hacia el gameOver
 			iniciaTemporizadorCambioEstado = true;
 		}
@@ -448,14 +426,14 @@ void Level1::update(float delta){
 		player->resetea();
 
 		if(gameInstance->ellapsedTime - tIniCambiaEstado >= tiempoMuerte){
-			Game::getInstance()->estadoActual = Game::estadosJuego::introNivel;
+			gameInstance->estadoActual = Game::estadosJuego::introNivel;
 			// empieza a contar hacia el gameOver
 			iniciaTemporizadorCambioEstado = true;
 		}
 		break;
 
 	default:
-		CCLOG("Gamestate desconocido: %d", Game::getInstance()->estadoActual);
+		CCLOG("Gamestate desconocido: %d", gameInstance->estadoActual);
 		break;
 	}
 
@@ -472,7 +450,7 @@ void Level1::subeNivel(){
 	lblMensajes->setVisible(true);
 
 	if(gameInstance->ellapsedTime - tIniCambiaEstado >= tiempoFinHorda){
-		Game::getInstance()->estadoActual = Game::estadosJuego::introNivel;
+		gameInstance->estadoActual = Game::estadosJuego::introNivel;
 
 		// TODO: Pruebas. CreaEnemigos ahora se encarga de crear hordas más dificiles por cada "nivel"
 		// CreaEnemigos se llama en introNivel
@@ -507,7 +485,7 @@ bool Level1::onContactBegin(PhysicsContact &contact){
 	float dmg;
 
 	Sprite *sprA, *sprB;
-	Bala *balaTmp;
+	//Bala *balaTmp;
 
 	// HACK: Gestion de impactos, primera version que funciona
 
@@ -574,7 +552,7 @@ void Level1::gestionaImpacto(Sprite *sprite, float dmg){
 			// HACK: pues de momento no, por como gestiono el tema con las variables de iniciar esperas...
 			if(jugadorTmp->impacto(dmg)){
 				// el jugador se ha muerto
-				Game::getInstance()->estadoActual = Game::estadosJuego::muerte;
+				gameInstance->estadoActual = Game::estadosJuego::muerte;
 				iniciaTemporizadorCambioEstado = true;
 			}
 		} else{

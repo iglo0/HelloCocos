@@ -1,6 +1,17 @@
 #include "Game.h"
 
 
+
+
+Game *Game::getInstance(){
+	// thread safe. Así es como me aseguro que se inicializa exactamente una vez, aun con concurrencia
+	// el modo tradicional (una variable miembro privada) podría fallar por lo anterior.
+	static Game *instance = new Game;
+	return instance;
+}
+	
+
+
 void Game::anadeFisica(Sprite *sprite, int tipoColision, int colisionaCon, const char *name){
 
 	if(!sprite){

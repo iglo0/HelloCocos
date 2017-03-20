@@ -12,8 +12,9 @@
 #include "Horda.h"
 // testz
 #include "Pool.h"
-#include "Testz.h"
+//#include "Escudo.h"
 // ------------------------
+#include "InputComponent.h"
 
 #include <vector>
 
@@ -23,7 +24,7 @@ class Level1 : public cocos2d::Layer
 {
 public:
 	~Level1();
-
+	
     static cocos2d::Scene* createScene();
     virtual bool init();
     
@@ -102,7 +103,7 @@ private:
 	std::vector<Bala *> poolBalas;	// pool para mis disparos
 	std::vector<Bala *> poolBalasGordas;	// pool para disparos del jefe
 	std::vector<Bala *> poolBalasEnemigas;	// pool para disparos de los aliens normales
-	Pool *poolEscudos;
+	//Pool *poolEscudos;
 
 	Jugador *player;
 

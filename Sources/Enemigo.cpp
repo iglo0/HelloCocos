@@ -48,7 +48,8 @@ Sprite *Enemigo::creaSprite(Node *nodo, const char *pathSprite, const char *ruta
 	puntosDeGolpeActuales = puntosDeGolpeIniciales;
 
 	// y por ultimo le asigno la colision
-	Game::getInstance()->anadeFisica(sprite, (int)Game::CategoriaColision::Enemigo, (int)Game::CategoriaColision::Bala | (int)Game::CategoriaColision::Jugador, "Enemigo");
+	//Game::getInstance()->anadeFisica(sprite, (int)Game::CategoriaColision::Enemigo, (int)Game::CategoriaColision::Bala | (int)Game::CategoriaColision::Jugador, "Enemigo");
+	Game::anadeFisica(sprite, (int)Game::CategoriaColision::Enemigo, (int)Game::CategoriaColision::Bala | (int)Game::CategoriaColision::Jugador, "Enemigo");
 
 	nodo->addChild(sprite, zOrder);
 

@@ -147,8 +147,12 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Sources\AppDelegate.cpp" />
     <ClCompile Include="..\Sources\Bala.cpp" />
     <ClCompile Include="..\Sources\Enemigo.cpp" />
+    <ClCompile Include="..\Sources\Escudo.cpp" />
     <ClCompile Include="..\Sources\Game.cpp" />
+    <ClCompile Include="..\Sources\GameObject.cpp" />
     <ClCompile Include="..\Sources\Horda.cpp" />
+    <ClCompile Include="..\Sources\InputComponent.cpp" />
+    <ClCompile Include="..\Sources\inputKeyboardComponent.cpp" />
     <ClCompile Include="..\Sources\Jugador.cpp" />
     <ClCompile Include="..\Sources\KeyboardTest.cpp" />
     <ClCompile Include="..\Sources\Level1.cpp" />
@@ -163,8 +167,12 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Sources\AppDelegate.h" />
     <ClInclude Include="..\Sources\Bala.h" />
     <ClInclude Include="..\Sources\Enemigo.h" />
+    <ClInclude Include="..\Sources\Escudo.h" />
     <ClInclude Include="..\Sources\Game.h" />
+    <ClInclude Include="..\Sources\GameObject.h" />
     <ClInclude Include="..\Sources\Horda.h" />
+    <ClInclude Include="..\Sources\InputComponent.h" />
+    <ClInclude Include="..\Sources\inputKeyboardComponent.h" />
     <ClInclude Include="..\Sources\Jugador.h" />
     <ClInclude Include="..\Sources\KeyboardTest.h" />
     <ClInclude Include="..\Sources\Level1.h" />
