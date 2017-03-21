@@ -5,10 +5,9 @@
 
 #include "cocos2d.h"
 
+#include "Menus.h"	// pantalla a la que vuelve
+
 USING_NS_CC;
-
-//#include "../testBasic.h"
-
 
 
 class KeyboardTest : public cocos2d::Layer{
@@ -19,6 +18,7 @@ public:
 	static cocos2d::Scene* createScene();
 	virtual bool init();
 
+	// quitar estos a piñon y poner inputcomponent
 	virtual void onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
 	virtual void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
 

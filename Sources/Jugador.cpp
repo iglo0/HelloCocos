@@ -1,6 +1,12 @@
 #include "Jugador.h"
 
-Jugador::Jugador(float hp) : puntosDeGolpeIniciales(hp), puntosDeGolpeActuales(hp) {
+#pragma region inicializaciones
+Jugador::Jugador(float hp) : puntosDeGolpeIniciales(hp), puntosDeGolpeActuales(hp){
+
+	mueveAbj = mueveArr = mueveDch = mueveIzq = disparo = sale = false;
+	// a tomar por %$*&# undefined pointer.
+	escudo = nullptr;
+
 	// TODO: Siempre pasa por aqui?
 	CCLOG("Creando jugador");
 	gameInstance = Game::getInstance();
@@ -42,7 +48,7 @@ bool Jugador::creaSprite(Node *nodo){
 	pos.y = sprite->getScale()*sprite->getContentSize().height / 2.0f;
 
 	sprite->setPosition(pos);
-	
+
 	//sprite->getBoundingBox();
 
 	nodo->addChild(sprite, zOrder);
@@ -53,7 +59,7 @@ bool Jugador::creaSprite(Node *nodo, Vec2 posIni){
 	// intenta crear un sprite si no se ha hecho antes
 	if(!cargaSprite()){
 		return false;
-	} 
+	}
 
 	// llegando aquí tengo un sprite perfectamente cargado por alguien
 	// falta: ajustar tamaño y posición
@@ -96,6 +102,27 @@ Sprite *Jugador::creaSpriteFisicas(Node *nodo, int tipoColision, int colisionaCo
 	return sprite;
 }
 
+void Jugador::resetea(){
+	// TODO: cosas a hacer tras morir
+	// para empezar y de momento:
+	puntosDeGolpeActuales = puntosDeGolpeIniciales;
+
+	// TODO: restituir el Tinte
+}
+
+void Jugador::setPoolBalas(Pool *pool){
+	//poolBalasActual = pool;
+}
+
+void Jugador::setPoolBalas(std::vector<Bala *> &pool) {
+	//TODO: Esto pasa la referencia como yo quiero?
+	poolBalasActual = pool;
+}
+
+#pragma endregion
+
+#pragma region control del jugador
+
 void Jugador::mueve(bool izq, bool dch, bool arr, bool abj){
 	auto deltaT = Director::getInstance()->getDeltaTime();
 	auto visibleSize = Director::getInstance()->getVisibleSize();
@@ -110,7 +137,7 @@ void Jugador::mueve(bool izq, bool dch, bool arr, bool abj){
 		// comprueba los márgenes
 		if(position.x < 0){
 			position.x = 0;
-		} 
+		}
 	}
 	if(dch){
 		position.x += playerSpeed * deltaT;
@@ -120,11 +147,11 @@ void Jugador::mueve(bool izq, bool dch, bool arr, bool abj){
 	}
 
 	// TODO: solo movimento horizontal
-	if(arr) { 
+	if(arr){
 		position.y += playerSpeed * deltaT;
 		if(position.y > visibleSize.height){
 			position.y = visibleSize.height;
-		} 
+		}
 	}
 
 	if(abj){
@@ -149,7 +176,7 @@ void Jugador::dispara(std::vector<Bala *> &pool){
 	for(auto b = pool.cbegin(); b != pool.cend(); ++b){
 		if(!(*b)->isActive()){
 			// uso esta bala
-			
+
 			Vec2 pos = sprite->getPosition();
 			pos.y += 20.0f;
 
@@ -159,6 +186,41 @@ void Jugador::dispara(std::vector<Bala *> &pool){
 	}
 }
 
+//void Jugador::dispara(){
+//	if(gameInstance->ellapsedTime - tIniDelay < delayDisparo){
+//		return;
+//	}
+//
+//	// empiezo a contar hasta el proximo disparo
+//	tIniDelay = gameInstance->ellapsedTime;
+//
+//	// prepara una bala
+//	Vec2 pos = sprite->getPosition();
+//	pos.y += 20.0f;
+//
+//	// a la bala le asigno al padre del prota (la escena espero)
+//	// no quiero que se mueva junto con la nave
+//	poolBalasActual->activa(pos, sprite->getParent(), 1);
+//
+//}
+
+#pragma endregion
+
+#pragma region eventos
+
+void Jugador::update(float deltaT){
+	//mueve(mueveIzq, mueveDch, mueveArr, mueveAbj);
+	// limito el movimiento izquierda y derecha
+	mueve(mueveIzq, mueveDch, mueveArr, mueveAbj);
+
+	if(disparo){
+		// dispara() se encarga de poner un delay entre disparos
+		//dispara();
+		
+		CCLOG("bang!");
+	}
+
+}
 
 bool Jugador::impacto(float dmg){
 	// Hay escudo?
@@ -232,6 +294,9 @@ bool Jugador::impacto(float dmg){
 
 }
 
+#pragma endregion
+
+#pragma region auxiliares
 Vec2 Jugador::getPosition(){
 	return sprite->getPosition();
 }
@@ -240,10 +305,6 @@ Sprite *Jugador::getSprite(){
 	return sprite;
 }
 
-void Jugador::resetea(){
-	// TODO: cosas a hacer tras morir
-	// para empezar y de momento:
-	puntosDeGolpeActuales = puntosDeGolpeIniciales;
 
-	// TODO: restituir el Tinte
-}
+#pragma endregion
+

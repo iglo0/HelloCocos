@@ -35,10 +35,6 @@ void Horda::creaHorda(int dimX, int dimY, std::vector<Bala *> &pool, float velMo
 	dimensionesHordaX = dimX;
 	dimensionesHordaY = dimY;
 
-	//for(int i = 0; i < dimY; i++){
-	//	creaFila(dimX, Horda::tipoEnemigo::tipo2, i);
-	//}
-
 	// TODO: pensandolo un poco mejor, no tienen por que ser arrays bidimensionales
 	// lo creo como si lo fuera, pero el resto de veces lo navego como una lista lineal
 	Enemigo *tmp;
@@ -61,22 +57,6 @@ void Horda::creaHorda(int dimX, int dimY, std::vector<Bala *> &pool, float velMo
 	}
 
 }
-
-//void Horda::creaFila(int cant, enum tipoEnemigo tipo, int numFila){
-//	std::vector <Enemigo *> fila;
-//	Enemigo *tmp;
-//
-//	for(int i = 0; i < cant; i++){
-//		// TODO: configurar bien los desplazamientos
-//		// cada enemigo se coloca a si mismo en pantalla según su fila y columna
-//		tmp = creaEnemigo(tipo, i, numFila);
-//
-//		fila.push_back(tmp);
-//	}
-//
-//	horda.push_back(fila);
-//}
-//
 
 Enemigo *Horda::creaEnemigo(enum tipoEnemigo t, int x, int y, float vida){
 

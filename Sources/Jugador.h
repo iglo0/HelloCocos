@@ -27,21 +27,30 @@ public:
 	//void mueve(bool htal, bool vcal, float cant);
 	void mueve(bool izq, bool dch, bool arr, bool abj);
 	void dispara(std::vector<Bala *> &pool);
+	//void dispara();
 	//void setPlayerSpeed(float);
 	// jugador recibe un impacto. Oh noes! Devuelve si eso lo ha destruido o no
 	bool impacto(float dmg);
 	void resetea();
 	Vec2 getPosition();
 	Sprite *getSprite();
+	void setPoolBalas(Pool *pool);	// le asigna algo que disparar
+	void setPoolBalas(std::vector<Bala *> &pool);
 
+	// funcion update a invocar desde fuera. Utiliza las variables mueveXXX, disparo y sale para saber qué le toca hacer
+	void update(float delta);
 
+	// variables miembro públicas
+	// ----------------------------------------
 	Escudo *escudo;
+	// variables para que el jugador sepa qué hacer cuando llegue su update
+	bool mueveIzq, mueveDch, mueveArr, mueveAbj, disparo, sale;
+
 
 private:
 	//void setPosition(Vec2);
 	// intenta cargar el sprite del jugador, devuelve false en caso de error
 	bool cargaSprite();
-
 
 	Game *gameInstance;
 	const char *pathSprite = "spaceshipspr.png";
@@ -53,7 +62,7 @@ private:
 	float puntosDeGolpeActuales, puntosDeGolpeIniciales;
 	float delayDisparo = 0.1f;	// TODO: delay entre disparos (esto podría estar definido en la bala mas bien, así distintos tipos de disparo tendrían distinto delay)
 	float tIniDelay;	// empieza a contar desde el ultimo disparo
-
-
+	//Pool *poolBalasActual;
+	std::vector<Bala *> poolBalasActual;
 };
 

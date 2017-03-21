@@ -1,12 +1,23 @@
 #include "Level1.h"
 
+// TESTZ
+#include "Testz.h"
+// -----------------------------
+
 
 // Ojo! 
 // Este USING aquí tiene que estar en Level1.h
 // Si espero aquí a ponerlo, no compila pero no marca error tampoco en el .h
 //USING_NS_CC;
 
-Scene* Level1::createScene() {
+#pragma region creo que está bien donde está
+
+Level1::~Level1(){
+	Director::getInstance()->setDisplayStats(false);
+}
+
+
+Scene* Level1::createScene(){
 	// NUEVO: físicas!
 	// Gracias a las físicas obtengo colisiones "gratis", y como un juego tipo space invaders 
 	// no creo que tenga muchos problemas de rendimiento... tiraré por ahí a ver
@@ -23,44 +34,85 @@ Scene* Level1::createScene() {
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
 	// 'layer' is an autorelease object
-    auto layer = Level1::create();
+	auto layer = Level1::create();
 
-    // add layer as a child to scene
-    scene->addChild(layer);
+	// add layer as a child to scene
+	scene->addChild(layer);
 
-    // return the scene
-    return scene;
-}
-
-Level1::~Level1(){
-	Director::getInstance()->setDisplayStats(false);
+	// return the scene
+	return scene;
 }
 
 // on "init" you need to initialize your instance
-bool Level1::init() {
-	
+bool Level1::init(){
+
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// inits
 	// ----------------------------------------------------------------------------------------------------------------------------------------
-	if ( !Layer::init() ) {
-        return false;
-    }
+	if(!Layer::init()){
+		return false;
+	}
 
 	gameInstance = Game::getInstance();
 
-    //auto visibleSize = Director::getInstance()->getVisibleSize();
+	//auto visibleSize = Director::getInstance()->getVisibleSize();
 	visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
+	origin = Director::getInstance()->getVisibleOrigin();
+
+
+	// ----------------------------------------------------------------------------------------------------------------------------------------
+	// init del jugador y otros objetos
+	// ----------------------------------------------------------------------------------------------------------------------------------------
+
+	Testz<float> t;
+	t.setVar(34.0f);
+	t.getVar();
+	
+
+	// prepara pools
+	//testPool->creaPoolTest<Bala>(1, "bullet_orange0000.png", 3.0f, 0.0f, "pinpanpun", (int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo);
+
+	// HACK: Esto también es temporal, de momento para pruebas
+	// tendrá que evolucionar, ¿tendría que hacer un pool por cada tipo de sprite que pueda aparecer en el nivel?
+	creaPoolBalasFisica(&poolBalas, 88, "bullet_2_blue.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaSpeed, (int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo);
+	//poolBalas = new Pool();
+	//poolBalas->creaPoolSprites(30, "bullet_2_blue.png", 1.0f, 0, "balin", (int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo, nullptr);
+
+	creaPoolBalasFisica(&poolBalasEnemigas, 32, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaEnemigaSpeed, (int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador);
+	creaPoolBalasFisica(&poolBalasGordas, 5, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 4.0f, balaEnemigaSpeed, (int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador);
+
+	// crea al jugador y lo añade a la escena
+	player = new Jugador(2.0f);
+	// TODO: Ojo que creaSpriteFisicas antes devolvía bool y ahora devuelve Sprite *
+	// En cualquier caso la comparacion if(!...) es lo mismo. Pero ojo.
+	if(!player->creaSpriteFisicas(this, (int)Game::CategoriaColision::Jugador, (int)Game::CategoriaColision::Enemigo | (int)Game::CategoriaColision::BalaEnemigo)){
+		CCLOG("player->creaSpriteFisicas FALLIDO");
+		// si esto ha fallado, apaga y vámonos
+		sale = true;
+	}
+	// le prepara qué balas disaprará
+	//player->setPoolBalas(poolBalas);
+
+	//Escudo *escudo = new Escudo(player->getSprite(), 1.0f, 0.33f);
+	//player->escudo = escudo;
+
+	// ----------------------------------------------------------------------------------------------------------------------------------------
+	// /init del jugador
+	// ----------------------------------------------------------------------------------------------------------------------------------------
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// eventos
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// input listeners
-	// TODO: usar la clase InputComponent
 	auto listener = EventListenerKeyboard::create();
 	listener->onKeyPressed = CC_CALLBACK_2(Level1::onKeyPressed, this);
 	listener->onKeyReleased = CC_CALLBACK_2(Level1::onKeyReleased, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+
+	// TODO: mientras no sepa cómo gestionar correctamente los eventos de esta clase desde otra, hago esta guarrada y simplemente derivo los eventos a inputComponent cuando se produzcan O:-)
+	// TODO: Y ya que estoy... ¿sería más lógico encasquetar InputComponent dentro de Jugador?
+	inputComponent = new InputComponent(player);
+
 
 	// contact listener
 	auto contactListener = EventListenerPhysicsContact::create();
@@ -88,31 +140,11 @@ bool Level1::init() {
 	// otras inicializaciones
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
-	mueveAbj = mueveArr = mueveDch = mueveIzq = false;
+	//mueveAbj = mueveArr = mueveDch = mueveIzq = false;
 	gameInstance->ellapsedTime = 0;
-
-	// crea al jugador y lo añade a la escena
-	player = new Jugador(2.0f);
-	// TODO: Ojo que creaSpriteFisicas antes devolvía bool y ahora devuelve Sprite *
-	// En cualquier caso la comparacion if(!...) es lo mismo. Pero ojo.
-	if( !player->creaSpriteFisicas(this, (int)Game::CategoriaColision::Jugador, (int)Game::CategoriaColision::Enemigo | (int)Game::CategoriaColision::BalaEnemigo) ){
-		CCLOG("player->creaSpriteFisicas FALLIDO. FALTA LA OPCION DE SALIR. CASQUES INMINENTES >.<");
-		// si esto ha fallado, apaga y vámonos
-		sale = true;
-	}
 
 	// nota: estaba "precargando" el sonido por cada bala en el pool
 	precargaSonidosDelNivel();
-
-	// HACK: Esto también es temporal, de momento para pruebas
-	// tendrá que evolucionar, ¿tendría que hacer un pool por cada tipo de sprite que pueda aparecer en el nivel?
-	creaPoolBalasFisica(&poolBalas, 88, "bullet_2_blue.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaSpeed, (int)Game::CategoriaColision::Bala,(int)Game::CategoriaColision::Enemigo);
-	creaPoolBalasFisica(&poolBalasEnemigas, 32, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaEnemigaSpeed, (int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador);
-	creaPoolBalasFisica(&poolBalasGordas, 5, "bullet_orange0000.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 4.0f, balaEnemigaSpeed, (int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador);
-
-	// TESTTT
-	Escudo *escudo = new Escudo(player->getSprite(), 1.0f, 0.33f);
-	player->escudo = escudo;
 
 	// Indica el estado inicial de esta escena
 	gameInstance->estadoActual = Game::estadosJuego::introNivel;
@@ -128,12 +160,12 @@ bool Level1::init() {
 	// 2 gradientes de fondo por poner algo
 	// TODO: quiero hacer un cielo estrellado o algún otro tipo de fondo
 	auto layer1 = LayerGradient::create(Color4B(0, 0, 0, 255), Color4B(0, 0, 127, 255));
-	layer1->setContentSize(Size(visibleSize.width, visibleSize.height/2.0f));
+	layer1->setContentSize(Size(visibleSize.width, visibleSize.height / 2.0f));
 	layer1->setPosition(Vec2(0, visibleSize.height / 2.0f));
 	addChild(layer1, -1);
 
 	auto layer2 = LayerGradient::create(Color4B(0, 0, 128, 255), Color4B(0, 160, 180, 255));
-	layer2->setContentSize(Size(visibleSize.width, visibleSize.height/2.0f));
+	layer2->setContentSize(Size(visibleSize.width, visibleSize.height / 2.0f));
 	layer2->setPosition(Vec2(0, 0));
 	addChild(layer2, -1);
 
@@ -146,7 +178,196 @@ bool Level1::init() {
 	return true;
 }
 
-void Level1::precargaSonidosDelNivel() {
+// el gameloop
+void Level1::update(float delta){
+	if(sale){
+		menuVuelveCallback(this);
+		return;
+	}
+
+
+	gameInstance->ellapsedTime += delta;
+
+	if(player->escudo){
+		player->escudo->update(delta);
+	}
+
+	// El juego se controla con estados
+	switch(gameInstance->estadoActual){
+	case Game::estadosJuego::jugando:
+		if(iniciaTemporizadorCambioEstado){
+			tIniCambiaEstado = gameInstance->ellapsedTime;
+			iniciaTemporizadorCambioEstado = false;
+		}
+
+		player->update(delta);
+
+		//controlaProta();
+
+		// enemigos
+		if(hordaActual){
+			hordaActual->tick();
+		}
+
+		//mueveEnemigos(delta * enemigoSpeed);
+
+		mueveBalas(poolBalas);
+		mueveBalas(poolBalasEnemigas);
+		mueveBalas(poolBalasGordas);
+
+		break;
+	case Game::estadosJuego::finHorda:
+		//desactivaPool(poolBalas);
+		desactivaPool(poolBalasEnemigas);
+		subeNivel();
+		break;
+	case Game::estadosJuego::introNivel:
+		// empieza a contar el tiempo de introNivel
+		if(iniciaTemporizadorCambioEstado){
+			tIniCambiaEstado = gameInstance->ellapsedTime;
+			iniciaTemporizadorCambioEstado = false;
+			mensajeIntro = "Level " + std::to_string(nivelActual) + ". START!";
+			lblMensajes->setString(mensajeIntro);
+			lblMensajes->setVisible(true);
+
+			creaEnemigos();
+
+		}
+
+		if(gameInstance->ellapsedTime - tIniCambiaEstado >= tiempoIntro){
+			lblMensajes->setVisible(false);
+
+			gameInstance->estadoActual = Game::estadosJuego::jugando;
+			// empieza a contar hacia el gameOver
+			iniciaTemporizadorCambioEstado = true;
+		}
+
+		break;
+	case Game::estadosJuego::finNivel:
+		if(iniciaTemporizadorCambioEstado){
+			tIniCambiaEstado = gameInstance->ellapsedTime;
+			iniciaTemporizadorCambioEstado = false;
+		}
+
+		lblMensajes->setString(mensajeFin);
+		lblMensajes->setVisible(true);
+
+		if(gameInstance->ellapsedTime - tIniCambiaEstado >= tiempoFinNivel){
+			gameInstance->estadoActual = Game::estadosJuego::introNivel;
+			// empieza a contar hacia el gameOver
+			iniciaTemporizadorCambioEstado = true;
+		}
+
+		break;
+	case Game::estadosJuego::muerte:
+		if(iniciaTemporizadorCambioEstado){
+			tIniCambiaEstado = gameInstance->ellapsedTime;
+			iniciaTemporizadorCambioEstado = false;
+		}
+
+		lblMensajes->setString(mensajeMuerte);
+		lblMensajes->setVisible(true);
+
+		player->resetea();
+
+		if(gameInstance->ellapsedTime - tIniCambiaEstado >= tiempoMuerte){
+			gameInstance->estadoActual = Game::estadosJuego::introNivel;
+			// empieza a contar hacia el gameOver
+			iniciaTemporizadorCambioEstado = true;
+		}
+		break;
+
+	default:
+		CCLOG("Gamestate desconocido: %d", gameInstance->estadoActual);
+		break;
+	}
+}
+
+void Level1::subeNivel(){
+
+	if(iniciaTemporizadorCambioEstado){
+		tIniCambiaEstado = gameInstance->ellapsedTime;
+		iniciaTemporizadorCambioEstado = false;
+	}
+
+	lblMensajes->setString(mensajeFinHorda);
+	lblMensajes->setVisible(true);
+
+	if(gameInstance->ellapsedTime - tIniCambiaEstado >= tiempoFinHorda){
+		gameInstance->estadoActual = Game::estadosJuego::introNivel;
+
+		// TODO: Pruebas. CreaEnemigos ahora se encarga de crear hordas más dificiles por cada "nivel"
+		// CreaEnemigos se llama en introNivel
+		nivelActual++;
+
+		// empieza a contar hacia... nada realmente
+		iniciaTemporizadorCambioEstado = true;
+	}
+}
+
+void Level1::menuVuelveCallback(Ref *pSender){
+	// vuelve al menu
+	Director::getInstance()->replaceScene(Menus::CreateScene());
+}
+
+void Level1::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event){
+	// TODO: simplemente derivo el evento a la clase que qiuero usar para controlarlos. Eventualmente pasaré todo el código allí
+	inputComponent->onKeyPressed(keyCode, event);
+}
+
+void Level1::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event){
+	inputComponent->onKeyReleased(keyCode, event);
+}
+
+// de momento esto es lo que gestiona la dificultad del nivel
+Horda *Level1::hordaNivel(int nivel){
+	Horda *tmp;
+
+	Vec2 posIniHorda;
+	posIniHorda.x = 0;
+	posIniHorda.y = visibleSize.height;
+
+	tmp = new Horda(this, posIniHorda);
+
+	// TODO: primer intento de progresion
+	if(nivelActual > 5){
+		tmp->creaHorda(10, 8, poolBalasEnemigas, 350.f, 10.f, RAND_MAX / 10, 6.0);
+
+	} else if(nivelActual > 4){
+		tmp->creaHorda(8, 6, poolBalasEnemigas, 250.f, 10.f, RAND_MAX / 12, 4.0);
+
+	} else if(nivelActual > 3){
+		tmp->creaHorda(6, 5, poolBalasEnemigas, 200.f, 10.f, RAND_MAX / 15, 3.0);
+
+	} else if(nivelActual > 2){
+		tmp->creaHorda(5, 4, poolBalasEnemigas, 150.f, 10.f, RAND_MAX / 30, 2.0);
+
+	} else if(nivelActual > 1){
+		tmp->creaHorda(4, 3, poolBalasEnemigas, 100.f, 10.f, RAND_MAX / 45, 2.0);
+
+	} else{
+		// primer nivel
+		tmp->creaHorda(2, 2, poolBalasEnemigas, 50.f, 10.f, RAND_MAX / 60, 1.0);
+	}
+
+	return tmp;
+
+}
+
+#pragma endregion
+
+#pragma region sacar fuera
+
+void Level1::mueveBalas(std::vector<Bala *> pool){
+	// con pool de balas
+	for(auto b = pool.cbegin(); b != pool.cend(); ++b){
+		if((*b)->isActive()){
+			(*b)->mueve();
+		}
+	}
+}
+
+void Level1::precargaSonidosDelNivel(){
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("sonidos/shoot.wav");
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("sonidos/invaderkilled.wav");
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("sonidos/explosion.wav");
@@ -205,81 +426,6 @@ void Level1::desactivaPool(std::vector<Bala*> &pool){
 	}
 }
 
-void Level1::menuVuelveCallback(Ref *pSender){
-	// vuelve al menu
-	//auto scene = Menus::CreateScene();
-	//auto director = Director::getInstance();
-	//director->replaceScene(scene);
-
-	Director::getInstance()->replaceScene(Menus::CreateScene());
-}
-
-void Level1::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event){
-	//log("Key with keycode %d pressed", keyCode);
-
-	switch (keyCode){
-		case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-			mueveIzq = true;
-			break;
-		case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-			mueveDch = true;
-			break;
-		case EventKeyboard::KeyCode::KEY_UP_ARROW:
-			mueveArr = true;
-			break;
-		case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-			mueveAbj = true;
-			break;
-		case EventKeyboard::KeyCode::KEY_CTRL:
-		case EventKeyboard::KeyCode::KEY_RIGHT_CTRL:
-		case EventKeyboard::KeyCode::KEY_SPACE:
-			// fiyah!
-			dispara = true;
-			break;
-		case EventKeyboard::KeyCode::KEY_ESCAPE:
-			sale = true;
-		default:
-			break;
-	}
-}
-
-void Level1::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event){
-	//log("Key with keycode %d released", keyCode);
-
-	switch(keyCode){
-		case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
-			mueveIzq = false;
-			break;
-		case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
-			mueveDch = false;
-			break;
-		case EventKeyboard::KeyCode::KEY_UP_ARROW:
-			mueveArr = false;
-			break;
-		case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-			mueveAbj = false;
-			break;
-		case EventKeyboard::KeyCode::KEY_CTRL:
-		case EventKeyboard::KeyCode::KEY_RIGHT_CTRL:
-		case EventKeyboard::KeyCode::KEY_SPACE:
-			// no fiyah!
-			dispara = false;
-			break;
-		default:
-			break;
-	}
-
-}
-
-void Level1::mueveBalas(std::vector<Bala *> pool){
-	// con pool de balas
-	for(auto b = pool.cbegin(); b != pool.cend(); ++b){
-		if((*b)->isActive()){
-			(*b)->mueve();
-		}
-	}
-}
-
 void Level1::creaEnemigos(){
 
 	// TODO: limpiar de verdad la horda vieja
@@ -287,178 +433,6 @@ void Level1::creaEnemigos(){
 		delete hordaActual;
 
 	hordaActual = hordaNivel(nivelActual);
-}
-
-Horda *Level1::hordaNivel(int nivel){
-	Horda *tmp;
-
-	Vec2 posIniHorda;
-	posIniHorda.x = 0;
-	posIniHorda.y = visibleSize.height;
-
-	tmp = new Horda(this, posIniHorda);
-
-	// TODO: primer intento de progresion
-	if(nivelActual > 5){
-		tmp->creaHorda(10, 8, poolBalasEnemigas, 350.f, 10.f, RAND_MAX / 10, 6.0);
-
-	} else if(nivelActual > 4){
-		tmp->creaHorda(8, 6, poolBalasEnemigas, 250.f, 10.f, RAND_MAX / 12, 4.0);
-
-	} else if(nivelActual > 3){
-		tmp->creaHorda(6, 5, poolBalasEnemigas, 200.f, 10.f, RAND_MAX / 15, 3.0);
-
-	} else if(nivelActual > 2){
-		tmp->creaHorda(5, 4, poolBalasEnemigas, 150.f, 10.f, RAND_MAX / 30, 2.0);
-
-	} else if(nivelActual > 1){
-		tmp->creaHorda(4, 3, poolBalasEnemigas, 100.f, 10.f, RAND_MAX / 45, 2.0);
-
-	} else{
-		// primer nivel
-		tmp->creaHorda(2, 2, poolBalasEnemigas, 50.f, 10.f, RAND_MAX / 60, 1.0);
-	}
-
-	return tmp;
-
-}
-
-void Level1::controlaProta(){
-
-	player->mueve(mueveIzq, mueveDch, mueveArr, mueveAbj);
-	// limito el movimiento izquierda y derecha
-	//player->mueve(mueveIzq, mueveDch, false, false);
-
-
-	if(dispara){
-		// dispara() se encarga de poner un delay entre disparos
-		player->dispara(poolBalas);
-	}
-}
-
-// el gameloop
-void Level1::update(float delta){
-	if(sale){
-		menuVuelveCallback(this);
-		return;
-	}
-
-
-	gameInstance->ellapsedTime += delta;
-
-	// test
-	player->escudo->update(delta);
-
-	// El juego se controla con estados
-	switch(gameInstance->estadoActual){
-	case Game::estadosJuego::introNivel:
-		// empieza a contar el tiempo de introNivel
-		if(iniciaTemporizadorCambioEstado){
-			tIniCambiaEstado = gameInstance->ellapsedTime;
-			iniciaTemporizadorCambioEstado = false;
-			mensajeIntro = "Level " + std::to_string(nivelActual) + ". START!";
-			lblMensajes->setString(mensajeIntro);
-			lblMensajes->setVisible(true);
-
-			creaEnemigos();
-
-		}
-
-		if(gameInstance->ellapsedTime - tIniCambiaEstado >= tiempoIntro){
-			lblMensajes->setVisible(false);
-
-			gameInstance->estadoActual = Game::estadosJuego::jugando;
-			// empieza a contar hacia el gameOver
-			iniciaTemporizadorCambioEstado = true;
-		}
-
-		break;
-	case Game::estadosJuego::jugando:
-		if(iniciaTemporizadorCambioEstado){
-			tIniCambiaEstado = gameInstance->ellapsedTime;
-			iniciaTemporizadorCambioEstado = false;
-		}
-
-		controlaProta();
-
-		// enemigos
-		if(hordaActual){
-			hordaActual->tick();
-		}
-
-		//mueveEnemigos(delta * enemigoSpeed);
-
-		mueveBalas(poolBalas);
-		mueveBalas(poolBalasEnemigas);
-		mueveBalas(poolBalasGordas);
-
-		break;
-	case Game::estadosJuego::finNivel:
-		if(iniciaTemporizadorCambioEstado){
-			tIniCambiaEstado = gameInstance->ellapsedTime;
-			iniciaTemporizadorCambioEstado = false;
-		}
-
-		lblMensajes->setString(mensajeFin);
-		lblMensajes->setVisible(true);
-
-		if(gameInstance->ellapsedTime - tIniCambiaEstado >= tiempoFinNivel){
-			gameInstance->estadoActual = Game::estadosJuego::introNivel;
-			// empieza a contar hacia el gameOver
-			iniciaTemporizadorCambioEstado = true;
-		}
-
-		break;
-	case Game::estadosJuego::finHorda:
-		desactivaPool(poolBalas);
-		desactivaPool(poolBalasEnemigas);
-		subeNivel();
-		break;
-	case Game::estadosJuego::muerte:
-		if(iniciaTemporizadorCambioEstado){
-			tIniCambiaEstado = gameInstance->ellapsedTime;
-			iniciaTemporizadorCambioEstado = false;
-		}
-
-		lblMensajes->setString(mensajeMuerte);
-		lblMensajes->setVisible(true);
-
-		player->resetea();
-
-		if(gameInstance->ellapsedTime - tIniCambiaEstado >= tiempoMuerte){
-			gameInstance->estadoActual = Game::estadosJuego::introNivel;
-			// empieza a contar hacia el gameOver
-			iniciaTemporizadorCambioEstado = true;
-		}
-		break;
-
-	default:
-		CCLOG("Gamestate desconocido: %d", gameInstance->estadoActual);
-		break;
-	}
-
-}
-
-void Level1::subeNivel(){
-
-	if(iniciaTemporizadorCambioEstado){
-		tIniCambiaEstado = gameInstance->ellapsedTime;
-		iniciaTemporizadorCambioEstado = false;
-	}
-
-	lblMensajes->setString(mensajeFinHorda);
-	lblMensajes->setVisible(true);
-
-	if(gameInstance->ellapsedTime - tIniCambiaEstado >= tiempoFinHorda){
-		gameInstance->estadoActual = Game::estadosJuego::introNivel;
-
-		// TODO: Pruebas. CreaEnemigos ahora se encarga de crear hordas más dificiles por cada "nivel"
-		// CreaEnemigos se llama en introNivel
-		nivelActual++;
-
-		// empieza a contar hacia... nada realmente
-		iniciaTemporizadorCambioEstado = true;
-	}
 }
 
 float Level1::calculaDanyoImpacto(Sprite *sprA, Sprite *sprB){
@@ -514,7 +488,7 @@ void Level1::gestionaImpacto(Sprite *sprite, float dmg){
 		CCLOG("ORROR: impacto sin sprite?");
 		return;
 	}
-	
+
 	switch(sprite->getTag()){
 	case (int)Game::CategoriaColision::Bala:
 	case (int)Game::CategoriaColision::BalaEnemigo:
@@ -567,3 +541,19 @@ void Level1::gestionaImpacto(Sprite *sprite, float dmg){
 
 	}
 }
+
+#pragma endregion
+
+//void Level1::controlaProta(){
+//
+//	player->mueve(mueveIzq, mueveDch, mueveArr, mueveAbj);
+//	// limito el movimiento izquierda y derecha
+//	//player->mueve(mueveIzq, mueveDch, false, false);
+//
+//
+//	if(dispara){
+//		// dispara() se encarga de poner un delay entre disparos
+//		player->dispara(poolBalas);
+//	}
+//}
+

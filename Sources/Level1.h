@@ -23,6 +23,9 @@ USING_NS_CC;
 class Level1 : public cocos2d::Layer
 {
 public:
+	// funciones miembro públicas
+	// --------------------------------------------------------------
+
 	~Level1();
 	
     static cocos2d::Scene* createScene();
@@ -31,7 +34,7 @@ public:
     // a selector callback
 	void menuVuelveCallback(cocos2d::Ref* pSender);
 
-	// keyboard listeners
+	// TODO: keyboard listeners --> a InputComponent. Eventualmente...
 	virtual void onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
 	virtual void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
 
@@ -42,41 +45,41 @@ public:
 	void update(float delta) override;
 
 	// otras funciones
-
-	//bool mueveBala(Sprite *bala, float cuanto);	// mueve una bala
 	void mueveBalas(std::vector<Bala *> pool);	// procesa pool de balas
-	void controlaProta();
-	//void creaNaveProta();
+	//void controlaProta();
 	void creaEnemigos();
-	//void mueveEnemigos(float cuanto);
-	//void mueveEnemigo(Enemigo *enemigo, float cuanto);
-	//void enemigoDispara(Sprite *enemigo);
 	void creaPoolBalas(std::vector<Bala *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed);
 	void creaPoolBalasFisica(std::vector<Bala *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed, int tipoColision, int colisionaCon);
 	void desactivaPool(std::vector<Bala *> &pool);
-	// gestiona un impacto desde el sprite colisionado. El sprite deberá tener defindo setUserData() y setTag() para que esto funcione
-	void gestionaImpacto(Sprite *sprite, float dmg);
-
-
 
 	// --------------------------------------------------------------
 	// Físicas (o sea, Colisiones)
 	// --------------------------------------------------------------
-
 	// evento colisión. Debe ser público.
 	bool onContactBegin(PhysicsContact &contacto);
+	// gestiona un impacto desde el sprite colisionado. El sprite deberá tener defindo setUserData() y setTag() para que esto funcione
+	void gestionaImpacto(Sprite *sprite, float dmg);
+
+	// variables miembro públicas
+	// --------------------------------------------------------------
 
 private:
+	// funciones miembro privadas
+	// --------------------------------------------------------------
+	void precargaSonidosDelNivel();
+	void subeNivel();
+	Horda *hordaNivel(int nivel);
+	float calculaDanyoImpacto(Sprite *, Sprite *);	// calcula el daño que se hacen dos sprites al chocar (caso más común: balas vs cosas)
+
+	// variables miembro privadas
+	// --------------------------------------------------------------
 	Game *gameInstance;	// cacheo la instancia de Game
 
-	//Sprite *protaSprite,*balaSprite;
-	bool mueveIzq, mueveDch, mueveArr, mueveAbj;
-	bool dispara;
+	//bool mueveIzq, mueveDch, mueveArr, mueveAbj;
+	//bool dispara;
 	bool sale;	// salir de la pantalla
 	float protaSpeed = 500.0f, balaSpeed = 333.3f, balaEnemigaSpeed = -333.3f;// , enemigoSpeed = 100.0f;
 	int nivelActual = 1;
-	//float deltaT;
-	//float tiempoTranscurrido;
 	cocos2d::Label *lblMensajes;
 	bool iniciaTemporizadorCambioEstado = false;	// TODO: todavía no sé muy bien cómo hacerlo, voy a intentar un temporizador genérico para esperas
 	float tiempoIntro = 2.0f;
@@ -85,8 +88,7 @@ private:
 	float tiempoMuerte = 5.0f;
 	float tiempoFinHorda = 2.0f;
 	float tIniCambiaEstado;
-	//const char *mensajeIntro = "Level 1 START!";
-	std::string mensajeIntro;
+	std::string mensajeIntro;	// TODO: lo creo como string porque lo voy a estar modificando. ¿Por qué no char *?
 	const char *mensajeFin = "GAME OVER";
 	const char *mensajeMuerte = "HUEHUEHUEHUEHUE";
 	const char *mensajeFinHorda = "Congrats y tal. Ahora vas a flipar!";
@@ -100,17 +102,16 @@ private:
 	Horda *hordaActual; // TODO: la horda actual. De momento en pruebas
 
 	// pruebas
-	std::vector<Bala *> poolBalas;	// pool para mis disparos
+	std::vector<Bala *> poolBalas;	
+	//Pool *poolBalas;	// pool para mis disparos
+
 	std::vector<Bala *> poolBalasGordas;	// pool para disparos del jefe
 	std::vector<Bala *> poolBalasEnemigas;	// pool para disparos de los aliens normales
-	//Pool *poolEscudos;
 
 	Jugador *player;
 
-	void precargaSonidosDelNivel();
-	void subeNivel();
-	Horda *hordaNivel(int nivel);
-	float calculaDanyoImpacto(Sprite *, Sprite *);	// calcula el daño que se hacen dos sprites al chocar (caso más común: balas vs cosas)
+	InputComponent *inputComponent;
+		 
 
 };
 

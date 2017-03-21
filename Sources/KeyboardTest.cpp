@@ -1,5 +1,4 @@
 #include "KeyboardTest.h"
-#include "Menus.h"	// pantalla a la que vuelve
 
 KeyboardTest::KeyboardTest(){
 }
@@ -37,7 +36,7 @@ bool KeyboardTest::init(){
 	auto s = Director::getInstance()->getWinSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	auto label = LabelTTF::create("Keyboard Test", "Arial", 28);
+	auto label = LabelTTF::create("Keyboard Test", "fonts/Arial.ttf", 28);
 	addChild(label, 0);
 	label->setPosition(Point(s.width / 2, s.height - 50));
 
@@ -49,7 +48,6 @@ bool KeyboardTest::init(){
 	auto listener = EventListenerKeyboard::create();
 	listener->onKeyPressed = CC_CALLBACK_2(KeyboardTest::onKeyPressed, this);
 	listener->onKeyReleased = CC_CALLBACK_2(KeyboardTest::onKeyReleased, this);
-
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
 	// create a label to display the tip string
@@ -87,33 +85,18 @@ bool KeyboardTest::init(){
 }
 
 void KeyboardTest::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event){
-	log("Key with keycode %d pressed", keyCode);
+	CCLOG("Key with keycode %d pressed", keyCode);
 }
 
 void KeyboardTest::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event){
-	log("Key with keycode %d released", keyCode);
+	CCLOG("Key with keycode %d released", keyCode);
 }
 
 void KeyboardTest::menuCloseCallback(Ref* pSender){
-	/*
-	//Close the cocos2d-x game scene and quit the application
-	Director::getInstance()->end();
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	exit(0);
-#endif
-	*/
-	/*To navigate back to native iOS screen(if present) without quitting the application  ,do not use Director::getInstance()->end() and exit(0) as given above,instead trigger a custom event created in RootViewController.mm as below*/
-
-	//EventCustom customEndEvent("game_scene_close_event");
-	//_eventDispatcher->dispatchEvent(&customEndEvent);
-
-
 	// vuelve al menu
 	auto scene = Menus::CreateScene();
 	auto director = Director::getInstance();
 	director->replaceScene(scene);
-
 }
 
 

@@ -1,15 +1,15 @@
 #include "Pool.h"
 
-Pool::Pool(){}
+Pool::Pool(){
+}
 //Pool::Pool(Node *nodo) : nodoPadre(nodo){}
 
 Pool::~Pool(){
 
 }
 
-
-bool Pool::creaPoolSprites(int cant, const char *spritePath, float scale, float rotation, const char *name){
-	return creaPoolSprites(cant, spritePath, scale, rotation, name, (int)Game::CategoriaColision::None, (int)Game::CategoriaColision::None, nullptr);
+bool Pool::creaPoolSprites(int cant, const char *spritePath, float scaleIni, float rotationIni, const char *name){
+	return creaPoolSprites(cant, spritePath, scaleIni, rotationIni, name, (int)Game::CategoriaColision::None, (int)Game::CategoriaColision::None, nullptr);
 }
 
 bool Pool::creaPoolSprites(int cant, const char *spritePath, float scale, float rotation, const char *name, int tipoColision, int colisionaCon, void *clasePadre){
@@ -62,6 +62,12 @@ bool Pool::creaPoolSprites(int cant, const char *spritePath, float scale, float 
 	return true;
 }
 
+
+//template <typename T>
+//void Pool::test(T x){
+//	x = x;
+//}
+//
 
 void Pool::desActiva(Sprite *sprite){
 	sprite->setVisible(false);
