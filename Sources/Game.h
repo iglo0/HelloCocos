@@ -9,7 +9,7 @@ class Game{
 private:
 	// entiendo que los mantengo privados para que nadie lo pueda llamar desde fuera
 	// así me aseguro que no se crea otra instancia
-	Game(){};
+	Game();
 	// nadie debería poder destruir esta clase
 	//~Game();
 

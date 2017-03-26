@@ -36,11 +36,12 @@ bool KeyboardTest::init(){
 	auto s = Director::getInstance()->getWinSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	auto label = LabelTTF::create("Keyboard Test", "fonts/Arial.ttf", 28);
+	// Deprecated:
+	//auto label = LabelTTF::create("Keyboard Test", "fonts/Arial.ttf", 28);
+	// Also deprecated:
+	auto label = Label::create("Keyboard Test", "fonts/Arial.ttf", 28);
 	addChild(label, 0);
 	label->setPosition(Point(s.width / 2, s.height - 50));
-
-
 
 	//////////////////////////////
 	// 2. keyboard
@@ -51,7 +52,7 @@ bool KeyboardTest::init(){
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
 	// create a label to display the tip string
-	_label = LabelTTF::create("Please press any key and see console log...", "Arial", 22);
+	_label = Label::create("Please press any key and see console log...", "Arial", 22);
 	_label->setPosition(Point(s.width / 2, s.height / 2));
 	addChild(_label, 0);
 	_label->retain();	// esto no estoy seguro de si hace algo util para mi ahora mismo

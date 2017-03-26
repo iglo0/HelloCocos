@@ -64,17 +64,12 @@ bool Level1::init(){
 	// init del jugador y otros objetos
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
-	Testz<float> t;
-	t.setVar(34.0f);
-	t.getVar();
-	
-
 	// prepara pools
 	//testPool->creaPoolTest<Bala>(1, "bullet_orange0000.png", 3.0f, 0.0f, "pinpanpun", (int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo);
 
 	// HACK: Esto también es temporal, de momento para pruebas
 	// tendrá que evolucionar, ¿tendría que hacer un pool por cada tipo de sprite que pueda aparecer en el nivel?
-	creaPoolBalasFisica(&poolBalas, 88, "bullet_2_blue.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaSpeed, (int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo);
+	creaPoolBalasFisica(&poolBalas, 32, "bullet_2_blue.png", "sonidos/shoot.wav", "sonidos/fastinvader1.wav", 1.0f, balaSpeed, (int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo);
 	//poolBalas = new Pool();
 	//poolBalas->creaPoolSprites(30, "bullet_2_blue.png", 1.0f, 0, "balin", (int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo, nullptr);
 
@@ -108,11 +103,6 @@ bool Level1::init(){
 	listener->onKeyPressed = CC_CALLBACK_2(Level1::onKeyPressed, this);
 	listener->onKeyReleased = CC_CALLBACK_2(Level1::onKeyReleased, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
-
-	// TODO: mientras no sepa cómo gestionar correctamente los eventos de esta clase desde otra, hago esta guarrada y simplemente derivo los eventos a inputComponent cuando se produzcan O:-)
-	// TODO: Y ya que estoy... ¿sería más lógico encasquetar InputComponent dentro de Jugador?
-	inputComponent = new InputComponent(player);
-
 
 	// contact listener
 	auto contactListener = EventListenerPhysicsContact::create();
@@ -188,9 +178,9 @@ void Level1::update(float delta){
 
 	gameInstance->ellapsedTime += delta;
 
-	if(player->escudo){
-		player->escudo->update(delta);
-	}
+	//if(player->escudo){
+	//	player->escudo->update(delta);
+	//}
 
 	// El juego se controla con estados
 	switch(gameInstance->estadoActual){
@@ -312,11 +302,9 @@ void Level1::menuVuelveCallback(Ref *pSender){
 
 void Level1::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event){
 	// TODO: simplemente derivo el evento a la clase que qiuero usar para controlarlos. Eventualmente pasaré todo el código allí
-	inputComponent->onKeyPressed(keyCode, event);
 }
 
 void Level1::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event){
-	inputComponent->onKeyReleased(keyCode, event);
 }
 
 // de momento esto es lo que gestiona la dificultad del nivel
@@ -362,7 +350,7 @@ void Level1::mueveBalas(std::vector<Bala *> pool){
 	// con pool de balas
 	for(auto b = pool.cbegin(); b != pool.cend(); ++b){
 		if((*b)->isActive()){
-			(*b)->mueve();
+			(*b)->update();
 		}
 	}
 }
@@ -374,24 +362,24 @@ void Level1::precargaSonidosDelNivel(){
 }
 
 // crea un pool de balas. El que lo haga tendrá que saber el tipo y demás.
-void Level1::creaPoolBalas(std::vector<Bala *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed){
-	// pool de balas
-	for(int i = 0; i < cant; i++){
-		Bala *tmp = new Bala(pathSpriteBala);
-		tmp->getSprite()->setScale(scale);
-		tmp->getSprite()->setVisible(false);
-		tmp->setVelocidad(speed);
-		tmp->setSonido(Bala::sonidosBala::disparo, pathSonidoDisparo);
-		tmp->setSonido(Bala::sonidosBala::impacto, pathSonidoImpacto);
-
-		pool->push_back(tmp);
-
-		// cuelgo cada sprite del nodo actual
-		// o no se mostrará nada
-		// TODO: ummm no sé si debo destruirlos a mano o se encarga cocos
-		addChild(tmp->getSprite());
-	}
-}
+//void Level1::creaPoolBalas(std::vector<Bala *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed){
+//	// pool de balas
+//	for(int i = 0; i < cant; i++){
+//		Bala *tmp = new Bala(pathSpriteBala);
+//		tmp->getSprite()->setScale(scale);
+//		tmp->getSprite()->setVisible(false);
+//		tmp->setVelocidad(speed);
+//		tmp->setSonido(Bala::sonidosBala::disparo, pathSonidoDisparo);
+//		tmp->setSonido(Bala::sonidosBala::impacto, pathSonidoImpacto);
+//
+//		pool->push_back(tmp);
+//
+//		// cuelgo cada sprite del nodo actual
+//		// o no se mostrará nada
+//		// TODO: ummm no sé si debo destruirlos a mano o se encarga cocos
+//		addChild(tmp->getSprite());
+//	}
+//}
 
 // crea un pool de balas con física para las colisiones. El que lo haga tendrá que saber el tipo y demás.
 void Level1::creaPoolBalasFisica(std::vector<Bala *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed, int tipoColision, int colisionaCon){

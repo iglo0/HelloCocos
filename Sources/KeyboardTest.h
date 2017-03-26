@@ -29,7 +29,7 @@ public:
 	CREATE_FUNC(KeyboardTest);
 
 private:
-	LabelTTF*            _label;
+	Label*            _label;
 };
 
 //class KeyboardTestScene : public TestScene{

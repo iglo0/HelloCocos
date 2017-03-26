@@ -1,8 +1,4 @@
 #include "Menus.h"
-#include "Level1.h"
-#include "KeyboardTest.h"
-#include "PolyspriteTest.h"
-#include "Game.h"
 
 USING_NS_CC; // using namespace cocos2d
 
@@ -55,23 +51,28 @@ bool Menus::init(){
 	Vector<MenuItem*> menuItems;
 
 	// Ojo la Y va p'arriba
+	float pos = 0;
 
 	// menus en orden inverso, pero la numeracion (*1.0f, *2.0f ...) va en orden y asi me es mas facil
 	auto menuSalir = MenuItemFont::create("Salir", CC_CALLBACK_1(Menus::MenuCloseCallback, this));
-	menuSalir->setPosition(0.0f, menuSalir->getContentSize().height * 1.0f);
+	menuSalir->setPosition(0.0f, menuSalir->getContentSize().height * ++pos);
 	menuItems.pushBack(menuSalir);
 
 	auto menuKeyTest = MenuItemFont::create("Keyboard Test", CC_CALLBACK_1(Menus::MenuKeyTestCallback, this));
-	menuKeyTest->setPosition(0.0f, menuKeyTest->getContentSize().height * 2.0f);
+	menuKeyTest->setPosition(0.0f, menuKeyTest->getContentSize().height * ++pos);
 	menuItems.pushBack(menuKeyTest);
 
 	auto menuSpritesTest = MenuItemFont::create("Sprites test", CC_CALLBACK_1(Menus::MenuPolyspritesCallback, this));
-	menuSpritesTest->setPosition(0.0f, menuSpritesTest->getContentSize().height * 3.0f);
+	menuSpritesTest->setPosition(0.0f, menuSpritesTest->getContentSize().height * ++pos);
 	menuItems.pushBack(menuSpritesTest);
 
 	auto menuJugar = MenuItemFont::create("Jugar", CC_CALLBACK_1(Menus::MenuJugarCallback, this));
-	menuJugar->setPosition(0.0f, menuJugar->getContentSize().height * 4.0f);
+	menuJugar->setPosition(0.0f, menuJugar->getContentSize().height * ++pos);
 	menuItems.pushBack(menuJugar);
+
+	auto menuJugar2 = MenuItemFont::create("Jugar2", CC_CALLBACK_1(Menus::MenuJugar2Callback, this));
+	menuJugar2->setPosition(0.0f, menuJugar2->getContentSize().height * ++pos);
+	menuItems.pushBack(menuJugar2);
 
 	/* repeat for as many menu items as needed */
 
@@ -79,9 +80,8 @@ bool Menus::init(){
 	//miMenu->setPosition(100.0f, 200.0f);
 	this->addChild(miMenu, 1);
 
-	// HACK: tengo que aprender a gestionar el tiempo transcurrido de forma más decente
-	Game::getInstance()->ellapsedTime = 0;
-	Game::getInstance()->estadoActual = Game::estadosJuego::menus;
+	//Game::getInstance()->ellapsedTime = 0;
+	//Game::getInstance()->estadoActual = Game::estadosJuego::menus;
 
 	#pragma endregion
 
@@ -112,6 +112,17 @@ void Menus::MenuJugarCallback(cocos2d::Ref *pSender){
 	// http://www.cocos2d-x.org/wiki/Building_and_Transitioning_Scenes
 	//auto scene = Level1::createScene();
 	auto scene = Level1::createScene();
+	auto director = Director::getInstance();
+	director->replaceScene(scene);
+
+
+}
+
+void Menus::MenuJugar2Callback(cocos2d::Ref *pSender){
+
+	// http://www.cocos2d-x.org/wiki/Building_and_Transitioning_Scenes
+	//auto scene = Level1::createScene();
+	auto scene = Level::createScene();
 	auto director = Director::getInstance();
 	director->replaceScene(scene);
 

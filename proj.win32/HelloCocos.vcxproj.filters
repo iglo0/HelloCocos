@@ -57,13 +57,16 @@
     <ClCompile Include="..\Sources\Escudo.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sources\GameObject.cpp">
+    <ClCompile Include="..\Sources\Level.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\Sources\InputComponent.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sources\inputKeyboardComponent.cpp">
+    <ClCompile Include="..\Sources\Player.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\GameActor.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -119,13 +122,16 @@
     <ClInclude Include="..\Sources\Escudo.h">
       <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\GameObject.h">
+    <ClInclude Include="..\Sources\Level.h">
       <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\InputComponent.h">
       <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\inputKeyboardComponent.h">
+    <ClInclude Include="..\Sources\Player.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\GameActor.h">
       <Filter>Sources</Filter>
     </ClInclude>
   </ItemGroup>

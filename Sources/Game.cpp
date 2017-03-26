@@ -1,7 +1,9 @@
 #include "Game.h"
 
-
-
+Game::Game(){
+	ellapsedTime = 0;
+	estadoActual = estadosJuego::menus;
+}
 
 Game *Game::getInstance(){
 	// thread safe. Así es como me aseguro que se inicializa exactamente una vez, aun con concurrencia

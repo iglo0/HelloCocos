@@ -1,26 +1,33 @@
 #pragma once
 
 #include "cocos2d.h"
+#include "Game.h"
+#include <vector>
 
 USING_NS_CC;
 
-// holy shit, really?
-// http://stackoverflow.com/questions/495021/why-can-templates-only-be-implemented-in-the-header-file
-
-template <typename T>
-class Testz{
+// AKA Pool de Balas?
+class Ammo{
 public:
-	void setVar(T x){
-		var = x;
-	}
+	Ammo();
+	~Ammo();
 
-	T getVar(){
-		return var;
-	}
+	std::vector<Sprite *> bulletPool;
 
 private:
-	T var;
+
 };
 
+class Weapon{
+public:
+	Weapon();
+	~Weapon();
 
+	void fire(Vec2 posIni);
+
+private:
+	Ammo *ammo;
+	float rateOfFire = 0.1f;
+	float shotDamage = 1.0f;
+};
 

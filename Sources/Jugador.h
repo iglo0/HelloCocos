@@ -42,7 +42,7 @@ public:
 
 	// variables miembro públicas
 	// ----------------------------------------
-	Escudo *escudo;
+	//Escudo *escudo;
 	// variables para que el jugador sepa qué hacer cuando llegue su update
 	bool mueveIzq, mueveDch, mueveArr, mueveAbj, disparo, sale;
 

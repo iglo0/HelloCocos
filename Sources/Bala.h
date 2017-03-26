@@ -3,6 +3,7 @@
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
 #include "AudioEngine.h"
+#include "Pool.h"
 
 #include "Game.h"
 
@@ -22,11 +23,8 @@ public:
 	enum tiposBala{ balaTipo1, balaTipo2};
 	enum sonidosBala { disparo, impacto};
 
-	// wip
-	void init(const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, enum tiposBala tb);	// inicializa todo el sistema para este tipo de Bala
-
 	// mueve la bala segun su velocidad 
-	virtual void mueve();
+	void update();
 
 	bool setSpriteConFisica(const char *name, const char *ruta, int tipoColision, int colisionaCon);
 
@@ -50,6 +48,9 @@ public:
 	bool isActive();
 
 private:
+	void creaPool();
+
+
 	Sprite *sprite;
 	//std::string rutaSprite;
 	//const char *rutaSprite;
@@ -60,9 +61,8 @@ private:
 	float danyoBala;
 
 	bool active = true;	// si esta bala está activa o está a la espera de ser utilizada
-};
 
-class Balagorda : Bala{
-	void mueve();
-
+	// TODO: Y si la bala es solo la definición común de un tipo y cuando la quiero disparar solo tengo que sacar un sprite del pool y moverlo con los parámetros de la bala?
+	//std::vector<Sprite *> pool;
+	//Pool *pool2;
 };

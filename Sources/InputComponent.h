@@ -1,22 +1,21 @@
 #pragma once
 
 #include "cocos2d.h"
-#include "Jugador.h"
+#include "Player.h"
 
 USING_NS_CC;
 
-class InputComponent {
-
+class InputComponent{
 public:
+	InputComponent();
+	~InputComponent();
 
-	InputComponent(Jugador *j);
+	void keyPressed(EventKeyboard::KeyCode);
+	void keyReleased(EventKeyboard::KeyCode);
 
-	// TODO: yyy no se como 
-
-	// keyboard listeners
-	virtual void onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
-	virtual void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
+	// TODO: pruebas, hacerlo private
+	Player *player;
 
 private:
-	Jugador *player;
 };
+

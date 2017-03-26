@@ -50,17 +50,6 @@ void Bala::setSonido(sonidosBala sb, const char *ruta){
 	}
 }
 
-//void Bala::setSonido(const char *ruta){
-//	rutaSonidoDisparo = ruta;
-//	
-//	//TODO: estoy haciendo preloads por todas partes y aun el sonido para el framerate :/
-//	//CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect(rutaSonidoDisparo);
-//}
-
-//const char *Bala::getSonido(){
-//	return rutaSonidoDisparo;
-//}
-
 bool Bala::isActive(){
 	return active;
 }
@@ -124,7 +113,7 @@ void Bala::reproduceSonido(sonidosBala sb){
 	}
 }
 
-void Bala::mueve(){
+void Bala::update(){
 	if(!active){
 		return;
 	}
@@ -190,3 +179,10 @@ bool Bala::setSpriteConFisica(const char *name, const char *ruta, int tipoColisi
 float Bala::getDanyoBala() {
 	return danyoBala;
 }
+
+//void Bala::creaPool(int cant, int tipoColision, int colisionaCon, const char *nombreId, const char *rutaSprite){
+//	Sprite *tmp;
+//
+//	setSpriteConFisica(nombreId, rutaSprite, tipoColision, colisionaCon);
+//
+//}

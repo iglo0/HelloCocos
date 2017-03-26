@@ -1,43 +1,41 @@
 #include "InputComponent.h"
 
-InputComponent::InputComponent(Jugador *j) {
-	CCLOG("InputComponent Init");
-	player = j;
-}
+InputComponent::InputComponent(){}
 
-void InputComponent::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event){
-	//log("Key with keycode %d pressed", keyCode);
+InputComponent::~InputComponent(){}
 
-	// TODO: Mi idea no es mover directamente al jugador, estos eventos llegan independientemente de update ?
-	// así que tengo que decirle de algún modo qué deberá hacer cuando le llegue su update
+void InputComponent::keyPressed(EventKeyboard::KeyCode keyCode){
+	CCLOG("Inputcomponent %d", keyCode);
+
 	switch(keyCode){
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+		//player->mueve(true, false, false, false);
 		player->mueveIzq = true;
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+		//player->mueve(false, true, false, false);
 		player->mueveDch = true;
 		break;
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
+		//player->mueve(false, false, true, false);
 		player->mueveArr = true;
 		break;
 	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+		//player->mueve(false, false, false, true);
 		player->mueveAbj = true;
 		break;
-	case EventKeyboard::KeyCode::KEY_CTRL:
 	case EventKeyboard::KeyCode::KEY_RIGHT_CTRL:
+	case EventKeyboard::KeyCode::KEY_LEFT_CTRL:
 	case EventKeyboard::KeyCode::KEY_SPACE:
-		// fiyah!
-		player->disparo = true;
+		player->disparar = true;
 		break;
-	case EventKeyboard::KeyCode::KEY_ESCAPE:
-		player->sale = true;
 	default:
 		break;
 	}
 }
 
-void InputComponent::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event){
-	//log("Key with keycode %d released", keyCode);
+void InputComponent::keyReleased(EventKeyboard::KeyCode keyCode){
+	CCLOG("Inputcomponent released %d", keyCode);
 
 	switch(keyCode){
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
@@ -52,14 +50,13 @@ void InputComponent::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
 		player->mueveAbj = false;
 		break;
-	case EventKeyboard::KeyCode::KEY_CTRL:
 	case EventKeyboard::KeyCode::KEY_RIGHT_CTRL:
+	case EventKeyboard::KeyCode::KEY_LEFT_CTRL:
 	case EventKeyboard::KeyCode::KEY_SPACE:
-		// no fiyah!
-		player->disparo = false;
+		player->disparar = false;
 		break;
 	default:
 		break;
 	}
-
 }
+

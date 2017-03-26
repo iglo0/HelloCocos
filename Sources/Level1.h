@@ -14,7 +14,6 @@
 #include "Pool.h"
 //#include "Escudo.h"
 // ------------------------
-#include "InputComponent.h"
 
 #include <vector>
 
@@ -48,7 +47,7 @@ public:
 	void mueveBalas(std::vector<Bala *> pool);	// procesa pool de balas
 	//void controlaProta();
 	void creaEnemigos();
-	void creaPoolBalas(std::vector<Bala *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed);
+	//void creaPoolBalas(std::vector<Bala *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed);
 	void creaPoolBalasFisica(std::vector<Bala *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed, int tipoColision, int colisionaCon);
 	void desactivaPool(std::vector<Bala *> &pool);
 
@@ -110,8 +109,6 @@ private:
 
 	Jugador *player;
 
-	InputComponent *inputComponent;
-		 
 
 };
 

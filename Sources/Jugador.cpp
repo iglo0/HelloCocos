@@ -5,7 +5,7 @@ Jugador::Jugador(float hp) : puntosDeGolpeIniciales(hp), puntosDeGolpeActuales(h
 
 	mueveAbj = mueveArr = mueveDch = mueveIzq = disparo = sale = false;
 	// a tomar por %$*&# undefined pointer.
-	escudo = nullptr;
+	//escudo = nullptr;
 
 	// TODO: Siempre pasa por aqui?
 	CCLOG("Creando jugador");
@@ -228,10 +228,10 @@ bool Jugador::impacto(float dmg){
 	// caso de haber escudo, calcula cuanta vida absorbe
 	//float dmgRestante = impactoEscudo(dmg);
 
-	if(escudo){
-		// el escudo absorbe parte del daño y devuelve lo que queda
-		dmg = escudo->impacto(dmg);
-	}
+	//if(escudo){
+	//	// el escudo absorbe parte del daño y devuelve lo que queda
+	//	dmg = escudo->impacto(dmg);
+	//}
 
 	// si el daño ha quedado en el escudo, vuelve sin efectos adicionales
 	if(dmg <= 0){
