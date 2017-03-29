@@ -24,8 +24,8 @@ public:
 
 protected:
 	Sprite *sprite;
-	float movementSpeed;
-	float hp, hpInicial = 1.0;
+	float gameActorSpeed;
+	float gameActorHP, gameActorHPInicial = 1.0;
 };
 
 

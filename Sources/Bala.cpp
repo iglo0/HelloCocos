@@ -191,8 +191,10 @@ float BalaOLD::getDanyoBala() {
 Bullet::Bullet(Node *nodo, const char *name, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon){
 	// inicializa la clase base primero
 	GameActor::GameActor();
-
-
+	//bulletSpeed = speed;
+	bulletDmg = dmg;
+	gameActorSpeed = speed;
+	
 	CCLOG("creando bala: %s", name);
 	if(!createBullet(nodo, pathSprite, name, tipoColision, colisionoCon)){
 		CCLOG("No pude crear bala %s", pathSprite);
@@ -227,6 +229,9 @@ bool Bullet::createBullet(Node *nodo, const char *ruta, const char *name, int ti
 
 	// la bala la creo invisible y sin colisiones activas
 	desactiva();
+
+	// HACK: darle movimiento
+	mueveArr = true;
 
 	// hecho
 	nodo->addChild(sprite);

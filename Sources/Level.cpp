@@ -176,5 +176,10 @@ void Level::update(float deltaT){
 	player->update(deltaT);
 
 	
+	// HACK: temp a ver como gestiono el mover todos los objetos
+	// ¿LLevar una lista de todos los "updatables" y llamar a update en todos?
+	for(auto x = player->currentWeapon->bulletPool.cbegin(); x != player->currentWeapon->bulletPool.cend(); ++x){
+		(*x)->update(deltaT);
+	}
 
 }

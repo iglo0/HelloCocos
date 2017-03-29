@@ -6,7 +6,7 @@ GameActor::GameActor(){
 	sprite = nullptr;
 
 	// todos los "actores" tienen unas características comunes: movimiento, vida...
-	hp = hpInicial;
+	gameActorHP = gameActorHPInicial;
 	mueveIzq = mueveDch = mueveArr = mueveAbj = false;
 }
 
@@ -17,7 +17,10 @@ GameActor::~GameActor(){
 void GameActor::update(float deltaT){
 	//CCLOG("GameActor update @%f", Game::getInstance()->ellapsedTime);
 
-	mueve();
+	// TODO: Esto está muy bien... pero quiero saber si es una bala un enemigo o que >.<
+	if(isActive()){
+		mueve();
+	}
 
 }
 
@@ -52,27 +55,32 @@ void GameActor::mueve(){
 	float deltaT = Director::getInstance()->getDeltaTime();
 
 	if(mueveIzq){
-		pos.x -= movementSpeed * deltaT;
+		pos.x -= gameActorSpeed * deltaT;
 		if(pos.x < 0)
 			pos.x = 0;
 	}
 
 	if(mueveDch){
-		pos.x += movementSpeed * deltaT;
+		pos.x += gameActorSpeed * deltaT;
 		if(pos.x > Director::getInstance()->getVisibleSize().width){
 			pos.x = Director::getInstance()->getVisibleSize().width;
 		}
 	}
 
 	if(mueveArr){
-		pos.y += movementSpeed * deltaT;
+		pos.y += gameActorSpeed * deltaT;
 		if(pos.y > Director::getInstance()->getVisibleSize().height){
 			pos.y = Director::getInstance()->getVisibleSize().height;
+
+			// HACK: ?( ? )? (lo siento, lo quitaré vale?)
+			if(sprite->getTag() == (int)Game::CategoriaColision::Bala){
+				desactiva();
+			}
 		}
 	}
 
 	if(mueveAbj){
-		pos.y -= movementSpeed * deltaT;
+		pos.y -= gameActorSpeed * deltaT;
 		if(pos.y < 0){
 			pos.y = 0;
 		}

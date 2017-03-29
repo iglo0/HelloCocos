@@ -12,7 +12,7 @@ Player::Player(Node *nodo){
 	// if Base::foo is not virtual then Derived::foo does not override Base::foo but hides it
 	// C++ does not have a keyword for "the base class" (super or base) since it supports multiple inheritance which may lead to ambiguity.
 	// Se puede hacer esto? ohhh...
-	GameActor::movementSpeed = movementSpeed;
+	GameActor::gameActorSpeed = movementSpeed;
 }
 
 Player::~Player(){

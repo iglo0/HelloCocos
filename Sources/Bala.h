@@ -22,7 +22,7 @@ public:
 	static void createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, const char * name, const char * pathSprite, const char * pathSonidoDisparo, const char * pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon);
 
 private:
-	float bulletSpeed;
+	//float bulletSpeed; // ?_?
 	float bulletDmg;
 };
 
