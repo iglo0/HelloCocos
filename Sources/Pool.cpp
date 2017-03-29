@@ -1,10 +1,28 @@
 #include "Pool.h"
 
-Pool::Pool(){
+void Pool::activa(std::vector<Bullet *> &pool, Vec2 pos){
+
+	for(auto x = pool.cbegin(); x != pool.cend(); ++x){
+		if(!(*x)->isActive()){
+			(*x)->activa(pos);
+			break;
+		}
+	}
+
+}
+
+void Pool::desactiva(Bullet &actor){
+	actor.desactiva();
+}
+
+
+#pragma region poolOLD
+
+PoolDEPRECATED::PoolDEPRECATED(){
 }
 //Pool::Pool(Node *nodo) : nodoPadre(nodo){}
 
-Pool::~Pool(){
+PoolDEPRECATED::~PoolDEPRECATED(){
 
 }
 
@@ -63,16 +81,12 @@ Pool::~Pool(){
 //}
 //
 
-void creaPoolBalasFisica(std::vector<Bala *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed, int tipoColision, int colisionaCon){
 
-}
-
-
-bool Pool::creaPoolBalas(Node *nodo, int cant, const char *spritePath, float scale, float rotation, const char *name, float speed, const char *pathSonidoDisparo, const char *pathSonidoImpacto, int tipoColision, int colisionaCon){
+bool PoolDEPRECATED::creaPoolBalas(Node *nodo, int cant, const char *spritePath, float scale, float rotation, const char *name, float speed, const char *pathSonidoDisparo, const char *pathSonidoImpacto, int tipoColision, int colisionaCon){
 	// pool de balas
 	for(int i = 0; i < cant; i++){
 		// TODO: la que estoy montando con la conversion de tipos entre string y const char *...
-		Bala *tmp = new Bala(("Bala " + std::to_string(i)).c_str(), spritePath, tipoColision, colisionaCon);
+		BalaOLD *tmp = new BalaOLD(("Bala " + std::to_string(i)).c_str(), spritePath, tipoColision, colisionaCon);
 		if(!tmp->getSprite()){
 			CCLOG("ORROR, intentando definir balafisica sin sprite: %s", spritePath);
 			return false;
@@ -82,8 +96,8 @@ bool Pool::creaPoolBalas(Node *nodo, int cant, const char *spritePath, float sca
 		tmp->getSprite()->setVisible(false);
 		// la velocidad varía la dirección (positiva o negativa)
 		tmp->setVelocidad(speed);
-		tmp->setSonido(Bala::sonidosBala::disparo, pathSonidoDisparo);
-		tmp->setSonido(Bala::sonidosBala::impacto, pathSonidoImpacto);
+		tmp->setSonido(BalaOLD::sonidosBala::disparo, pathSonidoDisparo);
+		tmp->setSonido(BalaOLD::sonidosBala::impacto, pathSonidoImpacto);
 
 		//pool.push_back(tmp);
 		pool.push_back(tmp->getSprite());
@@ -98,7 +112,7 @@ bool Pool::creaPoolBalas(Node *nodo, int cant, const char *spritePath, float sca
 }
 
 
-void Pool::desActiva(Sprite *sprite){
+void PoolDEPRECATED::desActiva(Sprite *sprite){
 	sprite->setVisible(false);
 	PhysicsBody *p = sprite->getPhysicsBody();
 	if(p){
@@ -110,7 +124,7 @@ void Pool::desActiva(Sprite *sprite){
 	}
 }
 
-Sprite *Pool::activa(Vec2 posRel, Sprite *spritePadre, int zOrder){
+Sprite *PoolDEPRECATED::activa(Vec2 posRel, Sprite *spritePadre, int zOrder){
 	if(!spritePadre){
 		CCLOG ("Pool tiene que tener padre, saliendo");
 		return nullptr;
@@ -136,7 +150,7 @@ Sprite *Pool::activa(Vec2 posRel, Sprite *spritePadre, int zOrder){
 	return nullptr;
 }
 		
-Sprite *Pool::activa(Vec2 posAbs, Node *nodePadre, int zOrder){
+Sprite *PoolDEPRECATED::activa(Vec2 posAbs, Node *nodePadre, int zOrder){
 	if(!nodePadre){
 		CCLOG ("Pool tiene que tener padre, saliendo");
 		return nullptr;
@@ -162,3 +176,7 @@ Sprite *Pool::activa(Vec2 posAbs, Node *nodePadre, int zOrder){
 	return nullptr;
 
 }
+
+
+#pragma endregion
+

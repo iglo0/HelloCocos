@@ -346,7 +346,7 @@ Horda *Level1::hordaNivel(int nivel){
 
 #pragma region sacar fuera
 
-void Level1::mueveBalas(std::vector<Bala *> pool){
+void Level1::mueveBalas(std::vector<BalaOLD *> pool){
 	// con pool de balas
 	for(auto b = pool.cbegin(); b != pool.cend(); ++b){
 		if((*b)->isActive()){
@@ -382,11 +382,11 @@ void Level1::precargaSonidosDelNivel(){
 //}
 
 // crea un pool de balas con física para las colisiones. El que lo haga tendrá que saber el tipo y demás.
-void Level1::creaPoolBalasFisica(std::vector<Bala *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed, int tipoColision, int colisionaCon){
+void Level1::creaPoolBalasFisica(std::vector<BalaOLD *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed, int tipoColision, int colisionaCon){
 	// pool de balas
 	for(int i = 0; i < cant; i++){
 		// TODO: la que estoy montando con la conversion de tipos entre string y const char *...
-		Bala *tmp = new Bala(("Bala " + std::to_string(i)).c_str(), pathSpriteBala, tipoColision, colisionaCon);
+		BalaOLD *tmp = new BalaOLD(("Bala " + std::to_string(i)).c_str(), pathSpriteBala, tipoColision, colisionaCon);
 		if(!tmp->getSprite()){
 			CCLOG("ORROR, intentando definir balafisica sin sprite: %s", pathSpriteBala);
 			return;
@@ -396,8 +396,8 @@ void Level1::creaPoolBalasFisica(std::vector<Bala *> *pool, int cant, const char
 		tmp->getSprite()->setVisible(false);
 		// la velocidad varía la dirección (positiva o negativa)
 		tmp->setVelocidad(speed);
-		tmp->setSonido(Bala::sonidosBala::disparo, pathSonidoDisparo);
-		tmp->setSonido(Bala::sonidosBala::impacto, pathSonidoImpacto);
+		tmp->setSonido(BalaOLD::sonidosBala::disparo, pathSonidoDisparo);
+		tmp->setSonido(BalaOLD::sonidosBala::impacto, pathSonidoImpacto);
 
 		pool->push_back(tmp);
 
@@ -408,7 +408,7 @@ void Level1::creaPoolBalasFisica(std::vector<Bala *> *pool, int cant, const char
 	}
 }
 
-void Level1::desactivaPool(std::vector<Bala*> &pool){
+void Level1::desactivaPool(std::vector<BalaOLD*> &pool){
 	for(auto b = pool.cbegin(); b != pool.cend(); ++b){
 		(*b)->desActivar();
 	}
@@ -424,13 +424,13 @@ void Level1::creaEnemigos(){
 }
 
 float Level1::calculaDanyoImpacto(Sprite *sprA, Sprite *sprB){
-	Bala *balaTmp;
+	BalaOLD *balaTmp;
 
 	if(sprA->getTag() == (int)Game::CategoriaColision::Bala || sprA->getTag() == (int)Game::CategoriaColision::BalaEnemigo){
-		balaTmp = (Bala *)sprA->getUserData();
+		balaTmp = (BalaOLD *)sprA->getUserData();
 		return balaTmp->getDanyoBala();
 	} else if(sprB->getTag() == (int)Game::CategoriaColision::Bala || sprB->getTag() == (int)Game::CategoriaColision::BalaEnemigo){
-		balaTmp = (Bala *)sprB->getUserData();
+		balaTmp = (BalaOLD *)sprB->getUserData();
 		return balaTmp->getDanyoBala();
 	}
 
@@ -481,11 +481,11 @@ void Level1::gestionaImpacto(Sprite *sprite, float dmg){
 	case (int)Game::CategoriaColision::Bala:
 	case (int)Game::CategoriaColision::BalaEnemigo:
 		// las balas desaparecen
-		Bala *balaTmp;
+		BalaOLD *balaTmp;
 		// alehoop!
-		balaTmp = (Bala *)sprite->getUserData();
+		balaTmp = (BalaOLD *)sprite->getUserData();
 		if(balaTmp){
-			balaTmp->reproduceSonido(Bala::impacto);
+			balaTmp->reproduceSonido(BalaOLD::impacto);
 			balaTmp->desActivar();
 		} else{
 			CCLOG("catacroker, no era una bala");

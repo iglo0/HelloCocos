@@ -69,6 +69,9 @@
     <ClCompile Include="..\Sources\GameActor.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\Sources\Weapon.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Sources\Bala.h">
@@ -132,6 +135,9 @@
       <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\GameActor.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Weapon.h">
       <Filter>Sources</Filter>
     </ClInclude>
   </ItemGroup>

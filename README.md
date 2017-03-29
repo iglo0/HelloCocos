@@ -1,4 +1,4 @@
-<img src="http://www.cocos2d-x.org/attachments/801/cocos2dx_portrait.png" width=200>
+<img src="http://www.cocos2d-x.org/attachments/801/cocos2dx_portrait.png" width=100>
 
 
 #cocos2d-x

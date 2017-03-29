@@ -44,12 +44,12 @@ public:
 	void update(float delta) override;
 
 	// otras funciones
-	void mueveBalas(std::vector<Bala *> pool);	// procesa pool de balas
+	void mueveBalas(std::vector<BalaOLD *> pool);	// procesa pool de balas
 	//void controlaProta();
 	void creaEnemigos();
 	//void creaPoolBalas(std::vector<Bala *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed);
-	void creaPoolBalasFisica(std::vector<Bala *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed, int tipoColision, int colisionaCon);
-	void desactivaPool(std::vector<Bala *> &pool);
+	void creaPoolBalasFisica(std::vector<BalaOLD *> *pool, int cant, const char *pathSpriteBala, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float scale, float speed, int tipoColision, int colisionaCon);
+	void desactivaPool(std::vector<BalaOLD *> &pool);
 
 	// --------------------------------------------------------------
 	// Físicas (o sea, Colisiones)
@@ -101,11 +101,11 @@ private:
 	Horda *hordaActual; // TODO: la horda actual. De momento en pruebas
 
 	// pruebas
-	std::vector<Bala *> poolBalas;	
+	std::vector<BalaOLD *> poolBalas;	
 	//Pool *poolBalas;	// pool para mis disparos
 
-	std::vector<Bala *> poolBalasGordas;	// pool para disparos del jefe
-	std::vector<Bala *> poolBalasEnemigas;	// pool para disparos de los aliens normales
+	std::vector<BalaOLD *> poolBalasGordas;	// pool para disparos del jefe
+	std::vector<BalaOLD *> poolBalasEnemigas;	// pool para disparos de los aliens normales
 
 	Jugador *player;
 

@@ -3,7 +3,7 @@
 #include "cocos2d.h"
 #include "GameActor.h"
 // --------------------------
-#include "Testz.h"
+#include "Weapon.h"
 // --------------------------
 
 // TODO: No puedo incluir InputComponent en Player y Player en InputComponent... soluciones?
@@ -22,7 +22,6 @@ public:
 	~Player();
 
 	Sprite *setSprite(Node *nodo);
-	void dispara();
 	void update(float deltaT);
 
 	bool disparar;

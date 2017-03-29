@@ -110,11 +110,11 @@ void Jugador::resetea(){
 	// TODO: restituir el Tinte
 }
 
-void Jugador::setPoolBalas(Pool *pool){
+void Jugador::setPoolBalas(PoolDEPRECATED *pool){
 	//poolBalasActual = pool;
 }
 
-void Jugador::setPoolBalas(std::vector<Bala *> &pool) {
+void Jugador::setPoolBalas(std::vector<BalaOLD *> &pool) {
 	//TODO: Esto pasa la referencia como yo quiero?
 	poolBalasActual = pool;
 }
@@ -164,7 +164,7 @@ void Jugador::mueve(bool izq, bool dch, bool arr, bool abj){
 	sprite->setPosition(position);
 }
 
-void Jugador::dispara(std::vector<Bala *> &pool){
+void Jugador::dispara(std::vector<BalaOLD *> &pool){
 	if(gameInstance->ellapsedTime - tIniDelay < delayDisparo){
 		return;
 	}

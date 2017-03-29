@@ -15,7 +15,7 @@ GameActor::~GameActor(){
 }
 
 void GameActor::update(float deltaT){
-	CCLOG("GameActor update @%f", Game::getInstance()->ellapsedTime);
+	//CCLOG("GameActor update @%f", Game::getInstance()->ellapsedTime);
 
 	mueve();
 
@@ -80,4 +80,37 @@ void GameActor::mueve(){
 
 	setPosition(pos);
 
+}
+
+void GameActor::activa(Vec2 pos){
+	if(sprite){
+		sprite->setPosition(pos);
+
+		sprite->setVisible(true);
+		// TODO: Activar físicas
+
+		PhysicsBody *pb = sprite->getPhysicsBody();
+		if(pb){
+			pb->setEnabled(true);
+		}
+	}
+}
+
+void GameActor::desactiva(){
+	if(sprite){
+		sprite->setVisible(false);
+
+		PhysicsBody *pb = sprite->getPhysicsBody();
+		if(pb){
+			pb->setEnabled(false);
+		}
+
+	}
+}
+
+bool GameActor::isActive(){
+	if(sprite){
+		// HACK: por ejemplo
+		return sprite->isVisible();
+	}
 }

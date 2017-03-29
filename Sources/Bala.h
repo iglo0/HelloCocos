@@ -3,21 +3,34 @@
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
 #include "AudioEngine.h"
-#include "Pool.h"
+//#include "Pool.h"
 
 #include "Game.h"
-
-#include <vector> // pool de balas
-
-//#include <string>	
+#include "GameActor.h"
+#include <vector>
 
 USING_NS_CC;
 
-class Bala {
+class Bullet : public GameActor{
 public:
-	Bala(const char *pathSprite);	// bala sin fisica
-	Bala(const char *name, const char *pathSprite, int tipoColision, int colisionoCon, float dmg=1.0f);	// bala con física
-	~Bala();
+	// name for debug purposes
+	Bullet(Node *nodo, const char *name, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon);
+	~Bullet();
+
+	bool createBullet(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon);
+
+	static void createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, const char * name, const char * pathSprite, const char * pathSonidoDisparo, const char * pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon);
+
+private:
+	float bulletSpeed;
+	float bulletDmg;
+};
+
+class BalaOLD {
+public:
+	BalaOLD(const char *pathSprite);	// bala sin fisica
+	BalaOLD(const char *name, const char *pathSprite, int tipoColision, int colisionoCon, float dmg=1.0f);	// bala con física
+	~BalaOLD();
 	float getDanyoBala();
 
 	enum tiposBala{ balaTipo1, balaTipo2};
@@ -32,9 +45,8 @@ public:
 	bool setSprite(const char *ruta);
 	Sprite *getSprite();
 
-	// incializa la variable y pregacarga el sonido
+	// incializa la variable y precarga el sonido
 	void setSonido(sonidosBala tipo, const char *ruta);
-	//const char *getSonido();
 
 	void activar(Vec2 posInicial);
 	void desActivar();
@@ -48,7 +60,6 @@ public:
 	bool isActive();
 
 private:
-	void creaPool();
 
 
 	Sprite *sprite;
@@ -62,7 +73,5 @@ private:
 
 	bool active = true;	// si esta bala está activa o está a la espera de ser utilizada
 
-	// TODO: Y si la bala es solo la definición común de un tipo y cuando la quiero disparar solo tengo que sacar un sprite del pool y moverlo con los parámetros de la bala?
-	//std::vector<Sprite *> pool;
-	//Pool *pool2;
 };
+

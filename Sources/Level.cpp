@@ -18,7 +18,7 @@ Scene* Level::createScene(){
 	// set the world’s gravity to zero in both directions, which essentially disables gravity
 	scene->getPhysicsWorld()->setGravity(Vec2(0, 0));
 	// enable debug drawing to see your physics bodies
-	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
 	// 'layer' is an autorelease object
@@ -91,6 +91,11 @@ bool Level::init(){
 	// Iba a colgar el inputComponent del jugador, quizá esté mejor colgando del nivel y con una referencia al jugador
 	inputComponent = new InputComponent;
 	inputComponent->player = player;
+
+	// probando 1,2,3
+	player->currentWeapon = new Weapon;
+	player->currentWeapon->createBulletPool(this, 32,"bala_","bullet_2_blue.png","sonidos/shoot.wav","sonidos/fastinvader1.wav",500.0f,1.0f, (int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo);
+
 
 
 	// ========================================================================================================================================
@@ -169,4 +174,7 @@ void Level::update(float deltaT){
 
 	// TODO: en el update tendré que buscar manualmente todos los objetos y activar sus updates?
 	player->update(deltaT);
+
+	
+
 }

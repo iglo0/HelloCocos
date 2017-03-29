@@ -1,6 +1,11 @@
 #include "Bala.h"
 
-Bala::Bala(const char *pathSprite){
+
+
+
+#pragma region OOOOLD
+
+BalaOLD::BalaOLD(const char *pathSprite){
 
 	setSprite(pathSprite);
 	//setSonido(pathSonido);
@@ -8,7 +13,7 @@ Bala::Bala(const char *pathSprite){
 	active = false;
 }
 
-Bala::Bala(const char *name, const char *pathSprite, int tipoColision, int colisionoCon, float dmg){
+BalaOLD::BalaOLD(const char *name, const char *pathSprite, int tipoColision, int colisionoCon, float dmg){
 	danyoBala = dmg;
 
 	if(!setSpriteConFisica(name, pathSprite, tipoColision, colisionoCon)){
@@ -20,10 +25,10 @@ Bala::Bala(const char *name, const char *pathSprite, int tipoColision, int colis
 	active = false;
 }
 
-Bala::~Bala(){
+BalaOLD::~BalaOLD(){
 }
 
-bool Bala::setSprite(const char *ruta){
+bool BalaOLD::setSprite(const char *ruta){
 	sprite = Sprite::create(ruta);
 
 	if(!sprite){
@@ -32,11 +37,11 @@ bool Bala::setSprite(const char *ruta){
 	return true;
 }
 
-Sprite *Bala::getSprite(){
+Sprite *BalaOLD::getSprite(){
 	return sprite;
 }
 
-void Bala::setSonido(sonidosBala sb, const char *ruta){
+void BalaOLD::setSonido(sonidosBala sb, const char *ruta){
 	switch(sb){
 	case sonidosBala::disparo:
 		rutaSonidoDisparo = ruta;
@@ -50,15 +55,15 @@ void Bala::setSonido(sonidosBala sb, const char *ruta){
 	}
 }
 
-bool Bala::isActive(){
+bool BalaOLD::isActive(){
 	return active;
 }
 
-void Bala::setVelocidad(float vel){
+void BalaOLD::setVelocidad(float vel){
 	velocidadAbs = vel;
 }
 
-void Bala::activar(Vec2 posInicial){
+void BalaOLD::activar(Vec2 posInicial){
 	if(!sprite){
 		CCLOG("Intento de activar una bala sin sprite");
 		active = false;
@@ -77,7 +82,7 @@ void Bala::activar(Vec2 posInicial){
 	reproduceSonido(sonidosBala::disparo);
 }
 
-void Bala::desActivar(){
+void BalaOLD::desActivar(){
 	active = false;
 
 	reproduceSonido(sonidosBala::impacto);
@@ -91,7 +96,7 @@ void Bala::desActivar(){
 
 }
 
-void Bala::reproduceSonido(sonidosBala sb){
+void BalaOLD::reproduceSonido(sonidosBala sb){
 	if(active){
 		switch(sb){
 		case sonidosBala::disparo:
@@ -113,7 +118,7 @@ void Bala::reproduceSonido(sonidosBala sb){
 	}
 }
 
-void Bala::update(){
+void BalaOLD::update(){
 	if(!active){
 		return;
 	}
@@ -144,7 +149,7 @@ void Bala::update(){
 }
 
 // colisiones / física
-bool Bala::setSpriteConFisica(const char *name, const char *ruta, int tipoColision, int colisionaCon){
+bool BalaOLD::setSpriteConFisica(const char *name, const char *ruta, int tipoColision, int colisionaCon){
 
 	// para sprites poligonales	
 	AutoPolygon ap1 = AutoPolygon(ruta);
@@ -176,13 +181,70 @@ bool Bala::setSpriteConFisica(const char *name, const char *ruta, int tipoColisi
 	return true;
 }
 
-float Bala::getDanyoBala() {
+float BalaOLD::getDanyoBala() {
 	return danyoBala;
 }
 
-//void Bala::creaPool(int cant, int tipoColision, int colisionaCon, const char *nombreId, const char *rutaSprite){
-//	Sprite *tmp;
-//
-//	setSpriteConFisica(nombreId, rutaSprite, tipoColision, colisionaCon);
-//
-//}
+
+#pragma endregion
+
+Bullet::Bullet(Node *nodo, const char *name, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon){
+	// inicializa la clase base primero
+	GameActor::GameActor();
+
+
+	CCLOG("creando bala: %s", name);
+	if(!createBullet(nodo, pathSprite, name, tipoColision, colisionoCon)){
+		CCLOG("No pude crear bala %s", pathSprite);
+	}
+}
+
+Bullet::~Bullet(){
+}
+
+bool Bullet::createBullet(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon){
+
+	// para sprites poligonales	
+	//AutoPolygon ap1 = AutoPolygon(ruta);
+	//sprite = Sprite::create(ap1.generateTriangles());
+
+	// para sprites-caja
+	sprite = Sprite::create(ruta);
+
+	if(!sprite){
+		CCLOG("Bala->sprite '%s'=SIN DEFINIR", ruta);
+		return false;
+	}
+
+	sprite->setName(name);
+
+	Game::anadeFisica(sprite, tipoColision, colisionaCon, name);
+	
+	//TODO: ya tengo para recuperar mis datos :)
+	sprite->setUserData(this);
+	// y su tipo
+	sprite->setTag((int)Game::CategoriaColision::Bala);
+
+	// la bala la creo invisible y sin colisiones activas
+	desactiva();
+
+	// hecho
+	nodo->addChild(sprite);
+
+	return true;
+}
+
+// (OJO) static method
+void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, const char *name, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon){
+	Bullet *tmp;
+
+	for(int i = 0; i < poolSize; i++){
+		tmp = new Bullet(nodo, (name + std::to_string(i)).c_str(), pathSprite, pathSonidoDisparo, pathSonidoImpacto, speed, dmg, tipoColision, colisionoCon);
+		
+		// TODO: que mas cosas hacer a la bala?
+
+		pool.push_back(tmp);
+	}
+	
+	
+}

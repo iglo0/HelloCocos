@@ -26,7 +26,7 @@ public:
 
 	//void mueve(bool htal, bool vcal, float cant);
 	void mueve(bool izq, bool dch, bool arr, bool abj);
-	void dispara(std::vector<Bala *> &pool);
+	void dispara(std::vector<BalaOLD *> &pool);
 	//void dispara();
 	//void setPlayerSpeed(float);
 	// jugador recibe un impacto. Oh noes! Devuelve si eso lo ha destruido o no
@@ -34,8 +34,8 @@ public:
 	void resetea();
 	Vec2 getPosition();
 	Sprite *getSprite();
-	void setPoolBalas(Pool *pool);	// le asigna algo que disparar
-	void setPoolBalas(std::vector<Bala *> &pool);
+	void setPoolBalas(PoolDEPRECATED *pool);	// le asigna algo que disparar
+	void setPoolBalas(std::vector<BalaOLD *> &pool);
 
 	// funcion update a invocar desde fuera. Utiliza las variables mueveXXX, disparo y sale para saber qué le toca hacer
 	void update(float delta);
@@ -63,6 +63,6 @@ private:
 	float delayDisparo = 0.1f;	// TODO: delay entre disparos (esto podría estar definido en la bala mas bien, así distintos tipos de disparo tendrían distinto delay)
 	float tIniDelay;	// empieza a contar desde el ultimo disparo
 	//Pool *poolBalasActual;
-	std::vector<Bala *> poolBalasActual;
+	std::vector<BalaOLD *> poolBalasActual;
 };
 

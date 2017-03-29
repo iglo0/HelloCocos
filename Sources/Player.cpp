@@ -4,7 +4,11 @@ Player::Player(Node *nodo){
 	CCLOG("Constructor de Player");
 	
 	inputComponent = nullptr;
+	currentWeapon = nullptr;
 	sprite = setSprite(nodo);
+
+	disparar = false;
+
 	// if Base::foo is not virtual then Derived::foo does not override Base::foo but hides it
 	// C++ does not have a keyword for "the base class" (super or base) since it supports multiple inheritance which may lead to ambiguity.
 	// Se puede hacer esto? ohhh...
@@ -51,10 +55,6 @@ Sprite *Player::setSprite(Node *nodo){
 	return sprite;
 }
 
-void Player::dispara(){
-
-}
-
 //void Player::mueve(bool izq, bool dch, bool arr, bool abj){
 //	Vec2 pos = getPosition();
 //	float deltaT = Director::getInstance()->getDeltaTime();
@@ -96,14 +96,14 @@ void Player::dispara(){
 //}
 
 void Player::update(float deltaT){
-	CCLOG("Player update @%f", Game::getInstance()->ellapsedTime);
-
 	// TODO: Primero el de la clase base?
 	GameActor::update(deltaT);
+
+	//CCLOG("Player update @%f", Game::getInstance()->ellapsedTime);
 
 	// Ese se ha encargado del movimiento, ahora al resto:
 	if(disparar){
 		disparar = false;
-		dispara();
+		currentWeapon->fire(getPosition());
 	}
 }

@@ -18,6 +18,9 @@ public:
 
 	void mueve();
 	bool mueveIzq, mueveDch, mueveArr, mueveAbj;
+	void activa(Vec2 pos);
+	void desactiva();
+	bool isActive();
 
 protected:
 	Sprite *sprite;

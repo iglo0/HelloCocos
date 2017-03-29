@@ -1,33 +1,46 @@
 #pragma once
 
 #include "cocos2d.h"
-#include "Game.h"
 #include <vector>
 
 USING_NS_CC;
 
-// AKA Pool de Balas?
-class Ammo{
+class Base{
 public:
-	Ammo();
-	~Ammo();
-
-	std::vector<Sprite *> bulletPool;
-
-private:
-
+	static void hazBaseArr(Base arrBases[]){};
+	static void hazBaseVector(std::vector<Base>){};
 };
 
-class Weapon{
+class Derived : public Base{
 public:
-	Weapon();
-	~Weapon();
-
-	void fire(Vec2 posIni);
-
-private:
-	Ammo *ammo;
-	float rateOfFire = 0.1f;
-	float shotDamage = 1.0f;
+	static void hazDerivedArr(Derived arrDerived[]){};
+	static void hazDerivedVector(std::vector<Derived>){};
 };
 
+class Sheeit{
+
+public:
+
+	Base arrBases[3];
+	Derived arrDeriveds[3];
+	std::vector<Base> vecBases;
+	std::vector<Derived> vecDeriveds;
+
+	int arrInts[3];
+
+	void flipa(){
+		Base::hazBaseArr(arrBases);
+		Base::hazBaseArr(arrDeriveds);
+		Derived::hazBaseArr(arrBases);
+		Derived::hazBaseArr(arrDeriveds);
+		//Derived::hazDerivedArr(arrBases);	// error, esto no
+		Derived::hazDerivedArr(arrDeriveds);
+
+		Base::hazBaseVector(vecBases);				// ok
+		//Base::hazBaseVector(vecDeriveds);			// no ok
+
+		//Derived::hazDerivedVector(vecBases);		// ok
+		Derived::hazDerivedVector(vecDeriveds);		// no ok
+
+	}
+};

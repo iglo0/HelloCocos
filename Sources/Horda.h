@@ -34,7 +34,7 @@ public:
 	// -----------------------------------------------------------------------------------------------------------------------------------------
 	// funciones públicas
 	// -----------------------------------------------------------------------------------------------------------------------------------------
-	void creaHorda(int dimX, int dimY, std::vector<Bala *> &pool, float velMovHtal = 50.f, float velMovVcal = 10.f, int probDisparoAleat = RAND_MAX / 33, float dmg=1.f);
+	void creaHorda(int dimX, int dimY, std::vector<BalaOLD *> &pool, float velMovHtal = 50.f, float velMovVcal = 10.f, int probDisparoAleat = RAND_MAX / 33, float dmg=1.f);
 	void tick(); // TODO: llamo a este metodo desde fuera para ejecutar un ciclo? Cómo debería organizar esto?
 
 protected:
@@ -99,7 +99,7 @@ protected:
 	// "array" de n x m enemigos. Los vectores no solo son fáciles de definir, encima se pueden acceder por índices como un array
 	//std::vector <std::vector<Enemigo *> > horda;
 	std::vector<Enemigo *> horda;
-	std::vector<Bala *> poolBalas;	// pool para sus disparos. Crearlo desde fuera o dentro? mmm...
+	std::vector<BalaOLD *> poolBalas;	// pool para sus disparos. Crearlo desde fuera o dentro? mmm...
 	std::vector<Enemigo *> listaEnemigosVivos();
 
 	// ha sido destruida la horda?

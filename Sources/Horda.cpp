@@ -24,7 +24,7 @@ Horda::~Horda(){
 }
 
 
-void Horda::creaHorda(int dimX, int dimY, std::vector<Bala *> &pool, float velMovHtal, float velMovVcal, int probDisparoAleat, float dmg){
+void Horda::creaHorda(int dimX, int dimY, std::vector<BalaOLD *> &pool, float velMovHtal, float velMovVcal, int probDisparoAleat, float dmg){
 	poolBalas = pool;
 
 	// TODO: parametros de comportamiento
