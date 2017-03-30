@@ -17,12 +17,19 @@ public:
 	Bullet(Node *nodo, const char *name, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon);
 	~Bullet();
 
-	bool createBullet(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon);
+	// Bala tiene un mueve especial que solo usa la velocidad (de GameActor) para ir arriba o abajo
+	void mueve () override;	
+	// con override dejo claro al compilador que quiero implementar el método mueve de la clase base. No es 
+	// estrictamente necesario, pero así se que comprueba que las firmas sean idénticas y que en general 
+	// haga lo que creo que estoy haciendo.
 
+	// método estático que crea un "pool" de Bullets, mientras el resto de métodos tratan con una instancia concreta
 	static void createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, const char * name, const char * pathSprite, const char * pathSonidoDisparo, const char * pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon);
 
 private:
-	//float bulletSpeed; // ?_?
+	//bool createBullet(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon);
+
+	//float bulletSpeed; // para eso, uso Base::gameActorSpeed
 	float bulletDmg;
 };
 

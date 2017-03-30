@@ -102,7 +102,7 @@ void BalaOLD::reproduceSonido(sonidosBala sb){
 		case sonidosBala::disparo:
 			// audioengine si parece que soporta efectos pero no encuentro ejemplos de uso
 			//AudioEngine::play2d("mi carro me lo robaron");
-			cocos2d::experimental::AudioProfile *audioProfile;
+			//cocos2d::experimental::AudioProfile *audioProfile;
 			cocos2d::experimental::AudioEngine::play2d(rutaSonidoDisparo, false, 1.0f, nullptr);
 		
 			// TODO: no pitch/pan/gain on win32. Doh!
@@ -147,6 +147,7 @@ void BalaOLD::update(){
 	sprite->setPosition(pos);
 
 }
+
 
 // colisiones / física
 bool BalaOLD::setSpriteConFisica(const char *name, const char *ruta, int tipoColision, int colisionaCon){
@@ -196,7 +197,8 @@ Bullet::Bullet(Node *nodo, const char *name, const char *pathSprite, const char 
 	gameActorSpeed = speed;
 	
 	CCLOG("creando bala: %s", name);
-	if(!createBullet(nodo, pathSprite, name, tipoColision, colisionoCon)){
+	//if(!createBullet(nodo, pathSprite, name, tipoColision, colisionoCon)){
+	if(!GameActor::setSprite(nodo, pathSprite,name,tipoColision,tipoColision,false)){
 		CCLOG("No pude crear bala %s", pathSprite);
 	}
 }
@@ -204,40 +206,40 @@ Bullet::Bullet(Node *nodo, const char *name, const char *pathSprite, const char 
 Bullet::~Bullet(){
 }
 
-bool Bullet::createBullet(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon){
-
-	// para sprites poligonales	
-	//AutoPolygon ap1 = AutoPolygon(ruta);
-	//sprite = Sprite::create(ap1.generateTriangles());
-
-	// para sprites-caja
-	sprite = Sprite::create(ruta);
-
-	if(!sprite){
-		CCLOG("Bala->sprite '%s'=SIN DEFINIR", ruta);
-		return false;
-	}
-
-	sprite->setName(name);
-
-	Game::anadeFisica(sprite, tipoColision, colisionaCon, name);
-	
-	//TODO: ya tengo para recuperar mis datos :)
-	sprite->setUserData(this);
-	// y su tipo
-	sprite->setTag((int)Game::CategoriaColision::Bala);
-
-	// la bala la creo invisible y sin colisiones activas
-	desactiva();
-
-	// HACK: darle movimiento
-	mueveArr = true;
-
-	// hecho
-	nodo->addChild(sprite);
-
-	return true;
-}
+//bool Bullet::createBullet(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon){
+//
+//	// para sprites poligonales	
+//	//AutoPolygon ap1 = AutoPolygon(ruta);
+//	//sprite = Sprite::create(ap1.generateTriangles());
+//
+//	// para sprites-caja
+//	sprite = Sprite::create(ruta);
+//
+//	if(!sprite){
+//		CCLOG("Bala->sprite '%s'=SIN DEFINIR", ruta);
+//		return false;
+//	}
+//
+//	sprite->setName(name);
+//
+//	Game::anadeFisica(sprite, tipoColision, colisionaCon, name);
+//	
+//	//TODO: ya tengo para recuperar mis datos :)
+//	sprite->setUserData(this);
+//	// y su tipo
+//	sprite->setTag((int)Game::CategoriaColision::Bala);
+//
+//	// la bala la creo invisible y sin colisiones activas
+//	desactiva();
+//
+//	// HACK: darle movimiento
+//	mueveArr = true;
+//
+//	// hecho
+//	nodo->addChild(sprite);
+//
+//	return true;
+//}
 
 // (OJO) static method
 void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, const char *name, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon){
@@ -252,4 +254,36 @@ void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolS
 	}
 	
 	
+}
+
+
+void Bullet::mueve(){
+
+	Vec2 pos = getPosition();
+	float deltaT = Director::getInstance()->getDeltaTime();
+
+	// HACK: balas del prota van hacia arriba, de los enemigos hacia abajo
+	// TODO: implementarlo con vectores para cuando tenga disparos más dirigidos (típico "spray" de balas en abanico)
+	pos.y += gameActorSpeed * deltaT;
+
+	// compruebo si esta bala ha llegado al límite de la pantalla para desactivarla
+	// recordatorio, en cocos-land 0,0 es la esquina inferior izquierda
+	if(gameActorSpeed < 0){
+		// chequeo si se sale por abajo
+		if(pos.y < 0){
+			pos.y = 0;
+			desactiva();
+		}
+	} else{
+		// o por arriba.
+		if(pos.y > Director::getInstance()->getVisibleSize().height){
+			pos.y = 0;
+			desactiva();
+		}
+	}
+
+
+	setPosition(pos);
+
+
 }

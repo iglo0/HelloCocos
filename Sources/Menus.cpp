@@ -66,9 +66,9 @@ bool Menus::init(){
 	menuSpritesTest->setPosition(0.0f, menuSpritesTest->getContentSize().height * ++pos);
 	menuItems.pushBack(menuSpritesTest);
 
-	auto menuJugar = MenuItemFont::create("Jugar", CC_CALLBACK_1(Menus::MenuJugarCallback, this));
-	menuJugar->setPosition(0.0f, menuJugar->getContentSize().height * ++pos);
-	menuItems.pushBack(menuJugar);
+	//auto menuJugar = MenuItemFont::create("Jugar", CC_CALLBACK_1(Menus::MenuJugarCallback, this));
+	//menuJugar->setPosition(0.0f, menuJugar->getContentSize().height * ++pos);
+	//menuItems.pushBack(menuJugar);
 
 	auto menuJugar2 = MenuItemFont::create("Jugar2", CC_CALLBACK_1(Menus::MenuJugar2Callback, this));
 	menuJugar2->setPosition(0.0f, menuJugar2->getContentSize().height * ++pos);

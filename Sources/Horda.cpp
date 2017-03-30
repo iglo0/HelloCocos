@@ -37,7 +37,7 @@ void Horda::creaHorda(int dimX, int dimY, std::vector<BalaOLD *> &pool, float ve
 
 	// TODO: pensandolo un poco mejor, no tienen por que ser arrays bidimensionales
 	// lo creo como si lo fuera, pero el resto de veces lo navego como una lista lineal
-	Enemigo *tmp;
+	EnemigoOOOLD *tmp;
 	for(int y = 0; y < dimY; y++){
 		for(int x = 0; x < dimX; x++){
 			tmp = creaEnemigo(tipo2, x, y, dmg);
@@ -58,9 +58,9 @@ void Horda::creaHorda(int dimX, int dimY, std::vector<BalaOLD *> &pool, float ve
 
 }
 
-Enemigo *Horda::creaEnemigo(enum tipoEnemigo t, int x, int y, float vida){
+EnemigoOOOLD *Horda::creaEnemigo(enum tipoEnemigo t, int x, int y, float vida){
 
-	Enemigo *tmp = new Enemigo;
+	EnemigoOOOLD *tmp = new EnemigoOOOLD;
 	Sprite *spriteTmp;
 
 	// ojo que creaSprite YA añade el hijo al nodo y no hace falta hacerlo luego
@@ -113,7 +113,7 @@ Vec2 Horda::coordenadasInicialesNaveEnXY(int x, int y){
 
 	float originX = 0;	// posicion arbitraria de la x máxima para un sprite (para que no se corte por la izquierda). MEH posiblemente con el margen vale
 	float originY = 50.f;	// posicion arbitraria de la y máxima para un sprite (para que no se corte por arriba). El margen NO vale porque no los quiero centrados verticalmente
-	float sepX, sepY;
+	//float sepX, sepY;
 
 	separacionHordaX = (visibleSize.width - marginX) / dimensionesHordaX;
 	//separacionHordaY = (visibleSize.height - marginY) / dimensionesHordaY;
@@ -201,8 +201,8 @@ bool Horda::cambiarDireccion(){
 	return false;
 }
 
-std::vector<Enemigo *> Horda::listaEnemigosVivos(){
-	std::vector<Enemigo *> tmp;
+std::vector<EnemigoOOOLD *> Horda::listaEnemigosVivos(){
+	std::vector<EnemigoOOOLD *> tmp;
 
 	for(auto ene = horda.cbegin(); ene != horda.cend(); ++ene){
 		if((*ene)->estaActivo()){
@@ -220,7 +220,7 @@ std::vector<Enemigo *> Horda::listaEnemigosVivos(){
 
 
 void Horda::dispara(){
-	std::vector<Enemigo *> enemigosQueQuedan;
+	std::vector<EnemigoOOOLD *> enemigosQueQuedan;
 
 	enemigosQueQuedan = listaEnemigosVivos();
 

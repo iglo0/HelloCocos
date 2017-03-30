@@ -10,13 +10,15 @@ public:
 	GameActor();
 	~GameActor();
 
-	virtual Sprite *setSprite();
-	virtual void update(float deltaT);
+	Sprite *setSprite(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon, bool isPolySprite = true);
+
+	virtual void update(float deltaT);	// imagino que las clases derivadas implementarán sus propias versiones
+	virtual void mueve();				//
+
 	Vec2 getPosition();
 	void setPosition(Vec2);
 	Sprite *getSprite();
 
-	void mueve();
 	bool mueveIzq, mueveDch, mueveArr, mueveAbj;
 	void activa(Vec2 pos);
 	void desactiva();

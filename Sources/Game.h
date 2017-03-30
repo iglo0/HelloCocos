@@ -4,6 +4,15 @@
 
 USING_NS_CC;
 
+#pragma region CONSTANTES
+
+#define PLAYER_INITIAL_SPEED 300.0f
+#define BULLET_PATH_SPRITE "bullet_2_blue.png"
+#define BULLET_PATH_SOUND_FIRE "sonidos/shoot.wav"
+#define BULLET_PATH_SOUND_IMPACT "sonidos/fastinvader1.wav"
+
+#pragma endregion
+
 // Mi clase Singleton (o es la idea) donde guardar el estado general del juego
 class Game{
 private:
@@ -21,7 +30,7 @@ public:
 
 	// hay quien recomienda no usar punteros sino referencias, para asegurarse de que no se puede liberar esta memoria. Si lo he entendido bien...
 	//static Game& getInstance(){ static Game instance; return instance; }
-
+	
 	// devuelve la instancia, y se asegura de inicializarlo solo una vez aun con concurrencia (recomendado desde c++11)
 	static Game *getInstance();
 

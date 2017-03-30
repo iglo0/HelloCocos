@@ -1,10 +1,24 @@
 #include "Enemigo.h"
 
-Enemigo::Enemigo(){
+Enemy::Enemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, int z, float hp){
+	GameActor::GameActor();
+
+
 
 }
 
-Enemigo::~Enemigo(){
+Enemy::~Enemy(){
+	CCLOG ("Enemy destructor");
+}
+
+
+#pragma region Old
+
+EnemigoOOOLD::EnemigoOOOLD(){
+
+}
+
+EnemigoOOOLD::~EnemigoOOOLD(){
 	CCLOG("Memoria del Enemigo destruida?");
 
 	// los cocos2d::sprites son autoliberados
@@ -16,7 +30,7 @@ Enemigo::~Enemigo(){
 
 }
 
-Sprite *Enemigo::creaSprite(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, int z, float hp){
+Sprite *EnemigoOOOLD::creaSprite(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, int z, float hp){
 	pathSprite = pathSprite;
 	/*	
 	AutoPolygon ap1 = AutoPolygon(path1);
@@ -56,33 +70,33 @@ Sprite *Enemigo::creaSprite(Node *nodo, const char *pathSprite, const char *ruta
 	return sprite;
 }
 
-float Enemigo::getScale(){
+float EnemigoOOOLD::getScale(){
 	return spriteScale;
 }
 
-void Enemigo::setPosition(float x, float y){
+void EnemigoOOOLD::setPosition(float x, float y){
 	setPosition(Vec2(x, y));
 }
 
-void Enemigo::setPosition(Vec2 nuPos){
+void EnemigoOOOLD::setPosition(Vec2 nuPos){
 	sprite->setPosition(nuPos);
 }
 
-void Enemigo::mueveRelativo(Vec2 cant){
+void EnemigoOOOLD::mueveRelativo(Vec2 cant){
 	// ojo que venga multiplicado por deltaT
 
 	setPosition(getPosition() + cant);
 }
 
-Sprite *Enemigo::getSprite(){
+Sprite *EnemigoOOOLD::getSprite(){
 	return sprite;
 }
 
-Vec2 Enemigo::getPosition(){
+Vec2 EnemigoOOOLD::getPosition(){
 	return sprite->getPosition();
 }
 
-void Enemigo::impacto(float dmg){
+void EnemigoOOOLD::impacto(float dmg){
 	// un algo impacta en el enemigo
 
 	// pierde escudo
@@ -164,7 +178,7 @@ void Enemigo::impacto(float dmg){
 
 }
 
-void Enemigo::desActivar(){
+void EnemigoOOOLD::desActivar(){
 	// bueno, si lo desactivo no puedo obtener su ultima posicion (por ejemplo lo uso desde la horda)
 	// y al hacerlo invisible y sin fisica ergo colisiones, digo yo que no hace falta moverlo a (cualquiersitio,dondesea)
 	//sprite->setPosition(Vec2::ZERO);
@@ -173,13 +187,16 @@ void Enemigo::desActivar(){
 
 }
 
-void Enemigo::activar(Vec2 posicion){
+void EnemigoOOOLD::activar(Vec2 posicion){
 	sprite->setPosition(posicion);
 	sprite->setVisible(true);
 	sprite->getPhysicsBody()->setEnabled(true);
 }
 
-bool Enemigo::estaActivo(){
+bool EnemigoOOOLD::estaActivo(){
 	// TODO: es una manera
 	return sprite->isVisible();
 }
+
+
+#pragma endregion

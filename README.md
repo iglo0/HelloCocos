@@ -20,4 +20,5 @@ Git user attention
 - [ ] clase InputComponent
 - [ ] clase Weapon
 - [ ] clase Bullet
+- [ ] clase Enemy
 

@@ -493,8 +493,8 @@ void Level1::gestionaImpacto(Sprite *sprite, float dmg){
 		break;
 	case (int)Game::CategoriaColision::Enemigo:
 		// el enemigo sufre daño o muere
-		Enemigo *enemigoTmp;
-		enemigoTmp = (Enemigo *)sprite->getUserData();
+		EnemigoOOOLD *enemigoTmp;
+		enemigoTmp = (EnemigoOOOLD *)sprite->getUserData();
 		if(enemigoTmp){
 			// TODO: que situacion mas peluda, tengo que acceder ahora al daño de la bala...
 			enemigoTmp->impacto(dmg);

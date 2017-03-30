@@ -96,7 +96,7 @@ private:
 	Vec2 origin;
 
 	Vector<Sprite *> enemigosDeprecated;
-	std::vector<Enemigo *> enemigos;
+	std::vector<EnemigoOOOLD *> enemigos;
 
 	Horda *hordaActual; // TODO: la horda actual. De momento en pruebas
 

@@ -87,16 +87,16 @@ bool Level::init(){
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
 	// instancio un jugador con los valores por defecto
-	player = new Player(this);
+	player = new Player(this, PLAYER_INITIAL_SPEED);
 	// Iba a colgar el inputComponent del jugador, quizá esté mejor colgando del nivel y con una referencia al jugador
 	inputComponent = new InputComponent;
 	inputComponent->player = player;
 
 	// probando 1,2,3
 	player->currentWeapon = new Weapon;
-	player->currentWeapon->createBulletPool(this, 32,"bala_","bullet_2_blue.png","sonidos/shoot.wav","sonidos/fastinvader1.wav",500.0f,1.0f, (int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo);
-
-
+	player->currentWeapon->createBulletPool(
+		this, 32,"bala_",BULLET_PATH_SPRITE,BULLET_PATH_SOUND_FIRE,BULLET_PATH_SOUND_IMPACT,500.0f,1.0f,
+		(int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo);
 
 	// ========================================================================================================================================
 

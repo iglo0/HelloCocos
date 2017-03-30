@@ -18,10 +18,9 @@ class InputComponent;
 
 class Player : public GameActor{
 public:
-	Player(Node *nodo);
+	Player(Node *nodo, float playerSpeed);
 	~Player();
 
-	Sprite *setSprite(Node *nodo);
 	void update(float deltaT);
 
 	bool disparar;
@@ -35,8 +34,5 @@ private:
 	float playerInitialScale = 0.5f;
 	float playerInitialRotation = 0;
 	int playerInitialZOrder = 0;
-	//float playerSpeed = 100.0f;
-	float movementSpeed = 300.0f;
-	
 };
 

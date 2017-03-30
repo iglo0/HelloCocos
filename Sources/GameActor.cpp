@@ -17,7 +17,9 @@ GameActor::~GameActor(){
 void GameActor::update(float deltaT){
 	//CCLOG("GameActor update @%f", Game::getInstance()->ellapsedTime);
 
-	// TODO: Esto está muy bien... pero quiero saber si es una bala un enemigo o que >.<
+	// TODO: hum, por ejemplo una bala entra por gameactor::update y luego quiero que vaya a bullet::mueve?
+	// más bien que sobrescriba el método update la bala también?
+	// JODER. Ha funcionado? Si paso una bala que tiene mueve sobrescrito, lo entiende y ejecuta el mueve correcto? Joder. Mola!!!
 	if(isActive()){
 		mueve();
 	}
@@ -40,9 +42,36 @@ void GameActor::setPosition(Vec2 pos){
 	}
 }
 
-Sprite *GameActor::setSprite(){
-	//sprite = nullptr;
-	return nullptr;
+Sprite *GameActor::setSprite(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon, bool isPolySprite){
+	if(isPolySprite){
+		AutoPolygon ap1 = AutoPolygon(ruta);
+		sprite = Sprite::create(ap1.generateTriangles());
+	} else{
+		sprite = Sprite::create(ruta);
+	}
+
+
+	if(!sprite){
+		CCLOG("GameActor::setSprite '%s'=SIN DEFINIR", ruta);
+		return nullptr;// o return sprite pal caso
+	}
+
+	sprite->setName(name);
+
+	Game::anadeFisica(sprite, tipoColision, colisionaCon, name);
+
+	//TODO: ya tengo para recuperar mis datos :)
+	sprite->setUserData(this);
+	// y su tipo
+	sprite->setTag(tipoColision);
+
+	// lo creo invisible y sin colisiones activas
+	desactiva();
+
+	// hecho
+	nodo->addChild(sprite);
+
+	return sprite;
 }
 
 Sprite *GameActor::getSprite(){
@@ -72,7 +101,7 @@ void GameActor::mueve(){
 		if(pos.y > Director::getInstance()->getVisibleSize().height){
 			pos.y = Director::getInstance()->getVisibleSize().height;
 
-			// HACK: ?( ? )? (lo siento, lo quitaré vale?)
+			// HACK: lo siento, lo quitaré vale?
 			if(sprite->getTag() == (int)Game::CategoriaColision::Bala){
 				desactiva();
 			}
@@ -121,4 +150,6 @@ bool GameActor::isActive(){
 		// HACK: por ejemplo
 		return sprite->isVisible();
 	}
+	// si he llegado aquí, que no hay ni sprite...
+	return false;
 }
