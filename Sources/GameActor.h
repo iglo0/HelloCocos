@@ -14,6 +14,7 @@ public:
 
 	virtual void update(float deltaT);	// imagino que las clases derivadas implementarán sus propias versiones
 	virtual void mueve();				//
+	virtual void impacto(float dmg);
 
 	Vec2 getPosition();
 	void setPosition(Vec2);

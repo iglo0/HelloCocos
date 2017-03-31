@@ -1,7 +1,7 @@
 #include "GameActor.h"
 
 GameActor::GameActor(){
-	CCLOG("Constructor de GameActor");
+	//CCLOG("Constructor de GameActor");
 	// me aseguro de que está inicializado
 	sprite = nullptr;
 
@@ -11,7 +11,7 @@ GameActor::GameActor(){
 }
 
 GameActor::~GameActor(){
-	CCLOG("Destructor de GameActor");
+	//CCLOG("Destructor de GameActor");
 }
 
 void GameActor::update(float deltaT){
@@ -152,4 +152,11 @@ bool GameActor::isActive(){
 	}
 	// si he llegado aquí, que no hay ni sprite...
 	return false;
+}
+
+
+void GameActor::impacto(float dmg){
+	const char *name = sprite->getName().c_str();
+
+	CCLOG ("GameActor %s says: ouch %f", name, dmg);
 }

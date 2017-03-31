@@ -13,7 +13,7 @@ Player::Player(Node *nodo, float playerSpeed){
 	currentWeapon = nullptr;
 	
 	// crea el sprite (desactivado: sin física ni visualización)
-	sprite = GameActor::setSprite(nodo, pathSprite, "player", (int)Game::CategoriaColision::Jugador, (int)Game::CategoriaColision::BalaEnemigo | (int)Game::CategoriaColision::Enemigo);
+	sprite = GameActor::setSprite(nodo, PLAYER_PATH_SPRITE, "player", (int)Game::CategoriaColision::Jugador, (int)Game::CategoriaColision::BalaEnemigo | (int)Game::CategoriaColision::Enemigo);
 
 	if(!sprite){
 		CCLOG("!!!Jugador sin sprite!!!");

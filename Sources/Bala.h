@@ -25,12 +25,15 @@ public:
 
 	// método estático que crea un "pool" de Bullets, mientras el resto de métodos tratan con una instancia concreta
 	static void createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, const char * name, const char * pathSprite, const char * pathSonidoDisparo, const char * pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon);
+	
+	void impacto(float dmg) override;
+
+	float bulletDmg;
 
 private:
 	//bool createBullet(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon);
 
 	//float bulletSpeed; // para eso, uso Base::gameActorSpeed
-	float bulletDmg;
 };
 
 class BalaOLD {

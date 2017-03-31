@@ -95,8 +95,15 @@ bool Level::init(){
 	// probando 1,2,3
 	player->currentWeapon = new Weapon;
 	player->currentWeapon->createBulletPool(
-		this, 32,"bala_",BULLET_PATH_SPRITE,BULLET_PATH_SOUND_FIRE,BULLET_PATH_SOUND_IMPACT,500.0f,1.0f,
+		this, 16,"bala_",BULLET_PATH_SPRITE,BULLET_PATH_SOUND_FIRE,BULLET_PATH_SOUND_IMPACT,BULLET_DEFAULT_SPEED,BULLET_DEFAULT_DMG,
 		(int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo);
+
+
+	Enemy *ene = new Enemy(this, ENEMY_T1_PATH_SPRITE, ENEMY_PATH_SOUND_DIE, ENEMY_T1_INITIAL_SIZE * 2.0f, ENEMY_T1_INITIAL_ROTATION, 10.0f);
+	// situo al enemigo arriba en el medio, con medio cuerpo de margen superior
+	Vec2 enePos = Vec2(visibleSize.width / 2.0f, visibleSize.height - ene->getSprite()->getContentSize().height);
+	ene->activa(enePos);
+	
 
 	// ========================================================================================================================================
 
@@ -130,11 +137,8 @@ void Level::menuVuelveCallback(Ref *pSender){
 }
 
 bool Level::onContactBegin(PhysicsContact &contact){
-	/*
-	float dmg;
 
 	Sprite *sprA, *sprB;
-	Bala *balaTmp;
 
 	// HACK: Gestion de impactos, primera version que funciona
 
@@ -146,12 +150,48 @@ bool Level::onContactBegin(PhysicsContact &contact){
 	sprA = (Sprite *)contact.getShapeA()->getBody()->getNode();
 	sprB = (Sprite *)contact.getShapeB()->getBody()->getNode();
 
-	dmg = calculaDanyoImpacto(sprA, sprB);
+	//dmg = calculaDanyoImpacto(sprA, sprB);
 
-	// HACK: a todos les paso el daño pero no todos hacen algo con el
-	gestionaImpacto(sprA, dmg);
-	gestionaImpacto(sprB, dmg);
-	*/
+	//// HACK: a todos les paso el daño pero no todos hacen algo con el
+	//gestionaImpacto(sprA, dmg);
+	//gestionaImpacto(sprB, dmg);
+
+	CCLOG("Impacto entre %s y %s", sprA->getName().c_str(), sprB->getName().c_str());
+
+
+	// Los contactos van a ser siempre entre GameActor?
+	// De momento tengo: Bullet, Player y Enemy
+
+	// TODO: No se si sacar esto a algun sitio, de momento que funcione:
+
+	GameActor *actor1, *actor2;
+	Bullet *bulletTmp;
+	float impactDmg1, impactDmg2;
+
+	actor1 = (GameActor *)sprA->getUserData();
+	actor2 = (GameActor *)sprB->getUserData();
+
+
+	// calcula el daño que 1 hace a 2
+	if(sprA->getTag() == (int)Game::CategoriaColision::Bala){
+		bulletTmp = (Bullet *)sprA->getUserData();
+		impactDmg1 = bulletTmp->bulletDmg;
+	} else {
+		impactDmg1 = BULLET_DEFAULT_DMG;
+	}
+
+	// y viceversa
+	if(sprB->getTag() == (int)Game::CategoriaColision::Bala){
+		bulletTmp = (Bullet *)sprB->getUserData();
+		impactDmg2 = bulletTmp->bulletDmg;
+	} else{
+		impactDmg2 = BULLET_DEFAULT_DMG;
+	}
+
+
+	actor1->impacto(impactDmg2);
+	actor2->impacto(impactDmg1);
+
 
 	return true;
 }

@@ -30,7 +30,7 @@ public:
 	Weapon *currentWeapon;
 
 private:
-	const char *pathSprite = "spaceshipspr.png";
+	//const char *pathSprite = PLAYER_PATH_SPRITE;
 	float playerInitialScale = 0.5f;
 	float playerInitialRotation = 0;
 	int playerInitialZOrder = 0;

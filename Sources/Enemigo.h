@@ -13,10 +13,10 @@ USING_NS_CC;
 
 class Enemy : public GameActor{
 public:
-	Enemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, int z, float hp);
+	Enemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, float rotation, float hp);
 	~Enemy();
 
-
+	void impacto(float) override;
 
 private:
 

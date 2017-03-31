@@ -5,7 +5,7 @@ InputComponent::InputComponent(){}
 InputComponent::~InputComponent(){}
 
 void InputComponent::keyPressed(EventKeyboard::KeyCode keyCode){
-	CCLOG("Inputcomponent %d", keyCode);
+	//CCLOG("Inputcomponent %d", keyCode);
 
 	switch(keyCode){
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
@@ -35,7 +35,7 @@ void InputComponent::keyPressed(EventKeyboard::KeyCode keyCode){
 }
 
 void InputComponent::keyReleased(EventKeyboard::KeyCode keyCode){
-	CCLOG("Inputcomponent released %d", keyCode);
+	//CCLOG("Inputcomponent released %d", keyCode);
 
 	switch(keyCode){
 	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:

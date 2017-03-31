@@ -1,14 +1,37 @@
 #include "Enemigo.h"
 
-Enemy::Enemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, int z, float hp){
+Enemy::Enemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float initialScale, float initialRotation, float hp){
 	GameActor::GameActor();
 
-
+	setSprite(nodo, pathSprite, "Enemigo", (int)Game::CategoriaColision::Enemigo, (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::Bala);
+	
+	GameActor::gameActorHP = hp;
+	GameActor::gameActorSpeed = ENEMY_GENERIC_SPEED;
 
 }
 
 Enemy::~Enemy(){
 	CCLOG ("Enemy destructor");
+}
+
+void Enemy::impacto(float dmg){
+	// TODO: Escudo?
+
+	// recibe daño
+	gameActorHP -= dmg;
+
+	if(gameActorHP <= 0){
+		// muere
+		desactiva();
+		// TODO: explosion
+		// TODO: dar puntos
+	} else{
+		// no muere
+
+		// la bala (si es lo que le ha golpeado) ya saca un grafico de impacto
+	}
+
+
 }
 
 

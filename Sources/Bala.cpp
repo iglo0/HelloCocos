@@ -198,7 +198,7 @@ Bullet::Bullet(Node *nodo, const char *name, const char *pathSprite, const char 
 	
 	CCLOG("creando bala: %s", name);
 	//if(!createBullet(nodo, pathSprite, name, tipoColision, colisionoCon)){
-	if(!GameActor::setSprite(nodo, pathSprite,name,tipoColision,tipoColision,false)){
+	if(!GameActor::setSprite(nodo, pathSprite,name,tipoColision, colisionoCon,false)){
 		CCLOG("No pude crear bala %s", pathSprite);
 	}
 }
@@ -254,6 +254,17 @@ void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolS
 	}
 	
 	
+}
+
+void Bullet::impacto(float dmg){
+	// Sigo sorprendido que haciendo gameActorX->impacto(), sepa ejectura la función correcta :D
+
+	// esta es facil, la bala desaparece
+	desactiva();
+
+	// TODO: reproducir sonido
+
+	// TODO: animacion impacto
 }
 
 
