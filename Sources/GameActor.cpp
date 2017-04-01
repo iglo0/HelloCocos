@@ -21,8 +21,11 @@ void GameActor::update(float deltaT){
 	// más bien que sobrescriba el método update la bala también?
 	// JODER. Ha funcionado? Si paso una bala que tiene mueve sobrescrito, lo entiende y ejecuta el mueve correcto? Joder. Mola!!!
 	if(isActive()){
+		// TODO: si proporciono una funcion de movimiento, usa esta
+		// Me tengo que mirar detenidamente pasar funciones como parametro
 		mueve();
 	}
+
 
 }
 
@@ -42,8 +45,10 @@ void GameActor::setPosition(Vec2 pos){
 	}
 }
 
-Sprite *GameActor::setSprite(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon, bool isPolySprite){
-	if(isPolySprite){
+Sprite *GameActor::setSprite(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon, bool createPolySprite){
+	if(createPolySprite){
+		// AutoPolygon viene bien para ahorrar proceso a la gpu (a estas alturas cuesta menos mover unos cuantos vértices que mirar si un pixel es transparente o no, particularmente en móviles)
+		// PERO no sirve para colisiones como creía, las formas generadas son más complejas que lo que el motor de física puede manejar con facilidad
 		AutoPolygon ap1 = AutoPolygon(ruta);
 		sprite = Sprite::create(ap1.generateTriangles());
 	} else{

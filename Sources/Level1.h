@@ -9,7 +9,7 @@
 #include "Jugador.h"
 #include "Enemigo.h"
 #include "Menus.h"
-#include "Horda.h"
+#include "SpaceInvaders.h"
 // testz
 #include "Pool.h"
 //#include "Escudo.h"
@@ -67,7 +67,7 @@ private:
 	// --------------------------------------------------------------
 	void precargaSonidosDelNivel();
 	void subeNivel();
-	Horda *hordaNivel(int nivel);
+	HordaDEPRECATED *hordaNivel(int nivel);
 	float calculaDanyoImpacto(Sprite *, Sprite *);	// calcula el daño que se hacen dos sprites al chocar (caso más común: balas vs cosas)
 
 	// variables miembro privadas
@@ -98,7 +98,7 @@ private:
 	Vector<Sprite *> enemigosDeprecated;
 	std::vector<EnemigoOOOLD *> enemigos;
 
-	Horda *hordaActual; // TODO: la horda actual. De momento en pruebas
+	HordaDEPRECATED *hordaActual; // TODO: la horda actual. De momento en pruebas
 
 	// pruebas
 	std::vector<BalaOLD *> poolBalas;	

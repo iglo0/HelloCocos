@@ -308,14 +308,14 @@ void Level1::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event){
 }
 
 // de momento esto es lo que gestiona la dificultad del nivel
-Horda *Level1::hordaNivel(int nivel){
-	Horda *tmp;
+HordaDEPRECATED *Level1::hordaNivel(int nivel){
+	HordaDEPRECATED *tmp;
 
 	Vec2 posIniHorda;
 	posIniHorda.x = 0;
 	posIniHorda.y = visibleSize.height;
 
-	tmp = new Horda(this, posIniHorda);
+	tmp = new HordaDEPRECATED(this, posIniHorda);
 
 	// TODO: primer intento de progresion
 	if(nivelActual > 5){

@@ -95,15 +95,17 @@ bool Level::init(){
 	// probando 1,2,3
 	player->currentWeapon = new Weapon;
 	player->currentWeapon->createBulletPool(
-		this, 16,"bala_",BULLET_PATH_SPRITE,BULLET_PATH_SOUND_FIRE,BULLET_PATH_SOUND_IMPACT,BULLET_DEFAULT_SPEED,BULLET_DEFAULT_DMG,
+		this, 16,"bala_",BULLET_PATH_SPRITE1,BULLET_PATH_SOUND_FIRE,BULLET_PATH_SOUND_IMPACT,BULLET_DEFAULT_SPEED,BULLET_DEFAULT_DMG,
 		(int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo);
 
 
-	Enemy *ene = new Enemy(this, ENEMY_T1_PATH_SPRITE, ENEMY_PATH_SOUND_DIE, ENEMY_T1_INITIAL_SIZE * 2.0f, ENEMY_T1_INITIAL_ROTATION, 10.0f);
+	enemy = new Enemy(this, ENEMY_T1_PATH_SPRITE, ENEMY_PATH_SOUND_DIE, ENEMY_T1_INITIAL_SIZE * 2.0f, ENEMY_T1_INITIAL_ROTATION, ENEMY_BOSS_GENERIC_HP);
 	// situo al enemigo arriba en el medio, con medio cuerpo de margen superior
-	Vec2 enePos = Vec2(visibleSize.width / 2.0f, visibleSize.height - ene->getSprite()->getContentSize().height);
-	ene->activa(enePos);
-	
+	Vec2 enePos = Vec2(visibleSize.width / 2.0f, visibleSize.height - enemy->getSprite()->getContentSize().height);
+	enemy->activa(enePos);
+	enemy->weapon = new Weapon;
+	enemy->weapon->createBulletPool(this, 3, "balaEne_", BULLET_PATH_SPRITE2, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG,
+		(int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Jugador);
 
 	// ========================================================================================================================================
 
@@ -212,14 +214,38 @@ void Level::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event){
 void Level::update(float deltaT){
 	Game::getInstance()->ellapsedTime += deltaT;
 
+	// ---------------------------
+	// ---------------------------
 	// TODO: en el update tendré que buscar manualmente todos los objetos y activar sus updates?
+	// ---------------------------
+	// ---------------------------
+
+	// ---------------------------
+	// PROTA
+	// ---------------------------
 	player->update(deltaT);
 
 	
 	// HACK: temp a ver como gestiono el mover todos los objetos
 	// ¿LLevar una lista de todos los "updatables" y llamar a update en todos?
+	
+	// ---------------------------
+	// BALAS
+	// ---------------------------
 	for(auto x = player->currentWeapon->bulletPool.cbegin(); x != player->currentWeapon->bulletPool.cend(); ++x){
 		(*x)->update(deltaT);
 	}
+
+	for(auto x = enemy->weapon->bulletPool.cbegin(); x != enemy->weapon->bulletPool.cend(); ++x){
+		(*x)->update(deltaT);
+	}
+
+	// ---------------------------
+	// ENEMIGOS
+	// ---------------------------
+	//void(*pFun)() = enemy->mueveSeno;	// Error	C3867	'Enemy::mueveSeno': non-standard syntax; use '&' to create a pointer to member
+	//void(*pFun)() = nullptr;
+
+	enemy->update(deltaT);
 
 }

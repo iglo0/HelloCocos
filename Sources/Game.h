@@ -10,7 +10,8 @@ USING_NS_CC;
 #define PLAYER_INITIAL_SPEED 300.0f
 #define PLAYER_PATH_SPRITE "spaceshipspr.png"
 // Bullets
-#define BULLET_PATH_SPRITE "bullet_2_blue.png"
+#define BULLET_PATH_SPRITE1 "bullet_2_blue.png"
+#define BULLET_PATH_SPRITE2 "bullet_orange0000.png"
 #define BULLET_PATH_SOUND_FIRE "sonidos/shoot.wav"
 #define BULLET_PATH_SOUND_IMPACT "sonidos/fastinvader1.wav"
 
@@ -18,13 +19,17 @@ USING_NS_CC;
 #define BULLET_DEFAULT_SPEED 500.0f
 // Enemies
 #define ENEMY_GENERIC_SPEED 100.0f
+#define ENEMY_GENERIC_HP 1.0f
+
 #define ENEMY_T1_PATH_SPRITE "boss1.png"
 #define ENEMY_T1_INITIAL_SIZE 0.5f
 #define ENEMY_T1_INITIAL_ROTATION 0
+
 #define ENEMY_T2_PATH_SPRITE "Spaceship15.png"
 #define ENEMY_T2_INITIAL_SIZE 0.5f
 #define ENEMY_T2_INITIAL_ROTATION 0
 
+#define ENEMY_BOSS_GENERIC_HP 20.0f
 #define ENEMY_BOSS_PATH_SPRITE "aliensprite2.png"
 #define ENEMY_BOSS_INITIAL_SIZE 0.5f
 #define ENEMY_BOSS_INITIAL_ROTATION 0

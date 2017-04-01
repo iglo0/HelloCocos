@@ -8,7 +8,6 @@
 #include "PolyspriteTest.h"
 #include "Game.h"
 
-
 class Menus : public cocos2d::Layer{
 public:
 	static cocos2d::Scene *CreateScene();

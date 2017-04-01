@@ -27,8 +27,12 @@ void Game::anadeFisica(Sprite *sprite, int tipoColision, int colisionaCon, const
 	// Density=0.1f, Restitution=1.0f, Friction=0
 	// No tengo ni idea, copiado de un ejemplo sencillo para solo colisiones y que funciona
 
-	// TODO: empiezo por crear una caja alrededor del sprite
+	// TODO: parece que no es posible convertir autoPolygons en PhysicsBody::createPolygon. LA recomendación es hacerlos a mano (p.ej. con PhysicsEditor -trial 7 dias-)
+	// el autopolygon está optimizado para render, no para física
+	// los poligonos de física soportan formas menos complejas que los sprites autopolygon
+	// empiezo por crear una caja alrededor del sprite
 	fisicaSprite = PhysicsBody::createBox(Size(sprite->getContentSize().width, sprite->getContentSize().height), PhysicsMaterial(0.1f, 1.0f, 0.0f));
+	
 
 	// set the category, collision and contact test bit masks
 	// tipo del objeto

@@ -1,14 +1,18 @@
-#include "Horda.h"
+#include "SpaceInvaders.h"
+
+
+
+#pragma region Deprecated
 
 // no me termino de hacer a esta sintaxis :>
-Horda::Horda(Node *n, Vec2 posIni) : nodoPadre(n), coordenadasInicioHorda(posIni){
+HordaDEPRECATED::HordaDEPRECATED(Node *n, Vec2 posIni) : nodoPadre(n), coordenadasInicioHorda(posIni){
 	// inicializaciones varias
 	nCiclosMovimientoHorizontal = 0;
 	desplazamientoHorda = Vec2::ZERO;
 }
 
 
-Horda::~Horda(){
+HordaDEPRECATED::~HordaDEPRECATED(){
 	CCLOG("Horda says: Bye bye!");
 
 	// TODO: de hecho no debería borrar los enemigos sino hacer otro pool con ellos y activarlos/desactivarlos
@@ -24,7 +28,7 @@ Horda::~Horda(){
 }
 
 
-void Horda::creaHorda(int dimX, int dimY, std::vector<BalaOLD *> &pool, float velMovHtal, float velMovVcal, int probDisparoAleat, float dmg){
+void HordaDEPRECATED::creaHorda(int dimX, int dimY, std::vector<BalaOLD *> &pool, float velMovHtal, float velMovVcal, int probDisparoAleat, float dmg){
 	poolBalas = pool;
 
 	// TODO: parametros de comportamiento
@@ -58,7 +62,7 @@ void Horda::creaHorda(int dimX, int dimY, std::vector<BalaOLD *> &pool, float ve
 
 }
 
-EnemigoOOOLD *Horda::creaEnemigo(enum tipoEnemigo t, int x, int y, float vida){
+EnemigoOOOLD *HordaDEPRECATED::creaEnemigo(enum tipoEnemigo t, int x, int y, float vida){
 
 	EnemigoOOOLD *tmp = new EnemigoOOOLD;
 	Sprite *spriteTmp;
@@ -96,7 +100,7 @@ EnemigoOOOLD *Horda::creaEnemigo(enum tipoEnemigo t, int x, int y, float vida){
 	}
 }
 
-Vec2 Horda::coordenadasInicialesNaveEnXY(int x, int y){
+Vec2 HordaDEPRECATED::coordenadasInicialesNaveEnXY(int x, int y){
 
 	// TODO: sacar todos los cálculos que pueda y almacenarlos en variables, en vez de repetirlos con CADA nave?
 
@@ -142,7 +146,7 @@ Vec2 Horda::coordenadasInicialesNaveEnXY(int x, int y){
 
 
 // un ciclo
-void Horda::tick(){
+void HordaDEPRECATED::tick(){
 	float deltaT = Director::getInstance()->getDeltaTime();
 
 	mueve();
@@ -158,7 +162,7 @@ void Horda::tick(){
 
 
 
-void Horda::mueve(){
+void HordaDEPRECATED::mueve(){
 	float deltaT = Director::getInstance()->getDeltaTime();
 
 	if(moverALaIzquierda){
@@ -180,7 +184,7 @@ void Horda::mueve(){
 
 }
 
-bool Horda::cambiarDireccion(){
+bool HordaDEPRECATED::cambiarDireccion(){
 	// decide si toca cambiar de direccion
 
 	// según si se mueve a izquierda o derecha compruebo el borde correspondiente
@@ -201,7 +205,7 @@ bool Horda::cambiarDireccion(){
 	return false;
 }
 
-std::vector<EnemigoOOOLD *> Horda::listaEnemigosVivos(){
+std::vector<EnemigoOOOLD *> HordaDEPRECATED::listaEnemigosVivos(){
 	std::vector<EnemigoOOOLD *> tmp;
 
 	for(auto ene = horda.cbegin(); ene != horda.cend(); ++ene){
@@ -219,7 +223,7 @@ std::vector<EnemigoOOOLD *> Horda::listaEnemigosVivos(){
 }
 
 
-void Horda::dispara(){
+void HordaDEPRECATED::dispara(){
 	std::vector<EnemigoOOOLD *> enemigosQueQuedan;
 
 	enemigosQueQuedan = listaEnemigosVivos();
@@ -246,8 +250,9 @@ void Horda::dispara(){
 	}
 }
 
-void Horda::baja(){
+void HordaDEPRECATED::baja(){
 	CCLOG("Movimiento hacia abajo por implementar");
 }
 
 
+#pragma endregion

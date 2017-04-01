@@ -150,7 +150,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Sources\Escudo.cpp" />
     <ClCompile Include="..\Sources\Game.cpp" />
     <ClCompile Include="..\Sources\GameActor.cpp" />
-    <ClCompile Include="..\Sources\Horda.cpp" />
+    <ClCompile Include="..\Sources\SpaceInvaders.cpp" />
     <ClCompile Include="..\Sources\InputComponent.cpp" />
     <ClCompile Include="..\Sources\Jugador.cpp" />
     <ClCompile Include="..\Sources\KeyboardTest.cpp" />
@@ -172,7 +172,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Sources\Escudo.h" />
     <ClInclude Include="..\Sources\Game.h" />
     <ClInclude Include="..\Sources\GameActor.h" />
-    <ClInclude Include="..\Sources\Horda.h" />
+    <ClInclude Include="..\Sources\SpaceInvaders.h" />
     <ClInclude Include="..\Sources\InputComponent.h" />
     <ClInclude Include="..\Sources\Jugador.h" />
     <ClInclude Include="..\Sources\KeyboardTest.h" />

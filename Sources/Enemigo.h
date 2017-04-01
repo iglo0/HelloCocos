@@ -5,6 +5,7 @@
 
 #include "Game.h"
 #include "GameActor.h"
+#include "Weapon.h"
 
 //#include "Bala.h"
 //#include <vector>
@@ -15,8 +16,9 @@ class Enemy : public GameActor{
 public:
 	Enemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, float rotation, float hp);
 	~Enemy();
-
 	void impacto(float) override;
+
+	Weapon *weapon;
 
 private:
 

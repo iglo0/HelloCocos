@@ -39,7 +39,6 @@ public:
 	void onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
 	void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
 
-
 private:
 	// funciones miembro privadas
 	// --------------------------------------------------------------
@@ -52,4 +51,7 @@ private:
 
 	Player *player;
 	InputComponent *inputComponent;
+
+	// TODO: una vez creados, me parece que los enemigos se deberían gestionar solos. De momento y por ver algo...
+	Enemy *enemy;
 };

@@ -1,6 +1,8 @@
 #personal
 a.bat
 backup.cmd
+Resources-Texturepacker
+*.tps
 
 # OSX - https://github.com/github/gitignore/blob/master/Global/OSX.gitignore
 .DS_Store

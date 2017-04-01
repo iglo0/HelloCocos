@@ -45,9 +45,6 @@
     <ClCompile Include="..\Sources\PolyspriteTest.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sources\Horda.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\Sources\Pool.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -70,6 +67,9 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\Sources\Weapon.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sources\SpaceInvaders.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -113,9 +113,6 @@
     <ClInclude Include="..\Sources\PolyspriteTest.h">
       <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\Horda.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
     <ClInclude Include="..\Sources\Pool.h">
       <Filter>Sources</Filter>
     </ClInclude>
@@ -138,6 +135,9 @@
       <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\Weapon.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\SpaceInvaders.h">
       <Filter>Sources</Filter>
     </ClInclude>
   </ItemGroup>
