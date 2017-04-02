@@ -16,9 +16,9 @@ Git user attention
 # REORGANIZACIÓN DE CÓDIGO EN MARCHA
 
 - [ ] clase GameActor: base de los actores del juego (jugador, enemigos...)
-- [ ] clase Jugador -> Player
+- [ ] clase Jugador -> Player : GameActor
 - [ ] clase InputComponent
 - [ ] clase Weapon
-- [ ] clase Bullet
-- [ ] clase Enemy
-
+- [ ] clase Bullet : GameActor
+- [ ] clase Enemy : GameActor
+- [ ] funciones como parametros para personalizar comportamientos

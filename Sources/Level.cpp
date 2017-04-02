@@ -243,9 +243,13 @@ void Level::update(float deltaT){
 	// ---------------------------
 	// ENEMIGOS
 	// ---------------------------
-	//void(*pFun)() = enemy->mueveSeno;	// Error	C3867	'Enemy::mueveSeno': non-standard syntax; use '&' to create a pointer to member
-	//void(*pFun)() = nullptr;
 
-	enemy->update(deltaT);
+	// Sintaxis para puntero a una funcion miembro
+	void(GameActor::*funcionControlEnemigo)(Vec2, double) = &GameActor::mueveSeno;
+	// same as:
+	//auto funcionControlEnemigo = &GameActor::mueveSeno;
+
+	Vec2 posIni = Vec2(Director::getInstance()->getVisibleSize().width / 2.0f, enemy->getPosition().y);
+	enemy->update(deltaT, enemy, funcionControlEnemigo, posIni, 600.0);
 
 }

@@ -18,6 +18,7 @@ public:
 	~Enemy();
 	void impacto(float) override;
 
+
 	Weapon *weapon;
 
 private:

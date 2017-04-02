@@ -34,8 +34,6 @@ void Enemy::impacto(float dmg){
 
 }
 
-
-
 #pragma region Old
 
 EnemigoOOOLD::EnemigoOOOLD(){

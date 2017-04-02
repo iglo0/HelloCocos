@@ -14,16 +14,21 @@ GameActor::~GameActor(){
 	//CCLOG("Destructor de GameActor");
 }
 
-void GameActor::update(float deltaT){
+// TODO: no quiero que todos los GameActor se comporten igual. ¿Cómo hago que un enemigo se controle de la forma 1 o 2 o 3?
+void GameActor::update(float deltaT, GameActor *instancia, void(GameActor::*funcionControl)(Vec2, double), Vec2 posIni, double amplitude){
 	//CCLOG("GameActor update @%f", Game::getInstance()->ellapsedTime);
 
 	// TODO: hum, por ejemplo una bala entra por gameactor::update y luego quiero que vaya a bullet::mueve?
 	// más bien que sobrescriba el método update la bala también?
 	// JODER. Ha funcionado? Si paso una bala que tiene mueve sobrescrito, lo entiende y ejecuta el mueve correcto? Joder. Mola!!!
 	if(isActive()){
-		// TODO: si proporciono una funcion de movimiento, usa esta
 		// Me tengo que mirar detenidamente pasar funciones como parametro
-		mueve();
+		if(funcionControl){
+			// TODO: si proporciono una funcion de movimiento, usa esta
+			(instancia->*funcionControl)(posIni, amplitude);
+		} else{
+			mueve();
+		}
 	}
 
 
@@ -123,6 +128,22 @@ void GameActor::mueve(){
 	setPosition(pos);
 
 }
+
+// TODO: TEST!!!!
+void GameActor::mueveSeno(Vec2 posIni, double amplitude){
+	Vec2 pos = getPosition();
+
+	//float deltaT = Director::getInstance()->getDeltaTime();
+	float ellapsed = Game::getInstance()->ellapsedTime;
+
+	//pos.x = posIni.x + amplitude * Director::getInstance()->getDeltaTime() * sin(Game::getInstance()->ellapsedTime);
+	// TODO: Esto es indepenidente de framerate? -> si porque ya depende de ellapsed time así que si meto el deltaT solo estoy enguarrando todo
+	pos.x = posIni.x + amplitude * sin(ellapsed / 4.0);
+
+	setPosition(pos);
+}
+
+
 
 void GameActor::activa(Vec2 pos){
 	if(sprite){
