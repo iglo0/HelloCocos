@@ -39,6 +39,9 @@ USING_NS_CC;
 
 #pragma endregion
 
+// declaracion adelantada
+class Bullet;
+
 // Mi clase Singleton (o es la idea) donde guardar el estado general del juego
 class Game{
 private:
@@ -59,18 +62,18 @@ public:
 	
 	// devuelve la instancia, y se asegura de inicializarlo solo una vez aun con concurrencia (recomendado desde c++11)
 	static Game *getInstance();
+	// prueba fisica
+	static void anadeFisica(Sprite *sprite, int tipoColision, int colisionaCon, const char *name = "[NONAME]");
+
 
 	// HACK: tengo que aprender a gestionar el tiempo mejor
 	// la idea es que desde la escena que sea, vaya añadiendo el deltaT en cada Update, para saber así el tiempo transcurrido desde el inicio de la escena, al menos
 	float ellapsedTime;
 
-	// prueba fisica
-	static void anadeFisica(Sprite *sprite, int tipoColision, int colisionaCon, const char *name="[NONAME]");
-
-
 	enum estadosJuego{ menus, introNivel, jugando, finNivel, finHorda, muerte };
 	
 	estadosJuego estadoActual;
+
 
 	// TODO: ES ESTE UN BUEN SITIO PARA ESTO???
 	// Quiero? que las categorías estén accesibles en todas partes

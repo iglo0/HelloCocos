@@ -3,7 +3,7 @@
 #include "cocos2d.h"
 #include "Game.h"
 
-class Enemy;
+//class Enemy;
 
 USING_NS_CC;
 
@@ -11,6 +11,8 @@ class GameActor{
 public:
 	GameActor();
 	~GameActor();
+
+	typedef void(GameActor::*funcionMovimiento)(Vec2, double);
 
 	Sprite *setSprite(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon, bool createPolySprite = true);
 
@@ -21,7 +23,8 @@ public:
 
 	// version a la que se le proporciona una funcion de movimiento
 	// TODO: Por qué dice el compilador que update no está definido? Menos mal que solo es un warning
-	virtual void update(float deltaT, GameActor *instancia=nullptr, void(GameActor::*)(Vec2, double) = nullptr, Vec2 posIni = Vec2::ZERO, double amplitude = 600.0);
+	//virtual void update(float deltaT, GameActor *instancia = nullptr, void(GameActor::*)(Vec2, double) = nullptr, Vec2 posIni = Vec2::ZERO, double amplitude = 600.0);
+	virtual void update(float deltaT, GameActor *instancia = nullptr, funcionMovimiento=nullptr, Vec2 posIni = Vec2::ZERO, double amplitude = 600.0);
 	virtual void mueve();				//
 	virtual void impacto(float dmg);	//
 

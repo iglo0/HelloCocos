@@ -18,7 +18,7 @@ Scene* Level::createScene(){
 	// set the world’s gravity to zero in both directions, which essentially disables gravity
 	scene->getPhysicsWorld()->setGravity(Vec2(0, 0));
 	// enable debug drawing to see your physics bodies
-	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
 	// 'layer' is an autorelease object
@@ -104,8 +104,8 @@ bool Level::init(){
 	Vec2 enePos = Vec2(visibleSize.width / 2.0f, visibleSize.height - enemy->getSprite()->getContentSize().height);
 	enemy->activa(enePos);
 	enemy->weapon = new Weapon;
-	enemy->weapon->createBulletPool(this, 3, "balaEne_", BULLET_PATH_SPRITE2, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG,
-		(int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Jugador);
+	enemy->weapon->createBulletPool(this, 3, "balaEne_", BULLET_PATH_SPRITE2, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, -BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG,
+		(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador);
 
 	// ========================================================================================================================================
 
@@ -245,11 +245,12 @@ void Level::update(float deltaT){
 	// ---------------------------
 
 	// Sintaxis para puntero a una funcion miembro
-	void(GameActor::*funcionControlEnemigo)(Vec2, double) = &GameActor::mueveSeno;
+	//void(GameActor::*funcionControlMovimiento)(Vec2, double) = &GameActor::mueveSeno;
 	// same as:
-	//auto funcionControlEnemigo = &GameActor::mueveSeno;
+	auto funcionControlMovimiento = &GameActor::mueveSeno;
 
 	Vec2 posIni = Vec2(Director::getInstance()->getVisibleSize().width / 2.0f, enemy->getPosition().y);
-	enemy->update(deltaT, enemy, funcionControlEnemigo, posIni, 600.0);
+	enemy->update(deltaT, enemy, funcionControlMovimiento, posIni, 600.0);
+
 
 }

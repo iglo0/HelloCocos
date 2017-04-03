@@ -14,15 +14,37 @@ USING_NS_CC;
 
 class Enemy : public GameActor{
 public:
+	// es menos engorroso así. Puedo usar funcionMovimiento en vez de void(...:*...)(...)... etc
+	typedef void(Enemy::*funcionControlEnemigo)(std::vector<Bullet *>&, float);
+
 	Enemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, float rotation, float hp);
 	~Enemy();
 	void impacto(float) override;
 
+	//void update(float deltaT, GameActor *instancia = nullptr, void(GameActor::*)(Vec2, double) = nullptr, Vec2 posIni = Vec2::ZERO, double amplitude = 600.0) override;
+	void update(float deltaT, GameActor *instancia = nullptr, GameActor::funcionMovimiento=nullptr, Vec2 posIni = Vec2::ZERO, double amplitude = 600.0) override;
+
+
+	// ---------------------------------------
+	// ---------------------------------------
+	// ---------------------------------------
+	// TEST!
+	// ---------------------------------------
+	// ---------------------------------------
+	// ---------------------------------------
+
+	// funciones de control
+	void funControl1(std::vector<Bullet *> &bulletPool, float segundos);
+
+	// ---------------------------------------
+	// ---------------------------------------
+	// ---------------------------------------
 
 	Weapon *weapon;
 
 private:
-
+	float tIniDisparo;
+	//bool enemigoDisparando;
 };
 	
 	

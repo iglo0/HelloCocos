@@ -15,7 +15,8 @@ GameActor::~GameActor(){
 }
 
 // TODO: no quiero que todos los GameActor se comporten igual. ¿Cómo hago que un enemigo se controle de la forma 1 o 2 o 3?
-void GameActor::update(float deltaT, GameActor *instancia, void(GameActor::*funcionControl)(Vec2, double), Vec2 posIni, double amplitude){
+//void GameActor::update(float deltaT, GameActor *instancia, void(GameActor::*funcionMovimiento)(Vec2, double), Vec2 posIni, double amplitude){
+void GameActor::update(float deltaT, GameActor *instancia, funcionMovimiento funMov, Vec2 posIni, double amplitude){
 	//CCLOG("GameActor update @%f", Game::getInstance()->ellapsedTime);
 
 	// TODO: hum, por ejemplo una bala entra por gameactor::update y luego quiero que vaya a bullet::mueve?
@@ -23,9 +24,9 @@ void GameActor::update(float deltaT, GameActor *instancia, void(GameActor::*func
 	// JODER. Ha funcionado? Si paso una bala que tiene mueve sobrescrito, lo entiende y ejecuta el mueve correcto? Joder. Mola!!!
 	if(isActive()){
 		// Me tengo que mirar detenidamente pasar funciones como parametro
-		if(funcionControl){
+		if(funMov){
 			// TODO: si proporciono una funcion de movimiento, usa esta
-			(instancia->*funcionControl)(posIni, amplitude);
+			(instancia->*funMov)(posIni, amplitude);
 		} else{
 			mueve();
 		}
@@ -141,6 +142,7 @@ void GameActor::mueveSeno(Vec2 posIni, double amplitude){
 	pos.x = posIni.x + amplitude * sin(ellapsed / 4.0);
 
 	setPosition(pos);
+	
 }
 
 

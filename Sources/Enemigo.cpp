@@ -8,6 +8,8 @@ Enemy::Enemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, f
 	GameActor::gameActorHP = hp;
 	GameActor::gameActorSpeed = ENEMY_GENERIC_SPEED;
 
+	tIniDisparo = 0;
+	//enemigoDisparando = false;
 }
 
 Enemy::~Enemy(){
@@ -32,6 +34,40 @@ void Enemy::impacto(float dmg){
 	}
 
 
+}
+
+void Enemy::funControl1(std::vector<Bullet*> &bulletPool, float segundos){
+	float ellapsedTime = Game::getInstance()->ellapsedTime;
+
+	if(ellapsedTime - tIniDisparo > segundos){
+		Pool::activa(bulletPool, getPosition());
+
+		tIniDisparo = ellapsedTime;
+	}
+
+}
+
+//void Enemy::update(float deltaT, GameActor *instancia, void(GameActor::*funcionMovimiento)(Vec2, double), Vec2 posIni, double amplitude){
+void Enemy::update(float deltaT, GameActor *instancia, GameActor::funcionMovimiento funMov, Vec2 posIni, double amplitude){
+	//CCLOG("GameActor update @%f", Game::getInstance()->ellapsedTime);
+
+	// TODO: hum, por ejemplo una bala entra por gameactor::update y luego quiero que vaya a bullet::mueve?
+	// más bien que sobrescriba el método update la bala también?
+	// JODER. Ha funcionado? Si paso una bala que tiene mueve sobrescrito, lo entiende y ejecuta el mueve correcto? Joder. Mola!!!
+	if(isActive()){
+		// Me tengo que mirar detenidamente pasar funciones como parametro
+		if(funMov){
+			// TODO: si proporciono una funcion de movimiento, usa esta
+			(instancia->*funMov)(posIni, amplitude);
+
+			// HACK: Añado una funcion de control de disparo. OOOH funciona!!
+			funcionControlEnemigo fce = &Enemy::funControl1;
+			(this->*fce)(weapon->bulletPool, 3.0f);
+
+		} else{
+			mueve();
+		}
+	}
 }
 
 #pragma region Old
