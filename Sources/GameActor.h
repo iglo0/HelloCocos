@@ -12,7 +12,7 @@ public:
 	GameActor();
 	~GameActor();
 
-	typedef void(GameActor::*funcionMovimiento)(Vec2, double);
+	typedef void(GameActor::*punteroAFuncionMovimiento)(Vec2, double);
 
 	Sprite *setSprite(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon, bool createPolySprite = true);
 
@@ -24,7 +24,8 @@ public:
 	// version a la que se le proporciona una funcion de movimiento
 	// TODO: Por qué dice el compilador que update no está definido? Menos mal que solo es un warning
 	//virtual void update(float deltaT, GameActor *instancia = nullptr, void(GameActor::*)(Vec2, double) = nullptr, Vec2 posIni = Vec2::ZERO, double amplitude = 600.0);
-	virtual void update(float deltaT, GameActor *instancia = nullptr, funcionMovimiento=nullptr, Vec2 posIni = Vec2::ZERO, double amplitude = 600.0);
+	//virtual void update(float deltaT, GameActor *instancia = nullptr, punteroAFuncionMovimiento = nullptr, Vec2 posIni = Vec2::ZERO, double amplitude = 600.0);
+	virtual void update(float deltaT);
 	virtual void mueve();				//
 	virtual void impacto(float dmg);	//
 
@@ -32,7 +33,13 @@ public:
 	// posibles funciones de control para update configurable
 	void mueveSeno(Vec2 posIni, double amplitude);	// Naming! funcion de movimiento *tipo* seno
 
-
+	// con dos ojones
+	// guardo aquí los parámetros que usará este gameaCtor para moverse, en cada update
+	// así no tengo que andarle pasando nada en cada "tick", lo defino una vez y él ya sabe lo que hay que hacer
+	punteroAFuncionMovimiento funcionMovimientoActual;
+	Vec2 funcionMovimientoPosIni;
+	double funcionMovimientoAmplitude;
+	// -------------------------------------------------
 
 	Vec2 getPosition();
 	void setPosition(Vec2);

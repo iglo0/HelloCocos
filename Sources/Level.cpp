@@ -93,12 +93,15 @@ bool Level::init(){
 	inputComponent->player = player;
 
 	// probando 1,2,3
+	// pruebo la clase weapon, que gestionará las balas
 	player->currentWeapon = new Weapon;
 	player->currentWeapon->createBulletPool(
 		this, 16,"bala_",BULLET_PATH_SPRITE1,BULLET_PATH_SOUND_FIRE,BULLET_PATH_SOUND_IMPACT,BULLET_DEFAULT_SPEED,BULLET_DEFAULT_DMG,
 		(int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo);
 
 
+	// Pruebo el nuevo Enemy:GameActor 
+	// lo inicializo y le asigno un comportamiento
 	enemy = new Enemy(this, ENEMY_T1_PATH_SPRITE, ENEMY_PATH_SOUND_DIE, ENEMY_T1_INITIAL_SIZE * 2.0f, ENEMY_T1_INITIAL_ROTATION, ENEMY_BOSS_GENERIC_HP);
 	// situo al enemigo arriba en el medio, con medio cuerpo de margen superior
 	Vec2 enePos = Vec2(visibleSize.width / 2.0f, visibleSize.height - enemy->getSprite()->getContentSize().height);
@@ -106,6 +109,28 @@ bool Level::init(){
 	enemy->weapon = new Weapon;
 	enemy->weapon->createBulletPool(this, 3, "balaEne_", BULLET_PATH_SPRITE2, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, -BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG,
 		(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador);
+
+	// Cómo querré que se mueva?
+	//auto funcionControlMovimiento = &GameActor::mueveSeno;
+	enemy->funcionMovimientoActual = &GameActor::mueveSeno;
+	enemy->funcionMovimientoAmplitude = 600.0;
+	enemy->funcionMovimientoPosIni = Vec2(Director::getInstance()->getVisibleSize().width / 2.0f, enemy->getPosition().y);
+	
+	// y que ataque?
+	enemy->funcionControlActual = &Enemy::funControl1;
+	enemy->funcionControlTiempoDisparo = 0.1f;
+
+	// hale, definido
+
+
+
+	// cómo querré que se comporte?
+	enemy->funcionControlActual = &Enemy::funControl1;
+
+	//Vec2 posIni = Vec2(Director::getInstance()->getVisibleSize().width / 2.0f, enemy->getPosition().y);
+	//enemy->update(deltaT, enemy, funcionControlMovimiento, posIni, 600.0);
+	//enemy->update(Director::getInstance()->getDeltaTime(), enemy, enemy->funcionMovimientoActual, posIni, 600.0);
+
 
 	// ========================================================================================================================================
 
@@ -247,10 +272,13 @@ void Level::update(float deltaT){
 	// Sintaxis para puntero a una funcion miembro
 	//void(GameActor::*funcionControlMovimiento)(Vec2, double) = &GameActor::mueveSeno;
 	// same as:
-	auto funcionControlMovimiento = &GameActor::mueveSeno;
+	//auto funcionControlMovimiento = &GameActor::mueveSeno;
 
 	Vec2 posIni = Vec2(Director::getInstance()->getVisibleSize().width / 2.0f, enemy->getPosition().y);
-	enemy->update(deltaT, enemy, funcionControlMovimiento, posIni, 600.0);
+	//////enemy->update(deltaT, enemy, funcionControlMovimiento, posIni, 600.0);
+	////enemy->update(deltaT, enemy, enemy->funcionMovimientoActual, posIni, 600.0);
+	//enemy->update(deltaT, nullptr, nullptr, Vec2::ZERO, 0);
+	enemy->update(deltaT);
 
 
 }

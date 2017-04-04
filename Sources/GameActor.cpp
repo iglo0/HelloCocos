@@ -8,6 +8,7 @@ GameActor::GameActor(){
 	// todos los "actores" tienen unas características comunes: movimiento, vida...
 	gameActorHP = gameActorHPInicial;
 	mueveIzq = mueveDch = mueveArr = mueveAbj = false;
+	funcionMovimientoActual = nullptr;
 }
 
 GameActor::~GameActor(){
@@ -15,19 +16,23 @@ GameActor::~GameActor(){
 }
 
 // TODO: no quiero que todos los GameActor se comporten igual. ¿Cómo hago que un enemigo se controle de la forma 1 o 2 o 3?
-//void GameActor::update(float deltaT, GameActor *instancia, void(GameActor::*funcionMovimiento)(Vec2, double), Vec2 posIni, double amplitude){
-void GameActor::update(float deltaT, GameActor *instancia, funcionMovimiento funMov, Vec2 posIni, double amplitude){
-	//CCLOG("GameActor update @%f", Game::getInstance()->ellapsedTime);
+////void GameActor::update(float deltaT, GameActor *instancia, void(GameActor::*funcionMovimiento)(Vec2, double), Vec2 posIni, double amplitude){
+//void GameActor::update(float deltaT, GameActor *instancia, punteroAFuncionMovimiento funMov, Vec2 posIni, double amplitude){
+void GameActor::update(float deltaT){
+		//CCLOG("GameActor update @%f", Game::getInstance()->ellapsedTime);
 
 	// TODO: hum, por ejemplo una bala entra por gameactor::update y luego quiero que vaya a bullet::mueve?
 	// más bien que sobrescriba el método update la bala también?
 	// JODER. Ha funcionado? Si paso una bala que tiene mueve sobrescrito, lo entiende y ejecuta el mueve correcto? Joder. Mola!!!
 	if(isActive()){
 		// Me tengo que mirar detenidamente pasar funciones como parametro
-		if(funMov){
+		if(this->funcionMovimientoActual){
 			// TODO: si proporciono una funcion de movimiento, usa esta
-			(instancia->*funMov)(posIni, amplitude);
+			////(instancia->*funMov)(posIni, amplitude);
+			//(this->*funMov)(funcionMovimientoPosIni, funcionMovimientoAmplitude);
+			(this->*funcionMovimientoActual)(funcionMovimientoPosIni, funcionMovimientoAmplitude);
 		} else{
+			// TODO: por aquí pasa el player. No sé si me convence cómo lo tengo montado, aún...
 			mueve();
 		}
 	}

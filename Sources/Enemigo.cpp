@@ -10,6 +10,9 @@ Enemy::Enemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, f
 
 	tIniDisparo = 0;
 	//enemigoDisparando = false;
+	funcionControlActual = nullptr;
+	//funcionMovimientoActual = nullptr;// esto lo hace el constructor de GameActor
+	funcionControlTiempoDisparo = 1.0f;
 }
 
 Enemy::~Enemy(){
@@ -36,36 +39,65 @@ void Enemy::impacto(float dmg){
 
 }
 
-void Enemy::funControl1(std::vector<Bullet*> &bulletPool, float segundos){
+void Enemy::funControl1(float segundos){
 	float ellapsedTime = Game::getInstance()->ellapsedTime;
 
 	if(ellapsedTime - tIniDisparo > segundos){
-		Pool::activa(bulletPool, getPosition());
+		Pool::activa(weapon->bulletPool, getPosition());
 
 		tIniDisparo = ellapsedTime;
 	}
 
 }
 
-//void Enemy::update(float deltaT, GameActor *instancia, void(GameActor::*funcionMovimiento)(Vec2, double), Vec2 posIni, double amplitude){
-void Enemy::update(float deltaT, GameActor *instancia, GameActor::funcionMovimiento funMov, Vec2 posIni, double amplitude){
+////void Enemy::update(float deltaT, GameActor *instancia, void(GameActor::*funcionMovimiento)(Vec2, double), Vec2 posIni, double amplitude){
+//void Enemy::update(float deltaT, GameActor *instancia, GameActor::punteroAFuncionMovimiento funMov, Vec2 posIni, double amplitude){
+//	//CCLOG("GameActor update @%f", Game::getInstance()->ellapsedTime);
+//
+//	// TODO: hum, por ejemplo una bala entra por gameactor::update y luego quiero que vaya a bullet::mueve?
+//	// más bien que sobrescriba el método update la bala también?
+//	// JODER. Ha funcionado? Si paso una bala que tiene mueve sobrescrito, lo entiende y ejecuta el mueve correcto? Joder. Mola!!!
+//	if(isActive()){
+//		// Me tengo que mirar detenidamente pasar funciones como parametro
+//		//if(funMov){
+//		if(this->funcionMovimientoActual){
+//			// TODO: si proporciono una funcion de movimiento, usa esta
+//			////(instancia->*funMov)(posIni, amplitude);
+//			//(this->*funMov)(posIni, amplitude);
+//			// "simplemente" invoco a la funcion de movimiento que tendrá que tener definida en la creación
+//			(this->*funcionMovimientoActual)(this->funcionMovimientoPosIni, this->funcionMovimientoAmplitude);
+//
+//			// HACK: Añado una funcion de control de disparo. OOOH funciona!!
+//			// mismo para la función que le controla
+//			funcionControlEnemigo fce = &Enemy::funControl1;
+//			(this->*fce)(weapon->bulletPool, 1.5f);
+//
+//		} else{
+//			mueve();
+//		}
+//	}
+//}
+
+void Enemy::update(float deltaT){
 	//CCLOG("GameActor update @%f", Game::getInstance()->ellapsedTime);
 
-	// TODO: hum, por ejemplo una bala entra por gameactor::update y luego quiero que vaya a bullet::mueve?
-	// más bien que sobrescriba el método update la bala también?
-	// JODER. Ha funcionado? Si paso una bala que tiene mueve sobrescrito, lo entiende y ejecuta el mueve correcto? Joder. Mola!!!
 	if(isActive()){
-		// Me tengo que mirar detenidamente pasar funciones como parametro
-		if(funMov){
-			// TODO: si proporciono una funcion de movimiento, usa esta
-			(instancia->*funMov)(posIni, amplitude);
+		// TODO: Me tengo que mirar detenidamente pasar funciones como parametro
+		// si proporciono una funcion de movimiento, usa esta
+		if(this->funcionMovimientoActual){
+			(this->*funcionMovimientoActual)(this->funcionMovimientoPosIni, this->funcionMovimientoAmplitude);
 
-			// HACK: Añado una funcion de control de disparo. OOOH funciona!!
-			funcionControlEnemigo fce = &Enemy::funControl1;
-			(this->*fce)(weapon->bulletPool, 3.0f);
 
 		} else{
 			mueve();
+		}
+
+		if(this->funcionControlActual){
+			// HACK: Añado una funcion de control de disparo. OOOH funciona!!
+			// mismo para la función que le controla
+			//funcionControlEnemigo fce = &Enemy::funControl1;
+			//(this->*fce)(weapon->bulletPool, 1.5f);
+			(this->*funcionControlActual)(funcionControlTiempoDisparo);
 		}
 	}
 }
