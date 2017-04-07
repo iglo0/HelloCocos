@@ -14,7 +14,7 @@ USING_NS_CC;
 class Bullet : public GameActor{
 public:
 	// name for debug purposes
-	Bullet(Node *nodo, const char *name, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon);
+	Bullet(Node *nodo, const char *name, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon, float initialSize = 1.0f);
 	~Bullet();
 
 	// Bala tiene un mueve especial que solo usa la velocidad (de GameActor) para ir arriba o abajo
@@ -24,7 +24,7 @@ public:
 	// haga lo que creo que estoy haciendo.
 
 	// método estático que crea un "pool" de Bullets, mientras el resto de métodos tratan con una instancia concreta
-	static void createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, const char * name, const char * pathSprite, const char * pathSonidoDisparo, const char * pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon);
+	static void createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, const char * name, const char * pathSprite, const char * pathSonidoDisparo, const char * pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon, float initialScale = 1.0f);
 	
 	void impacto(float dmg) override;
 
@@ -36,7 +36,7 @@ private:
 	//float bulletSpeed; // para eso, uso Base::gameActorSpeed
 };
 
-class BalaOLD {
+CC_DEPRECATED_ATTRIBUTE class BalaOLD {
 public:
 	BalaOLD(const char *pathSprite);	// bala sin fisica
 	BalaOLD(const char *name, const char *pathSprite, int tipoColision, int colisionoCon, float dmg=1.0f);	// bala con física

@@ -17,8 +17,8 @@ void Weapon::fire(Vec2 posIni){
 	Pool::activa(bulletPool, posIni);
 }
 
-void Weapon::createBulletPool(Node *nodo, int poolSize, const char *baseName, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon){
+void Weapon::createBulletPool(Node *nodo, int poolSize, const char *baseName, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon, float initialScale){
 	
-	Bullet::createBulletPool(nodo, bulletPool, poolSize,baseName, pathSprite,pathSonidoDisparo,pathSonidoImpacto,speed,dmg,tipoColision,colisionoCon);
+	Bullet::createBulletPool(nodo, bulletPool, poolSize,baseName, pathSprite,pathSonidoDisparo,pathSonidoImpacto,speed,dmg,tipoColision,colisionoCon, initialScale);
 
 }

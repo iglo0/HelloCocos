@@ -97,7 +97,7 @@ bool Level::init(){
 	player->currentWeapon = new Weapon;
 	player->currentWeapon->createBulletPool(
 		this, 16,"bala_",BULLET_PATH_SPRITE1,BULLET_PATH_SOUND_FIRE,BULLET_PATH_SOUND_IMPACT,BULLET_DEFAULT_SPEED,BULLET_DEFAULT_DMG,
-		(int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo);
+		(int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo, 1.0f);
 
 
 	// Pruebo el nuevo Enemy:GameActor 
@@ -107,8 +107,8 @@ bool Level::init(){
 	Vec2 enePos = Vec2(visibleSize.width / 2.0f, visibleSize.height - enemy->getSprite()->getContentSize().height);
 	enemy->activa(enePos);
 	enemy->weapon = new Weapon;
-	enemy->weapon->createBulletPool(this, 3, "balaEne_", BULLET_PATH_SPRITE2, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, -BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG,
-		(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador);
+	enemy->weapon->createBulletPool(this, 3, "balaEne_", BULLET_PATH_SPRITE2, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, -BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG * 2.0f,
+		(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador, 3.0f);
 
 	// Cómo querré que se mueva?
 	//auto funcionControlMovimiento = &GameActor::mueveSeno;

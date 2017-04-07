@@ -189,7 +189,7 @@ float BalaOLD::getDanyoBala() {
 
 #pragma endregion
 
-Bullet::Bullet(Node *nodo, const char *name, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon){
+Bullet::Bullet(Node *nodo, const char *name, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon, float initialScale){
 	// inicializa la clase base primero
 	GameActor::GameActor();
 	//bulletSpeed = speed;
@@ -198,7 +198,7 @@ Bullet::Bullet(Node *nodo, const char *name, const char *pathSprite, const char 
 	
 	CCLOG("creando bala: %s", name);
 	//if(!createBullet(nodo, pathSprite, name, tipoColision, colisionoCon)){
-	if(!GameActor::setSprite(nodo, pathSprite,name,tipoColision, colisionoCon,false)){
+	if(!GameActor::setSprite(nodo, pathSprite,name,tipoColision, colisionoCon,initialScale, false)){
 		CCLOG("No pude crear bala %s", pathSprite);
 	}
 }
@@ -242,11 +242,11 @@ Bullet::~Bullet(){
 //}
 
 // (OJO) static method
-void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, const char *name, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon){
+void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, const char *name, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon, float initialScale){
 	Bullet *tmp;
 
 	for(int i = 0; i < poolSize; i++){
-		tmp = new Bullet(nodo, (name + std::to_string(i)).c_str(), pathSprite, pathSonidoDisparo, pathSonidoImpacto, speed, dmg, tipoColision, colisionoCon);
+		tmp = new Bullet(nodo, (name + std::to_string(i)).c_str(), pathSprite, pathSonidoDisparo, pathSonidoImpacto, speed, dmg, tipoColision, colisionoCon, initialScale);
 		
 		// TODO: que mas cosas hacer a la bala?
 

@@ -14,7 +14,7 @@ public:
 
 	typedef void(GameActor::*punteroAFuncionMovimiento)(Vec2, double);
 
-	Sprite *setSprite(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon, bool createPolySprite = true);
+	Sprite *setSprite(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon, float initialScale = 1.0f, bool createPolySprite = true);
 
 	//virtual void update(float deltaT);	// imagino que las clases derivadas implementarán sus propias versiones
 	// a ver que me entere... 

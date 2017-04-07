@@ -56,7 +56,7 @@ void GameActor::setPosition(Vec2 pos){
 	}
 }
 
-Sprite *GameActor::setSprite(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon, bool createPolySprite){
+Sprite *GameActor::setSprite(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon, float initialScale, bool createPolySprite){
 	if(createPolySprite){
 		// AutoPolygon viene bien para ahorrar proceso a la gpu (a estas alturas cuesta menos mover unos cuantos vértices que mirar si un pixel es transparente o no, particularmente en móviles)
 		// PERO no sirve para colisiones como creía, las formas generadas son más complejas que lo que el motor de física puede manejar con facilidad
@@ -71,6 +71,8 @@ Sprite *GameActor::setSprite(Node *nodo, const char *ruta, const char *name, int
 		CCLOG("GameActor::setSprite '%s'=SIN DEFINIR", ruta);
 		return nullptr;// o return sprite pal caso
 	}
+
+	sprite->setScale(initialScale);
 
 	sprite->setName(name);
 
@@ -144,7 +146,7 @@ void GameActor::mueveSeno(Vec2 posIni, double amplitude){
 
 	//pos.x = posIni.x + amplitude * Director::getInstance()->getDeltaTime() * sin(Game::getInstance()->ellapsedTime);
 	// TODO: Esto es indepenidente de framerate? -> si porque ya depende de ellapsed time así que si meto el deltaT solo estoy enguarrando todo
-	pos.x = posIni.x + amplitude * sin(ellapsed / 4.0);
+	pos.x = posIni.x + amplitude * sin(ellapsed / 2.0);
 
 	setPosition(pos);
 	

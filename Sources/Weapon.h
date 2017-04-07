@@ -15,7 +15,7 @@ public:
 	~Weapon();
 
 	void fire(Vec2 posIni);
-	void createBulletPool(Node *nodo, int poolSize, const char *name, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon);
+	void createBulletPool(Node *nodo, int poolSize, const char *name, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon, float initialScale = 1.0f);
 
 	// HACK: Temporalmente lo pongo público. A ver cómo lo gestiono y si me vale y tal...
 	std::vector<Bullet *> bulletPool;
