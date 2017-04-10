@@ -32,6 +32,7 @@ public:
 	// TEST!!!!
 	// posibles funciones de control para update configurable
 	void mueveSeno(Vec2 posIni, double amplitude);	// Naming! funcion de movimiento *tipo* seno
+	void mueveSpaceInvader(Vec2 whatever, double someNumber);
 
 	// con dos ojones
 	// guardo aquí los parámetros que usará este gameaCtor para moverse, en cada update

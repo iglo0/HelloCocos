@@ -102,30 +102,31 @@ bool Level::init(){
 
 	// Pruebo el nuevo Enemy:GameActor 
 	// lo inicializo y le asigno un comportamiento
-	enemy = new Enemy(this, ENEMY_T1_PATH_SPRITE, ENEMY_PATH_SOUND_DIE, ENEMY_T1_INITIAL_SIZE * 2.0f, ENEMY_T1_INITIAL_ROTATION, ENEMY_BOSS_GENERIC_HP);
+	//enemy = new Enemy(this, ENEMY_T1_PATH_SPRITE, ENEMY_PATH_SOUND_DIE, ENEMY_T1_INITIAL_SIZE * 2.0f, ENEMY_T1_INITIAL_ROTATION, ENEMY_BOSS_GENERIC_HP);
+	enemy = new Enemy(this, ENEMY_BOSS_PATH_SPRITE, ENEMY_PATH_SOUND_DIE, ENEMY_BOSS_INITIAL_SIZE, ENEMY_BOSS_INITIAL_ROTATION, ENEMY_BOSS_GENERIC_HP);
 	// situo al enemigo arriba en el medio, con medio cuerpo de margen superior
 	Vec2 enePos = Vec2(visibleSize.width / 2.0f, visibleSize.height - enemy->getSprite()->getContentSize().height);
 	enemy->activa(enePos);
 	enemy->weapon = new Weapon;
-	enemy->weapon->createBulletPool(this, 3, "balaEne_", BULLET_PATH_SPRITE2, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, -BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG * 2.0f,
+	enemy->weapon->createBulletPool(this, 30, "balaEne_", BULLET_PATH_SPRITE2, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, -BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG * 2.0f,
 		(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador, 3.0f);
 
 	// Cómo querré que se mueva?
 	//auto funcionControlMovimiento = &GameActor::mueveSeno;
 	enemy->funcionMovimientoActual = &GameActor::mueveSeno;
-	enemy->funcionMovimientoAmplitude = 600.0;
+	enemy->funcionMovimientoAmplitude = 900.0;
 	enemy->funcionMovimientoPosIni = Vec2(Director::getInstance()->getVisibleSize().width / 2.0f, enemy->getPosition().y);
 	
 	// y que ataque?
 	enemy->funcionControlActual = &Enemy::funControl1;
-	enemy->funcionControlTiempoDisparo = 0.1f;
+	enemy->funcionControlTiempoDisparo = 1.0f;
 
 	// hale, definido
 
+	SpaceInvaders spaceInvaders;// = SpaceInvaders();
+	spaceInvaders.creaInvaders(this, 3, 3, enemy->weapon->bulletPool, 50.0f, 10.0f, 1, 1.0f);
 
-
-	// cómo querré que se comporte?
-	enemy->funcionControlActual = &Enemy::funControl1;
+	// TODO: GORDO. Tengo que añadir a los bichos creados por SpaceInvaders al "pool" de updates
 
 	//Vec2 posIni = Vec2(Director::getInstance()->getVisibleSize().width / 2.0f, enemy->getPosition().y);
 	//enemy->update(deltaT, enemy, funcionControlMovimiento, posIni, 600.0);

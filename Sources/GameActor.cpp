@@ -152,6 +152,14 @@ void GameActor::mueveSeno(Vec2 posIni, double amplitude){
 	
 }
 
+void GameActor::mueveSpaceInvader(Vec2 posIni, double amplitude){
+	return;
+
+}
+
+
+
+// ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 void GameActor::activa(Vec2 pos){

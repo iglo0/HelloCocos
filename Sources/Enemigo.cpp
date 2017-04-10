@@ -3,7 +3,7 @@
 Enemy::Enemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float initialScale, float initialRotation, float hp){
 	GameActor::GameActor();
 
-	setSprite(nodo, pathSprite, "Enemigo", (int)Game::CategoriaColision::Enemigo, (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::Bala);
+	setSprite(nodo, pathSprite, "Enemigo", (int)Game::CategoriaColision::Enemigo, (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::Bala,initialScale,true);
 	
 	GameActor::gameActorHP = hp;
 	GameActor::gameActorSpeed = ENEMY_GENERIC_SPEED;

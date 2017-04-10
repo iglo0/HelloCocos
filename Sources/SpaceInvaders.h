@@ -24,9 +24,9 @@ public:
 
 	enum tipoEnemigo{ tipo1, tipo2 };	// placeholder 
 
+	void creaInvaders(Node *nodo, int dimX, int dimY, std::vector<Bullet *> &pool, float velMovHtal = 50.f, float velMovVcal = 10.f, int probDisparoAleat = RAND_MAX / 33, float dmg = 1.f);
 
 private:
-	void creaInvaders(int dimX, int dimY, std::vector<BalaOLD *> &pool, float velMovHtal = 50.f, float velMovVcal = 10.f, int probDisparoAleat = RAND_MAX / 33, float dmg = 1.f);
 };
 
 #include "Bala.h"

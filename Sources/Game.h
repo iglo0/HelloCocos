@@ -21,8 +21,8 @@ USING_NS_CC;
 #define ENEMY_GENERIC_SPEED 100.0f
 #define ENEMY_GENERIC_HP 1.0f
 
-#define ENEMY_T1_PATH_SPRITE "boss1.png"
-#define ENEMY_T1_INITIAL_SIZE 0.5f
+#define ENEMY_T1_PATH_SPRITE "aliensprite2.png"
+#define ENEMY_T1_INITIAL_SIZE 0.40f
 #define ENEMY_T1_INITIAL_ROTATION 0
 
 #define ENEMY_T2_PATH_SPRITE "Spaceship15.png"
@@ -30,8 +30,8 @@ USING_NS_CC;
 #define ENEMY_T2_INITIAL_ROTATION 0
 
 #define ENEMY_BOSS_GENERIC_HP 20.0f
-#define ENEMY_BOSS_PATH_SPRITE "aliensprite2.png"
-#define ENEMY_BOSS_INITIAL_SIZE 0.5f
+#define ENEMY_BOSS_PATH_SPRITE "boss1.png"
+#define ENEMY_BOSS_INITIAL_SIZE 1.5f
 #define ENEMY_BOSS_INITIAL_ROTATION 0
 
 #define ENEMY_PATH_SOUND_DIE "sonidos/invaderkilled.wav"
