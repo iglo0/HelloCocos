@@ -18,28 +18,16 @@
     <ClCompile Include="..\Sources\KeyboardTest.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sources\Level1.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\Sources\main.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\Sources\Menus.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sources\MiEscena.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\Sources\AppDelegate.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\Sources\Game.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Sources\Jugador.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Sources\Enemigo.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\Sources\PolyspriteTest.cpp">
@@ -49,9 +37,6 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\Testz.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Sources\Escudo.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\Sources\Level.cpp">
@@ -72,6 +57,9 @@
     <ClCompile Include="..\Sources\SpaceInvaders.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\Sources\Enemy.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Sources\Bala.h">
@@ -80,19 +68,10 @@
     <ClInclude Include="..\Sources\KeyboardTest.h">
       <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\Level1.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
     <ClInclude Include="..\Sources\main.h">
       <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\Menus.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Sources\MiEscena.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Sources\resource.h">
       <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\AppDelegate.h">
@@ -104,12 +83,6 @@
     <ClInclude Include="..\Sources\Game.h">
       <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\Jugador.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Sources\Enemigo.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
     <ClInclude Include="..\Sources\PolyspriteTest.h">
       <Filter>Sources</Filter>
     </ClInclude>
@@ -117,9 +90,6 @@
       <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\Testz.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Sources\Escudo.h">
       <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\Level.h">
@@ -138,6 +108,9 @@
       <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\SpaceInvaders.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Enemy.h">
       <Filter>Sources</Filter>
     </ClInclude>
   </ItemGroup>

@@ -12,7 +12,9 @@ public:
 	GameActor();
 	~GameActor();
 
-	typedef void(GameActor::*punteroAFuncionMovimiento)(Vec2, double);
+	//typedef void(GameActor::*punteroAFuncionMovimiento)(Vec2, double);
+	//v2: sin parametros, con variables miembro. Así no dependo tanto de la firma de la funcion
+	typedef void(GameActor::*punteroAFuncionMovimiento)();
 
 	Sprite *setSprite(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon, float initialScale = 1.0f, bool createPolySprite = true);
 
@@ -31,8 +33,12 @@ public:
 
 	// TEST!!!!
 	// posibles funciones de control para update configurable
-	void mueveSeno(Vec2 posIni, double amplitude);	// Naming! funcion de movimiento *tipo* seno
-	void mueveSpaceInvader(Vec2 whatever, double someNumber);
+	//void mueveSeno(Vec2 posIni, double amplitude);	// Naming! funcion de movimiento *tipo* seno
+	//void mueveSpaceInvader(Vec2 whatever, double someNumber);
+
+	void mueveSeno();	// Naming! funcion de movimiento *tipo* seno
+	void mueveSpaceInvader();
+
 
 	// con dos ojones
 	// guardo aquí los parámetros que usará este gameaCtor para moverse, en cada update
@@ -40,6 +46,7 @@ public:
 	punteroAFuncionMovimiento funcionMovimientoActual;
 	Vec2 funcionMovimientoPosIni;
 	double funcionMovimientoAmplitude;
+	double funcionMovimientoSpeed;
 	// -------------------------------------------------
 
 	Vec2 getPosition();
@@ -56,5 +63,3 @@ protected:
 	float gameActorSpeed;
 	float gameActorHP, gameActorHPInicial = 1.0;
 };
-
-

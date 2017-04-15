@@ -86,6 +86,16 @@ bool Level::init(){
 	// testz
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
+	// Creando pools de balas para todos los tipos necesarios
+	// TODO: Pool ""Tipo 1"" ... ehm... para los enemigos normales?
+	Bullet::createBulletPool(this, Pool::currentBulletsTipo1, 30, "balaEne_", BULLET_PATH_SPRITE2, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, -BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG * 2.0f,
+		(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador, 3.0f);
+	// Pool para el jugador
+	Bullet::createBulletPool(this, Pool::currentBulletsPlayerTipo1, 16, "bala_", BULLET_PATH_SPRITE1, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG,
+		(int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo, 1.0f);
+
+
+
 	// instancio un jugador con los valores por defecto
 	player = new Player(this, PLAYER_INITIAL_SPEED);
 	// Iba a colgar el inputComponent del jugador, quizá esté mejor colgando del nivel y con una referencia al jugador
@@ -94,37 +104,47 @@ bool Level::init(){
 
 	// probando 1,2,3
 	// pruebo la clase weapon, que gestionará las balas
-	player->currentWeapon = new Weapon;
-	player->currentWeapon->createBulletPool(
-		this, 16,"bala_",BULLET_PATH_SPRITE1,BULLET_PATH_SOUND_FIRE,BULLET_PATH_SOUND_IMPACT,BULLET_DEFAULT_SPEED,BULLET_DEFAULT_DMG,
-		(int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo, 1.0f);
-
-
+	//player->currentWeapon = new Weapon;
+	//player->currentWeapon->createBulletPool(
+	//	this, 16,"bala_",BULLET_PATH_SPRITE1,BULLET_PATH_SOUND_FIRE,BULLET_PATH_SOUND_IMPACT,BULLET_DEFAULT_SPEED,BULLET_DEFAULT_DMG,
+	//	(int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo, 1.0f);
+	
+	// Copia por valor o por referencia?
+	//player->currentWeapon->bulletPool = &Pool::currentBulletsPlayerTipo1;
+	
 	// Pruebo el nuevo Enemy:GameActor 
-	// lo inicializo y le asigno un comportamiento
-	//enemy = new Enemy(this, ENEMY_T1_PATH_SPRITE, ENEMY_PATH_SOUND_DIE, ENEMY_T1_INITIAL_SIZE * 2.0f, ENEMY_T1_INITIAL_ROTATION, ENEMY_BOSS_GENERIC_HP);
+
+	// No necesito que sea una variable miembro, vivirá en un array en alguna parte.
+	Enemy *enemy;
+
 	enemy = new Enemy(this, ENEMY_BOSS_PATH_SPRITE, ENEMY_PATH_SOUND_DIE, ENEMY_BOSS_INITIAL_SIZE, ENEMY_BOSS_INITIAL_ROTATION, ENEMY_BOSS_GENERIC_HP);
 	// situo al enemigo arriba en el medio, con medio cuerpo de margen superior
 	Vec2 enePos = Vec2(visibleSize.width / 2.0f, visibleSize.height - enemy->getSprite()->getContentSize().height);
 	enemy->activa(enePos);
-	enemy->weapon = new Weapon;
-	enemy->weapon->createBulletPool(this, 30, "balaEne_", BULLET_PATH_SPRITE2, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, -BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG * 2.0f,
-		(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador, 3.0f);
+	enemy->weapon = new Weapon(Pool::currentBulletsTipo1);
+	//enemy->weapon->createBulletPool(this, 30, "balaEne_", BULLET_PATH_SPRITE2, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, -BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG * 2.0f,
+	//	(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador, 3.0f);
 
 	// Cómo querré que se mueva?
 	//auto funcionControlMovimiento = &GameActor::mueveSeno;
 	enemy->funcionMovimientoActual = &GameActor::mueveSeno;
-	enemy->funcionMovimientoAmplitude = 900.0;
+	enemy->funcionMovimientoAmplitude = 600.0;
 	enemy->funcionMovimientoPosIni = Vec2(Director::getInstance()->getVisibleSize().width / 2.0f, enemy->getPosition().y);
+	enemy->funcionMovimientoSpeed = 1 / 2.5;
 	
 	// y que ataque?
 	enemy->funcionControlActual = &Enemy::funControl1;
 	enemy->funcionControlTiempoDisparo = 1.0f;
-
+	
 	// hale, definido
 
-	SpaceInvaders spaceInvaders;// = SpaceInvaders();
-	spaceInvaders.creaInvaders(this, 3, 3, enemy->weapon->bulletPool, 50.0f, 10.0f, 1, 1.0f);
+	// TODO: voy a probar a llevar el control de los gameActors mediante pools en una clase accesible desde todas partes, como Game
+	//Game::getInstance()->ostras.push_back(enemy);
+	//Game::currentEnemies.push_back(enemy);
+
+
+	SpaceInvaders spaceInvaders;
+	spaceInvaders.creaInvaders(this, 3, 3, Pool::currentBulletsTipo1, 50.0f, 10.0f, 1, 1.0f);
 
 	// TODO: GORDO. Tengo que añadir a los bichos creados por SpaceInvaders al "pool" de updates
 
@@ -258,28 +278,39 @@ void Level::update(float deltaT){
 	// ---------------------------
 	// BALAS
 	// ---------------------------
-	for(auto x = player->currentWeapon->bulletPool.cbegin(); x != player->currentWeapon->bulletPool.cend(); ++x){
-		(*x)->update(deltaT);
-	}
+	//for(auto x = player->currentWeapon->bulletPool.cbegin(); x != player->currentWeapon->bulletPool.cend(); ++x){
+	//	(*x)->update(deltaT);
+	//}
 
-	for(auto x = enemy->weapon->bulletPool.cbegin(); x != enemy->weapon->bulletPool.cend(); ++x){
-		(*x)->update(deltaT);
-	}
+	//for(auto x = enemy->weapon->bulletPool.cbegin(); x != enemy->weapon->bulletPool.cend(); ++x){
+	//	(*x)->update(deltaT);
+	//}
 
 	// ---------------------------
 	// ENEMIGOS
 	// ---------------------------
+
+	Pool::updateAll(deltaT);
 
 	// Sintaxis para puntero a una funcion miembro
 	//void(GameActor::*funcionControlMovimiento)(Vec2, double) = &GameActor::mueveSeno;
 	// same as:
 	//auto funcionControlMovimiento = &GameActor::mueveSeno;
 
-	Vec2 posIni = Vec2(Director::getInstance()->getVisibleSize().width / 2.0f, enemy->getPosition().y);
+	//Vec2 posIni = Vec2(Director::getInstance()->getVisibleSize().width / 2.0f, enemy->getPosition().y);
 	//////enemy->update(deltaT, enemy, funcionControlMovimiento, posIni, 600.0);
 	////enemy->update(deltaT, enemy, enemy->funcionMovimientoActual, posIni, 600.0);
 	//enemy->update(deltaT, nullptr, nullptr, Vec2::ZERO, 0);
-	enemy->update(deltaT);
+
+	//for(auto x = Pool::currentEnemies.cbegin(); x != Pool::currentEnemies.cend(); x++){
+	//	if((*x)->isActive()){
+	//		(*x)->update(deltaT);
+	//	}
+	//}
+
+	//enemy->update(deltaT);
+
+
 
 
 }

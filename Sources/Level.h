@@ -6,7 +6,10 @@
 
 // ----------------------------
 #include "Player.h"
+#include "Enemy.h"
+#include "Pool.h"
 #include "InputComponent.h"
+#include "SpaceInvaders.h"
 // ----------------------------
 
 USING_NS_CC;
@@ -53,5 +56,6 @@ private:
 	InputComponent *inputComponent;
 
 	// TODO: una vez creados, me parece que los enemigos se deberían gestionar solos. De momento y por ver algo...
-	Enemy *enemy;
+	//Enemy *enemy;
+	//std::vector<Enemy *> enemyPool;
 };

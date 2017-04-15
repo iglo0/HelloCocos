@@ -28,9 +28,8 @@ void GameActor::update(float deltaT){
 		// Me tengo que mirar detenidamente pasar funciones como parametro
 		if(this->funcionMovimientoActual){
 			// TODO: si proporciono una funcion de movimiento, usa esta
-			////(instancia->*funMov)(posIni, amplitude);
-			//(this->*funMov)(funcionMovimientoPosIni, funcionMovimientoAmplitude);
-			(this->*funcionMovimientoActual)(funcionMovimientoPosIni, funcionMovimientoAmplitude);
+			//(this->*funcionMovimientoActual)(funcionMovimientoPosIni, funcionMovimientoAmplitude);
+			(this->*funcionMovimientoActual)();
 		} else{
 			// TODO: por aquí pasa el player. No sé si me convence cómo lo tengo montado, aún...
 			mueve();
@@ -137,22 +136,21 @@ void GameActor::mueve(){
 
 }
 
-// TODO: TEST!!!!
-void GameActor::mueveSeno(Vec2 posIni, double amplitude){
+void GameActor::mueveSeno(){
 	Vec2 pos = getPosition();
 
 	//float deltaT = Director::getInstance()->getDeltaTime();
 	float ellapsed = Game::getInstance()->ellapsedTime;
 
-	//pos.x = posIni.x + amplitude * Director::getInstance()->getDeltaTime() * sin(Game::getInstance()->ellapsedTime);
-	// TODO: Esto es indepenidente de framerate? -> si porque ya depende de ellapsed time así que si meto el deltaT solo estoy enguarrando todo
-	pos.x = posIni.x + amplitude * sin(ellapsed / 2.0);
+	//pos.x = posIni.x + amplitude * sin(ellapsed / 2.0);
+	pos.x = funcionMovimientoPosIni.x + funcionMovimientoAmplitude * sin(ellapsed * funcionMovimientoSpeed);
 
 	setPosition(pos);
-	
+
 }
 
-void GameActor::mueveSpaceInvader(Vec2 posIni, double amplitude){
+void GameActor::mueveSpaceInvader(){
+
 	return;
 
 }

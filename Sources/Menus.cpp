@@ -107,17 +107,6 @@ void Menus::MenuCloseCallback(cocos2d::Ref * pSender){
 
 }
 
-void Menus::MenuJugarCallback(cocos2d::Ref *pSender){
-
-	// http://www.cocos2d-x.org/wiki/Building_and_Transitioning_Scenes
-	//auto scene = Level1::createScene();
-	auto scene = Level1::createScene();
-	auto director = Director::getInstance();
-	director->replaceScene(scene);
-
-
-}
-
 void Menus::MenuJugar2Callback(cocos2d::Ref *pSender){
 
 	// http://www.cocos2d-x.org/wiki/Building_and_Transitioning_Scenes

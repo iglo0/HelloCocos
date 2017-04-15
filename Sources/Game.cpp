@@ -57,5 +57,6 @@ void Game::anadeFisica(Sprite *sprite, int tipoColision, int colisionaCon, const
 }
 
 
+
 //Game::~Game(){
 //}

@@ -8,22 +8,9 @@
 #include "Bala.h"
 
 #include <vector>
+#include "Enemy.h"
 
 USING_NS_CC;
-
-
-class Pool{
-public:
-
-	// TODO: intentaba usar un vector de GameActor para acoger un vector de Bullets : GameActor. Buen intento :D
-	//static void activa(std::vector<GameActor *> &pool, Vec2 pos);
-	//static void desactiva(GameActor &actor);
-	static void activa(std::vector<Bullet *> &pool, Vec2 pos);
-	static void desactiva(Bullet &bullet);
-
-private:
-};
-
 
 // La idea de esta clase es crear los pools de sprites necesarios para que en vez de instanciar objetos cuando se necesiten,
 // estos se encuentren pre-creados y solo haya que desactivarles la lógica y moverlos o hacerlos invisibles
@@ -36,33 +23,30 @@ private:
 
 // TODO: Mirar si unas plantillas me ayudarían... (ya he mirado y he salido corriendo, una vez)
 
-#include "Bala.h"	// para PoolDEPRECATED ?_?
-
-class PoolDEPRECATED{
+class Pool{
 public:
 
-	PoolDEPRECATED();
-	~PoolDEPRECATED();
+	// TODO: intentaba usar un vector de GameActor para acoger un vector de Bullets : GameActor. Buen intento :D
+	//static void activa(std::vector<GameActor *> &pool, Vec2 pos);
+	//static void desactiva(GameActor &actor);
+	static void activa(std::vector<Bullet *> &pool, Vec2 pos);
+	static void desactiva(Bullet &bullet);
 
-	// con física
+	// updates all GameActors in the pools
+	static void updateAll(float deltaT);
 
-	// scale y rotation están más pensados para la carga inicial, es decir un sprite que se que su tamaño es X y que lo quiero sacar siempre a 180º o algo
-	// si el tipoColision!=None -> con fisica
-	// devuelve false si la creacion falla
-	bool creaPoolBalas(Node *nodo, int cant, const char *spritePath, float scale, float rotation, const char *name, float speed, const char *pathSonidoDisparo, const char *pathSonidoImpacto, int tipoColision, int colisionaCon);
+	
+	// ------------------------------------------------------------------------------------------------
+	// GameActor pools
+	// ------------------------------------------------------------------------------------------------
+	// TODO: por qué no puedo usarlo si es static? (da varios errores de linker)
+	// OOKKIII para poder declarar una variable miembro como estática, debo inicializarla en el .cpp
+	// TODO: de hecho, mejor en pool o que? Primero a ver si funciona
+	// un array por cada... lo ideal sería sprite? crearé uno para cada tipo de bala y ya veré
+	static std::vector<Enemy *> currentEnemies;
+	static std::vector<Bullet *> currentBulletsPlayerTipo1;
+	static std::vector<Bullet *> currentBulletsTipo1;
+	static std::vector<Bullet *> currentBulletsTipo2;
 
-	// devuelve uno libre
-	// si le pasas un padre, cuelga este sprite del otro y pos pasa a ser relativo al padre
-	// si le pasas nullptr, pos es absoluta
-	Sprite *activa(Vec2 posRel, Sprite *spritePadre, int zOrder);
-	Sprite *activa(Vec2 posAbs, Node *nodePadre, int zOrder);
-	// desactiva uno
-	void desActiva(Sprite *);
-
-protected:
-
-	std::vector<Sprite *> pool;
-	//Node *nodoPadre;
-
+private:
 };
-
