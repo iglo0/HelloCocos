@@ -11,12 +11,9 @@ void SpaceInvaders::creaInvaders(Node *nodo, int dimX, int dimY, std::vector<Bul
 	// Para disparar -> Pool::activa(&pool, vec2 pos);
 
 	auto visibleSize = Director::getInstance()->getVisibleSize();
-	
-
 
 	// TODO: aquí faltaría un nodo donde colgarlo, enemy speed, sonidos y supongo que más cosas
 	// quizá incluso el nodo no es importante ahora, y solo en el activa()?
-	//Enemy *tmp = new Enemy(nodo, ENEMY_T2_PATH_SPRITE, "", ENEMY_T2_INITIAL_SIZE, ENEMY_T2_INITIAL_ROTATION, ENEMY_GENERIC_HP);
 	Enemy *tmp = new Enemy(nodo, ENEMY_T1_PATH_SPRITE, "", ENEMY_T1_INITIAL_SIZE, ENEMY_T1_INITIAL_ROTATION, ENEMY_GENERIC_HP);
 
 	// Pruebo el nuevo Enemy:GameActor 
@@ -56,7 +53,7 @@ void SpaceInvaders::creaInvaders(Node *nodo, int dimX, int dimY, std::vector<Bul
 	//Vec2 enePos = Vec2::ZERO;	//Vec2(visibleSize.width / 2.0f, visibleSize.height - enemy->getSprite()->getContentSize().height);
 	enePos = Vec2(visibleSize.width / 2.0f - 100.0f, visibleSize.height - 250.0f);
 	tmp->activa(enePos);
-	tmp->weapon = new Weapon(pool);
+	//tmp->weapon = new Weapon(pool);
 	//tmp->weapon->createBulletPool(nodo, 3, "balaEne_", BULLET_PATH_SPRITE2, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, -BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG,
 	//	(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador, 3.0f);
 	// TODO: uyuy esto casca fijo

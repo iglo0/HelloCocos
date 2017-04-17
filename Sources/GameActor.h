@@ -30,6 +30,7 @@ public:
 	virtual void update(float deltaT);
 	virtual void mueve();				//
 	virtual void impacto(float dmg);	//
+	//virtual void dispara() = 0;
 
 	// TEST!!!!
 	// posibles funciones de control para update configurable

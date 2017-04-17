@@ -1,4 +1,4 @@
-#include "Bala.h"
+#include "Bullet.h"
 
 Bullet::Bullet(Node *nodo, const char *name, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon, float initialScale){
 	// inicializa la clase base primero

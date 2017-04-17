@@ -16,6 +16,8 @@ USING_NS_CC;
 #define BULLET_PATH_SPRITE2 "bullet_orange0000.png"
 #define BULLET_PATH_SOUND_FIRE "sonidos/shoot.wav"
 #define BULLET_PATH_SOUND_IMPACT "sonidos/fastinvader1.wav"
+#define BULLET_DEFAULT_SCALE 1.0f
+#define BULLET_DEFAULT_BOSS_SCALE 3.0f
 
 #define BULLET_DEFAULT_DMG 1.0f
 #define BULLET_DEFAULT_SPEED 500.0f

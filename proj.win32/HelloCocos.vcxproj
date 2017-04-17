@@ -145,7 +145,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Sources\AppDelegate.cpp" />
-    <ClCompile Include="..\Sources\Bala.cpp" />
+    <ClCompile Include="..\Sources\Bullet.cpp" />
     <ClCompile Include="..\Sources\Enemy.cpp" />
     <ClCompile Include="..\Sources\Game.cpp" />
     <ClCompile Include="..\Sources\GameActor.cpp" />
@@ -158,12 +158,11 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Sources\Player.cpp" />
     <ClCompile Include="..\Sources\PolyspriteTest.cpp" />
     <ClCompile Include="..\Sources\Pool.cpp" />
-    <ClCompile Include="..\Sources\Weapon.cpp" />
     <ClCompile Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\Testz.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Sources\AppDelegate.h" />
-    <ClInclude Include="..\Sources\Bala.h" />
+    <ClInclude Include="..\Sources\Bullet.h" />
     <ClInclude Include="..\Sources\Enemy.h" />
     <ClInclude Include="..\Sources\Game.h" />
     <ClInclude Include="..\Sources\GameActor.h" />
@@ -176,7 +175,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Sources\Player.h" />
     <ClInclude Include="..\Sources\PolyspriteTest.h" />
     <ClInclude Include="..\Sources\Pool.h" />
-    <ClInclude Include="..\Sources\Weapon.h" />
     <ClInclude Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\Testz.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>

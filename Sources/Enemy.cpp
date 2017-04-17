@@ -9,13 +9,12 @@ Enemy::Enemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, f
 	GameActor::gameActorSpeed = ENEMY_GENERIC_SPEED;
 
 	tIniDisparo = 0;
-	//enemigoDisparando = false;
 	funcionControlActual = nullptr;
 	//funcionMovimientoActual = nullptr;// esto lo hace el constructor de GameActor
 	funcionControlTiempoDisparo = 1.0f;
 
-
-	Pool::currentEnemies.push_back(this);
+	//Pool::currentEnemies.push_back(this);
+	poolMisBalas = nullptr;
 }
 
 Enemy::~Enemy(){
@@ -46,7 +45,8 @@ void Enemy::funControl1(float segundos){
 	float ellapsedTime = Game::getInstance()->ellapsedTime;
 
 	if(ellapsedTime - tIniDisparo > segundos){
-		//Pool::activa(weapon->bulletPool, getPosition());
+		// TODO: Disparar (enemigo)
+		dispara();
 
 		tIniDisparo = ellapsedTime;
 	}
@@ -65,15 +65,30 @@ void Enemy::update(float deltaT){
 
 
 		} else{
+			// TODO: Quiero una función de movimiento estándar-por-defecto para algo? :(
 			mueve();
 		}
 
 		if(this->funcionControlActual){
-			// HACK: Añado una funcion de control de disparo. OOOH funciona!!
-			// mismo para la función que le controla
-			//funcionControlEnemigo fce = &Enemy::funControl1;
-			//(this->*fce)(weapon->bulletPool, 1.5f);
+			// Añado una funcion de control de disparo. OOOH funciona!!
 			(this->*funcionControlActual)(funcionControlTiempoDisparo);
 		}
+	}
+}
+
+
+void Enemy::dispara(){
+	if(poolMisBalas){
+		CCLOG("Enemigo dispara!");
+
+		
+		// qué tipo de bala disparo?
+		// ...
+		// qué daño hace?
+		// ...
+		// de qué tamaño?
+		// ...		
+	} else{
+		CCLOG("Enemigo intenta disparar sin pool");
 	}
 }

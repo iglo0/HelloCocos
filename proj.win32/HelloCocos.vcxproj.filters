@@ -12,9 +12,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Sources\Bala.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\Sources\KeyboardTest.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -51,20 +48,17 @@
     <ClCompile Include="..\Sources\GameActor.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\Sources\Weapon.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="..\Sources\SpaceInvaders.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="..\Sources\Enemy.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="..\Sources\Bullet.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Sources\Bala.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
     <ClInclude Include="..\Sources\KeyboardTest.h">
       <Filter>Sources</Filter>
     </ClInclude>
@@ -104,13 +98,13 @@
     <ClInclude Include="..\Sources\GameActor.h">
       <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="..\Sources\Weapon.h">
-      <Filter>Sources</Filter>
-    </ClInclude>
     <ClInclude Include="..\Sources\SpaceInvaders.h">
       <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\Enemy.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Sources\Bullet.h">
       <Filter>Sources</Filter>
     </ClInclude>
   </ItemGroup>

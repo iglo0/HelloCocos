@@ -10,7 +10,7 @@ Player::Player(Node *nodo, float playerSpeed){
 	// Me aseguro que las variables estén inicializadas
 	inputComponent = nullptr;
 	// esto se lo paso desde fuera porque será el nivel el que sepa con qué arma empieza cada momento
-	currentWeapon = nullptr;
+	//currentWeapon = nullptr;
 	
 	// crea el sprite (desactivado: sin física ni visualización)
 	sprite = GameActor::setSprite(nodo, PLAYER_PATH_SPRITE, "player", (int)Game::CategoriaColision::Jugador, (int)Game::CategoriaColision::BalaEnemigo | (int)Game::CategoriaColision::Enemigo);
@@ -50,6 +50,6 @@ void Player::update(float deltaT){
 	// Ese se ha encargado del movimiento, ahora al resto:
 	if(disparar){
 		disparar = false;
-		currentWeapon->fire(getPosition());
+		//currentWeapon->fire(getPosition());
 	}
 }

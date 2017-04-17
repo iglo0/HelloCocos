@@ -5,7 +5,7 @@
 
 // ---------------
 #include "GameActor.h"	// TODO: A ver si cuela para hacer "genéricos" los pools
-#include "Bala.h"
+#include "Bullet.h"
 
 #include <vector>
 #include "Enemy.h"
@@ -30,6 +30,8 @@ public:
 	//static void activa(std::vector<GameActor *> &pool, Vec2 pos);
 	//static void desactiva(GameActor &actor);
 	static void activa(std::vector<Bullet *> &pool, Vec2 pos);
+	// TODO: Test con varios parámetros a cambiar al vuelo
+	static void activa(std::vector<Bullet *> &pool, Vec2 pos, Node *nodoPadre, float initial_size, float initial_rotation, float dmg, int zOrder);
 	static void desactiva(Bullet &bullet);
 
 	// updates all GameActors in the pools
@@ -39,12 +41,11 @@ public:
 	// ------------------------------------------------------------------------------------------------
 	// GameActor pools
 	// ------------------------------------------------------------------------------------------------
-	// TODO: por qué no puedo usarlo si es static? (da varios errores de linker)
-	// OOKKIII para poder declarar una variable miembro como estática, debo inicializarla en el .cpp
-	// TODO: de hecho, mejor en pool o que? Primero a ver si funciona
-	// un array por cada... lo ideal sería sprite? crearé uno para cada tipo de bala y ya veré
+	// Variables estáticas de una clase debo inicializarlas en el CPP. Como es un vector, se inicializa "solo", pero o lo declaro aquí o GOLPE DE REMO (Linker error)
+	// comprobar que en el CPP está todo, ojo *allí* toca incluir Pool:: antes del nombre y quitar el static
 	static std::vector<Enemy *> currentEnemies;
 	static std::vector<Bullet *> currentBulletsPlayerTipo1;
+	static std::vector<Bullet *> currentBulletsTipoBoss;
 	static std::vector<Bullet *> currentBulletsTipo1;
 	static std::vector<Bullet *> currentBulletsTipo2;
 

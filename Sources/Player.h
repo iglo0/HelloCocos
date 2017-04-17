@@ -3,7 +3,7 @@
 #include "cocos2d.h"
 #include "GameActor.h"
 // --------------------------
-#include "Weapon.h"
+//#include "Weapon.h"
 // --------------------------
 
 // TODO: No puedo incluir InputComponent en Player y Player en InputComponent... soluciones?
@@ -27,7 +27,7 @@ public:
 
 	InputComponent *inputComponent;
 
-	Weapon *currentWeapon;
+	//Weapon *currentWeapon;
 
 private:
 	//const char *pathSprite = PLAYER_PATH_SPRITE;

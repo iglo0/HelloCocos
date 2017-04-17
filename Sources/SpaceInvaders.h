@@ -14,6 +14,8 @@ x	x	x 	x	x
 #include "Game.h"
 #include "Enemy.h"
 
+#include "Pool.h"
+
 USING_NS_CC;
 
 // creo que con este nombre queda más claro :D

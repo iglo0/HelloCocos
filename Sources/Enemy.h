@@ -1,14 +1,12 @@
 #pragma once
 
 #include "cocos2d.h"
-#include "SimpleAudioEngine.h"
-
 #include "Game.h"
 #include "GameActor.h"
-#include "Weapon.h"
-
+// para poder disparar
+#include "Bullet.h"
 #include <vector>
-#include "Pool.h"
+// -------------------
 
 USING_NS_CC;
 
@@ -22,18 +20,16 @@ public:
 	~Enemy();
 	void impacto(float) override;
 
-	////void update(float deltaT, GameActor *instancia = nullptr, void(GameActor::*)(Vec2, double) = nullptr, Vec2 posIni = Vec2::ZERO, double amplitude = 600.0) override;
-	//void update(float deltaT, GameActor *instancia = nullptr, GameActor::punteroAFuncionMovimiento=nullptr, Vec2 posIni = Vec2::ZERO, double amplitude = 600.0) override;
 	void update(float deltaT) override;
 
 
 	// ---------------------------------------
-	// ---------------------------------------
-	// ---------------------------------------
 	// TEST!
 	// ---------------------------------------
-	// ---------------------------------------
-	// ---------------------------------------
+	// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+
+	// todo: sobrecargarlo desde GameActor???
+	void dispara();
 
 	// funciones de control
 	void funControl1(float segundos);
@@ -43,12 +39,18 @@ public:
 	funcionControlEnemigo funcionControlActual;
 	float funcionControlTiempoDisparo;
 
+	// a ve, parámetros de las balas que voy a disparar...
+	// TODO: Acabo de sacar la clase Weapon y ya veo que me va a hacer falta de nuevo :D
+
+	// TODO: ¿con qué dispara un enemigo?
+	// esto apuntará a un pool en algún otro sitio
+	std::vector<Bullet *> *poolMisBalas;
+
+
+	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	// ---------------------------------------
 	// ---------------------------------------
-	// ---------------------------------------
-	Weapon *weapon;
 
 private:
 	float tIniDisparo;
-	//bool enemigoDisparando;
 };
