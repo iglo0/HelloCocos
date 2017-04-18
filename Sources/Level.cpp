@@ -85,7 +85,7 @@ bool Level::init(){
 	// ========================================================================================================================================
 	// testz
 	// ----------------------------------------------------------------------------------------------------------------------------------------
-
+	
 	// Creando pools de balas para todos los tipos necesarios
 	// TODO: prueba enésima de dónde colgar estos pools... ahora van a una clase propia "Pool".
 	// TODO: Pool ""Tipo 1"" ... ehm... para los enemigos normales?
@@ -196,7 +196,7 @@ bool Level::onContactBegin(PhysicsContact &contact){
 	//gestionaImpacto(sprA, dmg);
 	//gestionaImpacto(sprB, dmg);
 
-	CCLOG("Impacto entre %s y %s", sprA->getName().c_str(), sprB->getName().c_str());
+	CCLOG("Impacto entre %s(%d) y %s(%d)", sprA->getName().c_str(), sprA->getTag(), sprB->getName().c_str(), sprB->getTag());
 
 
 	// Los contactos van a ser siempre entre GameActor?
@@ -211,9 +211,8 @@ bool Level::onContactBegin(PhysicsContact &contact){
 	actor1 = (GameActor *)sprA->getUserData();
 	actor2 = (GameActor *)sprB->getUserData();
 
-
 	// calcula el daño que 1 hace a 2
-	if(sprA->getTag() == (int)Game::CategoriaColision::Bala){
+	if(sprA->getTag() == (int)Game::CategoriaColision::Bala || sprA->getTag() == (int)Game::CategoriaColision::BalaEnemigo){
 		bulletTmp = (Bullet *)sprA->getUserData();
 		impactDmg1 = bulletTmp->bulletDmg;
 	} else {
@@ -221,7 +220,7 @@ bool Level::onContactBegin(PhysicsContact &contact){
 	}
 
 	// y viceversa
-	if(sprB->getTag() == (int)Game::CategoriaColision::Bala){
+	if(sprB->getTag() == (int)Game::CategoriaColision::Bala || sprB->getTag() == (int)Game::CategoriaColision::BalaEnemigo){
 		bulletTmp = (Bullet *)sprB->getUserData();
 		impactDmg2 = bulletTmp->bulletDmg;
 	} else{

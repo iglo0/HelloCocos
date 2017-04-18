@@ -7,6 +7,9 @@
 #include "Bullet.h"
 #include <vector>
 // -------------------
+// wtf por que no se produce una referencia ciclica ahora???
+#include "Pool.h"
+// -------------------
 
 USING_NS_CC;
 

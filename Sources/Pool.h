@@ -1,3 +1,5 @@
+//#ifndef __POOL_H__
+//#define __POOL_H__
 #pragma once
 
 #include "cocos2d.h"
@@ -8,7 +10,7 @@
 #include "Bullet.h"
 
 #include <vector>
-#include "Enemy.h"
+#include "Enemy.h"	// si no lo incluyo no puedo llamar a "enemy->activa(xxx)"
 
 USING_NS_CC;
 
@@ -26,9 +28,6 @@ USING_NS_CC;
 class Pool{
 public:
 
-	// TODO: intentaba usar un vector de GameActor para acoger un vector de Bullets : GameActor. Buen intento :D
-	//static void activa(std::vector<GameActor *> &pool, Vec2 pos);
-	//static void desactiva(GameActor &actor);
 	static void activa(std::vector<Bullet *> &pool, Vec2 pos);
 	// TODO: Test con varios parámetros a cambiar al vuelo
 	static void activa(std::vector<Bullet *> &pool, Vec2 pos, Node *nodoPadre, float initial_size, float initial_rotation, float dmg, int zOrder);
@@ -36,7 +35,6 @@ public:
 
 	// updates all GameActors in the pools
 	static void updateAll(float deltaT);
-
 	
 	// ------------------------------------------------------------------------------------------------
 	// GameActor pools
@@ -51,3 +49,4 @@ public:
 
 private:
 };
+//#endif
