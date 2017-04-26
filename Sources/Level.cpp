@@ -86,10 +86,17 @@ bool Level::init(){
 	// testz
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	
+	// ----------------------------------------------------------------------------------------------------------------------------------------
+	// prepara los pools de balas a usar ¿en toda la partida?
+	// ----------------------------------------------------------------------------------------------------------------------------------------
+
 	// Creando pools de balas para todos los tipos necesarios
 	// TODO: prueba enésima de dónde colgar estos pools... ahora van a una clase propia "Pool".
 	// TODO: Pool ""Tipo 1"" ... ehm... para los enemigos normales?
-	Bullet::createBulletPool(this, Pool::currentBulletsTipo1, 30, "balaEne_", BULLET_PATH_SPRITE2, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, -BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG * 2.0f,
+	Bullet::createBulletPool(this, Pool::currentBulletsTipo1, 30, "balaEne_", BULLET_PATH_SPRITE2, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, -BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG,
+		(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador, BULLET_DEFAULT_SCALE);
+	// TODO: Pool ""Tipo 2"" ... ehm... para el boss?
+	Bullet::createBulletPool(this, Pool::currentBulletsTipo2, 30, "balaEne_", BULLET_PATH_SPRITE2, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, -BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG * 2.0f,
 		(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador, BULLET_DEFAULT_BOSS_SCALE);
 	// Pool de balas para el jugador
 	Bullet::createBulletPool(this, Pool::currentBulletsPlayerTipo1, 16, "bala_", BULLET_PATH_SPRITE1, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG,
@@ -101,20 +108,29 @@ bool Level::init(){
 
 	// La razón de tanto pool es tener los updates centralizados, me parece que estoy haciendo un embrollo otra vez...
 
+	// ----------------------------------------------------------------------------------------------------------------------------------------
+	// creacion del jugador
+	// ----------------------------------------------------------------------------------------------------------------------------------------
+
 	// instancio un jugador con los valores por defecto
 	player = new Player(this, PLAYER_INITIAL_SPEED);
 	// Iba a colgar el inputComponent del jugador, quizá esté mejor colgando del nivel y con una referencia al jugador
 	inputComponent = new InputComponent;
 	inputComponent->player = player;
 
-	// Pruebo el nuevo Enemy:GameActor 
+	// ----------------------------------------------------------------------------------------------------------------------------------------
+	// inicializo los enemigos iniciales
+	// TODO: que esto dependa de una estructura definible idealmente en un .ini
+	// ----------------------------------------------------------------------------------------------------------------------------------------
 
 	// No necesito que sea una variable miembro, vivirá en un array en alguna parte.
 	Enemy *enemyBoss;
 
-	enemyBoss = new Enemy(this, ENEMY_BOSS_PATH_SPRITE, ENEMY_PATH_SOUND_DIE, ENEMY_BOSS_INITIAL_SIZE, ENEMY_BOSS_INITIAL_ROTATION, ENEMY_BOSS_GENERIC_HP);
+	//enemyBoss = new Enemy(this, ENEMY_BOSS_PATH_SPRITE, ENEMY_PATH_SOUND_DIE, ENEMY_BOSS_INITIAL_SIZE, ENEMY_BOSS_INITIAL_ROTATION, ENEMY_BOSS_GENERIC_HP);
+	enemyBoss = new Enemy(this, Enemy::tiposEnemigo::tipoBoss);
+
 	// situo al enemigo arriba en el medio, con medio cuerpo de margen superior
-	Vec2 enePos = Vec2(visibleSize.width / 2.0f, visibleSize.height - enemyBoss->getSprite()->getContentSize().height);
+	Vec2 enePos = Vec2(visibleSize.width / 2.0f, visibleSize.height - enemyBoss->getSprite()->getContentSize().height/2.0f);
 	enemyBoss->activa(enePos);
 
 	// Cómo querré que se mueva?
@@ -125,24 +141,26 @@ bool Level::init(){
 	enemyBoss->funcionMovimientoSpeed = 1 / 2.5;
 	
 	// y que ataque?
-	enemyBoss->funcionControlActual = &Enemy::funControl1;
+	enemyBoss->funcionControlActual = &Enemy::funControlFireAtInterval;
 	enemyBoss->funcionControlTiempoDisparo = 1.0f;
 	
-	enemyBoss->poolMisBalas = &Pool::currentBulletsTipo1;
+	enemyBoss->poolMisBalas = &Pool::currentBulletsTipo2;
 
 	// hale, definido
 	
 	// ahora añadirlo al pool de GameUpdates para que haga algo de lo que le he dicho
 	Pool::currentEnemies.push_back(enemyBoss);
 
-	SpaceInvaders spaceInvaders;
-	spaceInvaders.creaInvaders(this, 3, 3, Pool::currentBulletsTipo1, 50.0f, 10.0f, 1, 1.0f);
+	SpaceInvaders spaceInvaders = SpaceInvaders(11,5);
 
-	// TODO: Tengo que añadir a los bichos creados por SpaceInvaders al "pool" de updates
+	// creo una lista de enemigos que tiene que coincidir aprox con el nº de filas. Un tipo de enemigo por fila. Si se le acaban los tipos, repite el ultimo hasta el fin de las filas
+	std::vector<Enemy::tiposEnemigo> tipos;
+	tipos.push_back(Enemy::tipo2);
+	tipos.push_back(Enemy::tipo2);
+	tipos.push_back(Enemy::tipo2);
+	tipos.push_back(Enemy::tipo1);
 
-	//Vec2 posIni = Vec2(Director::getInstance()->getVisibleSize().width / 2.0f, enemy->getPosition().y);
-	//enemy->update(deltaT, enemy, funcionControlMovimiento, posIni, 600.0);
-	//enemy->update(Director::getInstance()->getDeltaTime(), enemy, enemy->funcionMovimientoActual, posIni, 600.0);
+	spaceInvaders.creaInvaders(this, tipos, Pool::currentBulletsTipo1, 50.0f, 10.0f, 1200);
 
 
 	// ========================================================================================================================================

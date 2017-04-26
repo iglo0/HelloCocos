@@ -1,5 +1,3 @@
-//#ifndef __POOL_H__
-//#define __POOL_H__
 #pragma once
 
 #include "cocos2d.h"
@@ -11,6 +9,7 @@
 
 #include <vector>
 #include "Enemy.h"	// si no lo incluyo no puedo llamar a "enemy->activa(xxx)"
+// TODO: si Pool incluye Enemy.h y Enemy incluye Pool.h... ¿cómo es que no casca?
 
 USING_NS_CC;
 
@@ -49,4 +48,3 @@ public:
 
 private:
 };
-//#endif

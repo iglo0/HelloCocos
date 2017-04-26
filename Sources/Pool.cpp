@@ -4,7 +4,7 @@
 // OJOOO!
 // ----------------------------------------------------------------------
 // Variables estáticas de una clase debo inicializarlas en el CPP. Como es un vector, se inicializa "solo", pero o lo declaro aquí o GOLPE DE REMO (Linker error)
-// ojo a "Game::"
+// ojo a "Pool::" para indicar qué estoy inicializando
 // Enemigos
 std::vector<Enemy *> Pool::currentEnemies;
 // Balas
