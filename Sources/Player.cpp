@@ -28,6 +28,8 @@ Player::Player(Node *nodo, float playerSpeed){
 	posInicial.y = sprite->getScale()*sprite->getContentSize().height / 2.0f;
 	activa(posInicial);
 
+	poolMisBalas = nullptr;
+
 	//sprite = setSprite(nodo);
 
 	disparar = false;
@@ -51,5 +53,9 @@ void Player::update(float deltaT){
 	if(disparar){
 		disparar = false;
 		//currentWeapon->fire(getPosition());
+		if(poolMisBalas){
+			// TODO: no entiendo muy bien la sintaxis, ¿por qué tengo que usar *?
+			Pool::activa(*poolMisBalas, sprite->getPosition());
+		}
 	}
 }

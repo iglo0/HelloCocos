@@ -2,6 +2,9 @@
 
 #include "cocos2d.h"
 #include "GameActor.h"
+#include "Bullet.h"
+#include "Pool.h"
+
 // --------------------------
 //#include "Weapon.h"
 // --------------------------
@@ -28,6 +31,7 @@ public:
 	InputComponent *inputComponent;
 
 	//Weapon *currentWeapon;
+	std::vector<Bullet *> *poolMisBalas;
 
 private:
 	//const char *pathSprite = PLAYER_PATH_SPRITE;

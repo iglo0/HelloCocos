@@ -35,6 +35,19 @@ public:
 	// updates all GameActors in the pools
 	static void updateAll(float deltaT);
 	
+	static void deletePools();
+
+	// intento de plantilla con especializaciones
+	// TODO: Y si no quiero usar la plantilla genérica y solo las especializaciones?
+	// ¿qué gano con esto (si solo quiero las especializaciones) vs sobrecarga?
+	template <class T>
+	static void deletePool(std::vector<T *> &v);
+	// especializaciones
+	template <>
+	static void deletePool<Enemy>(std::vector<Enemy *> &v);
+	template <>
+	static void deletePool<Bullet>(std::vector<Bullet *> &v);
+
 	// ------------------------------------------------------------------------------------------------
 	// GameActor pools
 	// ------------------------------------------------------------------------------------------------

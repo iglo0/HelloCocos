@@ -2,6 +2,14 @@
 
 Level::~Level(){
 	Director::getInstance()->setDisplayStats(false);
+
+	// así a botepronto borrar...
+	// pools porque son estáticos
+	Pool::deletePools();
+	// enemigos?
+	// player?
+
+
 }
 
 
@@ -114,6 +122,11 @@ bool Level::init(){
 
 	// instancio un jugador con los valores por defecto
 	player = new Player(this, PLAYER_INITIAL_SPEED);
+
+	// algo que disparar
+	// TODO: para cambiar de arma solo tendría que cambiar la referencia.... mola
+	player->poolMisBalas = &Pool::currentBulletsPlayerTipo1;
+
 	// Iba a colgar el inputComponent del jugador, quizá esté mejor colgando del nivel y con una referencia al jugador
 	inputComponent = new InputComponent;
 	inputComponent->player = player;

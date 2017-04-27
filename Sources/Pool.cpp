@@ -87,7 +87,15 @@ void Pool::updateAll(float deltaT){
 		}
 	}
 
-	// bullets
+	// bullets...
+	// ...del player
+	for(auto x = currentBulletsPlayerTipo1.cbegin(); x != currentBulletsPlayerTipo1.cend(); ++x){
+		if((*x)->isActive()){
+			(*x)->update(deltaT);
+		}
+	}
+
+	// ...de los bichos
 	for(auto x = currentBulletsTipo1.cbegin(); x != currentBulletsTipo1.cend(); ++x){
 		if((*x)->isActive()){
 			(*x)->update(deltaT);
@@ -98,4 +106,64 @@ void Pool::updateAll(float deltaT){
 			(*x)->update(deltaT);
 		}
 	}
+
+}
+
+
+void Pool::deletePools(){
+	// TODO: Intento borrar los pools 
+
+	deletePool<Enemy>(currentEnemies);
+	deletePool<Bullet>(currentBulletsPlayerTipo1);
+	deletePool<Bullet>(currentBulletsTipo1);
+	deletePool<Bullet>(currentBulletsTipo2);
+	deletePool<Bullet>(currentBulletsTipoBoss);
+
+	//// enemies
+	//for(auto x = currentEnemies.cbegin(); x != currentEnemies.cend(); ++x){
+	//	// elimino el sprite del nodo padre
+	//	// al ser los sprites "autorelease" entiendo que... ¿no hay que hacer nada especial con ellos?
+	//	(*x)->getSprite()->removeFromParent();
+	//	// borro este enemigo que fue creado con un new
+	//	delete (*x);
+	//}
+	//// vacío el vector. Se puede hacer con erase(inicio,fin) o clear() para borrar todos los elementos
+	//currentEnemies.clear();
+	
+
+	////// bullets...
+	////// ...del player
+	////for(auto x = currentBulletsPlayerTipo1.cbegin(); x != currentBulletsPlayerTipo1.cend(); ++x){
+	////	if((*x)->isActive()){
+	////	}
+	////}
+
+	////// ...de los bichos
+	////for(auto x = currentBulletsTipo1.cbegin(); x != currentBulletsTipo1.cend(); ++x){
+	////	if((*x)->isActive()){
+	////	}
+	////}
+	////for(auto x = currentBulletsTipo2.cbegin(); x != currentBulletsTipo2.cend(); ++x){
+	////	if((*x)->isActive()){
+	////	}
+	////}
+
+}
+
+template <>
+void Pool::deletePool<Enemy>(std::vector<Enemy *> &v){
+	for(auto x = v.cbegin(); x != v.cend(); ++x){
+		(*x)->getSprite()->removeFromParent();
+		delete (*x);
+	}
+	v.clear();
+}
+
+template<>
+void Pool::deletePool<Bullet>(std::vector<Bullet *> &v){
+	for(auto x = v.cbegin(); x != v.cend(); ++x){
+		(*x)->getSprite()->removeFromParent();
+		delete (*x);
+	}
+	v.clear();
 }

@@ -111,23 +111,10 @@ void Enemy::update(float deltaT){
 
 void Enemy::dispara(){
 	if(poolMisBalas){
-		CCLOG("Enemigo dispara!");
-
-		// TODO: Sí, esto tendría que sacarlo fuera
+		//CCLOG("Enemigo dispara!");
 
 		Pool::activa(*poolMisBalas, sprite->getPosition());
 		
-		//Pool::activa(*poolMisBalas, sprite->getPosition(), nullptr, 1.0f, 0, 1000.0f, 22);
-
-		//for(auto b = poolMisBalas->cbegin(); b != poolMisBalas->cend(); ++b){
-		//	if(!(*b)->isActive()){
-		//		// dispara esta
-		//		(*b)->activa(sprite->getPosition());
-		//		// y sale
-		//		break;
-		//	}
-		//}
-
 		// qué tipo de bala disparo?
 		// ...
 		// qué daño hace?
