@@ -48,13 +48,27 @@ public:
 	Vec2 funcionMovimientoPosIni;
 	double funcionMovimientoAmplitude;
 	double funcionMovimientoSpeed;
+	// movimiento tipo "space invader"
+	// *movimiento lateral -> esquina -> bajar -> pal otro lado -> bajar -> repetir
+	// cada nave se controla a sí misma, necesita:
+	// - dirección inicial
+	// - vel htal/vel vcal
+	// - limites x
+	bool spaceInvaderMovement_goingRight;			// pa donde tira
+	bool spaceInvaderMovement_goingDown;			// pa donde tira
+	float spaceInvaderMovement_speedX;				// cómo de rápido se mueve lateralmente
+	float spaceInvaderMovement_speedY;				// cómo de rápido baja
+	float spaceInvaderMovement_xMin;				// dónde hace tope
+	float spaceInvaderMovement_xMax;				// dónde hace tope
+	float spaceInvaderMovement_vcalMoveAmount;		// cuánto baja cuando baja
+	float spaceInvaderMovement_vcalMoveCurrTarget;	// cómo sé cuándo deja de bajar
 	// -------------------------------------------------
 
 	Vec2 getPosition();
 	void setPosition(Vec2);
 	Sprite *getSprite();
 
-	bool mueveIzq, mueveDch, mueveArr, mueveAbj;	// hace visibles los controles de un GameActor para controlarlo desde fuera
+	bool mueveIzq, mueveDch, mueveArr, mueveAbj;	// hace visibles los controles de un GameActor para controlarlo desde fuera. Realmente solo los usa Player :/
 	void activa(Vec2 pos);
 	void desactiva();
 	bool isActive();

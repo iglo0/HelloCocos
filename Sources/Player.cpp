@@ -59,3 +59,11 @@ void Player::update(float deltaT){
 		}
 	}
 }
+
+void Player::impacto(float dmg){
+	CCLOG("Player says OUCH!");
+
+	// TODO: matar al jugador, quitar vidas, cambiar de estado, etc
+	desactiva();
+
+}

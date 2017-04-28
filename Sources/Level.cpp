@@ -164,7 +164,7 @@ bool Level::init(){
 	// ahora añadirlo al pool de GameUpdates para que haga algo de lo que le he dicho
 	Pool::currentEnemies.push_back(enemyBoss);
 
-	SpaceInvaders spaceInvaders = SpaceInvaders(11,5);
+	SpaceInvaders spaceInvaders = SpaceInvaders(11, 5 , 0.6f, 0.45f, 50.0f, 150.0f);
 
 	// creo una lista de enemigos que tiene que coincidir aprox con el nº de filas. Un tipo de enemigo por fila. Si se le acaban los tipos, repite el ultimo hasta el fin de las filas
 	std::vector<Enemy::tiposEnemigo> tipos;
@@ -173,7 +173,7 @@ bool Level::init(){
 	tipos.push_back(Enemy::tipo2);
 	tipos.push_back(Enemy::tipo1);
 
-	spaceInvaders.creaInvaders(this, tipos, Pool::currentBulletsTipo1, 50.0f, 10.0f, 1200);
+	spaceInvaders.creaInvaders(this, tipos, Pool::currentBulletsTipo1, 60.0f, 30.0f, 1200);
 
 
 	// ========================================================================================================================================

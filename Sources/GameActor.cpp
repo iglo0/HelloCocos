@@ -9,6 +9,12 @@ GameActor::GameActor(){
 	gameActorHP = gameActorHPInicial;
 	mueveIzq = mueveDch = mueveArr = mueveAbj = false;
 	funcionMovimientoActual = nullptr;
+
+	spaceInvaderMovement_goingRight = false;
+	spaceInvaderMovement_speedX = 0;
+	spaceInvaderMovement_speedY = 0;
+	spaceInvaderMovement_xMax = 0;
+	spaceInvaderMovement_xMin = 0;
 }
 
 GameActor::~GameActor(){
@@ -150,8 +156,45 @@ void GameActor::mueveSeno(){
 }
 
 void GameActor::mueveSpaceInvader(){
+	float deltaT = Director::getInstance()->getDeltaTime();
+	Vec2 curPos = sprite->getPosition();
 
-	return;
+
+	if(spaceInvaderMovement_goingDown){
+		// MOVIMIENTO VERTICAL
+		curPos.y -= spaceInvaderMovement_speedY * deltaT;
+
+		if(curPos.y <= spaceInvaderMovement_vcalMoveCurrTarget){
+			spaceInvaderMovement_goingDown = false;
+			spaceInvaderMovement_goingRight = !spaceInvaderMovement_goingRight;
+		}
+	} else{
+		// MOVIMIENTO LATERAL
+		if(spaceInvaderMovement_goingRight){
+			curPos.x += spaceInvaderMovement_speedX * deltaT;
+
+			if(curPos.x >= spaceInvaderMovement_xMax){
+				//spaceInvaderMovement_goingRight = false;
+				spaceInvaderMovement_goingDown = true;
+				spaceInvaderMovement_vcalMoveCurrTarget = curPos.y - spaceInvaderMovement_vcalMoveAmount;
+				// no hago "clipping" del movimiento porque me parece que se me van a apuchurrar los invaders a los lados
+			}
+		} else{
+			curPos.x -= spaceInvaderMovement_speedX * deltaT;
+
+			if(curPos.x <= spaceInvaderMovement_xMin){
+				//spaceInvaderMovement_goingRight = true;
+				spaceInvaderMovement_goingDown = true;
+				spaceInvaderMovement_vcalMoveCurrTarget = curPos.y - spaceInvaderMovement_vcalMoveAmount;
+				// no hago "clipping" del movimiento porque me parece que se me van a apuchurrar los invaders a los lados
+			}
+		}
+	}
+
+
+	// TODO: dejo para luego el moverse pabajo
+
+	sprite->setPosition(curPos);
 
 }
 

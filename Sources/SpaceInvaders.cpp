@@ -31,22 +31,21 @@ void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &t
 
 			// Pruebo el nuevo Enemy:GameActor 
 			// lo inicializo y le asigno un comportamiento
-			// situo al enemigo arriba en el medio, con medio cuerpo de margen superior
-			//Vec2 enePos = Vec2::ZERO;	//Vec2(visibleSize.width / 2.0f, visibleSize.height - enemy->getSprite()->getContentSize().height);
-			//enePos = Vec2(visibleSize.width / 2.0f + 100.0f, visibleSize.height - 250.0f);
 			enePos = devuelvePosicionInicial(i, j);
 			tmp->activa(enePos);
-			//tmp->weapon = new Weapon;
-			//tmp->weapon->createBulletPool(nodo, 3, "balaEne_", BULLET_PATH_SPRITE2, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, -BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG,
-			//	(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador, 3.0f);
-			// TODO: uyuy esto casca fijo
-			//tmp->weapon->bulletPool = pool;
 
 			// Cómo querré que se mueva?
-			//tmp->funcionMovimientoActual = &GameActor::mueveSeno;
 			tmp->funcionMovimientoActual = &GameActor::mueveSpaceInvader;
-			tmp->funcionMovimientoAmplitude = -1.0;
-			tmp->funcionMovimientoPosIni = Vec2::ZERO;
+
+			tmp->spaceInvaderMovement_goingRight = true;
+			tmp->spaceInvaderMovement_goingDown = false;
+			tmp->spaceInvaderMovement_speedX = velMovHtal;
+			tmp->spaceInvaderMovement_speedY = velMovVcal;
+			tmp->spaceInvaderMovement_vcalMoveCurrTarget = 0;	// calculado luego
+			tmp->spaceInvaderMovement_vcalMoveAmount = 60.0f;
+			// TODO: calcular los límites de movimiento correctamente
+			tmp->spaceInvaderMovement_xMax = devuelvePosicionInicial(i, j).x + Director::getInstance()->getVisibleSize().width/2.5f - marginX;
+			tmp->spaceInvaderMovement_xMin = devuelvePosicionInicial(i, j).x;
 
 			// y que ataque?
 			//tmp->funcionControlActual = &Enemy::funControl1;

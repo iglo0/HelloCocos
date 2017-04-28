@@ -13,16 +13,15 @@ Git user attention
 
 ### REORGANIZACIÓN DE CÓDIGO EN MARCHA
 
-- [x] clase GameActor: base de los actores del juego (jugador, enemigos, balas...)
-- [x] clase GameActor: añadidas funciones de movimiento
-- [x] Jugador: base -> definiendo pero funcionando
-- [ ] Jugador: disparos -> a falta de activar
-- [x] ~clase Weapon~ (eliminada por problemática)
-- [x] Enemy: base -> definiendo pero funcionando
-- [x] Enemy: añadidos tipos para una creación más fácil
-- [x] Enemy: funciones como parametros para personalizar comportamientos [primera iteración que funciona]
+- base funcionando sin sonido
+- "space invaders" aparecen y se mueven
+- un ovni jefe aparece y se mueve
+- una sola vida :) [traducido: no hay estados ni nada, al morir desapareces]
 
 ### SIGUIENTE
 - [ ] dar una estructura: inicio del juego, fin de la partida, records...
 - [ ] configuración con archivos
 - [ ] salir de la rama de pruebas y volver a master
+- [ ] configuración con ficheros
+- [ ] sprites con atlas/spritesheet
+- [ ] animaciones

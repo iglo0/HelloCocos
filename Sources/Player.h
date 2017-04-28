@@ -25,7 +25,7 @@ public:
 	~Player();
 
 	void update(float deltaT);
-
+	virtual void impacto(float dmg) override;
 	bool disparar;
 
 	InputComponent *inputComponent;
