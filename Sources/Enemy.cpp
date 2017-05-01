@@ -56,6 +56,9 @@ void Enemy::impacto(float dmg){
 		desactiva();
 		// TODO: explosion
 		// TODO: dar puntos
+		// TODO: y distinguir el tipo de enemigo que es!
+		//Game::getInstance()->puntos += ENEMY_GENERIC_POINTS;
+		Game::getInstance()->sumaPuntos(ENEMY_GENERIC_POINTS);
 	} else{
 		// no muere
 

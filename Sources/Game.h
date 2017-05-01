@@ -2,12 +2,17 @@
 
 #include "cocos2d.h"
 #include <vector>
-
+#include <iostream>	// para usar std::cout << ... << std::setfill('0') << 4 ... (leading zeros)
+#include <iomanip>	// para usar std::cout << ... << std::setfill('0') << 4 ... (leading zeros)
 
 USING_NS_CC;
 
+// TODO: Sacarlo a un fichero
 #pragma region CONSTANTES
 
+// --------------------------------------------------------------------
+// definicion de objetos
+// --------------------------------------------------------------------
 // Player
 #define PLAYER_INITIAL_SPEED 300.0f
 #define PLAYER_PATH_SPRITE "spaceshipspr.png"
@@ -24,6 +29,7 @@ USING_NS_CC;
 // Enemies
 #define ENEMY_GENERIC_SPEED 100.0f
 #define ENEMY_GENERIC_HP 1.0f
+#define ENEMY_GENERIC_POINTS 100
 
 #define ENEMY_T1_PATH_SPRITE "aliensprite2.png"
 #define ENEMY_T1_INITIAL_SIZE 0.30f
@@ -38,8 +44,23 @@ USING_NS_CC;
 #define ENEMY_BOSS_INITIAL_SIZE 1.0f
 #define ENEMY_BOSS_INITIAL_ROTATION 0
 
+#define ENEMY_BOSS_POINTS 500
+
 #define ENEMY_PATH_SOUND_DIE "sonidos/invaderkilled.wav"
 
+// --------------------------------------------------------------------
+// estados
+// --------------------------------------------------------------------
+#define DURACION_ESTADO_INTRONIVEL 2.0f
+#define DURACION_ESTADO_FINNIVEL 2.0f
+#define DURACION_ESTADO_MUERTE 2.0f
+#define DURACION_ESTADO_GAMEOVER 5.0f
+
+// --------------------------------------------------------------------
+// varios
+// --------------------------------------------------------------------
+#define INITIAL_HI_SCORE 5000	// TODO: guardar la tabla de records
+#define VIDAS_INICIALES 3
 
 #pragma endregion
 
@@ -71,11 +92,33 @@ public:
 	static void anadeFisica(Sprite *sprite, int tipoColision, int colisionaCon, const char *name = "[NONAME]");
 	//static void updateAll(float deltaT); // updates all gameActors in da pools. Ummm Game no conoce cómo está definido Enemy (declaración adelantada), y no puede acceder a sus miembros.
 
+	// TODO: esto de mezclar funciones estaticas con instanciadas... 
+	// actualiza los puntos y el marcador correspondiente
+	void sumaPuntos(int p);
+
+	// --------------------------------------------------------------
+	// Puntuaciones
+	// --------------------------------------------------------------
+	int puntos = 0;
+	int hiScore = INITIAL_HI_SCORE;
+	int vidas = VIDAS_INICIALES;
+
+	// --------------------------------------------------------------
+	// GUI [aquí están los controles que van variando: puntos, etc]
+	// --------------------------------------------------------------
+	Label *lblMensajes;
+	Label *lblPuntos;
+	Label *lblHiScore;
+	Label *lblVidas;
+
+	void inicializaGUI();
+	void actualizaVidas();
+
 	// HACK: tengo que aprender a gestionar el tiempo mejor
 	// la idea es que desde la escena que sea, vaya añadiendo el deltaT en cada Update, para saber así el tiempo transcurrido desde el inicio de la escena, al menos
 	float ellapsedTime;
 
-	enum estadosJuego{ menus, introNivel, jugando, finNivel, finHorda, muerte };
+	enum estadosJuego{ menus, introNivel, jugando, finNivel, finHorda, muerte, gameOver };
 	
 	estadosJuego estadoActual;
 

@@ -77,4 +77,5 @@ protected:
 	Sprite *sprite;
 	float gameActorSpeed;
 	float gameActorHP, gameActorHPInicial = 1.0;
+	int gameActorPoints;
 };

@@ -9,7 +9,8 @@ Level::~Level(){
 	// enemigos?
 	// player?
 
-
+	gameInstance->vidas = VIDAS_INICIALES;
+	gameInstance->puntos = 0;
 }
 
 
@@ -42,6 +43,9 @@ Scene* Level::createScene(){
 // on "init" you need to initialize your instance
 bool Level::init(){
 
+	Size visibleSize;
+	Vec2 origin;
+
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// inits
 	// ----------------------------------------------------------------------------------------------------------------------------------------
@@ -53,6 +57,12 @@ bool Level::init(){
 
 	visibleSize = Director::getInstance()->getVisibleSize();
 	origin = Director::getInstance()->getVisibleOrigin();
+	auto size = Director::getInstance()->getWinSize();
+
+
+	iniciadoFinNivel = false;
+	iniciadoIntroNivel = false;
+	iniciadoMuerte = false;
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// preparando los eventos
@@ -72,13 +82,7 @@ bool Level::init(){
 	// GUI
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
-	// Botón de vuelta atrás
-	auto vuelveAtras = MenuItemImage::create("CloseNormal.png", "CloseSelected.png", CC_CALLBACK_1(Level::menuVuelveCallback, this));
-	vuelveAtras->setPosition(Vec2(origin.x + visibleSize.width - vuelveAtras->getContentSize().width / 2, origin.y + vuelveAtras->getContentSize().height / 2));
-	// create menu, it's an autorelease object
-	auto menu = Menu::create(vuelveAtras, NULL);
-	menu->setPosition(Vec2::ZERO);
-	this->addChild(menu, 1);
+	createGUI();
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// otras inicializaciones
@@ -280,17 +284,199 @@ void Level::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event){
 }
 
 void Level::update(float deltaT){
-	Game::getInstance()->ellapsedTime += deltaT;
+	// siempre cuento el tiempo
+	gameInstance->ellapsedTime += deltaT;
 
-	// ---------------------------
-	// PROTA
-	// ---------------------------
-	player->update(deltaT);
+	// Y... estructura!
 
-	// ---------------------------
-	// UPDATE ALL THE THINGS!!
-	// ---------------------------
+	switch(gameInstance->estadoActual){
+	case Game::estadosJuego::introNivel:
+		CCLOG("Gamestate=introNivel");
 
-	Pool::updateAll(deltaT);
+		if(!iniciadoIntroNivel){
+			// HACK: desactiva solo los pools de balas, tendría que renombrarlo o darle otra vuelta
+			Pool::disablePools();
+			// HACK: wtf... sintaxis es esta?
+			//Pool::disablePool<Bullet>((*player->poolMisBalas));
+			player->activatePlayerInInitialPos();
 
+
+			iniciadoIntroNivel = true;
+			tIniCambioEstado = gameInstance->ellapsedTime;
+
+			gameInstance->lblMensajes->setString("PREPARATE!");
+			gameInstance->lblMensajes->setVisible(true);
+		}
+
+		// TODO: Presentar un mensajito
+
+		if(gameInstance->ellapsedTime - tIniCambioEstado >= DURACION_ESTADO_INTRONIVEL){
+			gameInstance->lblMensajes->setVisible(false);
+
+			iniciadoIntroNivel = false;
+			gameInstance->estadoActual = Game::estadosJuego::jugando;
+		}
+
+		break;
+	case Game::estadosJuego::jugando:
+		// ---------------------------
+		// PROTA
+		// ---------------------------
+		player->update(deltaT);
+
+		// ---------------------------
+		// UPDATE ALL THE THINGS!!
+		// ---------------------------
+
+		Pool::updateAll(deltaT);
+
+		break;
+	case Game::estadosJuego::muerte:
+		CCLOG("Gamestate=muerte");
+
+		if(!iniciadoMuerte){
+			iniciadoMuerte = true;
+			tIniCambioEstado = gameInstance->ellapsedTime;
+
+			--gameInstance->vidas;
+			gameInstance->actualizaVidas();
+
+			gameInstance->lblMensajes->setString("MUERTO!");
+			gameInstance->lblMensajes->setVisible(true);
+		}
+
+		// TODO: Presentar un mensajito
+
+		if(gameInstance->ellapsedTime - tIniCambioEstado >= DURACION_ESTADO_MUERTE){
+			gameInstance->lblMensajes->setVisible(false);
+
+			iniciadoMuerte = false;
+
+			if(gameInstance->vidas > 0){
+				gameInstance->estadoActual = Game::estadosJuego::introNivel;
+			} else{
+				gameInstance->estadoActual = Game::estadosJuego::gameOver;
+			}
+		}
+
+		break;
+	case Game::estadosJuego::gameOver:
+		CCLOG("Gamestate=gameOver");
+
+		if(!iniciadoGameOver){
+			iniciadoGameOver = true;
+			tIniCambioEstado = gameInstance->ellapsedTime;
+
+			gameInstance->lblMensajes->setString("GAME OVER!");
+			gameInstance->lblMensajes->setVisible(true);
+		}
+
+		// TODO: Presentar un mensajito
+
+		if(gameInstance->ellapsedTime - tIniCambioEstado >= DURACION_ESTADO_GAMEOVER){
+			gameInstance->lblMensajes->setVisible(false);
+			iniciadoGameOver = false;
+
+			// so what now...
+			menuVuelveCallback(nullptr);
+
+		}
+
+
+		break;
+	default:
+		CCLOG("estado juego no controlado: %d", gameInstance->estadoActual);
+		break;
+
+	}
+
+}
+
+
+void Level::createGUI(){
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	auto origin = Director::getInstance()->getVisibleOrigin();
+
+	// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// Botón de vuelta atrás
+	// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	auto vuelveAtras = MenuItemImage::create("CloseNormal.png", "CloseSelected.png", CC_CALLBACK_1(Level::menuVuelveCallback, this));
+	vuelveAtras->setPosition(Vec2(origin.x + visibleSize.width - vuelveAtras->getContentSize().width / 2, origin.y + vuelveAtras->getContentSize().height / 2));
+	// create menu, it's an autorelease object
+	auto menu = Menu::create(vuelveAtras, NULL);
+	menu->setPosition(Vec2::ZERO);
+	this->addChild(menu, 1);
+
+	// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// marcadores
+	// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	// TODO: Ojo que es un poco "raro". Para actualizar los marcadores desde cualquier instancia, los voy a colocar mayormente en Game (los que se actualizan al menos)
+
+	// create a TTFConfig files for labels to share
+	TTFConfig labelConfig;
+	labelConfig.fontFilePath = "fonts/Marker Felt.ttf";
+	labelConfig.fontSize = 24;
+	labelConfig.glyphs = GlyphCollection::DYNAMIC;
+	labelConfig.outlineSize = 0;
+	labelConfig.customGlyphs = nullptr;
+	labelConfig.distanceFieldEnabled = false;
+
+	// en el centro
+	gameInstance->lblMensajes = Label::createWithTTF(labelConfig, "blah blah blah blah");
+	gameInstance->lblMensajes->setPosition(Vec2(visibleSize.width / 2.0f - gameInstance->lblMensajes->getContentSize().width / 2.0f, visibleSize.height / 2.0f + gameInstance->lblMensajes->getContentSize().height / 2.0f));
+	gameInstance->lblMensajes->enableShadow();
+	gameInstance->lblMensajes->setVisible(false);
+
+	// arriba a la izquierda
+	// label fijo
+	auto lblPuntosFijo = Label::createWithTTF(labelConfig, "Puntos:");
+	lblPuntosFijo = Label::createWithTTF(labelConfig, "Puntos:");
+	lblPuntosFijo->setPosition(Vec2(50.0f, visibleSize.height - lblPuntosFijo->getContentSize().height / 2.0f));
+	lblPuntosFijo->enableShadow();
+	lblPuntosFijo->setTextColor(Color4B::RED);	// o setColor(Color3B)??
+	// label variable
+	//lblPuntos = Label::createWithTTF(labelConfig, "000000");
+	//lblPuntos->setPosition(Vec2(140.0f, visibleSize.height - lblPuntos->getContentSize().height / 2.0f));
+	//lblPuntos->enableShadow();
+	gameInstance->lblPuntos = Label::createWithTTF(labelConfig, "ffffuuuu");
+	gameInstance->lblPuntos->setPosition(Vec2(140.0f, visibleSize.height - gameInstance->lblPuntos->getContentSize().height / 2.0f));
+	gameInstance->lblPuntos->enableShadow();
+
+	// arriba en el centro
+	// label fijo
+	auto lblHiScoreFijo = Label::createWithTTF(labelConfig, "HiScore:");
+	lblHiScoreFijo->setPosition(Vec2(visibleSize.width / 2.0f - lblHiScoreFijo->getContentSize().width / 2.0f, visibleSize.height - lblHiScoreFijo->getContentSize().height / 2.0f));
+	lblHiScoreFijo->enableShadow();
+	lblHiScoreFijo->setTextColor(Color4B::RED);
+	// label variable
+	gameInstance->lblHiScore = Label::createWithTTF(labelConfig, "xxxxxx");
+	gameInstance->lblHiScore->setPosition(Vec2(70.0f + visibleSize.width / 2.0f - gameInstance->lblHiScore->getContentSize().width / 2.0f, visibleSize.height - gameInstance->lblHiScore->getContentSize().height / 2.0f));
+	gameInstance->lblHiScore->enableShadow();
+
+
+	// arriba a la derecha
+	// label fijo
+	auto lblVidasFijo = Label::createWithTTF(labelConfig, "Vidas:");
+	lblVidasFijo->setPosition(Vec2(visibleSize.width - lblVidasFijo->getContentSize().width - 50.0f, visibleSize.height - lblVidasFijo->getContentSize().height / 2.0f));
+	lblVidasFijo->enableShadow();
+	lblVidasFijo->setTextColor(Color4B::RED);
+	// label variable
+	gameInstance->lblVidas = Label::createWithTTF(labelConfig, "69");
+	gameInstance->lblVidas->setPosition(Vec2(20.0f + visibleSize.width - gameInstance->lblVidas->getContentSize().width - 50.0f, visibleSize.height - gameInstance->lblVidas->getContentSize().height / 2.0f));
+	gameInstance->lblVidas->enableShadow();
+
+	// estos no necesitan updates
+	this->addChild(lblPuntosFijo, 1);
+	this->addChild(lblHiScoreFijo, 1);
+	this->addChild(lblVidasFijo, 1);
+
+	// marcadores que cambian durante la partida
+	this->addChild(gameInstance->lblMensajes, 1);
+	this->addChild(gameInstance->lblPuntos, 1);
+	this->addChild(gameInstance->lblHiScore, 1);
+	this->addChild(gameInstance->lblVidas, 1);
+
+	// inicializa con valores por defecto
+	gameInstance->inicializaGUI();
 }

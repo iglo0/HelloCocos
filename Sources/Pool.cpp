@@ -118,39 +118,19 @@ void Pool::deletePools(){
 	deletePool<Bullet>(currentBulletsTipo1);
 	deletePool<Bullet>(currentBulletsTipo2);
 	deletePool<Bullet>(currentBulletsTipoBoss);
-
-	//// enemies
-	//for(auto x = currentEnemies.cbegin(); x != currentEnemies.cend(); ++x){
-	//	// elimino el sprite del nodo padre
-	//	// al ser los sprites "autorelease" entiendo que... ¿no hay que hacer nada especial con ellos?
-	//	(*x)->getSprite()->removeFromParent();
-	//	// borro este enemigo que fue creado con un new
-	//	delete (*x);
-	//}
-	//// vacío el vector. Se puede hacer con erase(inicio,fin) o clear() para borrar todos los elementos
-	//currentEnemies.clear();
-	
-
-	////// bullets...
-	////// ...del player
-	////for(auto x = currentBulletsPlayerTipo1.cbegin(); x != currentBulletsPlayerTipo1.cend(); ++x){
-	////	if((*x)->isActive()){
-	////	}
-	////}
-
-	////// ...de los bichos
-	////for(auto x = currentBulletsTipo1.cbegin(); x != currentBulletsTipo1.cend(); ++x){
-	////	if((*x)->isActive()){
-	////	}
-	////}
-	////for(auto x = currentBulletsTipo2.cbegin(); x != currentBulletsTipo2.cend(); ++x){
-	////	if((*x)->isActive()){
-	////	}
-	////}
-
 }
 
-template <>
+void Pool::disablePools(){
+
+	//disablePool<Enemy>(currentEnemies);
+	disablePool<Bullet>(currentBulletsPlayerTipo1);
+	disablePool<Bullet>(currentBulletsTipo1);
+	disablePool<Bullet>(currentBulletsTipo2);
+	disablePool<Bullet>(currentBulletsTipoBoss);
+}
+
+
+template <>	// TODO: Es una pena que no pueda convertir simplemente un vector<GameActor> en vector<Enemy> o vector<Bullet>
 void Pool::deletePool<Enemy>(std::vector<Enemy *> &v){
 	for(auto x = v.cbegin(); x != v.cend(); ++x){
 		(*x)->getSprite()->removeFromParent();
@@ -166,4 +146,11 @@ void Pool::deletePool<Bullet>(std::vector<Bullet *> &v){
 		delete (*x);
 	}
 	v.clear();
+}
+
+template <>	// TODO: Es una pena que no pueda convertir simplemente un vector<GameActor> en vector<Enemy> o vector<Bullet>
+void Pool::disablePool<Bullet>(std::vector<Bullet *> &v){
+	for(auto x = v.cbegin(); x != v.cend(); ++x){
+		(*x)->desactiva();
+	}
 }

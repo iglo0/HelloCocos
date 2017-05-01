@@ -36,6 +36,7 @@ public:
 	static void updateAll(float deltaT);
 	
 	static void deletePools();
+	static void disablePools();	// desactiva todos los pools, (útil p.ej. tras una muerte)
 
 	// intento de plantilla con especializaciones
 	// TODO: Y si no quiero usar la plantilla genérica y solo las especializaciones?
@@ -47,6 +48,11 @@ public:
 	static void deletePool<Enemy>(std::vector<Enemy *> &v);
 	template <>
 	static void deletePool<Bullet>(std::vector<Bullet *> &v);
+
+	template <class T>
+	static void disablePool(std::vector<T *> &v);
+	template <>
+	static void disablePool<Bullet>(std::vector<Bullet *> &v);
 
 	// ------------------------------------------------------------------------------------------------
 	// GameActor pools

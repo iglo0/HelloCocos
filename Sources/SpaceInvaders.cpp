@@ -43,7 +43,7 @@ void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &t
 			tmp->spaceInvaderMovement_speedY = velMovVcal;
 			tmp->spaceInvaderMovement_vcalMoveCurrTarget = 0;	// calculado luego
 			tmp->spaceInvaderMovement_vcalMoveAmount = 60.0f;
-			// TODO: calcular los límites de movimiento correctamente
+			// TODO: calcular los límites de movimiento correctamente (puestos a huevo)
 			tmp->spaceInvaderMovement_xMax = devuelvePosicionInicial(i, j).x + Director::getInstance()->getVisibleSize().width/2.5f - marginX;
 			tmp->spaceInvaderMovement_xMin = devuelvePosicionInicial(i, j).x;
 

@@ -45,17 +45,28 @@ public:
 private:
 	// funciones miembro privadas
 	// --------------------------------------------------------------
+	void createGUI();
 
 	// variables miembro privadas
 	// --------------------------------------------------------------
 	Game *gameInstance;	// cacheo la instancia de Game
-	Size visibleSize;
-	Vec2 origin;
+	//Size visibleSize;
+	//Vec2 origin;
 
 	Player *player;
 	InputComponent *inputComponent;
 
-	// TODO: una vez creados, me parece que los enemigos se deberían gestionar solos. De momento y por ver algo...
-	//Enemy *enemy;
-	//std::vector<Enemy *> enemyPool;
+	// control de estados del juego
+	bool iniciadoIntroNivel;
+	bool iniciadoFinNivel;
+	bool iniciadoMuerte;
+	bool iniciadoGameOver;
+
+	float tIniCambioEstado;
+
+	// GUI! -> a Game
+	//Label *lblMensajes;
+	//Label *lblPuntos;
+	//Label *lblHiScore;
+	//Label *lblVidas;
 };

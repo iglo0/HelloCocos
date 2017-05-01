@@ -26,11 +26,11 @@ public:
 
 	void update(float deltaT);
 	virtual void impacto(float dmg) override;
+	void killPlayer();
+	void activatePlayerInInitialPos();
+
 	bool disparar;
-
 	InputComponent *inputComponent;
-
-	//Weapon *currentWeapon;
 	std::vector<Bullet *> *poolMisBalas;
 
 private:

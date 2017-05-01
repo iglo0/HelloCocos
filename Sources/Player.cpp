@@ -1,7 +1,6 @@
 #include "Player.h"
 
 Player::Player(Node *nodo, float playerSpeed){
-	Vec2 posInicial;
 
 	// Empieza por el constructor de la base
 	GameActor::GameActor();
@@ -23,10 +22,8 @@ Player::Player(Node *nodo, float playerSpeed){
 	sprite->setScale(playerInitialScale);
 	sprite->setRotation(playerInitialRotation);
 
-	// posición inicial centrado abajo
-	posInicial.x = Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width / 2.0f;
-	posInicial.y = sprite->getScale()*sprite->getContentSize().height / 2.0f;
-	activa(posInicial);
+	// en vez de hacerlo aquí siempre, prefiero esperar a que se haga cuando toque (en el intro nivel por ejemplo)
+	//activatePlayerInInitialPos();
 
 	poolMisBalas = nullptr;
 
@@ -63,7 +60,25 @@ void Player::update(float deltaT){
 void Player::impacto(float dmg){
 	CCLOG("Player says OUCH!");
 
+	killPlayer();
+
+}
+
+
+void Player::killPlayer(){
+
+	Game::getInstance()->estadoActual = Game::estadosJuego::muerte;
+
 	// TODO: matar al jugador, quitar vidas, cambiar de estado, etc
+	// quién quita las vidas? player o level?
 	desactiva();
 
+}
+
+void Player::activatePlayerInInitialPos(){
+	// posición inicial centrado abajo
+	Vec2 posInicial;
+	posInicial.x = Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width / 2.0f;
+	posInicial.y = sprite->getScale()*sprite->getContentSize().height / 2.0f;
+	activa(posInicial);
 }
