@@ -13,22 +13,23 @@ Git user attention
 
 ### REORGANIZACIÓN DE CÓDIGO EN MARCHA
 
-[x] base funcionando sin sonido
-[x] "space invaders" aparecen y se mueven
-[x] un ovni jefe aparece y se mueve
-[x] estructura del juego
-- [x] menus
-- [x] inicio de la partida
-- [x] muerte
-- [x] game over
+- [x] base funcionando sin sonido
+- [x] "space invaders" aparecen y se mueven
+- [x] un ovni jefe aparece y se mueve
+- [ ] estructura del juego
+  - [x] menus
+  - [x] inicio de la partida
+  - [x] muerte
+  - [x] game over
+  - [ ] ...
 - [ ] tabla de records
-[x] puntuacion básica
-[ ] definir puntos para cada objeto
-[ ] salir de la rama de pruebas y volver a master
+- [x] puntuacion básica
+- [ ] definir puntos para cada objeto
+- [ ] salir de la rama de pruebas y volver a master
 
 
 ### SIGUIENTE
 - [ ] configuración con archivos
-- [ ] configuración con ficheros
 - [ ] sprites con atlas/spritesheet
-- [ ] animaciones
+  - [ ] animaciones
+  - [ ] colisiones poligonales
