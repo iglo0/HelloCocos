@@ -16,7 +16,7 @@ Enemy::Enemy(Node *nodo, enum tiposEnemigo tipo){
 		createEnemy(nodo, ENEMY_T2_PATH_SPRITE, "", ENEMY_T2_INITIAL_SIZE, ENEMY_T2_INITIAL_ROTATION, ENEMY_GENERIC_HP);
 		break;
 	case tiposEnemigo::tipoBoss:
-		createEnemy(nodo, ENEMY_BOSS_PATH_SPRITE, "", ENEMY_BOSS_INITIAL_SIZE, ENEMY_BOSS_INITIAL_ROTATION, ENEMY_BOSS_GENERIC_HP);
+		createEnemy(nodo, ENEMY_BOSS_PATH_SPRITE, "", ENEMY_BOSS_INITIAL_SIZE, ENEMY_BOSS_INITIAL_ROTATION, ENEMY_BOSS_GENERIC_HP, ENEMY_BOSS_POINTS);
 		break;
 	default:
 		CCLOG("Intento de crear tipo de enemigo desconocido %d", tipo);
@@ -25,7 +25,7 @@ Enemy::Enemy(Node *nodo, enum tiposEnemigo tipo){
 
 }
 
-void Enemy::createEnemy(Node * nodo, const char * pathSprite, const char * rutaSonidoMuerte, float initialScale, float rotation, float hp){
+void Enemy::createEnemy(Node * nodo, const char * pathSprite, const char * rutaSonidoMuerte, float initialScale, float rotation, float hp, int points){
 	GameActor::GameActor();
 	GameActor::gameActorHP = hp;
 	GameActor::gameActorSpeed = ENEMY_GENERIC_SPEED;
@@ -39,6 +39,8 @@ void Enemy::createEnemy(Node * nodo, const char * pathSprite, const char * rutaS
 
 	//Pool::currentEnemies.push_back(this);
 	poolMisBalas = nullptr;
+
+	pointsOnDeath = points;
 }
 
 Enemy::~Enemy(){
@@ -58,7 +60,7 @@ void Enemy::impacto(float dmg){
 		// TODO: dar puntos
 		// TODO: y distinguir el tipo de enemigo que es!
 		//Game::getInstance()->puntos += ENEMY_GENERIC_POINTS;
-		Game::getInstance()->sumaPuntos(ENEMY_GENERIC_POINTS);
+		Game::getInstance()->sumaPuntos(pointsOnDeath);
 	} else{
 		// no muere
 

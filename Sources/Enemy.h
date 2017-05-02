@@ -63,6 +63,7 @@ public:
 
 private:
 	float tIniDisparo;
+	int pointsOnDeath;
 
-	void createEnemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, float rotation, float hp);
+	void createEnemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, float rotation, float hp, int points = ENEMY_GENERIC_POINTS);
 };

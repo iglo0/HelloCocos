@@ -104,16 +104,16 @@ bool Level::init(){
 
 	// Creando pools de balas para todos los tipos necesarios
 	// TODO: prueba enésima de dónde colgar estos pools... ahora van a una clase propia "Pool".
+	// Pool de balas para el jugador
+	Bullet::createBulletPool(this, Pool::currentBulletsPlayerTipo1, 1, "bala_", BULLET_PATH_SPRITE1, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG,
+		(int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo, BULLET_DEFAULT_SCALE);
+
 	// TODO: Pool ""Tipo 1"" ... ehm... para los enemigos normales?
 	Bullet::createBulletPool(this, Pool::currentBulletsTipo1, 30, "balaEne_", BULLET_PATH_SPRITE2, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, -BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG,
 		(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador, BULLET_DEFAULT_SCALE);
 	// TODO: Pool ""Tipo 2"" ... ehm... para el boss?
 	Bullet::createBulletPool(this, Pool::currentBulletsTipo2, 30, "balaEne_", BULLET_PATH_SPRITE2, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, -BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG * 2.0f,
 		(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador, BULLET_DEFAULT_BOSS_SCALE);
-	// Pool de balas para el jugador
-	Bullet::createBulletPool(this, Pool::currentBulletsPlayerTipo1, 16, "bala_", BULLET_PATH_SPRITE1, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG,
-		(int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo, BULLET_DEFAULT_SCALE);
-
 	// TODO: ahora me falta cómo realacionar los "pools" con quienes los necesitan
 	// Problema: Pool ¿necesita? acceso a Enemy y Bullet porque se crean "pools" de ambos tipos
 	// Enemy y Bullet no pueden acceder a Pool ¿tengo que buscar un intermediario?
@@ -168,7 +168,10 @@ bool Level::init(){
 	// ahora añadirlo al pool de GameUpdates para que haga algo de lo que le he dicho
 	Pool::currentEnemies.push_back(enemyBoss);
 
-	SpaceInvaders spaceInvaders = SpaceInvaders(11, 5 , 0.6f, 0.45f, 50.0f, 150.0f);
+	// ---------------------------------------------------------------------------------------------
+	// crea los "Space Invaders
+	// TODO: temporal, tiene que haber una progresión
+	SpaceInvaders spaceInvaders = SpaceInvaders(11, 5, 0.8f, 0.45f, 50.0f, 150.0f);
 
 	// creo una lista de enemigos que tiene que coincidir aprox con el nº de filas. Un tipo de enemigo por fila. Si se le acaban los tipos, repite el ultimo hasta el fin de las filas
 	std::vector<Enemy::tiposEnemigo> tipos;
