@@ -18,7 +18,7 @@ void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &t
 
 	for(int j = 0; j < dimMaxY; j++) {
 
-		// TODO: Probar! coge el tipo que toca o repite el último ad infinitum
+		// coge el tipo que toca o repite el último ad infinitum
 		if(j < tipos.size()){
 			tipo = tipos[j];
 		} else{
@@ -57,12 +57,9 @@ void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &t
 
 			// hale, definido
 
-
 			// TODO: cada vez que cree un Enemy lo meto en el array de Pool
 			// TODO: lo podría meter en el new de Enemy?
 			Pool::currentEnemies.push_back(tmp);
-
-
 		}
 	}
 }

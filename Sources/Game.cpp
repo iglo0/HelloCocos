@@ -98,7 +98,6 @@ void Game::sumaPuntos(int p){
 
 void Game::inicializaGUI(){
 	std::stringstream ss;
-
 	// puntos
 	ss << std::setw(6) << std::setfill('0') << 0;
 	lblPuntos->setString(ss.str());
