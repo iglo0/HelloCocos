@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- esto, guardado en resources, no funcionara en android/ios aparentemente -->
+<person>
+	<firstname>Ignatius</firstname>
+	<lastname>Reilly</lastname>
+</person>
+<person>
+	<firstname>Ester</firstname>
+	<lastname>Colero</lastname>
+</person>
+<person>
+	<firstname>Aitor</firstname>
+	<lastname>Menta</lastname>
+</person>
+<person>
+	<firstname>Benito</firstname>
+	<lastname>Camelas</lastname>
+</person>

@@ -57,6 +57,9 @@
     <ClCompile Include="..\Sources\Bullet.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\pugixml.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Sources\KeyboardTest.h">
@@ -105,6 +108,12 @@
       <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="..\Sources\Bullet.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\pugiconfig.hpp">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\pugixml.hpp">
       <Filter>Sources</Filter>
     </ClInclude>
   </ItemGroup>
