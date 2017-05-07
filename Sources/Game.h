@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>	// para usar std::cout << ... << std::setfill('0') << 4 ... (leading zeros)
 #include <iomanip>	// para usar std::cout << ... << std::setfill('0') << 4 ... (leading zeros)
+#include <unordered_map>	// TODO: hace falta?? sin el include también funciona
 
 USING_NS_CC;
 
@@ -12,6 +13,10 @@ USING_NS_CC;
 
 // --------------------------------------------------------------------
 // definicion de objetos
+// --------------------------------------------------------------------
+// prueba con los xml, esto es intellisense para pobres :P
+#define CONFIG_PLAYER_INITIAL_SPEED "player_initial_speed"
+#define CONFIG_PLAYER_PATH_SPRITE "player_path_sprite"
 // --------------------------------------------------------------------
 // Player
 #define PLAYER_INITIAL_SPEED 300.0f
@@ -65,6 +70,7 @@ USING_NS_CC;
 #pragma endregion
 
 // declaraciones adelantadas
+// TODO: Juer, no uso Enemy en Game y si quito esta declaracion peta todo o.O
 class Enemy;
 
 
@@ -122,6 +128,7 @@ public:
 	
 	estadosJuego estadoActual;
 
+	std::unordered_map<const char *, const char *> config_properties;
 
 	// TODO: ES ESTE UN BUEN SITIO PARA ESTO???
 	// Quiero? que las categorías estén accesibles en todas partes

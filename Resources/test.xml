@@ -4,15 +4,63 @@
 	<firstname>Ignatius</firstname>
 	<lastname>Reilly</lastname>
 </person>
-<person>
-	<firstname>Ester</firstname>
-	<lastname>Colero</lastname>
-</person>
-<person>
-	<firstname>Aitor</firstname>
-	<lastname>Menta</lastname>
-</person>
-<person>
-	<firstname>Benito</firstname>
-	<lastname>Camelas</lastname>
-</person>
+
+<!--
+// --------------------------------------------------------------------
+// definicion de objetos
+// --------------------------------------------------------------------
+// Player
+#define PLAYER_INITIAL_SPEED 300.0f
+#define PLAYER_PATH_SPRITE "spaceshipspr.png"
+// Bullets
+#define BULLET_PATH_SPRITE1 "bullet_2_blue.png"
+#define BULLET_PATH_SPRITE2 "bullet_orange0000.png"
+#define BULLET_PATH_SOUND_FIRE "sonidos/shoot.wav"
+#define BULLET_PATH_SOUND_IMPACT "sonidos/fastinvader1.wav"
+#define BULLET_DEFAULT_SCALE 1.0f
+#define BULLET_DEFAULT_BOSS_SCALE 3.0f
+
+#define BULLET_DEFAULT_DMG 1.0f
+#define BULLET_DEFAULT_SPEED 500.0f
+// Enemies
+#define ENEMY_GENERIC_SPEED 100.0f
+#define ENEMY_GENERIC_HP 1.0f
+#define ENEMY_GENERIC_POINTS 100
+
+#define ENEMY_T1_PATH_SPRITE "aliensprite2.png"
+#define ENEMY_T1_INITIAL_SIZE 0.30f
+#define ENEMY_T1_INITIAL_ROTATION 0
+
+#define ENEMY_T2_PATH_SPRITE "Spaceship15.png"
+#define ENEMY_T2_INITIAL_SIZE 0.35f
+#define ENEMY_T2_INITIAL_ROTATION 0
+
+#define ENEMY_BOSS_GENERIC_HP 20.0f
+#define ENEMY_BOSS_PATH_SPRITE "boss1.png"
+#define ENEMY_BOSS_INITIAL_SIZE 1.0f
+#define ENEMY_BOSS_INITIAL_ROTATION 0
+
+#define ENEMY_BOSS_POINTS 500
+
+#define ENEMY_PATH_SOUND_DIE "sonidos/invaderkilled.wav"
+
+// --------------------------------------------------------------------
+// estados
+// --------------------------------------------------------------------
+#define DURACION_ESTADO_INTRONIVEL 2.0f
+#define DURACION_ESTADO_FINNIVEL 2.0f
+#define DURACION_ESTADO_MUERTE 2.0f
+#define DURACION_ESTADO_GAMEOVER 5.0f
+
+// --------------------------------------------------------------------
+// varios
+// --------------------------------------------------------------------
+#define INITIAL_HI_SCORE 5000	// TODO: guardar la tabla de records
+#define VIDAS_INICIALES 3
+
+-->
+
+<default_values>
+	<player_initial_speed>300.0f</player_initial_speed>
+	<player_path_sprite>spaceshipspr.png</player_path_sprite>
+</default_values>
