@@ -3,6 +3,12 @@
 Game::Game(){
 	ellapsedTime = 0;
 	estadoActual = estadosJuego::menus;
+
+	// TODO: me tengo que asegurar que esto se inicializa hacia el principio
+	// TODO: esto no es multiplataforma, aparentemente android/ios no leen el fichero desde resources
+	loadConfig("test.xml");
+	vidas = vidas_iniciales;
+	hiScore = initial_hi_score;
 }
 
 Game *Game::getInstance(){
@@ -11,8 +17,6 @@ Game *Game::getInstance(){
 	static Game *instance = new Game;
 	return instance;
 }
-	
-
 
 void Game::anadeFisica(Sprite *sprite, int tipoColision, int colisionaCon, const char *name){
 
@@ -125,6 +129,62 @@ void Game::actualizaVidas(){
 	lblVidas->setString(ss.str());
 }
 
+
+void Game::loadConfig(const char *filename){
+
+	pugi::xml_document doc;
+	pugi::xml_parse_result result = doc.load_file(filename);
+
+	//std::cout << "Load result: " << result.description() << ", whatever: " << doc.child("book").attribute("category").value() << std::endl;
+	//std::cout << doc.child("person").child_value("firstname") << std::endl;
+	//std::cout << doc.child("person").child_value("lastname") << std::endl;
+
+	// C++11
+	//for(pugi::xml_node person : doc.children("person")){
+	//	//std::cout << person.child_value("firstname") << " " << person.child_value("lastname") << std::endl;
+	//	CCLOG("%s", person.child_value("firstname"));
+	//}
+	
+	pugi::xml_node xml_default_values = doc.child("default_values");
+	
+	// TODO: yee-haw! sin comprobaciones
+	player_path_sprite = xml_default_values.child_value(CONFIG_PLAYER_PATH_SPRITE);
+	player_initial_speed = atof(xml_default_values.child_value(CONFIG_PLAYER_INITIAL_SPEED));
+	
+	bullet_path_sprite1 = xml_default_values.child_value(CONFIG_BULLET_PATH_SPRITE1);
+	bullet_path_sprite2 = xml_default_values.child_value(CONFIG_BULLET_PATH_SPRITE2);
+	bullet_path_sound_fire = xml_default_values.child_value(CONFIG_BULLET_PATH_SOUND_FIRE);
+	bullet_path_sound_impact = xml_default_values.child_value(CONFIG_BULLET_PATH_SOUND_IMPACT);
+	bullet_default_scale = atof(xml_default_values.child_value(CONFIG_BULLET_DEFAULT_SCALE));
+	bullet_default_boss_scale = atof(xml_default_values.child_value(CONFIG_BULLET_DEFAULT_BOSS_SCALE));
+
+	duracion_estado_intronivel = atof(xml_default_values.child_value(CONFIG_DURACION_ESTADO_INTRONIVEL));
+	duracion_estado_finnivel = atof(xml_default_values.child_value(CONFIG_DURACION_ESTADO_FINNIVEL));
+	duracion_estado_muerte = atof(xml_default_values.child_value(CONFIG_DURACION_ESTADO_MUERTE));
+	duracion_estado_gameover = atof(xml_default_values.child_value(CONFIG_DURACION_ESTADO_GAMEOVER));
+
+	initial_hi_score = atoi(xml_default_values.child_value(CONFIG_INITIAL_HI_SCORE));
+	vidas_iniciales = atoi(xml_default_values.child_value(CONFIG_VIDAS_INICIALES));
+
+
+
+	//config_properties.insert({ CONFIG_PLAYER_INITIAL_SPEED, xml_default_values.child_value(CONFIG_PLAYER_INITIAL_SPEED) });
+	//config_properties.insert({ CONFIG_PLAYER_PATH_SPRITE, xml_default_values.child_value(CONFIG_PLAYER_PATH_SPRITE) });
+
+	//auto iter = config_properties.find(CONFIG_PLAYER_INITIAL_SPEED);
+
+	//if(iter != config_properties.end()){
+	//	// ojo find devuelve un iterator
+	//	CCLOG("%s", iter->second);
+	//}
+
+	//iter = config_properties.find(CONFIG_PLAYER_PATH_SPRITE);
+	//if(iter != config_properties.end()){
+	//	CCLOG("%s", iter->second);
+	//}
+
+
+}
 
 //Game::~Game(){
 //}

@@ -11,7 +11,7 @@
 #include "InputComponent.h"
 #include "SpaceInvaders.h"
 // ----------------------------
-#include "Testz.h"
+//#include "Testz.h"
 // ----------------------------
 
 USING_NS_CC;

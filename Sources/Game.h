@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>	// para usar std::cout << ... << std::setfill('0') << 4 ... (leading zeros)
 #include <iomanip>	// para usar std::cout << ... << std::setfill('0') << 4 ... (leading zeros)
+#include "pugixml.hpp"
 #include <unordered_map>	// TODO: hace falta?? sin el include también funciona
 
 USING_NS_CC;
@@ -15,19 +16,36 @@ USING_NS_CC;
 // definicion de objetos
 // --------------------------------------------------------------------
 // prueba con los xml, esto es intellisense para pobres :P
-#define CONFIG_PLAYER_INITIAL_SPEED "player_initial_speed"
-#define CONFIG_PLAYER_PATH_SPRITE "player_path_sprite"
+// indica como se llaman los nodos en el xml de configuración
+#define CONFIG_PLAYER_INITIAL_SPEED			"player_initial_speed"
+#define CONFIG_PLAYER_PATH_SPRITE			"player_path_sprite"
+
+#define CONFIG_BULLET_PATH_SPRITE1			"bullet_path_sprite1"
+#define CONFIG_BULLET_PATH_SPRITE2			"bullet_path_sprite2"
+#define CONFIG_BULLET_PATH_SOUND_FIRE		"bullet_path_sound_fire"
+#define CONFIG_BULLET_PATH_SOUND_IMPACT		"bullet_path_sound_impact"
+#define CONFIG_BULLET_DEFAULT_SCALE			"bullet_default_scale"
+#define CONFIG_BULLET_DEFAULT_BOSS_SCALE	"bullet_default_boss_scale"
+
+#define CONFIG_DURACION_ESTADO_INTRONIVEL	"duracion_estado_intronivel"
+#define CONFIG_DURACION_ESTADO_FINNIVEL		"duracion_estado_finnivel"
+#define CONFIG_DURACION_ESTADO_MUERTE		"duracion_estado_muerte"
+#define CONFIG_DURACION_ESTADO_GAMEOVER		"duracion_estado_gameover"
+
+#define CONFIG_INITIAL_HI_SCORE				"initial_hi_score"
+#define CONFIG_VIDAS_INICIALES				"vidas_iniciales"
+
 // --------------------------------------------------------------------
 // Player
-#define PLAYER_INITIAL_SPEED 300.0f
-#define PLAYER_PATH_SPRITE "spaceshipspr.png"
+//#define PLAYER_INITIAL_SPEED 300.0f
+//#define PLAYER_PATH_SPRITE "spaceshipspr.png"
 // Bullets
-#define BULLET_PATH_SPRITE1 "bullet_2_blue.png"
-#define BULLET_PATH_SPRITE2 "bullet_orange0000.png"
-#define BULLET_PATH_SOUND_FIRE "sonidos/shoot.wav"
-#define BULLET_PATH_SOUND_IMPACT "sonidos/fastinvader1.wav"
-#define BULLET_DEFAULT_SCALE 1.0f
-#define BULLET_DEFAULT_BOSS_SCALE 3.0f
+//#define BULLET_PATH_SPRITE1 "bullet_2_blue.png"
+//#define BULLET_PATH_SPRITE2 "bullet_orange0000.png"
+//#define BULLET_PATH_SOUND_FIRE "sonidos/shoot.wav"
+//#define BULLET_PATH_SOUND_IMPACT "sonidos/fastinvader1.wav"
+//#define BULLET_DEFAULT_SCALE 1.0f
+//#define BULLET_DEFAULT_BOSS_SCALE 3.0f
 
 #define BULLET_DEFAULT_DMG 1.0f
 #define BULLET_DEFAULT_SPEED 500.0f
@@ -53,20 +71,20 @@ USING_NS_CC;
 
 #define ENEMY_PATH_SOUND_DIE "sonidos/invaderkilled.wav"
 
-// --------------------------------------------------------------------
-// estados
-// --------------------------------------------------------------------
-#define DURACION_ESTADO_INTRONIVEL 2.0f
-#define DURACION_ESTADO_FINNIVEL 2.0f
-#define DURACION_ESTADO_MUERTE 2.0f
-#define DURACION_ESTADO_GAMEOVER 5.0f
-
-// --------------------------------------------------------------------
-// varios
-// --------------------------------------------------------------------
-#define INITIAL_HI_SCORE 5000	// TODO: guardar la tabla de records
-#define VIDAS_INICIALES 3
-
+//// --------------------------------------------------------------------
+//// estados
+//// --------------------------------------------------------------------
+//#define duracion_estado_intronivel 2.0f
+//#define duracion_estado_finnivel 2.0f
+//#define duracion_estado_muerte 2.0f
+//#define duracion_estado_gameover 5.0f
+//
+//// --------------------------------------------------------------------
+//// varios
+//// --------------------------------------------------------------------
+//#define initial_hi_score 5000	// TODO: guardar la tabla de records
+//#define vidas_iniciales 3
+//
 #pragma endregion
 
 // declaraciones adelantadas
@@ -88,7 +106,6 @@ private:
 	//void operator=(Game const&);	// Don't implement
 
 public:
-
 	// hay quien recomienda no usar punteros sino referencias, para asegurarse de que no se puede liberar esta memoria. Si lo he entendido bien...
 	//static Game& getInstance(){ static Game instance; return instance; }
 	
@@ -106,8 +123,8 @@ public:
 	// Puntuaciones
 	// --------------------------------------------------------------
 	int puntos = 0;
-	int hiScore = INITIAL_HI_SCORE;
-	int vidas = VIDAS_INICIALES;
+	int hiScore;
+	int vidas;
 
 	// --------------------------------------------------------------
 	// GUI [aquí están los controles que van variando: puntos, etc]
@@ -128,7 +145,38 @@ public:
 	
 	estadosJuego estadoActual;
 
-	std::unordered_map<const char *, const char *> config_properties;
+
+	// --------------------------------------------------------------
+	// Configuracion
+	// --------------------------------------------------------------
+	// TODO: Aparentemente copiar el .xml en resources no es multiplataforma y cascará en android/ios
+	void loadConfig(const char *filename);
+	
+	// variables donde almacenar la configuracion
+	// player
+	float player_initial_speed;
+	std::string player_path_sprite;
+	// bullets
+	std::string bullet_path_sprite1;
+	std::string bullet_path_sprite2;
+	std::string bullet_path_sound_fire;
+	std::string bullet_path_sound_impact;
+	float bullet_default_scale;
+	float bullet_default_boss_scale;
+
+
+
+	// estados
+	float duracion_estado_intronivel;
+	float duracion_estado_finnivel;
+	float duracion_estado_muerte;
+	float duracion_estado_gameover;
+
+	// varios
+	int initial_hi_score;
+	int vidas_iniciales;
+
+	// --------------------------------------------------------------
 
 	// TODO: ES ESTE UN BUEN SITIO PARA ESTO???
 	// Quiero? que las categorías estén accesibles en todas partes

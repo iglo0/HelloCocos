@@ -9,7 +9,7 @@ Level::~Level(){
 	// enemigos?
 	// player?
 
-	gameInstance->vidas = VIDAS_INICIALES;
+	gameInstance->vidas = gameInstance->vidas_iniciales;
 	gameInstance->puntos = 0;
 }
 
@@ -46,12 +46,6 @@ bool Level::init(){
 	Size visibleSize;
 	Vec2 origin;
 	
-	// !! PRUEBAS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	Testz t;
-	// TODO: esto no es multiplataforma, aparentemente android/ios no leen el fichero desde resources
-	t.xmlTest("test.xml");
-	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// inits
 	// ----------------------------------------------------------------------------------------------------------------------------------------
@@ -59,7 +53,19 @@ bool Level::init(){
 		return false;
 	}
 
+	// inicializa Game si no lo estaba
 	gameInstance = Game::getInstance();
+
+	// !! PRUEBAS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	// TODO: esto no es multiplataforma, aparentemente android/ios no leen el fichero desde resources
+	//gameInstance->loadConfig("test.xml");
+
+	//// TODO: moverlo a otro sitio?
+	//gameInstance->vidas = gameInstance->vidas_iniciales;
+	//gameInstance->hiScore = gameInstance->initial_hi_score;
+
+	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
 	visibleSize = Director::getInstance()->getVisibleSize();
 	origin = Director::getInstance()->getVisibleOrigin();
@@ -111,15 +117,15 @@ bool Level::init(){
 	// Creando pools de balas para todos los tipos necesarios
 	// TODO: prueba enésima de dónde colgar estos pools... ahora van a una clase propia "Pool".
 	// Pool de balas para el jugador
-	Bullet::createBulletPool(this, Pool::currentBulletsPlayerTipo1, 1, "bala_", BULLET_PATH_SPRITE1, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG,
-		(int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo, BULLET_DEFAULT_SCALE);
+	Bullet::createBulletPool(this, Pool::currentBulletsPlayerTipo1, 1, "bala_", gameInstance->bullet_path_sprite1.c_str(), gameInstance->bullet_path_sound_fire.c_str(), gameInstance->bullet_path_sound_impact.c_str(), BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG,
+		(int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo, gameInstance->bullet_default_scale);
 
 	// TODO: Pool ""Tipo 1"" ... ehm... para los enemigos normales?
-	Bullet::createBulletPool(this, Pool::currentBulletsTipo1, 30, "balaEne_", BULLET_PATH_SPRITE2, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, -BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG,
-		(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador, BULLET_DEFAULT_SCALE);
+	Bullet::createBulletPool(this, Pool::currentBulletsTipo1, 30, "balaEne_", gameInstance->bullet_path_sprite2.c_str(), gameInstance->bullet_path_sound_fire.c_str(), gameInstance->bullet_path_sound_impact.c_str(), -BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG,
+		(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador, gameInstance->bullet_default_scale);
 	// TODO: Pool ""Tipo 2"" ... ehm... para el boss?
-	Bullet::createBulletPool(this, Pool::currentBulletsTipo2, 30, "balaEne_", BULLET_PATH_SPRITE2, BULLET_PATH_SOUND_FIRE, BULLET_PATH_SOUND_IMPACT, -BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG * 2.0f,
-		(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador, BULLET_DEFAULT_BOSS_SCALE);
+	Bullet::createBulletPool(this, Pool::currentBulletsTipo2, 30, "balaEne_", gameInstance->bullet_path_sprite2.c_str(), gameInstance->bullet_path_sound_fire.c_str(), gameInstance->bullet_path_sound_impact.c_str(), -BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG * 2.0f,
+		(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador, gameInstance->bullet_default_boss_scale);
 	// TODO: ahora me falta cómo realacionar los "pools" con quienes los necesitan
 	// Problema: Pool ¿necesita? acceso a Enemy y Bullet porque se crean "pools" de ambos tipos
 	// Enemy y Bullet no pueden acceder a Pool ¿tengo que buscar un intermediario?
@@ -131,7 +137,8 @@ bool Level::init(){
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
 	// instancio un jugador con los valores por defecto
-	player = new Player(this, PLAYER_INITIAL_SPEED);
+	//player = new Player(this, PLAYER_INITIAL_SPEED);
+	player = new Player(this, gameInstance->player_initial_speed);
 
 	// algo que disparar
 	// TODO: para cambiar de arma solo tendría que cambiar la referencia.... mola
@@ -300,8 +307,6 @@ void Level::update(float deltaT){
 
 	switch(gameInstance->estadoActual){
 	case Game::estadosJuego::introNivel:
-		CCLOG("Gamestate=introNivel");
-
 		if(!iniciadoIntroNivel){
 			// HACK: desactiva solo los pools de balas, tendría que renombrarlo o darle otra vuelta
 			Pool::disablePools();
@@ -319,7 +324,7 @@ void Level::update(float deltaT){
 
 		// TODO: Presentar un mensajito
 
-		if(gameInstance->ellapsedTime - tIniCambioEstado >= DURACION_ESTADO_INTRONIVEL){
+		if(gameInstance->ellapsedTime - tIniCambioEstado >= gameInstance->duracion_estado_intronivel){
 			gameInstance->lblMensajes->setVisible(false);
 
 			iniciadoIntroNivel = false;
@@ -336,13 +341,10 @@ void Level::update(float deltaT){
 		// ---------------------------
 		// UPDATE ALL THE THINGS!!
 		// ---------------------------
-
 		Pool::updateAll(deltaT);
 
 		break;
 	case Game::estadosJuego::muerte:
-		CCLOG("Gamestate=muerte");
-
 		if(!iniciadoMuerte){
 			iniciadoMuerte = true;
 			tIniCambioEstado = gameInstance->ellapsedTime;
@@ -356,7 +358,7 @@ void Level::update(float deltaT){
 
 		// TODO: Presentar un mensajito
 
-		if(gameInstance->ellapsedTime - tIniCambioEstado >= DURACION_ESTADO_MUERTE){
+		if(gameInstance->ellapsedTime - tIniCambioEstado >= gameInstance->duracion_estado_muerte){
 			gameInstance->lblMensajes->setVisible(false);
 
 			iniciadoMuerte = false;
@@ -370,8 +372,6 @@ void Level::update(float deltaT){
 
 		break;
 	case Game::estadosJuego::gameOver:
-		CCLOG("Gamestate=gameOver");
-
 		if(!iniciadoGameOver){
 			iniciadoGameOver = true;
 			tIniCambioEstado = gameInstance->ellapsedTime;
@@ -382,7 +382,7 @@ void Level::update(float deltaT){
 
 		// TODO: Presentar un mensajito
 
-		if(gameInstance->ellapsedTime - tIniCambioEstado >= DURACION_ESTADO_GAMEOVER){
+		if(gameInstance->ellapsedTime - tIniCambioEstado >= gameInstance->duracion_estado_gameover){
 			gameInstance->lblMensajes->setVisible(false);
 			iniciadoGameOver = false;
 
@@ -433,7 +433,8 @@ void Level::createGUI(){
 
 	// en el centro
 	gameInstance->lblMensajes = Label::createWithTTF(labelConfig, "blah blah blah blah");
-	gameInstance->lblMensajes->setPosition(Vec2(visibleSize.width / 2.0f - gameInstance->lblMensajes->getContentSize().width / 2.0f, visibleSize.height / 2.0f + gameInstance->lblMensajes->getContentSize().height / 2.0f));
+	gameInstance->lblMensajes->setPosition(Vec2(	visibleSize.width / 2.0f - gameInstance->lblMensajes->getContentSize().width / 2.0f, 
+													visibleSize.height / 2.0f + gameInstance->lblMensajes->getContentSize().height / 2.0f));
 	gameInstance->lblMensajes->enableShadow();
 	gameInstance->lblMensajes->setVisible(false);
 

@@ -80,6 +80,10 @@ bool Menus::init(){
 	//miMenu->setPosition(100.0f, 200.0f);
 	this->addChild(miMenu, 1);
 
+	// me aseguro de inicializar Game antes de empezar
+	// HACK: el constructor ya inicializa las variables, me vale con llamar a Game::getInstance() y ya.
+	// al inicializarse, cargará las preferencias y se inicializará
+	Game::getInstance();
 	//Game::getInstance()->ellapsedTime = 0;
 	//Game::getInstance()->estadoActual = Game::estadosJuego::menus;
 

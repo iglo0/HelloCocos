@@ -6,61 +6,54 @@
 </person>
 
 <!--
-// --------------------------------------------------------------------
-// definicion de objetos
-// --------------------------------------------------------------------
-// Player
-#define PLAYER_INITIAL_SPEED 300.0f
-#define PLAYER_PATH_SPRITE "spaceshipspr.png"
-// Bullets
-#define BULLET_PATH_SPRITE1 "bullet_2_blue.png"
-#define BULLET_PATH_SPRITE2 "bullet_orange0000.png"
-#define BULLET_PATH_SOUND_FIRE "sonidos/shoot.wav"
-#define BULLET_PATH_SOUND_IMPACT "sonidos/fastinvader1.wav"
-#define BULLET_DEFAULT_SCALE 1.0f
-#define BULLET_DEFAULT_BOSS_SCALE 3.0f
 
-#define BULLET_DEFAULT_DMG 1.0f
-#define BULLET_DEFAULT_SPEED 500.0f
-// Enemies
-#define ENEMY_GENERIC_SPEED 100.0f
-#define ENEMY_GENERIC_HP 1.0f
-#define ENEMY_GENERIC_POINTS 100
-
-#define ENEMY_T1_PATH_SPRITE "aliensprite2.png"
-#define ENEMY_T1_INITIAL_SIZE 0.30f
-#define ENEMY_T1_INITIAL_ROTATION 0
-
-#define ENEMY_T2_PATH_SPRITE "Spaceship15.png"
-#define ENEMY_T2_INITIAL_SIZE 0.35f
-#define ENEMY_T2_INITIAL_ROTATION 0
-
-#define ENEMY_BOSS_GENERIC_HP 20.0f
-#define ENEMY_BOSS_PATH_SPRITE "boss1.png"
-#define ENEMY_BOSS_INITIAL_SIZE 1.0f
-#define ENEMY_BOSS_INITIAL_ROTATION 0
-
-#define ENEMY_BOSS_POINTS 500
-
-#define ENEMY_PATH_SOUND_DIE "sonidos/invaderkilled.wav"
-
-// --------------------------------------------------------------------
-// estados
-// --------------------------------------------------------------------
-#define DURACION_ESTADO_INTRONIVEL 2.0f
-#define DURACION_ESTADO_FINNIVEL 2.0f
-#define DURACION_ESTADO_MUERTE 2.0f
-#define DURACION_ESTADO_GAMEOVER 5.0f
-
-// --------------------------------------------------------------------
-// varios
-// --------------------------------------------------------------------
-#define INITIAL_HI_SCORE 5000	// TODO: guardar la tabla de records
-#define VIDAS_INICIALES 3
 
 -->
 
 <default_values>
 	<player_initial_speed>300.0f</player_initial_speed>
 	<player_path_sprite>spaceshipspr.png</player_path_sprite>
+
+	<bullet_path_sprite1>bullet_2_blue.png</bullet_path_sprite1>
+	<bullet_path_sprite2>bullet_orange0000.png</bullet_path_sprite2>
+	<bullet_path_sound_fire>sonidos/shoot.wav</bullet_path_sound_fire>
+	<bullet_path_sound_impact>sonidos/fastinvader1.wav</bullet_path_sound_impact>
+	<bullet_default_scale>1.0f</bullet_default_scale>
+	<bullet_default_boss_scale>3.0f</bullet_default_boss_scale>
+
+	
+	<duracion_estado_intronivel>2.0f</duracion_estado_intronivel>
+	<duracion_estado_finnivel>2.0f</duracion_estado_finnivel>
+	<duracion_estado_muerte>2.0f</duracion_estado_muerte>
+	<duracion_estado_gameover>5.0f</duracion_estado_gameover>
+
+	<initial_hi_score>5000</initial_hi_score>
+	<vidas_iniciales>3</vidas_iniciales>
+	<!-- hecho hasta aqui -->
+	
+	
+	<bullet_default_dmg>1.0f</bullet_default_dmg>
+	<bullet_default_speed>500.0f</bullet_default_speed>
+
+	<enemy_generic_speed>100.0f</enemy_generic_speed>
+	<enemy_generic_hp>1.0f</enemy_generic_hp>
+	<enemy_generic_points>100</enemy_generic_points>
+
+	<enemy_t1_path_sprite>aliensprite2.png</enemy_t1_path_sprite>
+	<enemy_t1_initial_size>0.30f</enemy_t1_initial_size>
+	<enemy_t1_initial_rotation>0</enemy_t1_initial_rotation>
+
+	<enemy_t2_path_sprite>spaceship15.png</enemy_t2_path_sprite>
+	<enemy_t2_initial_size>0.35f</enemy_t2_initial_size>
+	<enemy_t2_initial_rotation>0</enemy_t2_initial_rotation>
+
+	<enemy_boss_generic_hp>20.0f</enemy_boss_generic_hp>
+	<enemy_boss_path_sprite>boss1.png</enemy_boss_path_sprite>
+	<enemy_boss_initial_size>1.0f</enemy_boss_initial_size>
+	<enemy_boss_initial_rotation>0</enemy_boss_initial_rotation>
+
+	<enemy_boss_points>500</enemy_boss_points>
+
+	<enemy_path_sound_die>sonidos/invaderkilled.wav</enemy_path_sound_die>
+
 </default_values>
