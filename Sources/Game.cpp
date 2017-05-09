@@ -144,29 +144,6 @@ void Game::loadConfig(const char *filename){
 	//	//std::cout << person.child_value("firstname") << " " << person.child_value("lastname") << std::endl;
 	//	CCLOG("%s", person.child_value("firstname"));
 	//}
-	
-	pugi::xml_node xml_default_values = doc.child("default_values");
-	
-	// TODO: yee-haw! sin comprobaciones
-	player_path_sprite = xml_default_values.child_value(CONFIG_PLAYER_PATH_SPRITE);
-	player_initial_speed = atof(xml_default_values.child_value(CONFIG_PLAYER_INITIAL_SPEED));
-	
-	bullet_path_sprite1 = xml_default_values.child_value(CONFIG_BULLET_PATH_SPRITE1);
-	bullet_path_sprite2 = xml_default_values.child_value(CONFIG_BULLET_PATH_SPRITE2);
-	bullet_path_sound_fire = xml_default_values.child_value(CONFIG_BULLET_PATH_SOUND_FIRE);
-	bullet_path_sound_impact = xml_default_values.child_value(CONFIG_BULLET_PATH_SOUND_IMPACT);
-	bullet_default_scale = atof(xml_default_values.child_value(CONFIG_BULLET_DEFAULT_SCALE));
-	bullet_default_boss_scale = atof(xml_default_values.child_value(CONFIG_BULLET_DEFAULT_BOSS_SCALE));
-
-	duracion_estado_intronivel = atof(xml_default_values.child_value(CONFIG_DURACION_ESTADO_INTRONIVEL));
-	duracion_estado_finnivel = atof(xml_default_values.child_value(CONFIG_DURACION_ESTADO_FINNIVEL));
-	duracion_estado_muerte = atof(xml_default_values.child_value(CONFIG_DURACION_ESTADO_MUERTE));
-	duracion_estado_gameover = atof(xml_default_values.child_value(CONFIG_DURACION_ESTADO_GAMEOVER));
-
-	initial_hi_score = atoi(xml_default_values.child_value(CONFIG_INITIAL_HI_SCORE));
-	vidas_iniciales = atoi(xml_default_values.child_value(CONFIG_VIDAS_INICIALES));
-
-
 
 	//config_properties.insert({ CONFIG_PLAYER_INITIAL_SPEED, xml_default_values.child_value(CONFIG_PLAYER_INITIAL_SPEED) });
 	//config_properties.insert({ CONFIG_PLAYER_PATH_SPRITE, xml_default_values.child_value(CONFIG_PLAYER_PATH_SPRITE) });
@@ -183,6 +160,45 @@ void Game::loadConfig(const char *filename){
 	//	CCLOG("%s", iter->second);
 	//}
 
+
+	pugi::xml_node xml_default_values = doc.child("default_values");
+	
+	// TODO: yee-haw! sin comprobaciones
+	player_path_sprite = xml_default_values.child_value(CONFIG_PLAYER_PATH_SPRITE);
+	player_initial_speed = atof(xml_default_values.child_value(CONFIG_PLAYER_INITIAL_SPEED));
+	
+	bullet_path_sprite1 = xml_default_values.child_value(CONFIG_BULLET_PATH_SPRITE1);
+	bullet_path_sprite2 = xml_default_values.child_value(CONFIG_BULLET_PATH_SPRITE2);
+	bullet_path_sound_fire = xml_default_values.child_value(CONFIG_BULLET_PATH_SOUND_FIRE);
+	bullet_path_sound_impact = xml_default_values.child_value(CONFIG_BULLET_PATH_SOUND_IMPACT);
+	bullet_default_scale = atof(xml_default_values.child_value(CONFIG_BULLET_DEFAULT_SCALE));
+	bullet_default_boss_scale = atof(xml_default_values.child_value(CONFIG_BULLET_DEFAULT_BOSS_SCALE));
+	bullet_default_dmg = atof(xml_default_values.child_value(CONFIG_BULLET_DEFAULT_DMG));
+	bullet_default_speed = atof(xml_default_values.child_value(CONFIG_BULLET_DEFAULT_SPEED));
+
+	enemy_generic_speed = atof(xml_default_values.child_value(CONFIG_ENEMY_GENERIC_SPEED));
+	enemy_generic_hp = atof(xml_default_values.child_value(CONFIG_ENEMY_GENERIC_HP));
+	enemy_generic_points = atoi(xml_default_values.child_value(CONFIG_ENEMY_GENERIC_POINTS));
+	enemy_t1_path_sprite = xml_default_values.child_value(CONFIG_ENEMY_T1_PATH_SPRITE);
+	enemy_t1_initial_size = atof(xml_default_values.child_value(CONFIG_ENEMY_T1_INITIAL_SIZE));
+	enemy_t1_initial_rotation = atof(xml_default_values.child_value(CONFIG_ENEMY_T1_INITIAL_ROTATION));
+	enemy_t2_path_sprite = xml_default_values.child_value(CONFIG_ENEMY_T2_PATH_SPRITE);
+	enemy_t2_initial_size = atof(xml_default_values.child_value(CONFIG_ENEMY_T2_INITIAL_SIZE));
+	enemy_t2_initial_rotation = atof(xml_default_values.child_value(CONFIG_ENEMY_T2_INITIAL_ROTATION));
+	enemy_boss_generic_hp = atof(xml_default_values.child_value(CONFIG_ENEMY_BOSS_GENERIC_HP));
+	enemy_boss_path_sprite = xml_default_values.child_value(CONFIG_ENEMY_BOSS_PATH_SPRITE);
+	enemy_boss_initial_size = atof(xml_default_values.child_value(CONFIG_ENEMY_BOSS_INITIAL_SIZE));
+	enemy_boss_initial_rotation = atof(xml_default_values.child_value(CONFIG_ENEMY_BOSS_INITIAL_ROTATION));
+	enemy_boss_points = atoi(xml_default_values.child_value(CONFIG_ENEMY_BOSS_POINTS));
+	enemy_path_sound_die = xml_default_values.child_value(CONFIG_ENEMY_PATH_SOUND_DIE);
+
+	duracion_estado_intronivel = atof(xml_default_values.child_value(CONFIG_DURACION_ESTADO_INTRONIVEL));
+	duracion_estado_finnivel = atof(xml_default_values.child_value(CONFIG_DURACION_ESTADO_FINNIVEL));
+	duracion_estado_muerte = atof(xml_default_values.child_value(CONFIG_DURACION_ESTADO_MUERTE));
+	duracion_estado_gameover = atof(xml_default_values.child_value(CONFIG_DURACION_ESTADO_GAMEOVER));
+
+	initial_hi_score = atoi(xml_default_values.child_value(CONFIG_INITIAL_HI_SCORE));
+	vidas_iniciales = atoi(xml_default_values.child_value(CONFIG_VIDAS_INICIALES));
 
 }
 

@@ -1,22 +1,21 @@
 #include "Enemy.h"
 
 Enemy::Enemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float initialScale, float initialRotation, float hp){
-
 	createEnemy(nodo, pathSprite, rutaSonidoMuerte, initialScale, initialRotation, hp);
-
 }
 
 Enemy::Enemy(Node *nodo, enum tiposEnemigo tipo){
+	Game *gameInstance = Game::getInstance();
 
 	switch(tipo){
 	case tiposEnemigo::tipo1:
-		createEnemy(nodo, ENEMY_T1_PATH_SPRITE, "", ENEMY_T1_INITIAL_SIZE, ENEMY_T1_INITIAL_ROTATION, ENEMY_GENERIC_HP);
+		createEnemy(nodo, gameInstance->enemy_t1_path_sprite.c_str(), "", gameInstance->enemy_t1_initial_size, gameInstance->enemy_t1_initial_rotation, gameInstance->enemy_generic_hp);
 		break;
 	case tiposEnemigo::tipo2:
-		createEnemy(nodo, ENEMY_T2_PATH_SPRITE, "", ENEMY_T2_INITIAL_SIZE, ENEMY_T2_INITIAL_ROTATION, ENEMY_GENERIC_HP);
+		createEnemy(nodo, gameInstance->enemy_t2_path_sprite.c_str(), "", gameInstance->enemy_t2_initial_size, gameInstance->enemy_t2_initial_rotation, gameInstance->enemy_generic_hp);
 		break;
 	case tiposEnemigo::tipoBoss:
-		createEnemy(nodo, ENEMY_BOSS_PATH_SPRITE, "", ENEMY_BOSS_INITIAL_SIZE, ENEMY_BOSS_INITIAL_ROTATION, ENEMY_BOSS_GENERIC_HP, ENEMY_BOSS_POINTS);
+		createEnemy(nodo, gameInstance->enemy_boss_path_sprite.c_str(), "", gameInstance->enemy_boss_initial_size, gameInstance->enemy_boss_initial_rotation, gameInstance->enemy_boss_generic_hp, gameInstance->enemy_boss_points);
 		break;
 	default:
 		CCLOG("Intento de crear tipo de enemigo desconocido %d", tipo);
@@ -28,7 +27,7 @@ Enemy::Enemy(Node *nodo, enum tiposEnemigo tipo){
 void Enemy::createEnemy(Node * nodo, const char * pathSprite, const char * rutaSonidoMuerte, float initialScale, float rotation, float hp, int points){
 	GameActor::GameActor();
 	GameActor::gameActorHP = hp;
-	GameActor::gameActorSpeed = ENEMY_GENERIC_SPEED;
+	GameActor::gameActorSpeed = Game::getInstance()->enemy_generic_speed;
 
 	setSprite(nodo, pathSprite, "Enemigo", (int)Game::CategoriaColision::Enemigo, (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::Bala, initialScale, true);
 

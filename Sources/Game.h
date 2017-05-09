@@ -26,6 +26,24 @@ USING_NS_CC;
 #define CONFIG_BULLET_PATH_SOUND_IMPACT		"bullet_path_sound_impact"
 #define CONFIG_BULLET_DEFAULT_SCALE			"bullet_default_scale"
 #define CONFIG_BULLET_DEFAULT_BOSS_SCALE	"bullet_default_boss_scale"
+#define CONFIG_BULLET_DEFAULT_DMG			"bullet_default_dmg"
+#define CONFIG_BULLET_DEFAULT_SPEED			"bullet_default_speed"
+
+#define CONFIG_ENEMY_GENERIC_SPEED			"enemy_generic_speed"
+#define CONFIG_ENEMY_GENERIC_HP				"enemy_generic_hp"
+#define CONFIG_ENEMY_GENERIC_POINTS			"enemy_generic_points"
+#define CONFIG_ENEMY_T1_PATH_SPRITE			"enemy_t1_path_sprite"
+#define CONFIG_ENEMY_T1_INITIAL_SIZE		"enemy_t1_initial_size"
+#define CONFIG_ENEMY_T1_INITIAL_ROTATION	"enemy_t1_initial_rotation"
+#define CONFIG_ENEMY_T2_PATH_SPRITE			"enemy_t2_path_sprite"
+#define CONFIG_ENEMY_T2_INITIAL_SIZE		"enemy_t2_initial_size"
+#define CONFIG_ENEMY_T2_INITIAL_ROTATION	"enemy_t2_initial_rotation"
+#define CONFIG_ENEMY_BOSS_GENERIC_HP		"enemy_boss_generic_hp"
+#define CONFIG_ENEMY_BOSS_PATH_SPRITE		"enemy_boss_path_sprite"
+#define CONFIG_ENEMY_BOSS_INITIAL_SIZE		"enemy_boss_initial_size"
+#define CONFIG_ENEMY_BOSS_INITIAL_ROTATION	"enemy_boss_initial_rotation"
+#define CONFIG_ENEMY_BOSS_POINTS			"enemy_boss_points"
+#define CONFIG_ENEMY_PATH_SOUND_DIE			"enemy_path_sound_die"
 
 #define CONFIG_DURACION_ESTADO_INTRONIVEL	"duracion_estado_intronivel"
 #define CONFIG_DURACION_ESTADO_FINNIVEL		"duracion_estado_finnivel"
@@ -46,30 +64,30 @@ USING_NS_CC;
 //#define BULLET_PATH_SOUND_IMPACT "sonidos/fastinvader1.wav"
 //#define BULLET_DEFAULT_SCALE 1.0f
 //#define BULLET_DEFAULT_BOSS_SCALE 3.0f
-
-#define BULLET_DEFAULT_DMG 1.0f
-#define BULLET_DEFAULT_SPEED 500.0f
-// Enemies
-#define ENEMY_GENERIC_SPEED 100.0f
-#define ENEMY_GENERIC_HP 1.0f
-#define ENEMY_GENERIC_POINTS 100
-
-#define ENEMY_T1_PATH_SPRITE "aliensprite2.png"
-#define ENEMY_T1_INITIAL_SIZE 0.30f
-#define ENEMY_T1_INITIAL_ROTATION 0
-
-#define ENEMY_T2_PATH_SPRITE "Spaceship15.png"
-#define ENEMY_T2_INITIAL_SIZE 0.35f
-#define ENEMY_T2_INITIAL_ROTATION 0
-
-#define ENEMY_BOSS_GENERIC_HP 20.0f
-#define ENEMY_BOSS_PATH_SPRITE "boss1.png"
-#define ENEMY_BOSS_INITIAL_SIZE 1.0f
-#define ENEMY_BOSS_INITIAL_ROTATION 0
-
-#define ENEMY_BOSS_POINTS 500
-
-#define ENEMY_PATH_SOUND_DIE "sonidos/invaderkilled.wav"
+//
+//#define BULLET_DEFAULT_DMG 1.0f
+//#define BULLET_DEFAULT_SPEED 500.0f
+//// Enemies
+//#define ENEMY_GENERIC_SPEED 100.0f
+//#define ENEMY_GENERIC_HP 1.0f
+//#define ENEMY_GENERIC_POINTS 100
+//
+//#define ENEMY_T1_PATH_SPRITE "aliensprite2.png"
+//#define ENEMY_T1_INITIAL_SIZE 0.30f
+//#define ENEMY_T1_INITIAL_ROTATION 0
+//
+//#define ENEMY_T2_PATH_SPRITE "Spaceship15.png"
+//#define ENEMY_T2_INITIAL_SIZE 0.35f
+//#define ENEMY_T2_INITIAL_ROTATION 0
+//
+//#define ENEMY_BOSS_GENERIC_HP 20.0f
+//#define ENEMY_BOSS_PATH_SPRITE "boss1.png"
+//#define ENEMY_BOSS_INITIAL_SIZE 1.0f
+//#define ENEMY_BOSS_INITIAL_ROTATION 0
+//
+//#define ENEMY_BOSS_POINTS 500
+//
+//#define ENEMY_PATH_SOUND_DIE "sonidos/invaderkilled.wav"
 
 //// --------------------------------------------------------------------
 //// estados
@@ -153,6 +171,7 @@ public:
 	void loadConfig(const char *filename);
 	
 	// variables donde almacenar la configuracion
+
 	// player
 	float player_initial_speed;
 	std::string player_path_sprite;
@@ -163,15 +182,29 @@ public:
 	std::string bullet_path_sound_impact;
 	float bullet_default_scale;
 	float bullet_default_boss_scale;
-
-
-
+	float bullet_default_dmg;
+	float bullet_default_speed;
+	// enemies
+	float enemy_generic_speed;
+	float enemy_generic_hp;
+	int enemy_generic_points;
+	std::string enemy_t1_path_sprite;
+	float enemy_t1_initial_size;
+	float enemy_t1_initial_rotation;
+	std::string enemy_t2_path_sprite;
+	float enemy_t2_initial_size;
+	float enemy_t2_initial_rotation;
+	float enemy_boss_generic_hp;
+	std::string enemy_boss_path_sprite;
+	float enemy_boss_initial_size;
+	float enemy_boss_initial_rotation;
+	int enemy_boss_points;
+	std::string enemy_path_sound_die;
 	// estados
 	float duracion_estado_intronivel;
 	float duracion_estado_finnivel;
 	float duracion_estado_muerte;
 	float duracion_estado_gameover;
-
 	// varios
 	int initial_hi_score;
 	int vidas_iniciales;

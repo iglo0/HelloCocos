@@ -117,14 +117,14 @@ bool Level::init(){
 	// Creando pools de balas para todos los tipos necesarios
 	// TODO: prueba enésima de dónde colgar estos pools... ahora van a una clase propia "Pool".
 	// Pool de balas para el jugador
-	Bullet::createBulletPool(this, Pool::currentBulletsPlayerTipo1, 1, "bala_", gameInstance->bullet_path_sprite1.c_str(), gameInstance->bullet_path_sound_fire.c_str(), gameInstance->bullet_path_sound_impact.c_str(), BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG,
+	Bullet::createBulletPool(this, Pool::currentBulletsPlayerTipo1, 1, "bala_", gameInstance->bullet_path_sprite1.c_str(), gameInstance->bullet_path_sound_fire.c_str(), gameInstance->bullet_path_sound_impact.c_str(), gameInstance->bullet_default_speed, gameInstance->bullet_default_dmg,
 		(int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo, gameInstance->bullet_default_scale);
 
 	// TODO: Pool ""Tipo 1"" ... ehm... para los enemigos normales?
-	Bullet::createBulletPool(this, Pool::currentBulletsTipo1, 30, "balaEne_", gameInstance->bullet_path_sprite2.c_str(), gameInstance->bullet_path_sound_fire.c_str(), gameInstance->bullet_path_sound_impact.c_str(), -BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG,
+	Bullet::createBulletPool(this, Pool::currentBulletsTipo1, 30, "balaEne_", gameInstance->bullet_path_sprite2.c_str(), gameInstance->bullet_path_sound_fire.c_str(), gameInstance->bullet_path_sound_impact.c_str(), -gameInstance->bullet_default_speed, gameInstance->bullet_default_dmg,
 		(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador, gameInstance->bullet_default_scale);
 	// TODO: Pool ""Tipo 2"" ... ehm... para el boss?
-	Bullet::createBulletPool(this, Pool::currentBulletsTipo2, 30, "balaEne_", gameInstance->bullet_path_sprite2.c_str(), gameInstance->bullet_path_sound_fire.c_str(), gameInstance->bullet_path_sound_impact.c_str(), -BULLET_DEFAULT_SPEED, BULLET_DEFAULT_DMG * 2.0f,
+	Bullet::createBulletPool(this, Pool::currentBulletsTipo2, 30, "balaEne_", gameInstance->bullet_path_sprite2.c_str(), gameInstance->bullet_path_sound_fire.c_str(), gameInstance->bullet_path_sound_impact.c_str(), -gameInstance->bullet_default_speed, gameInstance->bullet_default_dmg * 2.0f,
 		(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador, gameInstance->bullet_default_boss_scale);
 	// TODO: ahora me falta cómo realacionar los "pools" con quienes los necesitan
 	// Problema: Pool ¿necesita? acceso a Enemy y Bullet porque se crean "pools" de ambos tipos
@@ -267,7 +267,7 @@ bool Level::onContactBegin(PhysicsContact &contact){
 		bulletTmp = (Bullet *)sprA->getUserData();
 		impactDmg1 = bulletTmp->bulletDmg;
 	} else {
-		impactDmg1 = BULLET_DEFAULT_DMG;
+		impactDmg1 = gameInstance->bullet_default_dmg;
 	}
 
 	// y viceversa
@@ -275,7 +275,7 @@ bool Level::onContactBegin(PhysicsContact &contact){
 		bulletTmp = (Bullet *)sprB->getUserData();
 		impactDmg2 = bulletTmp->bulletDmg;
 	} else{
-		impactDmg2 = BULLET_DEFAULT_DMG;
+		impactDmg2 = gameInstance->bullet_default_dmg;
 	}
 
 
