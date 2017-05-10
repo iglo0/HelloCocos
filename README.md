@@ -39,7 +39,8 @@ Git user attention
 # TRABAJO EN CURSO
 En desarrollo | Estimacion
 ----------------- | -------------
--planificación del desarrollo | ~11/05/17
+planificación del desarrollo | ~11/05/17
+actualizando readme :P | ~11/05/17
 
 ---
 
