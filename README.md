@@ -57,8 +57,6 @@ actualizando readme :P | ~11/05/17
 
 ### IDEAS (a hacer ~~cuando las ranas críen pelo~~ más adelante)
 
-- Añadir power-ups
-	- que usen los enemigos
 
 EFECTOS
 - Sonido
@@ -90,8 +88,25 @@ GRÁFICOS
 - Independencia de resolución
         - fijar un ratio de pantalla
 
-COMPORTAMIENTO
+LÓGICA DEL JUEGO
+- Añadir las casitas
+	- que sean destructibles
+		- que se vayan destruyendo ahí donde sean disparadas
+- Añadir power-ups
+	- nuevos tipos de disparo para el jugador
+		- tiro a tiro
+		- metralleta
+		- láser
+		- que gasten energía o munición
+			- gestión de la energía para armas, escudos, motores... si gastas mucho de uno que afecte al resto
+			- gui de esto
+	- escudos
+		- puntos de golpe fijos
+		- energía recargable
+	- power-ups usables por los enemigos (no que los cojan sino poder crear enemigos con ellos)
 - Añadir comportamientos a las naves
+	- enemigos que salen y entran en la formación (por ejemplo: Galaxian/Galaga)
+		- que sigan splines? LOL no se si sabría trazar y=x
 - Añadir comportamientos a los disparos
         - disparo de múltiples proyectiles en abanico (enemigos)
 	- disparo de proyectiles en todas direcciones (no solo rectos como hasta ahora)
@@ -106,7 +121,9 @@ GENERAL
 - Tabla de records
 - Almacenamiento de tabla de records
 - Definición de niveles en archivos de texto
-
+	- cantidad y comportamiento de los enemigos por nivel
+	- o...
+	- definición de niveles a manija, con enemigos que salgan en puntos fijos o al de tiempo
 	
 
 ### ~~BUGS~~ OUTSTANDING FEATURES
