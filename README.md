@@ -16,7 +16,7 @@ fila | fila
 ## aprendiendo c++ con cocos
 
 Git user attention
------------------------
+-------------------
 
 * Cómo clonar la repo con Git
 
@@ -45,8 +45,7 @@ Git user attention
 # TRABAJO EN CURSO
 En desarrollo | Estimacion
 -- | --
-planificación del desarrollo | ~11/05/17
-actualizando readme :P | ~11/05/17
+actualizando readme | (tarea continua)
 ??? | ???
 ---
 
@@ -57,39 +56,18 @@ actualizando readme :P | ~11/05/17
 
 ### IDEAS (a hacer ~~cuando las ranas críen pelo~~ más adelante)
 
-
-EFECTOS
-- Sonido
-        - buscar una alternativa que permita variar pitch y otros parámetros en windows (el motor sonoro por defecto no lo hace)
-	- reintroducir el sonido
-	- ojo a los parones al reproducir sonidos
-	- que funcione más o menos solo (los objetos que reproduzcan los sonidos correspondientes cuando les toque)
-- Usar Acciones (de cocos) para darle brillo al juego
-	- "terremotos"
-	- rotación y zoomeado de sprites
-	- movimientos con aceleración y frenado (no bruscos)
-- Parpadeo de las naves (periodo de invulnerabilidad)
-- Animaciones
-	- Poder definir animaciones en loop y one-off
-- Música
-	- en los menús
-	- durante el juego
-	- para los bosses
-	- de game over
-	- de records
-
-GRÁFICOS
-- Colisiones precisas
-	- trazar las formas poligonales de cada sprite relevante
-- Atlas de sprites en una sola textura
-- Animaciones
-	- Animaciones sencillas (en loop) de los objetos
-	- Poder definir animaciones en loop y one-off
-- Independencia de resolución
-        - fijar un ratio de pantalla
+En ningún orden particular:
 
 LÓGICA DEL JUEGO
-- Añadir las casitas
+- Añadir comportamientos a las naves
+	- enemigos que salen y entran en la formación (por ejemplo: Galaxian/Galaga)
+		- que sigan splines? LOL ni siquiera he empezado por y=x
+	- que los enemigos disparen más cuantos menos queden
+- Añadir comportamientos a los disparos
+	- tiros en la dirección general del prota (ecuación lineal)
+	- disparo de proyectiles que sigan trayectorias (seno/coseno)
+        - disparo de múltiples proyectiles en abanico (bosses?)
+- Añadir las casitas (las típicas del Space Invaders que protegen al prota)
 	- que sean destructibles
 		- que se vayan destruyendo ahí donde sean disparadas
 - Añadir power-ups
@@ -104,13 +82,36 @@ LÓGICA DEL JUEGO
 		- puntos de golpe fijos
 		- energía recargable
 	- power-ups usables por los enemigos (no que los cojan sino poder crear enemigos con ellos)
-- Añadir comportamientos a las naves
-	- enemigos que salen y entran en la formación (por ejemplo: Galaxian/Galaga)
-		- que sigan splines? LOL no se si sabría trazar y=x
-- Añadir comportamientos a los disparos
-        - disparo de múltiples proyectiles en abanico (enemigos)
-	- disparo de proyectiles en todas direcciones (no solo rectos como hasta ahora)
-	- disparo de proyectiles que sigan trayectorias (seno/coseno)
+
+EFECTOS
+- Sonido
+        - buscar una alternativa que permita variar pitch y otros parámetros en windows (el motor sonoro por defecto no lo hace)
+	- reintroducir el sonido
+	- ojo a los parones al reproducir sonidos
+	- que funcione más o menos solo (los objetos que reproduzcan los sonidos correspondientes cuando les toque)
+- Música
+	- en los menús
+	- durante el juego
+	- para los bosses
+	- de game over
+	- de records
+- Usar Acciones (de cocos) para darle brillo al juego
+	- "terremotos"
+	- rotación y zoomeado de sprites
+	- movimientos con aceleración y frenado (no bruscos)
+- Parpadeo de las naves (periodo de invulnerabilidad)
+- Animaciones
+	- Poder definir animaciones en loop y one-off
+
+GRÁFICOS
+- Colisiones precisas
+	- trazar las formas poligonales de cada sprite relevante
+- Atlas de sprites en una sola textura
+- Animaciones
+	- Animaciones sencillas (en loop) de los objetos
+	- Poder definir animaciones en loop y one-off
+- Independencia de resolución
+        - fijar un ratio de pantalla
 
 ESTRUCTURA DEL JUEGO
 - detectar la destrucción de las oleadas de enemigos
@@ -119,7 +120,9 @@ ESTRUCTURA DEL JUEGO
 
 GENERAL
 - Tabla de records
-- Almacenamiento de tabla de records
+	- pantalla para verla, o reutilizar los menús... o montarla encima de la del juego tras el game over...
+	- poder definir "n" entradas
+	- Almacenamiento de tabla de records
 - Definición de niveles en archivos de texto
 	- cantidad y comportamiento de los enemigos por nivel
 	- o...
@@ -130,6 +133,4 @@ GENERAL
 
 - el comportamiento de los "space invaders" no se ajusta a las dimensiones del grupo (debieran desplazarse por toda la pantalla y ajustarse cuando van cayendo)
 - los mensajes que deberían salir centrados no lo hacen (calculo la posición solo al principio y no lo actualizo cuando cambio el mensaje)
-
----
 
