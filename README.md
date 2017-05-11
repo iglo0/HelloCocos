@@ -53,6 +53,7 @@ actualizando readme | (tarea continua)
 ???
 
 ### POR PLANIFICAR (tareas pendientes que ir planificando)
+???
 
 ### IDEAS (a hacer ~~cuando las ranas críen pelo~~ más adelante)
 
