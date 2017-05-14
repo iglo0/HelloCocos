@@ -36,6 +36,7 @@ Git user attention
 ### ÚLTIMO HECHO
 
 ```diff
++ limpieza general de #includes del proyecto
 + comenzada planificacion de tareas (este readme)
 ```
 - configuración con archivos en vez de #defines
@@ -45,7 +46,6 @@ Git user attention
 # TRABAJO EN CURSO
 En desarrollo | Estimacion
 -- | --
-actualizando readme | (tarea continua)
 ??? | ???
 ---
 
