@@ -128,10 +128,13 @@ GENERAL
 	- cantidad y comportamiento de los enemigos por nivel
 	- o...
 	- definición de niveles a manija, con enemigos que salgan en puntos fijos o al de tiempo
-	
+- Separar el manejo de datos, lógica y memoria de la clase de Pool (ir viendo Pool_manager)	
 
 ### ~~BUGS~~ OUTSTANDING FEATURES
 
 - el comportamiento de los "space invaders" no se ajusta a las dimensiones del grupo (debieran desplazarse por toda la pantalla y ajustarse cuando van cayendo)
 - los mensajes que deberían salir centrados no lo hacen (calculo la posición solo al principio y no lo actualizo cuando cambio el mensaje)
 
+### DUDAS TÉCNICAS
+
+- ???
