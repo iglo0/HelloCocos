@@ -1,14 +1,14 @@
 #pragma once
 
-#include "cocos2d.h"
-#include "SimpleAudioEngine.h"
-#include "AudioEngine.h"
-
-#include "Game.h"
+#include <vector>	// vector ya incluido a traves de GameActor <- Game
 #include "GameActor.h"
-#include <vector>
 
-USING_NS_CC;
+//#include "cocos2d.h"
+//#include "SimpleAudioEngine.h"
+//#include "AudioEngine.h"
+//#include "Game.h"
+
+//USING_NS_CC;
 
 class Bullet : public GameActor{
 public:

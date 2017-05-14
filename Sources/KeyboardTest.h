@@ -5,7 +5,7 @@
 
 #include "cocos2d.h"
 
-#include "Menus.h"	// pantalla a la que vuelve
+//#include "Menus.h"	// pantalla a la que vuelve
 
 USING_NS_CC;
 

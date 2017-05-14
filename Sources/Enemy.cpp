@@ -1,7 +1,13 @@
 #include "Enemy.h"
 
+// OJO!!!: En general es mejor dejar en el .h los #includes necesarios, y para evitar referencias cíclicas declaraciones adelantadas para punteros a objetos de otros tipos
+// y ya en el .cpp, #incluir lo necesario
+// OJO: Y además, debería reducir el tiempo de compilación
+#include "Pool.h"
+#include "Game.h"
+
 Enemy::Enemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float initialScale, float initialRotation, float hp){
-	createEnemy(nodo, pathSprite, rutaSonidoMuerte, initialScale, initialRotation, hp);
+	createEnemy(nodo, pathSprite, rutaSonidoMuerte, initialScale, initialRotation, hp, Game::getInstance()->enemy_generic_points);
 }
 
 Enemy::Enemy(Node *nodo, enum tiposEnemigo tipo){
@@ -9,10 +15,10 @@ Enemy::Enemy(Node *nodo, enum tiposEnemigo tipo){
 
 	switch(tipo){
 	case tiposEnemigo::tipo1:
-		createEnemy(nodo, gameInstance->enemy_t1_path_sprite.c_str(), "", gameInstance->enemy_t1_initial_size, gameInstance->enemy_t1_initial_rotation, gameInstance->enemy_generic_hp);
+		createEnemy(nodo, gameInstance->enemy_t1_path_sprite.c_str(), "", gameInstance->enemy_t1_initial_size, gameInstance->enemy_t1_initial_rotation, gameInstance->enemy_generic_hp, gameInstance->enemy_generic_points);
 		break;
 	case tiposEnemigo::tipo2:
-		createEnemy(nodo, gameInstance->enemy_t2_path_sprite.c_str(), "", gameInstance->enemy_t2_initial_size, gameInstance->enemy_t2_initial_rotation, gameInstance->enemy_generic_hp);
+		createEnemy(nodo, gameInstance->enemy_t2_path_sprite.c_str(), "", gameInstance->enemy_t2_initial_size, gameInstance->enemy_t2_initial_rotation, gameInstance->enemy_generic_hp, gameInstance->enemy_generic_points);
 		break;
 	case tiposEnemigo::tipoBoss:
 		createEnemy(nodo, gameInstance->enemy_boss_path_sprite.c_str(), "", gameInstance->enemy_boss_initial_size, gameInstance->enemy_boss_initial_rotation, gameInstance->enemy_boss_generic_hp, gameInstance->enemy_boss_points);

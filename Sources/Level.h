@@ -1,20 +1,23 @@
 #pragma once 
 
-#include "cocos2d.h"
-#include "Game.h"
-#include "Menus.h"
+#include "cocos2d.h"	// necesario para declarar CREATE_FUNC y crear la escena en general
+USING_NS_CC;
 
+//#include "Game.h"
+//#include "Menus.h"
 // ----------------------------
-#include "Player.h"
-#include "Enemy.h"
-#include "Pool.h"
-#include "InputComponent.h"
-#include "SpaceInvaders.h"
+//#include "Player.h"
+//#include "Enemy.h"
+//#include "Pool.h"
+//#include "InputComponent.h"
+//#include "SpaceInvaders.h"
 // ----------------------------
 //#include "Testz.h"
 // ----------------------------
 
-USING_NS_CC;
+class Player;
+class InputComponent;
+class Game;
 
 class Level : public cocos2d::Layer
 {

@@ -1,5 +1,13 @@
 #include "Level.h"
 
+#include "Bullet.h"
+#include "Player.h"
+#include "InputComponent.h"
+#include "Enemy.h"
+#include "Pool.h"
+#include "SpaceInvaders.h"
+#include "Menus.h"
+
 Level::~Level(){
 	Director::getInstance()->setDisplayStats(false);
 

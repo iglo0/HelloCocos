@@ -1,17 +1,16 @@
 #pragma once
 
-#include "cocos2d.h"
-#include "Game.h"
+//#include "cocos2d.h"
 #include "GameActor.h"
-// para poder disparar
-#include "Bullet.h"
 #include <vector>
-// -------------------
-// TODO: wtf por que no se produce una referencia ciclica???
-#include "Pool.h"
-// -------------------
 
-USING_NS_CC;
+// para poder disparar
+// Declaración adelantada. No necesito usar "Bullet", solo saber que usaré punteros a ese tipo, por tanto basta con declararla aquí.
+// OJO: No necesito usar "Bullet", solo saber que usaré punteros a ese tipo, por tanto basta con declararla aquí.
+//#include "Bullet.h"
+class Bullet;
+
+//USING_NS_CC;
 
 class Enemy : public GameActor{
 public:
@@ -19,10 +18,15 @@ public:
 	typedef void(Enemy::*funcionControlEnemigo)(float);
 
 	enum tiposEnemigo{tipo1,tipo2,tipoBoss};
-
 	Enemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, float rotation, float hp);
 	Enemy(Node *nodo, enum tiposEnemigo);
 	
+	// OJO: Es mejor evitar el constructor y destructor (usarlos solo para inicializar variables por ejemplo) y la inicialización sacarla fuera. Por ejemplo:
+	//Enemy();
+	//bool Init(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, float rotation, float hp);
+	//bool Init(Node *nodo, enum tiposEnemigo);
+	//void End();
+
 	~Enemy();
 	void impacto(float) override;
 
@@ -65,5 +69,6 @@ private:
 	float tIniDisparo;
 	int pointsOnDeath;
 
-	void createEnemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, float rotation, float hp, int points = Game::getInstance()->enemy_generic_points);
+	//void createEnemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, float rotation, float hp, int points = Game::getInstance()->enemy_generic_points);
+	void createEnemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, float rotation, float hp, int points);
 };

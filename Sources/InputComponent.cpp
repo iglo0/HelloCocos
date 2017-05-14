@@ -1,5 +1,7 @@
 #include "InputComponent.h"
 
+#include "Player.h"
+
 InputComponent::InputComponent(){}
 
 InputComponent::~InputComponent(){}

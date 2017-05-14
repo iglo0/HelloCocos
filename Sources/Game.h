@@ -9,9 +9,9 @@
 
 USING_NS_CC;
 
-// TODO: Sacarlo a un fichero
 #pragma region CONSTANTES
 
+// TODO: como nota, los archivos JSON son como los XML pero más fáciles de leer por un humano
 // --------------------------------------------------------------------
 // definicion de objetos
 // --------------------------------------------------------------------
@@ -53,61 +53,12 @@ USING_NS_CC;
 #define CONFIG_INITIAL_HI_SCORE				"initial_hi_score"
 #define CONFIG_VIDAS_INICIALES				"vidas_iniciales"
 
-// --------------------------------------------------------------------
-// Player
-//#define PLAYER_INITIAL_SPEED 300.0f
-//#define PLAYER_PATH_SPRITE "spaceshipspr.png"
-// Bullets
-//#define BULLET_PATH_SPRITE1 "bullet_2_blue.png"
-//#define BULLET_PATH_SPRITE2 "bullet_orange0000.png"
-//#define BULLET_PATH_SOUND_FIRE "sonidos/shoot.wav"
-//#define BULLET_PATH_SOUND_IMPACT "sonidos/fastinvader1.wav"
-//#define BULLET_DEFAULT_SCALE 1.0f
-//#define BULLET_DEFAULT_BOSS_SCALE 3.0f
-//
-//#define BULLET_DEFAULT_DMG 1.0f
-//#define BULLET_DEFAULT_SPEED 500.0f
-//// Enemies
-//#define ENEMY_GENERIC_SPEED 100.0f
-//#define ENEMY_GENERIC_HP 1.0f
-//#define ENEMY_GENERIC_POINTS 100
-//
-//#define ENEMY_T1_PATH_SPRITE "aliensprite2.png"
-//#define ENEMY_T1_INITIAL_SIZE 0.30f
-//#define ENEMY_T1_INITIAL_ROTATION 0
-//
-//#define ENEMY_T2_PATH_SPRITE "Spaceship15.png"
-//#define ENEMY_T2_INITIAL_SIZE 0.35f
-//#define ENEMY_T2_INITIAL_ROTATION 0
-//
-//#define ENEMY_BOSS_GENERIC_HP 20.0f
-//#define ENEMY_BOSS_PATH_SPRITE "boss1.png"
-//#define ENEMY_BOSS_INITIAL_SIZE 1.0f
-//#define ENEMY_BOSS_INITIAL_ROTATION 0
-//
-//#define ENEMY_BOSS_POINTS 500
-//
-//#define ENEMY_PATH_SOUND_DIE "sonidos/invaderkilled.wav"
-
-//// --------------------------------------------------------------------
-//// estados
-//// --------------------------------------------------------------------
-//#define duracion_estado_intronivel 2.0f
-//#define duracion_estado_finnivel 2.0f
-//#define duracion_estado_muerte 2.0f
-//#define duracion_estado_gameover 5.0f
-//
-//// --------------------------------------------------------------------
-//// varios
-//// --------------------------------------------------------------------
-//#define initial_hi_score 5000	// TODO: guardar la tabla de records
-//#define vidas_iniciales 3
-//
 #pragma endregion
 
 // declaraciones adelantadas
-// TODO: Juer, no uso Enemy en Game y si quito esta declaracion peta todo o.O
-class Enemy;
+// Juer, no uso Enemy en Game y si quito esta declaracion peta todo o.O
+// Sí que lo "usaba", 
+//class Enemy;
 
 
 // Mi clase Singleton (o es la idea) donde guardar el estado general del juego
@@ -129,6 +80,7 @@ public:
 	
 	// devuelve la instancia, y se asegura de inicializarlo solo una vez aun con concurrencia (recomendado desde c++11)
 	static Game *getInstance();
+
 	// prueba fisica
 	static void anadeFisica(Sprite *sprite, int tipoColision, int colisionaCon, const char *name = "[NONAME]");
 	//static void updateAll(float deltaT); // updates all gameActors in da pools. Ummm Game no conoce cómo está definido Enemy (declaración adelantada), y no puede acceder a sus miembros.

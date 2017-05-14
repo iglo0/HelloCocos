@@ -1,5 +1,7 @@
 #include "GameActor.h"
 
+#include "Game.h"
+
 GameActor::GameActor(){
 	//CCLOG("Constructor de GameActor");
 	// me aseguro de que está inicializado

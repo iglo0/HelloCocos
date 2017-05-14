@@ -1,7 +1,9 @@
 #pragma once
 
-#include "cocos2d.h"
-#include "Player.h"
+#include "cocos2d.h"		// necesario para EventKeyboard::*
+//#include "Player.h"
+
+class Player;
 
 USING_NS_CC;
 

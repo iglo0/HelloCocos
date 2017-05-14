@@ -1,5 +1,7 @@
 #include "SpaceInvaders.h"
 
+#include "Pool.h"
+
 SpaceInvaders::SpaceInvaders(int tamaX, int tamaY, float comprX, float comprY, float margX, float margY) : dimMaxX(tamaX), dimMaxY(tamaY), compressX(comprX), compressY(comprY), marginX(margX), marginY(margY) {}
 
 SpaceInvaders::~SpaceInvaders(){}

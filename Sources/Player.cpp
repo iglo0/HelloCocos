@@ -1,5 +1,9 @@
 #include "Player.h"
 
+#include "Game.h"
+#include "Pool.h"
+#include "Bullet.h"
+
 Player::Player(Node *nodo, float playerSpeed){
 
 	// Empieza por el constructor de la base

@@ -1,7 +1,8 @@
 #pragma once
 
-#include "cocos2d.h"
-#include "Game.h"
+#include "cocos2d.h"	// necesario para declarar Sprite
+
+//#include "Game.h"
 
 //class Enemy;
 

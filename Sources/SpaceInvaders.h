@@ -9,12 +9,13 @@ x	x	x 	x	x
 
 #pragma once
 
-#include "cocos2d.h"
+#include <vector>		// Enemy ya incluía vector y por eso podía declarar std::vector. Supongo que está mejor siendo explícito.
+#include "cocos2d.h"	// la necesito para declarar Nodo* 
+#include "Enemy.h"		// la necesito porque declaro un vector de Enemy::tiposEnemigo
 
-#include "Game.h"
-#include "Enemy.h"
+//#include "Game.h"
 
-#include "Pool.h"
+//#include "Pool.h"
 
 USING_NS_CC;
 

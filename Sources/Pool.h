@@ -1,15 +1,18 @@
 #pragma once
 
+// OJO!!!
+// Lo ideal para evitarle complicaciones al compilador es incluir en el .h solo aquello que se requiera en la declaración, y mover al .cpp el resto de includes necesarios para la definición.
+// Por ejemplo: si voy a usar un puntero de clase Enemy, en la cabecera basta con la declaración adelantada (class Enemy) y luego en el cuerpo incorporar el #include...
+
 #include "cocos2d.h"
 #include "Game.h"
 
 // ---------------
-#include "GameActor.h"	// TODO: A ver si cuela para hacer "genéricos" los pools
-#include "Bullet.h"
 
 #include <vector>
-#include "Enemy.h"	// si no lo incluyo no puedo llamar a "enemy->activa(xxx)"
-// TODO: si Pool incluye Enemy.h y Enemy incluye Pool.h... ¿cómo es que no casca?
+
+class Enemy;
+class Bullet;
 
 USING_NS_CC;
 
@@ -41,6 +44,10 @@ public:
 	// intento de plantilla con especializaciones
 	// TODO: Y si no quiero usar la plantilla genérica y solo las especializaciones?
 	// ¿qué gano con esto (si solo quiero las especializaciones) vs sobrecarga?
+
+	// OJO: Sería mejor hacer una clase pool genérica que gestione la memoria (ver pool_template)
+	// y ya la especializaré para que funcione con los tipos que quiera
+
 	template <class T>
 	static void deletePool(std::vector<T *> &v);
 	// especializaciones

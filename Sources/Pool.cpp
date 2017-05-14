@@ -1,4 +1,9 @@
 #include "Pool.h"
+//#include "GameActor.h"	// TODO: A ver si cuela para hacer "genéricos" los pools
+#include "Bullet.h"
+#include "Enemy.h"	// si no lo incluyo no puedo llamar a "enemy->activa(xxx)"
+// TODO: si Pool incluye Enemy.h y Enemy incluye Pool.h... ¿cómo es que no casca?
+
 
 // ----------------------------------------------------------------------
 // OJOOO!

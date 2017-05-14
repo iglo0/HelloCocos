@@ -1,9 +1,9 @@
 #pragma once
 
-#include "cocos2d.h"
+//#include "cocos2d.h"
 #include "GameActor.h"
-#include "Bullet.h"
-#include "Pool.h"
+//#include "Bullet.h"
+//#include "Pool.h"
 
 // --------------------------
 //#include "Weapon.h"
@@ -14,10 +14,11 @@
 
 // TODO: No se si tiene sentido "colgar" InputComponent de Player o dejarlo como clase externa y controlarlo desde el juego
 
-USING_NS_CC;
+//USING_NS_CC;
 
 // Solución1: Forward declaration? 
 class InputComponent;
+class Bullet;
 
 class Player : public GameActor{
 public:

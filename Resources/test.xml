@@ -29,8 +29,6 @@
 
 	<initial_hi_score>5000</initial_hi_score>
 	<vidas_iniciales>3</vidas_iniciales>
-	<!-- hecho hasta aqui -->
-	
 	
 	<bullet_default_dmg>1.0f</bullet_default_dmg>
 	<bullet_default_speed>500.0f</bullet_default_speed>

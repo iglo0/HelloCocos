@@ -1,6 +1,9 @@
 #include "Menus.h"
 
-USING_NS_CC; // using namespace cocos2d
+#include "Level.h"
+#include "KeyboardTest.h"
+#include "PolyspriteTest.h"
+#include "Game.h"
 
 cocos2d::Scene * Menus::CreateScene(){
 	// 'scene' is an autorelease object
