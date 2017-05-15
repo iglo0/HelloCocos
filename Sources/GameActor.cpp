@@ -64,6 +64,21 @@ void GameActor::setPosition(Vec2 pos){
 }
 
 Sprite *GameActor::setSprite(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon, float initialScale, bool createPolySprite){
+	// TODO: EN SERIO SOLO CON ESTAS DOS LINEAS COCOS YA ENTIENDE QUE TODAS LAS RUTAS DE SPRITES VAN VS LA SPRITESHEET.PLIST????
+	// jodó.
+
+	// TODO: Mover esto a algún sitio y que se haga una sola vez???
+	// load the Sprite Sheet
+	auto spritecache = SpriteFrameCache::getInstance();
+
+	// LA MADRE QUE LO... TRAJO!!
+	// OJO!!!: en la carpeta debug.win32 hay una copia de los archivos. Por eso se veía todo perfecto aunque borrara el .plist haciendo pruebas >.<
+
+	// the .plist file can be generated with any of the tools mentioned below
+	spritecache->addSpriteFramesWithFile("spritesheet.plist");
+	// OJO: Sprite::createWithSpriteFrameName(ruta) -> CASE SENSITIVE! 
+	sprite = Sprite::createWithSpriteFrameName(ruta);
+	/*
 	if(createPolySprite){
 		// AutoPolygon viene bien para ahorrar proceso a la gpu (a estas alturas cuesta menos mover unos cuantos vértices que mirar si un pixel es transparente o no, particularmente en móviles)
 		// PERO no sirve para colisiones como creía, las formas generadas son más complejas que lo que el motor de física puede manejar con facilidad
@@ -72,7 +87,7 @@ Sprite *GameActor::setSprite(Node *nodo, const char *ruta, const char *name, int
 	} else{
 		sprite = Sprite::create(ruta);
 	}
-
+	*/
 
 	if(!sprite){
 		CCLOG("GameActor::setSprite '%s'=SIN DEFINIR", ruta);
@@ -245,4 +260,30 @@ void GameActor::impacto(float dmg){
 	const char *name = sprite->getName().c_str();
 
 	CCLOG ("GameActor %s says: ouch %f", name, dmg);
+}
+
+// TODO: unused, borrar!!!
+void GameActor::loadSpriteSheet(Node *nodo){
+	// load the Sprite Sheet
+	auto spritecache = SpriteFrameCache::getInstance();
+
+	// the .plist file can be generated with any of the tools mentioned below
+	spritecache->addSpriteFramesWithFile("spritesheet.plist");
+	
+	// Our .plist file has names for each of the sprites in it.  We'll grab
+	// the sprite named, "mysprite" from the sprite sheet:
+	auto mysprite = Sprite::createWithSpriteFrameName("explosion0.png");
+	// TODO: ¿Cómo sabe de qué spritesheet?
+	// Y por cierto: CASE SENSITIVE! 
+
+	//// this is equivalent to the previous example,
+	//// but it is created by retrieving the SpriteFrame from the cache.
+	//auto newspriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName("explosion0.png");
+	//auto newSprite = Sprite::createWithSpriteFrame(newspriteFrame);
+
+	mysprite->setPosition(Vec2(400, 400));
+
+	nodo->addChild(mysprite);
+
+	// oki esto funciona
 }

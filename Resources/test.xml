@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- esto, guardado en resources, no funcionara en android/ios aparentemente -->
-<person>
-	<firstname>Ignatius</firstname>
-	<lastname>Reilly</lastname>
-</person>
-
-<!--
-
-
--->
-
 <default_values>
 	<player_initial_speed>300.0f</player_initial_speed>
 	<player_path_sprite>spaceshipspr.png</player_path_sprite>
@@ -20,28 +10,19 @@
 	<bullet_path_sound_impact>sonidos/fastinvader1.wav</bullet_path_sound_impact>
 	<bullet_default_scale>1.0f</bullet_default_scale>
 	<bullet_default_boss_scale>3.0f</bullet_default_boss_scale>
-
-	
-	<duracion_estado_intronivel>2.0f</duracion_estado_intronivel>
-	<duracion_estado_finnivel>2.0f</duracion_estado_finnivel>
-	<duracion_estado_muerte>2.0f</duracion_estado_muerte>
-	<duracion_estado_gameover>5.0f</duracion_estado_gameover>
-
-	<initial_hi_score>5000</initial_hi_score>
-	<vidas_iniciales>3</vidas_iniciales>
-	
 	<bullet_default_dmg>1.0f</bullet_default_dmg>
 	<bullet_default_speed>500.0f</bullet_default_speed>
-
+	
 	<enemy_generic_speed>100.0f</enemy_generic_speed>
 	<enemy_generic_hp>1.0f</enemy_generic_hp>
 	<enemy_generic_points>100</enemy_generic_points>
+	<enemy_path_sound_die>sonidos/invaderkilled.wav</enemy_path_sound_die>
 
 	<enemy_t1_path_sprite>aliensprite2.png</enemy_t1_path_sprite>
 	<enemy_t1_initial_size>0.30f</enemy_t1_initial_size>
 	<enemy_t1_initial_rotation>0</enemy_t1_initial_rotation>
 
-	<enemy_t2_path_sprite>spaceship15.png</enemy_t2_path_sprite>
+	<enemy_t2_path_sprite>Spaceship15.png</enemy_t2_path_sprite>
 	<enemy_t2_initial_size>0.35f</enemy_t2_initial_size>
 	<enemy_t2_initial_rotation>0</enemy_t2_initial_rotation>
 
@@ -49,9 +30,13 @@
 	<enemy_boss_path_sprite>boss1.png</enemy_boss_path_sprite>
 	<enemy_boss_initial_size>1.0f</enemy_boss_initial_size>
 	<enemy_boss_initial_rotation>0</enemy_boss_initial_rotation>
-
 	<enemy_boss_points>500</enemy_boss_points>
 
-	<enemy_path_sound_die>sonidos/invaderkilled.wav</enemy_path_sound_die>
+	<duracion_estado_intronivel>2.0f</duracion_estado_intronivel>
+	<duracion_estado_finnivel>2.0f</duracion_estado_finnivel>
+	<duracion_estado_muerte>2.0f</duracion_estado_muerte>
+	<duracion_estado_gameover>5.0f</duracion_estado_gameover>
 
+	<initial_hi_score>5000</initial_hi_score>
+	<vidas_iniciales>3</vidas_iniciales>
 </default_values>

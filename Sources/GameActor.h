@@ -13,6 +13,12 @@ public:
 	GameActor();
 	~GameActor();
 
+	// --------------------------------
+	// test
+	// --------------------------------
+	void loadSpriteSheet(Node *);
+	// --------------------------------
+
 	//typedef void(GameActor::*punteroAFuncionMovimiento)(Vec2, double);
 	//v2: sin parametros, con variables miembro. Así no dependo tanto de la firma de la funcion
 	typedef void(GameActor::*punteroAFuncionMovimiento)();

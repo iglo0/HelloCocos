@@ -46,11 +46,16 @@ Git user attention
 # TRABAJO EN CURSO
 En desarrollo | Estimacion
 -- | --
-??? | ???
+Atlas de sprites en una sola textura | ~17/05/17
 ---
 
 ### PLANIFICADO (lo siguiente que pienso hacer)
-???
+
+GRÁFICOS
+
+- Colisiones precisas
+	- trazar las formas poligonales de cada sprite relevante
+
 
 ### POR PLANIFICAR (tareas pendientes que ir planificando)
 ???
@@ -86,10 +91,9 @@ LÓGICA DEL JUEGO
 
 EFECTOS
 - Sonido
-        - buscar una alternativa que permita variar pitch y otros parámetros en windows (el motor sonoro por defecto no lo hace)
 	- reintroducir el sonido
+	- buscar una alternativa que permita variar pitch y otros parámetros en windows (el motor sonoro por defecto no lo hace)
 	- ojo a los parones al reproducir sonidos
-	- que funcione más o menos solo (los objetos que reproduzcan los sonidos correspondientes cuando les toque)
 - Música
 	- en los menús
 	- durante el juego
@@ -101,13 +105,8 @@ EFECTOS
 	- rotación y zoomeado de sprites
 	- movimientos con aceleración y frenado (no bruscos)
 - Parpadeo de las naves (periodo de invulnerabilidad)
-- Animaciones
-	- Poder definir animaciones en loop y one-off
 
 GRÁFICOS
-- Colisiones precisas
-	- trazar las formas poligonales de cada sprite relevante
-- Atlas de sprites en una sola textura
 - Animaciones
 	- Animaciones sencillas (en loop) de los objetos
 	- Poder definir animaciones en loop y one-off
