@@ -37,24 +37,21 @@ Git user attention
 
 ```diff
 + limpieza general de #includes del proyecto
-+ comenzada planificacion de tareas (este readme)
++ Atlas de sprites en una sola textura (.plist y spritesheet.png generado con TexturePacker)
 ```
 - configuración con archivos en vez de #defines
 - rediseño de código (primera de 'n' :)
+- comenzada planificacion de tareas (este readme)
 
 ----
 # TRABAJO EN CURSO
 En desarrollo | Estimacion
 -- | --
-Atlas de sprites en una sola textura | ~17/05/17
+Colisiones precisas - trazar las formas poligonales de cada sprite relevante | 19/05/2017
 ---
 
 ### PLANIFICADO (lo siguiente que pienso hacer)
 
-GRÁFICOS
-
-- Colisiones precisas
-	- trazar las formas poligonales de cada sprite relevante
 
 
 ### POR PLANIFICAR (tareas pendientes que ir planificando)

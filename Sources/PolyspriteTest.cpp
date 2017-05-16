@@ -71,9 +71,9 @@ bool PolyspriteTest::init(){
 	const char *path3 = "bullet_orange0001.png";
 	//const char *path2 = "Spaceship15.png";
 
-	AutoPolygon ap1 = AutoPolygon(path1);
-	AutoPolygon ap2 = AutoPolygon(path2);
-	AutoPolygon ap3 = AutoPolygon(path3);
+	//AutoPolygon ap1 = AutoPolygon(path1);
+	//AutoPolygon ap2 = AutoPolygon(path2);
+	//AutoPolygon ap3 = AutoPolygon(path3);
 
 	//PolygonInfo myInfo = ap1.generateTriangles();//use all default values
 	//sprite1 = Sprite::create(myInfo);
@@ -101,14 +101,16 @@ bool PolyspriteTest::init(){
 	/////////////////////////////
 	/////////////////////////////
 	/////////////////////////////
-	for(int i = 0; i < 20; i++){
+	for(int i = 0; i < 200; i++){
 		struct reboton tmp;
 		PhysicsBody *physicsBody;
 		//PolygonInfo tmpInfo;
 
 		switch(cocos2d::RandomHelper::random_int(0, 2)){
 		case 0:
-			tmp.sprite = Sprite::create(ap1.generateTriangles());
+			//tmp.sprite = Sprite::create(ap1.generateTriangles());
+			tmp.sprite = Sprite::createWithSpriteFrameName(path1);
+
 			// TODO: temporalmente el physicsBody será una caja. Para esto hago los sprites poligonales :D
 			physicsBody = PhysicsBody::createBox(Size(tmp.sprite->getContentSize().width, tmp.sprite->getContentSize().height), PhysicsMaterial(0.1f, 1.0f, 0.0f));
 			// set the category, collision and contact test bit masks
@@ -119,7 +121,8 @@ bool PolyspriteTest::init(){
 			//physicsBody->setContactTestBitmask((int)PhysicsCategory::All);
 			break;
 		case 1:
-			tmp.sprite = Sprite::create(ap2.generateTriangles());
+			//tmp.sprite = Sprite::create(ap2.generateTriangles());
+			tmp.sprite = Sprite::createWithSpriteFrameName(path2);
 			physicsBody = PhysicsBody::createBox(Size(tmp.sprite->getContentSize().width, tmp.sprite->getContentSize().height), PhysicsMaterial(0.1f, 1.0f, 0.0f));
 			// set the category, collision and contact test bit masks
 			// tipo del objeto
@@ -128,7 +131,8 @@ bool PolyspriteTest::init(){
 			physicsBody->setContactTestBitmask((int)PhysicsCategory::Projectile);
 			break;
 		case 2:
-			tmp.sprite = Sprite::create(ap3.generateTriangles());
+			//tmp.sprite = Sprite::create(ap3.generateTriangles());
+			tmp.sprite = Sprite::createWithSpriteFrameName(path3);
 			physicsBody = PhysicsBody::createBox(Size(tmp.sprite->getContentSize().width, tmp.sprite->getContentSize().height), PhysicsMaterial(0.1f, 1.0f, 0.0f));
 			// set the category, collision and contact test bit masks
 			// tipo del objeto
@@ -138,7 +142,8 @@ bool PolyspriteTest::init(){
 			break;
 		default:
 			CCLOG("WTF");
-			tmp.sprite = Sprite::create(ap1.generateTriangles());
+			//tmp.sprite = Sprite::create(ap1.generateTriangles());
+			tmp.sprite = Sprite::createWithSpriteFrameName(path1);
 			physicsBody = PhysicsBody::createBox(Size(tmp.sprite->getContentSize().width, tmp.sprite->getContentSize().height), PhysicsMaterial(0.1f, 1.0f, 0.0f));
 			// set the category, collision and contact test bit masks
 			// tipo del objeto
@@ -149,7 +154,7 @@ bool PolyspriteTest::init(){
 		}
 
 		// crea sprites con el bounding box poligonal
-		tmp.sprite->setPosition(Vec2(visibleSize.width / 2.0f + cocos2d::RandomHelper::random_real(-200.0f, 200.0f), visibleSize.height / 2.0f + cocos2d::RandomHelper::random_real(-200.0f, 200.0f)));
+		tmp.sprite->setPosition(Vec2(visibleSize.width / 2.0f + cocos2d::RandomHelper::random_real(-600.0f, 600.0f), visibleSize.height / 2.0f + cocos2d::RandomHelper::random_real(-600.0f, 600.0f)));
 		tmp.sprite->setScale(0.5f);
 
 		// Sets the sprite to be dynamic. This means that the physics engine will not apply forces to the

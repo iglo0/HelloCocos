@@ -76,6 +76,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     register_all_packages();
 
+	// Aquí cargo la texturesheet que voy a usar, con que se ejecute una vez vale.
+	// OJO!!!: en la carpeta debug.win32 hay una copia de los archivos. Por eso se veía todo perfecto aunque borrara el .plist haciendo pruebas >.<
+	auto spritecache = SpriteFrameCache::getInstance();
+	spritecache->addSpriteFramesWithFile("spritesheet.plist");
+
     // create a scene. it's an autorelease object
     //auto scene = HelloWorld::createScene();
 	auto scene = Menus::CreateScene();

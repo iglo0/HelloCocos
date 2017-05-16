@@ -64,30 +64,21 @@ void GameActor::setPosition(Vec2 pos){
 }
 
 Sprite *GameActor::setSprite(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon, float initialScale, bool createPolySprite){
-	// TODO: EN SERIO SOLO CON ESTAS DOS LINEAS COCOS YA ENTIENDE QUE TODAS LAS RUTAS DE SPRITES VAN VS LA SPRITESHEET.PLIST????
-	// jodó.
+	// TODO: Mover esto a algún sitio y que se haga una sola vez??? -> Movido a AppDelegate
+	//auto spritecache = SpriteFrameCache::getInstance();
+	//spritecache->addSpriteFramesWithFile("spritesheet.plist");
 
-	// TODO: Mover esto a algún sitio y que se haga una sola vez???
-	// load the Sprite Sheet
-	auto spritecache = SpriteFrameCache::getInstance();
+	// Ejemplo de Polysprite para la posteridad:
+	//// AutoPolygon viene bien para ahorrar proceso a la gpu (a estas alturas cuesta menos mover unos cuantos vértices que mirar si un pixel es transparente o no, particularmente en móviles)
+	//// PERO no sirve para colisiones como creía, las formas generadas son más complejas que lo que el motor de física puede manejar con facilidad
+	//AutoPolygon ap1 = AutoPolygon(ruta);
+	//sprite = Sprite::create(ap1.generateTriangles());
 
-	// LA MADRE QUE LO... TRAJO!!
-	// OJO!!!: en la carpeta debug.win32 hay una copia de los archivos. Por eso se veía todo perfecto aunque borrara el .plist haciendo pruebas >.<
+	// TODO: Muy bien pero cómo hago un PolySprite con un plist?
+	// Pues en realidad me puedo olvidar de ellos... si en el .plist se incluye la información poligonal (algorythm=polygon), Sprite::createWithSpriteFrameName lo aplica. Yeah!!
 
-	// the .plist file can be generated with any of the tools mentioned below
-	spritecache->addSpriteFramesWithFile("spritesheet.plist");
 	// OJO: Sprite::createWithSpriteFrameName(ruta) -> CASE SENSITIVE! 
 	sprite = Sprite::createWithSpriteFrameName(ruta);
-	/*
-	if(createPolySprite){
-		// AutoPolygon viene bien para ahorrar proceso a la gpu (a estas alturas cuesta menos mover unos cuantos vértices que mirar si un pixel es transparente o no, particularmente en móviles)
-		// PERO no sirve para colisiones como creía, las formas generadas son más complejas que lo que el motor de física puede manejar con facilidad
-		AutoPolygon ap1 = AutoPolygon(ruta);
-		sprite = Sprite::create(ap1.generateTriangles());
-	} else{
-		sprite = Sprite::create(ruta);
-	}
-	*/
 
 	if(!sprite){
 		CCLOG("GameActor::setSprite '%s'=SIN DEFINIR", ruta);
