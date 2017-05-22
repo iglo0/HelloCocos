@@ -47,7 +47,7 @@ Git user attention
 # TRABAJO EN CURSO
 En desarrollo | Estimacion
 -- | --
-Colisiones precisas - trazar las formas poligonales de cada sprite relevante | 19/05/2017
+Colisiones precisas - trazar las formas poligonales de cada sprite relevante | ~~19/05/2017~~ 24/05
 ---
 
 ### PLANIFICADO (lo siguiente que pienso hacer)
