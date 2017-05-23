@@ -37,13 +37,12 @@ public:
 #pragma endregion
 
 	// mis cosas
+	void llenaPantallaDeSprites();
+	Sprite *creaSpriteColision(const char *spritePath, const char *physics_name, int claseColision, int colisionoCon);
 	void megustaElMueveMueve(Sprite *, Vec2 &cant);
 
 	// physicscontact test?
 	bool onContactBegin(PhysicsContact &contactoConTacto);
-
-	//Sprite *sprite1, *sprite2;
-	//Vec2 sprite1Accel, sprite2Accel;
 
 	struct reboton{
 		Sprite *sprite;

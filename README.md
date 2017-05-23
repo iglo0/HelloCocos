@@ -38,6 +38,7 @@ Git user attention
 ```diff
 + limpieza general de #includes del proyecto
 + Atlas de sprites en una sola textura (.plist y spritesheet.png generado con TexturePacker)
++ Prueba de colisiones precisas en "Sprites Test"
 ```
 - configuración con archivos en vez de #defines
 - rediseño de código (primera de 'n' :)

@@ -1,5 +1,8 @@
 #include "polyspritetest.h"
+
 #include "Menus.h"
+#include "PhysicsShapeCache.h"
+
 
 /* CON FÍSICAS
 Not only are physics engines great for simulating realistic movement, but they are also great for detecting collisions.
@@ -43,20 +46,16 @@ cocos2d::Scene *PolyspriteTest::createScene(){
 
 bool PolyspriteTest::init(){
 
-	//////////////////////////////
-	// 1. super init first
+	// super init first
 	if(!Layer::init()){
 		return false;
 	}
-
-	/////////////////////////////
 
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	// add a "close" icon to exit the progress. it's an autorelease object
 	auto closeItem = MenuItemImage::create("CloseNormal.png", "CloseSelected.png", CC_CALLBACK_1(PolyspriteTest::MenuVuelveCallback, this));
-
 	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2, origin.y + closeItem->getContentSize().height/2));
 
 	// create menu, it's an autorelease object
@@ -65,134 +64,80 @@ bool PolyspriteTest::init(){
 	this->addChild(menu, 1);
 
 	/////////////////////////////
+	// Fisicas de PhysicsEditor
+	PhysicsShapeCache *physicsShapeCache;
+	physicsShapeCache = PhysicsShapeCache::getInstance();
+	// hacer esto una sola vez
+	// en este fichero estarán colecciones de polígonos que luego usará la parte de colisiones
+	physicsShapeCache->addShapesWithFile("physicscollision.plist");
+	
+	llenaPantallaDeSprites();
+	/////////////////////////////
 
-	const char *path1 = "spaceshipspr.png";
-	const char *path2 = "Spaceship15.png";
-	const char *path3 = "bullet_orange0001.png";
-	//const char *path2 = "Spaceship15.png";
+	auto contactListener = EventListenerPhysicsContact::create();
+	contactListener->onContactBegin = CC_CALLBACK_1(PolyspriteTest::onContactBegin, this);
+	getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
 
+	scheduleUpdate();								// schedules update with order "0" (each frame)
+	Director::getInstance()->setDisplayStats(true); // displays fps
+	return true;
+}
+
+void PolyspriteTest::llenaPantallaDeSprites(){
+	struct reboton tmp;
+	PhysicsBody *physicsBody;
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+
+	/////////////////////////////
+	// Fisicas de PhysicsEditor
+	PhysicsShapeCache *physicsShapeCache;
+	physicsShapeCache = PhysicsShapeCache::getInstance();
+
+	// nombre del sprite != nombre dentro del plist de physics. Quicir, que puedo usar cualquiera en cualquiera
+	const char *path1 = "collision_player.png";
+	const char *path2 = "collision_enemy.png";
+	const char *path3 = "collision_enemy_bullet.png";
+
+	// como crear un autopolygon
 	//AutoPolygon ap1 = AutoPolygon(path1);
-	//AutoPolygon ap2 = AutoPolygon(path2);
-	//AutoPolygon ap3 = AutoPolygon(path3);
-
 	//PolygonInfo myInfo = ap1.generateTriangles();//use all default values
 	//sprite1 = Sprite::create(myInfo);
-	// 
-	//// Por lo que he visto del parametro epsilon (5.0) -> a más alto menos detalle en el poly-bounding box
-	////PolygonInfo myInfo2 = ap2.generateTriangles(Rect::ZERO, 5.0, 0.1);//ap can be reused to generate another set of PolygonInfo with different settings
-	//PolygonInfo myInfo2 = ap2.generateTriangles();//use all default values
-	//sprite2 = Sprite::create(myInfo2);
 
-	//sprite1->setPosition(Vec2(visibleSize.width / 2.0f - 100.0f, visibleSize.height / 2.0f));
-	//sprite2->setPosition(Vec2(visibleSize.width / 2.0f + 100.0f, visibleSize.height / 2.0f));
-
-	//addChild(sprite1);
-	//addChild(sprite2);
-
-	//sprite1Accel = Vec2(-200.0f, 200.0f);
-	//sprite2Accel = Vec2(200.0f, -200.0f);
-
-	/////////////////////////////
-	/////////////////////////////
-	/////////////////////////////
-	/////////////////////////////
-	// esto es un sindios, lo se
-	/////////////////////////////
-	/////////////////////////////
-	/////////////////////////////
-	/////////////////////////////
-	for(int i = 0; i < 200; i++){
-		struct reboton tmp;
-		PhysicsBody *physicsBody;
-		//PolygonInfo tmpInfo;
-
+	for(int i = 0; i < 60; i++){
 		switch(cocos2d::RandomHelper::random_int(0, 2)){
 		case 0:
-			//tmp.sprite = Sprite::create(ap1.generateTriangles());
-			tmp.sprite = Sprite::createWithSpriteFrameName(path1);
-
-			// TODO: temporalmente el physicsBody será una caja. Para esto hago los sprites poligonales :D
-			physicsBody = PhysicsBody::createBox(Size(tmp.sprite->getContentSize().width, tmp.sprite->getContentSize().height), PhysicsMaterial(0.1f, 1.0f, 0.0f));
-			// set the category, collision and contact test bit masks
-			// tipo del objeto
-			physicsBody->setCategoryBitmask((int)PhysicsCategory::Monster);
-			// qué tipos de objeto generan eventos de colisión con este?
-			physicsBody->setContactTestBitmask((int)PhysicsCategory::Projectile);
-			//physicsBody->setContactTestBitmask((int)PhysicsCategory::All);
+			tmp.sprite = creaSpriteColision(path1, "collision_player", (int)PhysicsCategory::Monster, (int)PhysicsCategory::Projectile);
+			tmp.sprite->setScale(0.5f);
 			break;
 		case 1:
-			//tmp.sprite = Sprite::create(ap2.generateTriangles());
-			tmp.sprite = Sprite::createWithSpriteFrameName(path2);
-			physicsBody = PhysicsBody::createBox(Size(tmp.sprite->getContentSize().width, tmp.sprite->getContentSize().height), PhysicsMaterial(0.1f, 1.0f, 0.0f));
-			// set the category, collision and contact test bit masks
-			// tipo del objeto
-			physicsBody->setCategoryBitmask((int)PhysicsCategory::Monster);
-			// qué tipos de objeto generan eventos de colisión con este?
-			physicsBody->setContactTestBitmask((int)PhysicsCategory::Projectile);
+			tmp.sprite = creaSpriteColision(path2, "collision_enemy", (int)PhysicsCategory::Monster, (int)PhysicsCategory::Projectile);
+			tmp.sprite->setScale(0.5f);
 			break;
 		case 2:
-			//tmp.sprite = Sprite::create(ap3.generateTriangles());
-			tmp.sprite = Sprite::createWithSpriteFrameName(path3);
-			physicsBody = PhysicsBody::createBox(Size(tmp.sprite->getContentSize().width, tmp.sprite->getContentSize().height), PhysicsMaterial(0.1f, 1.0f, 0.0f));
-			// set the category, collision and contact test bit masks
-			// tipo del objeto
-			physicsBody->setCategoryBitmask((int)PhysicsCategory::Projectile);
-			// qué tipos de objeto generan eventos de colisión con este?
-			physicsBody->setContactTestBitmask((int)PhysicsCategory::Monster);
+			tmp.sprite = creaSpriteColision(path3, "collision_enemy_bullet", (int)PhysicsCategory::Projectile, (int)PhysicsCategory::Monster);
+			tmp.sprite->setScale(1.0f);
 			break;
 		default:
-			CCLOG("WTF");
-			//tmp.sprite = Sprite::create(ap1.generateTriangles());
-			tmp.sprite = Sprite::createWithSpriteFrameName(path1);
-			physicsBody = PhysicsBody::createBox(Size(tmp.sprite->getContentSize().width, tmp.sprite->getContentSize().height), PhysicsMaterial(0.1f, 1.0f, 0.0f));
-			// set the category, collision and contact test bit masks
-			// tipo del objeto
-			physicsBody->setCategoryBitmask((int)PhysicsCategory::Monster);
-			// qué tipos de objeto generan eventos de colisión con este?
-			physicsBody->setContactTestBitmask((int)PhysicsCategory::Projectile);
+			CCLOG("WTF"); tmp.sprite = creaSpriteColision(path1, "collision_player", (int)PhysicsCategory::Monster, (int)PhysicsCategory::Projectile);
+			tmp.sprite->setScale(0.5f);
 			break;
 		}
 
-		// crea sprites con el bounding box poligonal
 		tmp.sprite->setPosition(Vec2(visibleSize.width / 2.0f + cocos2d::RandomHelper::random_real(-600.0f, 600.0f), visibleSize.height / 2.0f + cocos2d::RandomHelper::random_real(-600.0f, 600.0f)));
-		tmp.sprite->setScale(0.5f);
-
-		// Sets the sprite to be dynamic. This means that the physics engine will not apply forces to the
-		// monster. Instead, you’ll control it directly through the MoveTo actions 
-		physicsBody->setDynamic(true);
-
-		// que objetos deberian afectar a este en las colisiones
-		// (no afectaría por que es dinamico, está puesto por completar)
-		physicsBody->setCollisionBitmask((int)PhysicsCategory::None);
-
-		tmp.sprite->setPhysicsBody(physicsBody);
-
-
 
 		// le pone una aceleracion estandar
 		tmp.accel = Vec2(cocos2d::RandomHelper::random_real(-200.0f, 200.0f), cocos2d::RandomHelper::random_real(-200.0f, 200.0f));
 
-		auto contactListener = EventListenerPhysicsContact::create();
-		contactListener->onContactBegin = CC_CALLBACK_1(PolyspriteTest::onContactBegin, this);
-		getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
-
 		rebotones.push_back(tmp);
 
-		addChild(tmp.sprite,i);
+		addChild(tmp.sprite, i);
 	}
-
-	
-
-	/////////////////////////////
-	scheduleUpdate();								// schedules update with order "0" (each frame)
-	Director::getInstance()->setDisplayStats(true); // displays fps
-
-
-	/////////////////////////////
-	return true;
 }
 
 void PolyspriteTest::MenuVuelveCallback(cocos2d::Ref * pSender){
+	// limpia el plist en memoria
+	PhysicsShapeCache::getInstance()->removeAllShapes();
+
 	Director::getInstance()->replaceScene(Menus::CreateScene());
 }
 
@@ -236,13 +181,42 @@ bool PolyspriteTest::onContactBegin(PhysicsContact &contactoConTacto){
 	auto nodeA = contactoConTacto.getShapeA()->getBody()->getNode();
 	auto nodeB = contactoConTacto.getShapeB()->getBody()->getNode();
 
-	// ign mis tests
+	// en plan guarro, oculta los sprites aunque los colliders siguen activos
 	nodeA->setVisible(false);
 	nodeB->setVisible(false);
 
-	//nodeA->removeFromParent();
-	//nodeB->removeFromParent();
-	// y esto va a cascar como un hijo de piii
-
 	return true;
+}
+
+Sprite *PolyspriteTest::creaSpriteColision(const char *spritePath, const char *physics_name, int claseColision, int colisionoCon ) {
+	Sprite *sprite;
+	PhysicsBody *physicsBody;
+	auto physicsShapeCache = PhysicsShapeCache::getInstance();
+
+	sprite = Sprite::createWithSpriteFrameName(spritePath);
+
+	// Si hay shapecache para este sprite, usar este, si no usar createBox.
+	// Ojo: physicsBody es undefined ahora, pasará a ser "null" si SetBodyOnSprite no lo consigue
+	physicsBody = physicsShapeCache->ignSetBodyOnSprite(physics_name, sprite);
+	if(!physicsBody){
+		// physicsBody == null -> sheeit, ponerle una caja
+		physicsBody = PhysicsBody::createBox(Size(sprite->getContentSize().width, sprite->getContentSize().height), PhysicsMaterial(0.1f, 1.0f, 0.0f));
+	}
+
+	// set the category, collision and contact test bit masks
+	// tipo del objeto
+	physicsBody->setCategoryBitmask(claseColision);
+	// qué tipos de objeto generan eventos de colisión con este?
+	physicsBody->setContactTestBitmask(colisionoCon);
+
+
+	// Sets the sprite to be dynamic. This means that the physics engine will not apply forces to it. Instead, you’ll control it directly.
+	physicsBody->setDynamic(true);
+	// que objetos deberian afectar a este en las colisiones (no afectaría por que es dinamico, está puesto por completar)
+	// OJO: esta parte no entiendo a qué se refiere
+	physicsBody->setCollisionBitmask((int)PhysicsCategory::None);
+
+	sprite->setPhysicsBody(physicsBody);
+
+	return sprite;
 }
