@@ -36,19 +36,21 @@ Git user attention
 ### ÚLTIMO HECHO
 
 ```diff
-+ limpieza general de #includes del proyecto
-+ Atlas de sprites en una sola textura (.plist y spritesheet.png generado con TexturePacker)
-+ Prueba de colisiones precisas en "Sprites Test"
++ colisiones precisas funcionando (faltan por definir sprites aun)
+- De algún modo ahora los sprites con colisiones precisas trabajan con coordenadas distintas, ahora el 0,0 no está en el centro. Lo tengo que mirar.
 ```
 - configuración con archivos en vez de #defines
 - rediseño de código (primera de 'n' :)
 - comenzada planificacion de tareas (este readme)
+- limpieza general de #includes del proyecto
+- Atlas de sprites en una sola textura (.plist y spritesheet.png generado con TexturePacker)
 
 ----
 # TRABAJO EN CURSO
 En desarrollo | Estimacion
 -- | --
 Colisiones precisas - trazar las formas poligonales de cada sprite relevante | ~~19/05/2017~~ 24/05
+Revisar el bug de la posición de los sprites | 26/05
 ---
 
 ### PLANIFICADO (lo siguiente que pienso hacer)
