@@ -114,14 +114,6 @@ bool Level::init(){
 	// Indica el estado inicial de esta escena
 	gameInstance->estadoActual = Game::estadosJuego::introNivel;
 
-	// ========================================================================================================================================
-	// testz
-	// ----------------------------------------------------------------------------------------------------------------------------------------
-	
-	//GameActor *kk = new GameActor;
-
-	//kk->loadSpriteSheet(this);
-
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// prepara los pools de balas a usar ¿en toda la partida?
 	// ----------------------------------------------------------------------------------------------------------------------------------------
@@ -129,7 +121,7 @@ bool Level::init(){
 	// Creando pools de balas para todos los tipos necesarios
 	// TODO: prueba enésima de dónde colgar estos pools... ahora van a una clase propia "Pool".
 	// Pool de balas para el jugador
-	Bullet::createBulletPool(this, Pool::currentBulletsPlayerTipo1, 1, "bala_", gameInstance->bullet_path_sprite1.c_str(), gameInstance->bullet_path_sound_fire.c_str(), gameInstance->bullet_path_sound_impact.c_str(), gameInstance->bullet_default_speed, gameInstance->bullet_default_dmg,
+	Bullet::createBulletPool(this, Pool::currentBulletsPlayerTipo1, 3, "bala_", gameInstance->bullet_path_sprite1.c_str(), gameInstance->bullet_path_sound_fire.c_str(), gameInstance->bullet_path_sound_impact.c_str(), gameInstance->bullet_default_speed, gameInstance->bullet_default_dmg,
 		(int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo, gameInstance->bullet_default_scale);
 
 	// TODO: Pool ""Tipo 1"" ... ehm... para los enemigos normales?
@@ -224,7 +216,9 @@ bool Level::init(){
 
 
 	//player = new Player;
-
+	Enemy *kk = new Enemy(this, Enemy::tiposEnemigo::tipo1);
+	kk->activa(Vec2::ZERO);
+	//kk->activa(Vec2(visibleSize.width / 2.0f, 40.0f));
 
 	// schedules update every frame with default order 0. Lower orders execute first
 	this->scheduleUpdate();

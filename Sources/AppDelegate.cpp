@@ -1,5 +1,8 @@
 #include "AppDelegate.h"
+
 #include "Menus.h"
+#include "PhysicsShapeCache.h"
+
 
 USING_NS_CC;
 
@@ -76,10 +79,25 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     register_all_packages();
 
-	// Aquí cargo la texturesheet que voy a usar, con que se ejecute una vez vale.
+
+	// =v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v
+	// Indico donde están los archivos .plist de texturas y colisiones
+	// haciéndolo aquí me aseguro que se cargan una sola vez
+
+	// texturesheet plist:
 	// OJO!!!: en la carpeta debug.win32 hay una copia de los archivos. Por eso se veía todo perfecto aunque borrara el .plist haciendo pruebas >.<
 	auto spritecache = SpriteFrameCache::getInstance();
 	spritecache->addSpriteFramesWithFile("spritesheet.plist");
+
+	// collision & physics plist (nada definido aparte de los polígonos y si hay algo es basura):
+	PhysicsShapeCache *physicsShapeCache;
+	physicsShapeCache = PhysicsShapeCache::getInstance();
+	// OJO!!!: hacer esto una sola vez
+	// en este fichero estarán colecciones de polígonos que luego usará la parte de colisiones
+	physicsShapeCache->addShapesWithFile("physicscollision.plist");
+	// Por si quisiera vaciar physicsShapeCache:
+	//PhysicsShapeCache::getInstance()->removeAllShapes();
+	// =^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^
 
     // create a scene. it's an autorelease object
     //auto scene = HelloWorld::createScene();

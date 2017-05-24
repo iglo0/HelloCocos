@@ -82,7 +82,7 @@ public:
 	static Game *getInstance();
 
 	// prueba fisica
-	static void anadeFisica(Sprite *sprite, int tipoColision, int colisionaCon, const char *name = "[NONAME]");
+	static void anadeFisica(Sprite *sprite, int tipoColision, int colisionaCon, const char *name = "[NONAME]", const char *colliderName="");
 	//static void updateAll(float deltaT); // updates all gameActors in da pools. Ummm Game no conoce cómo está definido Enemy (declaración adelantada), y no puede acceder a sus miembros.
 
 	// TODO: esto de mezclar funciones estaticas con instanciadas... 

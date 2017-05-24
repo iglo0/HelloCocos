@@ -89,7 +89,7 @@ Sprite *GameActor::setSprite(Node *nodo, const char *ruta, const char *name, int
 
 	sprite->setName(name);
 
-	Game::anadeFisica(sprite, tipoColision, colisionaCon, name);
+	Game::anadeFisica(sprite, tipoColision, colisionaCon, name, ruta);
 
 	//TODO: ya tengo para recuperar mis datos :)
 	sprite->setUserData(this);

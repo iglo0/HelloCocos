@@ -1,5 +1,7 @@
 #include "Game.h"
 
+#include "PhysicsShapeCache.h"
+
 Game::Game(){
 	ellapsedTime = 0;
 	estadoActual = estadosJuego::menus;
@@ -18,14 +20,14 @@ Game *Game::getInstance(){
 	return instance;
 }
 
-void Game::anadeFisica(Sprite *sprite, int tipoColision, int colisionaCon, const char *name){
+void Game::anadeFisica(Sprite *sprite, int tipoColision, int colisionaCon, const char *name, const char *colliderName){
+	PhysicsBody *fisicaSprite;
+	PhysicsShapeCache *physicsShapeCache;
 
 	if(!sprite){
 		CCLOG("Error anadiendo fisica al sprite: sprite sin definir");
 		return;
 	}
-
-	PhysicsBody *fisicaSprite;
 
 	// TODO: PhysicsMaterial OJO
 	// Density=0.1f, Restitution=1.0f, Friction=0
@@ -35,8 +37,20 @@ void Game::anadeFisica(Sprite *sprite, int tipoColision, int colisionaCon, const
 	// el autopolygon está optimizado para render, no para física
 	// los poligonos de física soportan formas menos complejas que los sprites autopolygon
 	// empiezo por crear una caja alrededor del sprite
-	fisicaSprite = PhysicsBody::createBox(Size(sprite->getContentSize().width, sprite->getContentSize().height), PhysicsMaterial(0.1f, 1.0f, 0.0f));
-	
+
+	// =v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v=v
+	// NUEVO: Uso PhysicsEditor con PhysicsShapeCache ligeramente modificado
+
+	// Si encuentro shapecache con el mismo nombre de este sprite, lo uso. Y si no uso el estándar: PhysicsBody::createBox(..)
+	// Ojo: physicsBody es undefined ahora, pasará a ser "null" si SetBodyOnSprite no lo consigue
+	physicsShapeCache = PhysicsShapeCache::getInstance();
+	fisicaSprite = physicsShapeCache->ignSetBodyOnSprite(colliderName, sprite);
+	if(!fisicaSprite){
+		// physicsBody == null -> sheeit, ponerle una caja
+		fisicaSprite = PhysicsBody::createBox(Size(sprite->getContentSize().width, sprite->getContentSize().height), PhysicsMaterial(0.1f, 1.0f, 0.0f));
+	}
+	// =^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^=^
+
 
 	// set the category, collision and contact test bit masks
 	// tipo del objeto

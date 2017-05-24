@@ -64,12 +64,12 @@ bool PolyspriteTest::init(){
 	this->addChild(menu, 1);
 
 	/////////////////////////////
-	// Fisicas de PhysicsEditor
-	PhysicsShapeCache *physicsShapeCache;
-	physicsShapeCache = PhysicsShapeCache::getInstance();
-	// hacer esto una sola vez
-	// en este fichero estarán colecciones de polígonos que luego usará la parte de colisiones
-	physicsShapeCache->addShapesWithFile("physicscollision.plist");
+	//// Fisicas de PhysicsEditor
+	//PhysicsShapeCache *physicsShapeCache;
+	//physicsShapeCache = PhysicsShapeCache::getInstance();
+	//// hacer esto una sola vez
+	//// en este fichero estarán colecciones de polígonos que luego usará la parte de colisiones
+	//physicsShapeCache->addShapesWithFile("physicscollision.plist");
 	
 	llenaPantallaDeSprites();
 	/////////////////////////////
@@ -94,11 +94,14 @@ void PolyspriteTest::llenaPantallaDeSprites(){
 	physicsShapeCache = PhysicsShapeCache::getInstance();
 
 	// nombre del sprite != nombre dentro del plist de physics. Quicir, que puedo usar cualquiera en cualquiera
-	const char *path1 = "collision_player.png";
-	const char *path2 = "collision_enemy.png";
-	const char *path3 = "collision_enemy_bullet.png";
+	//const char *path1 = "collision_player.png";
+	//const char *path2 = "collision_enemy.png";
+	//const char *path3 = "collision_enemy_bullet.png";
+	const char *path1 = "spaceshipspr.png";
+	const char *path2 = "aliensprite2.png";
+	const char *path3 = "bullet_orange0000.png";
 
-	// como crear un autopolygon
+	// como crear un autopolygon "DEPRECATED" --> TexturePacker se encarga de esto
 	//AutoPolygon ap1 = AutoPolygon(path1);
 	//PolygonInfo myInfo = ap1.generateTriangles();//use all default values
 	//sprite1 = Sprite::create(myInfo);
@@ -106,19 +109,23 @@ void PolyspriteTest::llenaPantallaDeSprites(){
 	for(int i = 0; i < 60; i++){
 		switch(cocos2d::RandomHelper::random_int(0, 2)){
 		case 0:
-			tmp.sprite = creaSpriteColision(path1, "collision_player", (int)PhysicsCategory::Monster, (int)PhysicsCategory::Projectile);
+			//tmp.sprite = creaSpriteColision(path1, "collision_player", (int)PhysicsCategory::Monster, (int)PhysicsCategory::Projectile);
+			tmp.sprite = creaSpriteColision(path1, path1, (int)PhysicsCategory::Monster, (int)PhysicsCategory::Projectile);
 			tmp.sprite->setScale(0.5f);
 			break;
 		case 1:
-			tmp.sprite = creaSpriteColision(path2, "collision_enemy", (int)PhysicsCategory::Monster, (int)PhysicsCategory::Projectile);
+			//tmp.sprite = creaSpriteColision(path2, "collision_enemy", (int)PhysicsCategory::Monster, (int)PhysicsCategory::Projectile);
+			tmp.sprite = creaSpriteColision(path2, path2, (int)PhysicsCategory::Monster, (int)PhysicsCategory::Projectile);
 			tmp.sprite->setScale(0.5f);
 			break;
 		case 2:
-			tmp.sprite = creaSpriteColision(path3, "collision_enemy_bullet", (int)PhysicsCategory::Projectile, (int)PhysicsCategory::Monster);
+			//tmp.sprite = creaSpriteColision(path3, "collision_enemy_bullet", (int)PhysicsCategory::Projectile, (int)PhysicsCategory::Monster);
+			tmp.sprite = creaSpriteColision(path3, path3, (int)PhysicsCategory::Projectile, (int)PhysicsCategory::Monster);
 			tmp.sprite->setScale(1.0f);
 			break;
 		default:
-			CCLOG("WTF"); tmp.sprite = creaSpriteColision(path1, "collision_player", (int)PhysicsCategory::Monster, (int)PhysicsCategory::Projectile);
+			//CCLOG("WTF"); tmp.sprite = creaSpriteColision(path1, "collision_player", (int)PhysicsCategory::Monster, (int)PhysicsCategory::Projectile);
+			CCLOG("WTF"); tmp.sprite = creaSpriteColision(path1, path1, (int)PhysicsCategory::Monster, (int)PhysicsCategory::Projectile);
 			tmp.sprite->setScale(0.5f);
 			break;
 		}
@@ -136,7 +143,7 @@ void PolyspriteTest::llenaPantallaDeSprites(){
 
 void PolyspriteTest::MenuVuelveCallback(cocos2d::Ref * pSender){
 	// limpia el plist en memoria
-	PhysicsShapeCache::getInstance()->removeAllShapes();
+	//PhysicsShapeCache::getInstance()->removeAllShapes();
 
 	Director::getInstance()->replaceScene(Menus::CreateScene());
 }
