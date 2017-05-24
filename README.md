@@ -37,7 +37,7 @@ Git user attention
 
 ```diff
 + colisiones precisas funcionando (faltan por definir sprites aun)
-- De algún modo ahora los sprites con colisiones precisas trabajan con coordenadas distintas, ahora el 0,0 no está en el centro. Lo tengo que mirar.
+- De algún modo ahora los sprites con colisiones precisas trabajan con coordenadas distintas, ahora el 0,0 no está en el centro.
 ```
 - configuración con archivos en vez de #defines
 - rediseño de código (primera de 'n' :)
@@ -47,23 +47,17 @@ Git user attention
 
 ----
 # TRABAJO EN CURSO
-En desarrollo | Estimacion
--- | --
-Colisiones precisas - trazar las formas poligonales de cada sprite relevante | ~~19/05/2017~~ 24/05
-Revisar el bug de la posición de los sprites | 26/05
----
+En desarrollo (Estimación)
+```diff
++ (~~19/05/2017~~ 24/05) Colisiones precisas - trazar las formas poligonales de cada sprite relevante
+- (26/05) Revisar el bug de la posición de los sprites
+```
 
 ### PLANIFICADO (lo siguiente que pienso hacer)
 
 
 
 ### POR PLANIFICAR (tareas pendientes que ir planificando)
-???
-
-### IDEAS (a hacer ~~cuando las ranas críen pelo~~ más adelante)
-
-En ningún orden particular:
-
 LÓGICA DEL JUEGO
 - Añadir comportamientos a las naves
 	- enemigos que salen y entran en la formación (por ejemplo: Galaxian/Galaga)
@@ -73,6 +67,27 @@ LÓGICA DEL JUEGO
 	- tiros en la dirección general del prota (ecuación lineal)
 	- disparo de proyectiles que sigan trayectorias (seno/coseno)
         - disparo de múltiples proyectiles en abanico (bosses?)
+
+ESTRUCTURA DEL JUEGO
+- detectar la destrucción de las oleadas de enemigos
+- avance de oleadas cada vez más dificiles
+
+GRÁFICOS
+- Independencia de resolución
+
+### IDEAS (a hacer ~~cuando las ranas críen pelo~~ más adelante)
+
+En ningún orden particular:
+
+LÓGICA DEL JUEGO
+- ~~Añadir comportamientos a las naves
+	- enemigos que salen y entran en la formación (por ejemplo: Galaxian/Galaga)
+		- que sigan splines? LOL ni siquiera he empezado por y=x
+	- que los enemigos disparen más cuantos menos queden
+- Añadir comportamientos a los disparos
+	- tiros en la dirección general del prota (ecuación lineal)
+	- disparo de proyectiles que sigan trayectorias (seno/coseno)
+        - disparo de múltiples proyectiles en abanico (bosses?)~~
 - Añadir las casitas (las típicas del Space Invaders que protegen al prota)
 	- que sean destructibles
 		- que se vayan destruyendo ahí donde sean disparadas
@@ -110,12 +125,11 @@ GRÁFICOS
 - Animaciones
 	- Animaciones sencillas (en loop) de los objetos
 	- Poder definir animaciones en loop y one-off
-- Independencia de resolución
-        - fijar un ratio de pantalla
+- ~~Independencia de resolución~~
 
 ESTRUCTURA DEL JUEGO
-- detectar la destrucción de las oleadas de enemigos
-- avance de oleadas cada vez más dificiles
+- ~~detectar la destrucción de las oleadas de enemigos~~
+- ~~avance de oleadas cada vez más dificiles~~
 - jefes cada "x" oleadas
 
 GENERAL
@@ -130,7 +144,6 @@ GENERAL
 - Separar el manejo de datos, lógica y memoria de la clase de Pool (ir viendo Pool_manager)	
 
 ### ~~BUGS~~ OUTSTANDING FEATURES
-
 - el comportamiento de los "space invaders" no se ajusta a las dimensiones del grupo (debieran desplazarse por toda la pantalla y ajustarse cuando van cayendo)
 - los mensajes que deberían salir centrados no lo hacen (calculo la posición solo al principio y no lo actualizo cuando cambio el mensaje)
 
