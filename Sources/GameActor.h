@@ -2,10 +2,6 @@
 
 #include "cocos2d.h"	// necesario para declarar Sprite
 
-//#include "Game.h"
-
-//class Enemy;
-
 USING_NS_CC;
 
 class GameActor{
@@ -61,8 +57,8 @@ public:
 	// - dirección inicial
 	// - vel htal/vel vcal
 	// - limites x
-	bool spaceInvaderMovement_goingRight;			// pa donde tira
-	bool spaceInvaderMovement_goingDown;			// pa donde tira
+	//bool spaceInvaderMovement_goingRight;			// movido a SpaceInvaders pa donde tira
+	//bool spaceInvaderMovement_goingDown;			// movido a SpaceInvaders pa donde tira
 	float spaceInvaderMovement_speedX;				// cómo de rápido se mueve lateralmente
 	float spaceInvaderMovement_speedY;				// cómo de rápido baja
 	float spaceInvaderMovement_xMin;				// dónde hace tope

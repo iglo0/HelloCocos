@@ -214,12 +214,6 @@ bool Level::init(){
 	layer2->setPosition(Vec2(0, 0));
 	addChild(layer2, -1);
 
-
-	//player = new Player;
-	Enemy *kk = new Enemy(this, Enemy::tiposEnemigo::tipo1);
-	kk->activa(Vec2::ZERO);
-	//kk->activa(Vec2(visibleSize.width / 2.0f, 40.0f));
-
 	// schedules update every frame with default order 0. Lower orders execute first
 	this->scheduleUpdate();
 	// displays fps

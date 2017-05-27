@@ -12,11 +12,11 @@
         </array>
         <key>bodies</key>
         <dict>
-
-            <key>collision_enemy</key>
+			<!-- Parece que funciona bien si le pongo el nombre del sprite sin extension. Con extension no lo encuentra... -->
+            <key>aliensprite2</key>
             <dict>
                 <key>anchorpoint</key>
-                <string>{ 0.00000,0.00000 }</string>
+                <string>{ 0.50000,0.50000 }</string>
                 <key>is_dynamic</key>
                 <true/>
                 <key>affected_by_gravity</key>
@@ -110,10 +110,10 @@
                 </array>
             </dict>
 
-            <key>collision_enemy_bullet</key>
+            <key>bullet_orange0000</key>
             <dict>
                 <key>anchorpoint</key>
-                <string>{ 0.00000,0.00000 }</string>
+                <string>{ 0.50000,0.50000 }</string>
                 <key>is_dynamic</key>
                 <true/>
                 <key>affected_by_gravity</key>
@@ -164,10 +164,10 @@
                 </array>
             </dict>
 
-            <key>collision_player</key>
+            <key>spaceshipspr</key>
             <dict>
                 <key>anchorpoint</key>
-                <string>{ 0.00000,0.00000 }</string>
+                <string>{ 0.50000,0.50000 }</string>
                 <key>is_dynamic</key>
                 <true/>
                 <key>affected_by_gravity</key>
@@ -255,10 +255,10 @@
                 </array>
             </dict>
 
-            <key>collision_bullet</key>
+            <key>bullet_2_blue</key>
             <dict>
                 <key>anchorpoint</key>
-                <string>{ 0.00000,0.00000 }</string>
+                <string>{ 0.50000,0.50000 }</string>
                 <key>is_dynamic</key>
                 <true/>
                 <key>affected_by_gravity</key>

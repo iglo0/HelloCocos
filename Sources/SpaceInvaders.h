@@ -17,8 +17,6 @@ x	x	x 	x	x
 
 //#include "Pool.h"
 
-USING_NS_CC;
-
 // creo que con este nombre queda más claro :D
 class SpaceInvaders{
 public:
@@ -32,8 +30,16 @@ public:
 
 	Vec2 devuelvePosicionInicial(int dimX, int dimY);	// asigna una posicion inicial en pantalla según la posición en la matriz de invaders
 
+
+	// Ign Prueba
+
+	// y definir los statics en el cpp
+	static bool spaceInvaderMovement_goingRight;		// pa donde tira
+	static bool spaceInvaderMovement_goingDown;			// pa donde tira
+
+
 private:
-	int dimMaxX, dimMaxY;	// dimensiones de la "caja" de los invaders
+	size_t dimMaxX, dimMaxY;	// dimensiones de la "caja" de los invaders
 	float compressX;		// qué % de la pantalla usar
 	float compressY;
 	float marginX;			// donde empiezan los marcianos (contando desde la izquierda)

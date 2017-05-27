@@ -37,7 +37,9 @@ Git user attention
 
 ```diff
 + colisiones precisas funcionando (faltan por definir sprites aun)
-- De algún modo ahora los sprites con colisiones precisas trabajan con coordenadas distintas, ahora el 0,0 no está en el centro.
++ [corregido]De algún modo ahora los sprites con colisiones precisas trabajan con coordenadas distintas, ahora el 0,0 no está en el centro.
++ [corregido]Los space invaders ahora llegan correctamente hasta los límites de la pantalla aunque haya destruido los de las esquinas
++ 
 ```
 - configuración con archivos en vez de #defines
 - rediseño de código (primera de 'n' :)
@@ -49,8 +51,7 @@ Git user attention
 # TRABAJO EN CURSO
 En desarrollo (Estimación)
 ```diff
-+ (~~19/05/2017~~ 24/05) Colisiones precisas - trazar las formas poligonales de cada sprite relevante
-- (26/05) Revisar el bug de la posición de los sprites
++ Colisiones precisas - trazar las formas poligonales de cada sprite relevante. Faltan por definir el resto de los sprites (solo algunos están)
 ```
 
 ### PLANIFICADO (lo siguiente que pienso hacer)
@@ -144,7 +145,7 @@ GENERAL
 - Separar el manejo de datos, lógica y memoria de la clase de Pool (ir viendo Pool_manager)	
 
 ### ~~BUGS~~ OUTSTANDING FEATURES
-- el comportamiento de los "space invaders" no se ajusta a las dimensiones del grupo (debieran desplazarse por toda la pantalla y ajustarse cuando van cayendo)
+- ~~el comportamiento de los "space invaders" no se ajusta a las dimensiones del grupo (debieran desplazarse por toda la pantalla y ajustarse cuando van cayendo)~~
 - los mensajes que deberían salir centrados no lo hacen (calculo la posición solo al principio y no lo actualizo cuando cambio el mensaje)
 
 ### DUDAS TÉCNICAS

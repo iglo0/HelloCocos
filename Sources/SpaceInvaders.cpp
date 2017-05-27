@@ -2,6 +2,14 @@
 
 #include "Pool.h"
 
+USING_NS_CC;
+
+
+// ojo!!!: con los statics
+bool SpaceInvaders::spaceInvaderMovement_goingRight;		// pa donde tira
+bool SpaceInvaders::spaceInvaderMovement_goingDown;			// pa donde tira
+
+
 SpaceInvaders::SpaceInvaders(int tamaX, int tamaY, float comprX, float comprY, float margX, float margY) : dimMaxX(tamaX), dimMaxY(tamaY), compressX(comprX), compressY(comprY), marginX(margX), marginY(margY) {}
 
 SpaceInvaders::~SpaceInvaders(){}
@@ -18,7 +26,7 @@ void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &t
 	Enemy *tmp;
 	Vec2 enePos;
 
-	for(int j = 0; j < dimMaxY; j++) {
+	for(size_t j = 0; j < dimMaxY; j++) {
 
 		// coge el tipo que toca o repite el último ad infinitum
 		if(j < tipos.size()){
@@ -27,7 +35,7 @@ void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &t
 			tipo = tipos[tipos.size()-1];
 		}
 
-		for(int i = 0; i < dimMaxX; i++){
+		for(size_t i = 0; i < dimMaxX; i++){
 
 			tmp = new Enemy(nodo, tipo);
 
@@ -39,15 +47,26 @@ void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &t
 			// Cómo querré que se mueva?
 			tmp->funcionMovimientoActual = &GameActor::mueveSpaceInvader;
 
-			tmp->spaceInvaderMovement_goingRight = true;
-			tmp->spaceInvaderMovement_goingDown = false;
+			// HACK: Prueba SpaceInvaders
+			SpaceInvaders::spaceInvaderMovement_goingDown = false;
+			SpaceInvaders::spaceInvaderMovement_goingRight = true;
+
+			//tmp->spaceInvaderMovement_goingRight = true;
+			//tmp->spaceInvaderMovement_goingDown = false;
 			tmp->spaceInvaderMovement_speedX = velMovHtal;
 			tmp->spaceInvaderMovement_speedY = velMovVcal;
 			tmp->spaceInvaderMovement_vcalMoveCurrTarget = 0;	// calculado luego
 			tmp->spaceInvaderMovement_vcalMoveAmount = 60.0f;
-			// TODO: calcular los límites de movimiento correctamente (puestos a huevo)
-			tmp->spaceInvaderMovement_xMax = devuelvePosicionInicial(i, j).x + Director::getInstance()->getVisibleSize().width/2.5f - marginX;
-			tmp->spaceInvaderMovement_xMin = devuelvePosicionInicial(i, j).x;
+
+			//tmp->spaceInvaderMovement_xMax = devuelvePosicionInicial(i, j).x + Director::getInstance()->getVisibleSize().width/2.5f - marginX;
+			//tmp->spaceInvaderMovement_xMin = devuelvePosicionInicial(i, j).x;
+			
+			// cada "space invader" se puede mover entre los limites de la pantalla, pero el primero que llegue avisa al resto para que cambien su movimiento
+			// así con cualquier configuración de enemigos, siempre llegarán hasta los límites de la pantalla
+			
+			// TODO: cambiar el margen manual de 50?
+			tmp->spaceInvaderMovement_xMax = visibleSize.width - 50.0f;
+			tmp->spaceInvaderMovement_xMin = 50.0f;
 
 			// y que ataque?
 			//tmp->funcionControlActual = &Enemy::funControl1;
