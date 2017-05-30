@@ -50,19 +50,27 @@ Git user attention
 # TRABAJO EN CURSO
 En desarrollo (Estimación)
 ```diff
+GRÁFICOS
 - Colisiones precisas. Definir el resto de los sprites (solo algunos están)
+
+LÓGICA DEL JUEGO
+Añadir comportamientos a los disparos
+- tiros en la dirección general del prota (ecuación lineal)
+- disparo de proyectiles que sigan trayectorias (seno/coseno)
+- disparo de múltiples proyectiles en abanico (bosses?)
 ```
 
-### PLANIFICADO (lo siguiente que pienso hacer)
 
-- Añadir comportamientos a los disparos
-	- tiros en la dirección general del prota (ecuación lineal)
-	- disparo de proyectiles que sigan trayectorias (seno/coseno)
-        - disparo de múltiples proyectiles en abanico (bosses?)
+### PLANIFICADO (lo siguiente que pienso hacer)
 
 ESTRUCTURA DEL JUEGO
 - detectar la destrucción de las oleadas de enemigos
 - avance de oleadas cada vez más dificiles
+
+EFECTOS
+- Sonido
+	- reintroducir el sonido
+
 
 ### POR PLANIFICAR (tareas pendientes que ir planificando)
 LÓGICA DEL JUEGO
@@ -96,7 +104,6 @@ LÓGICA DEL JUEGO
 
 EFECTOS
 - Sonido
-	- reintroducir el sonido
 	- buscar una alternativa que permita variar pitch y otros parámetros en windows (el motor sonoro por defecto no lo hace)
 	- ojo a los parones al reproducir sonidos
 - Música
