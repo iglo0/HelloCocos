@@ -50,7 +50,7 @@ GRÁFICOS
 - Colisiones precisas. Definir el resto de los sprites (solo algunos están) [pendiente de ver qué hago con la licencia de PhysicsEditor]
 
 LÓGICA DEL JUEGO
-Añadir comportamientos a los disparos
+Añadir comportamientos a los disparos: preparando la estructura para hacer esto
 - tiros en la dirección general del prota (ecuación lineal) [03/06/17]
 - disparo de proyectiles que sigan trayectorias (seno/coseno) [04/06/17]
 - disparo de múltiples proyectiles en abanico (bosses?) [07/06/17]
