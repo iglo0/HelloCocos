@@ -244,9 +244,11 @@ bool PhysicsShapeCache::setBodyOnSprite(const std::string &name, Sprite *sprite)
 }
 
 PhysicsBody * PhysicsShapeCache::ignSetBodyOnSprite(const std::string &name, Sprite *sprite){
+	// TODO: OJO! Exception thrown at ... Microsoft C++ exception: std::out_of_range at memory location .... (pero funciona...????)
 	PhysicsBody *body = createBodyWithName(name);
 	if(body){
 		sprite->setPhysicsBody(body);
+		// TODO: OJO! Exception thrown at ... Microsoft C++ exception: std::out_of_range at memory location .... (pero funciona...????)
 		sprite->setAnchorPoint(getBodyDef(name)->anchorPoint);
 	}
 	return body;

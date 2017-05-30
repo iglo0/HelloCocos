@@ -33,10 +33,14 @@ public:
 
 	// Ign Prueba
 
-	// y definir los statics en el cpp
+	// ...y como son static, hay que declararlos también en el cpp: static int i ==> int i
 	static bool spaceInvaderMovement_goingRight;		// pa donde tira
 	static bool spaceInvaderMovement_goingDown;			// pa donde tira
 
+	// TODO: para modificar el ratio de disparo: que disparen más cuantos menos queden.
+	static float porcenInvadersVivos;
+	static int numInvadersInicial;
+	static int numInvadersVivos;
 
 private:
 	size_t dimMaxX, dimMaxY;	// dimensiones de la "caja" de los invaders

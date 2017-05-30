@@ -38,7 +38,7 @@ public:
 
 	// el gameloop
 	void update(float delta) override;
-
+	
 	// --------------------------------------------------------------
 	// Listeners
 	// --------------------------------------------------------------
@@ -51,6 +51,7 @@ private:
 	// funciones miembro privadas
 	// --------------------------------------------------------------
 	void createGUI();
+	void initLevel();
 
 	// variables miembro privadas
 	// --------------------------------------------------------------
@@ -74,4 +75,5 @@ private:
 	//Label *lblPuntos;
 	//Label *lblHiScore;
 	//Label *lblVidas;
+
 };

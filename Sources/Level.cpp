@@ -64,21 +64,9 @@ bool Level::init(){
 	// inicializa Game si no lo estaba
 	gameInstance = Game::getInstance();
 
-	// !! PRUEBAS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	// TODO: esto no es multiplataforma, aparentemente android/ios no leen el fichero desde resources
-	//gameInstance->loadConfig("test.xml");
-
-	//// TODO: moverlo a otro sitio?
-	//gameInstance->vidas = gameInstance->vidas_iniciales;
-	//gameInstance->hiScore = gameInstance->initial_hi_score;
-
-	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
 	visibleSize = Director::getInstance()->getVisibleSize();
 	origin = Director::getInstance()->getVisibleOrigin();
 	auto size = Director::getInstance()->getWinSize();
-
 
 	iniciadoFinNivel = false;
 	iniciadoIntroNivel = false;
@@ -114,90 +102,7 @@ bool Level::init(){
 	// Indica el estado inicial de esta escena
 	gameInstance->estadoActual = Game::estadosJuego::introNivel;
 
-	// ----------------------------------------------------------------------------------------------------------------------------------------
-	// prepara los pools de balas a usar ¿en toda la partida?
-	// ----------------------------------------------------------------------------------------------------------------------------------------
-
-	// Creando pools de balas para todos los tipos necesarios
-	// TODO: prueba enésima de dónde colgar estos pools... ahora van a una clase propia "Pool".
-	// Pool de balas para el jugador
-	Bullet::createBulletPool(this, Pool::currentBulletsPlayerTipo1, 3, "bala_", gameInstance->bullet_path_sprite1.c_str(), gameInstance->bullet_path_sound_fire.c_str(), gameInstance->bullet_path_sound_impact.c_str(), gameInstance->bullet_default_speed, gameInstance->bullet_default_dmg,
-		(int)Game::CategoriaColision::Bala, (int)Game::CategoriaColision::Enemigo, gameInstance->bullet_default_scale);
-
-	// TODO: Pool ""Tipo 1"" ... ehm... para los enemigos normales?
-	Bullet::createBulletPool(this, Pool::currentBulletsTipo1, 30, "balaEne_", gameInstance->bullet_path_sprite2.c_str(), gameInstance->bullet_path_sound_fire.c_str(), gameInstance->bullet_path_sound_impact.c_str(), -gameInstance->bullet_default_speed, gameInstance->bullet_default_dmg,
-		(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador, gameInstance->bullet_default_scale);
-	// TODO: Pool ""Tipo 2"" ... ehm... para el boss?
-	Bullet::createBulletPool(this, Pool::currentBulletsTipo2, 30, "balaEne_", gameInstance->bullet_path_sprite2.c_str(), gameInstance->bullet_path_sound_fire.c_str(), gameInstance->bullet_path_sound_impact.c_str(), -gameInstance->bullet_default_speed, gameInstance->bullet_default_dmg * 2.0f,
-		(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador, gameInstance->bullet_default_boss_scale);
-	// TODO: ahora me falta cómo realacionar los "pools" con quienes los necesitan
-	// Problema: Pool ¿necesita? acceso a Enemy y Bullet porque se crean "pools" de ambos tipos
-	// Enemy y Bullet no pueden acceder a Pool ¿tengo que buscar un intermediario?
-
-	// La razón de tanto pool es tener los updates centralizados, me parece que estoy haciendo un embrollo otra vez...
-
-	// ----------------------------------------------------------------------------------------------------------------------------------------
-	// creacion del jugador
-	// ----------------------------------------------------------------------------------------------------------------------------------------
-
-	// instancio un jugador con los valores por defecto
-	//player = new Player(this, PLAYER_INITIAL_SPEED);
-	player = new Player(this, gameInstance->player_initial_speed);
-
-	// algo que disparar
-	// TODO: para cambiar de arma solo tendría que cambiar la referencia.... mola
-	player->poolMisBalas = &Pool::currentBulletsPlayerTipo1;
-
-	// Iba a colgar el inputComponent del jugador, quizá esté mejor colgando del nivel y con una referencia al jugador
-	inputComponent = new InputComponent;
-	inputComponent->player = player;
-
-	// ----------------------------------------------------------------------------------------------------------------------------------------
-	// inicializo los enemigos iniciales
-	// TODO: que esto dependa de una estructura definible idealmente en un .ini
-	// ----------------------------------------------------------------------------------------------------------------------------------------
-
-	// No necesito que sea una variable miembro, vivirá en un array en alguna parte.
-	Enemy *enemyBoss;
-
-	//enemyBoss = new Enemy(this, ENEMY_BOSS_PATH_SPRITE, ENEMY_PATH_SOUND_DIE, ENEMY_BOSS_INITIAL_SIZE, ENEMY_BOSS_INITIAL_ROTATION, ENEMY_BOSS_GENERIC_HP);
-	enemyBoss = new Enemy(this, Enemy::tiposEnemigo::tipoBoss);
-
-	// situo al enemigo arriba en el medio, con medio cuerpo de margen superior
-	Vec2 enePos = Vec2(visibleSize.width / 2.0f, visibleSize.height - enemyBoss->getSprite()->getContentSize().height/2.0f);
-	enemyBoss->activa(enePos);
-
-	// Cómo querré que se mueva?
-	//auto funcionControlMovimiento = &GameActor::mueveSeno;
-	enemyBoss->funcionMovimientoActual = &GameActor::mueveSeno;
-	enemyBoss->funcionMovimientoAmplitude = 600.0;
-	enemyBoss->funcionMovimientoPosIni = Vec2(Director::getInstance()->getVisibleSize().width / 2.0f, enemyBoss->getPosition().y);
-	enemyBoss->funcionMovimientoSpeed = 1 / 2.5;
-	
-	// y que ataque?
-	enemyBoss->funcionControlActual = &Enemy::funControlFireAtInterval;
-	enemyBoss->funcionControlTiempoDisparo = 1.0f;
-	
-	enemyBoss->poolMisBalas = &Pool::currentBulletsTipo2;
-
-	// hale, definido
-	
-	// ahora añadirlo al pool de GameUpdates para que haga algo de lo que le he dicho
-	Pool::currentEnemies.push_back(enemyBoss);
-
-	// ---------------------------------------------------------------------------------------------
-	// crea los "Space Invaders
-	// TODO: temporal, tiene que haber una progresión
-	SpaceInvaders spaceInvaders = SpaceInvaders(11, 5, 0.8f, 0.45f, 50.0f, 150.0f);
-
-	// creo una lista de enemigos que tiene que coincidir aprox con el nº de filas. Un tipo de enemigo por fila. Si se le acaban los tipos, repite el ultimo hasta el fin de las filas
-	std::vector<Enemy::tiposEnemigo> tipos;
-	tipos.push_back(Enemy::tipo2);
-	tipos.push_back(Enemy::tipo2);
-	tipos.push_back(Enemy::tipo2);
-	tipos.push_back(Enemy::tipo1);
-
-	spaceInvaders.creaInvaders(this, tipos, Pool::currentBulletsTipo1, 60.0f, 30.0f, 1200);
+	initLevel();
 
 
 	// ========================================================================================================================================
@@ -489,4 +394,93 @@ void Level::createGUI(){
 
 	// inicializa con valores por defecto
 	gameInstance->inicializaGUI();
+}
+
+
+void Level::initLevel(){
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+
+	// ----------------------------------------------------------------------------------------------------------------------------------------
+	// prepara los pools de balas a usar ¿en toda la partida?
+	// ----------------------------------------------------------------------------------------------------------------------------------------
+
+	// Creando pools de balas para todos los tipos necesarios
+	// TODO: prueba enésima de dónde colgar estos pools... ahora van a una clase propia "Pool".
+	// Pool de balas para el jugador
+	Bullet::createBulletPool(this, Pool::currentBulletsPlayerTipo1, 2, Bullet::tipoPlayer);
+
+	// TODO: Pool ""Tipo 1"" ... ehm... para los enemigos normales?
+	//Bullet::createBulletPool(this, Pool::currentBulletsTipo1, 30, "balaEne_", gameInstance->bullet_enemy_path_sprite2.c_str(), gameInstance->bullet_path_sound_fire.c_str(), gameInstance->bullet_path_sound_impact.c_str(), -gameInstance->bullet_default_speed, gameInstance->bullet_default_dmg,
+	//	(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador, gameInstance->bullet_default_scale);
+	Bullet::createBulletPool(this, Pool::currentBulletsTipo1, 60, Bullet::tipoEnemy);
+
+	// TODO: Pool ""Tipo 2"" ... ehm... para el boss?
+	//Bullet::createBulletPool(this, Pool::currentBulletsTipo2, 30, "balaEne_", gameInstance->bullet_enemy_path_sprite2.c_str(), gameInstance->bullet_path_sound_fire.c_str(), gameInstance->bullet_path_sound_impact.c_str(), -gameInstance->bullet_default_speed, gameInstance->bullet_default_dmg * 2.0f,
+	//	(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador, gameInstance->bullet_default_boss_scale);
+	Bullet::createBulletPool(this, Pool::currentBulletsTipo2, 30, Bullet::tipoBoss);
+
+	// ----------------------------------------------------------------------------------------------------------------------------------------
+	// creacion del jugador
+	// ----------------------------------------------------------------------------------------------------------------------------------------
+
+	// instancio un jugador con los valores por defecto
+	//player = new Player(this, PLAYER_INITIAL_SPEED);
+	player = new Player(this, gameInstance->player_initial_speed);
+
+	// algo que disparar
+	// TODO: para cambiar de arma solo tendría que cambiar la referencia.... mola
+	player->poolMisBalas = &Pool::currentBulletsPlayerTipo1;
+
+	// Iba a colgar el inputComponent del jugador, quizá esté mejor colgando del nivel y con una referencia al jugador
+	inputComponent = new InputComponent;
+	inputComponent->player = player;
+
+	// ----------------------------------------------------------------------------------------------------------------------------------------
+	// inicializo los enemigos iniciales
+	// TODO: que esto dependa de una estructura definible idealmente en un .ini
+	// ----------------------------------------------------------------------------------------------------------------------------------------
+
+	// No necesito que sea una variable miembro, vivirá en un array en alguna parte.
+	Enemy *enemyBoss;
+
+	//enemyBoss = new Enemy(this, ENEMY_BOSS_PATH_SPRITE, ENEMY_PATH_SOUND_DIE, ENEMY_BOSS_INITIAL_SIZE, ENEMY_BOSS_INITIAL_ROTATION, ENEMY_BOSS_GENERIC_HP);
+	enemyBoss = new Enemy(this, Enemy::tiposEnemigo::tipoBoss);
+
+	// situo al enemigo arriba en el medio, con medio cuerpo de margen superior
+	Vec2 enePos = Vec2(visibleSize.width / 2.0f, visibleSize.height - enemyBoss->getSprite()->getContentSize().height / 2.0f);
+	enemyBoss->activa(enePos);
+
+	// Cómo querré que se mueva?
+	//auto funcionControlMovimiento = &GameActor::mueveSeno;
+	enemyBoss->funcionMovimientoActual = &GameActor::mueveSeno;
+	enemyBoss->funcionMovimientoAmplitude = 600.0;
+	enemyBoss->funcionMovimientoPosIni = Vec2(Director::getInstance()->getVisibleSize().width / 2.0f, enemyBoss->getPosition().y);
+	enemyBoss->funcionMovimientoSpeed = 1 / 2.5;
+
+	// y que ataque?
+	enemyBoss->funcionControlActual = &Enemy::funControlFireAtInterval;
+	enemyBoss->funcionControlTiempoDisparo = 1.0f;
+
+	enemyBoss->poolMisBalas = &Pool::currentBulletsTipo2;
+
+	// hale, definido
+
+	// ahora añadirlo al pool de GameUpdates para que haga algo de lo que le he dicho
+	Pool::currentEnemies.push_back(enemyBoss);
+
+	// ---------------------------------------------------------------------------------------------
+	// crea los "Space Invaders
+	// TODO: temporal, tiene que haber una progresión
+	SpaceInvaders spaceInvaders = SpaceInvaders(11, 5, 0.8f, 0.45f, 50.0f, 150.0f);
+
+	// creo una lista de enemigos que tiene que coincidir aprox con el nº de filas. Un tipo de enemigo por fila. Si se le acaban los tipos, repite el ultimo hasta el fin de las filas
+	std::vector<Enemy::tiposEnemigo> tipos;
+	tipos.push_back(Enemy::tipo2);
+	tipos.push_back(Enemy::tipo2);
+	tipos.push_back(Enemy::tipo2);
+	tipos.push_back(Enemy::tipo1);
+
+	spaceInvaders.creaInvaders(this, tipos, Pool::currentBulletsTipo1, 60.0f, 30.0f, 1200);
+
+
 }

@@ -64,7 +64,7 @@ void GameActor::setPosition(Vec2 pos){
 	}
 }
 
-Sprite *GameActor::setSprite(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon, float initialScale, bool createPolySprite){
+Sprite *GameActor::setSprite(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon, float initialScale){
 	// TODO: Mover esto a algún sitio y que se haga una sola vez??? -> Movido a AppDelegate
 	//auto spritecache = SpriteFrameCache::getInstance();
 	//spritecache->addSpriteFramesWithFile("spritesheet.plist");
@@ -159,6 +159,20 @@ void GameActor::mueveSeno(){
 
 	//pos.x = posIni.x + amplitude * sin(ellapsed / 2.0);
 	pos.x = funcionMovimientoPosIni.x + funcionMovimientoAmplitude * sin(ellapsed * funcionMovimientoSpeed);
+
+	setPosition(pos);
+
+}
+
+void GameActor::mueveSeno2(){
+	Vec2 pos = getPosition();
+
+	//float deltaT = Director::getInstance()->getDeltaTime();
+	float ellapsed = Game::getInstance()->ellapsedTime;
+
+	//pos.x = posIni.x + amplitude * sin(ellapsed / 2.0);
+	pos.x = funcionMovimientoPosIni.x + funcionMovimientoAmplitude * sin(ellapsed * funcionMovimientoSpeed);
+	pos.y += gameActorSpeed * Director::getInstance()->getDeltaTime();
 
 	setPosition(pos);
 

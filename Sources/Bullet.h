@@ -1,17 +1,12 @@
 #pragma once
 
-#include <vector>	// vector ya incluido a traves de GameActor <- Game
 #include "GameActor.h"
-
-//#include "cocos2d.h"
-//#include "SimpleAudioEngine.h"
-//#include "AudioEngine.h"
-//#include "Game.h"
-
-//USING_NS_CC;
+#include <vector>	// vector ya incluido a traves de GameActor <- Game
 
 class Bullet : public GameActor{
 public:
+	enum tiposBala {tipoPlayer, tipoEnemy, tipoBoss};
+
 	// name for debug purposes
 	Bullet(Node *nodo, const char *name, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon, float initialSize = 1.0f);
 	~Bullet();
@@ -22,9 +17,11 @@ public:
 	// estrictamente necesario, pero así se que comprueba que las firmas sean idénticas y que en general 
 	// haga lo que creo que estoy haciendo.
 
-	// método estático que crea un "pool" de Bullets, mientras el resto de métodos tratan con una instancia concreta
-	static void createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, const char * name, const char * pathSprite, const char * pathSonidoDisparo, const char * pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon, float initialScale = 1.0f);
-	
+	// métodos estáticos que crean instancias
+	static Bullet *creaBala(Node *nodo, tiposBala tipoBala, const char *bulletName);
+	static void createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, const char *name, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon, float initialScale = 1.0f);
+	static void createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, tiposBala tipoBala);
+
 	void impacto(float dmg) override;
 
 	float bulletDmg;
@@ -32,6 +29,6 @@ public:
 private:
 	//bool createBullet(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon);
 
-	//float bulletSpeed; // para eso, uso Base::gameActorSpeed
+	//float bulletSpeed; // para esto, uso Base::gameActorSpeed
 };
 

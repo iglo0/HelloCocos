@@ -1,5 +1,7 @@
 #include "Enemy.h"
 
+#include "SpaceInvaders.h"
+
 // OJO!!!: En general es mejor dejar en el .h los #includes necesarios, y para evitar referencias cíclicas declaraciones adelantadas para punteros a objetos de otros tipos
 // y ya en el .cpp, #incluir lo necesario
 // OJO: Y además, debería reducir el tiempo de compilación
@@ -35,7 +37,7 @@ void Enemy::createEnemy(Node * nodo, const char * pathSprite, const char * rutaS
 	GameActor::gameActorHP = hp;
 	GameActor::gameActorSpeed = Game::getInstance()->enemy_generic_speed;
 
-	setSprite(nodo, pathSprite, "Enemigo", (int)Game::CategoriaColision::Enemigo, (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::Bala, initialScale, true);
+	setSprite(nodo, pathSprite, "Enemigo", (int)Game::CategoriaColision::Enemigo, (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::Bala, initialScale);
 
 	tIniDisparo = 0;
 	funcionControlActual = nullptr;
@@ -66,6 +68,14 @@ void Enemy::impacto(float dmg){
 		// TODO: y distinguir el tipo de enemigo que es!
 		//Game::getInstance()->puntos += ENEMY_GENERIC_POINTS;
 		Game::getInstance()->sumaPuntos(pointsOnDeath);
+
+		// HACK: Ajusto el nº de invaders que quedan cuando muere uno
+		// TODO: ponerlo en un sitio más adecuado, una vez probado
+		--SpaceInvaders::numInvadersVivos;
+		if(SpaceInvaders::numInvadersVivos > 0){
+			SpaceInvaders::porcenInvadersVivos = (float)SpaceInvaders::numInvadersVivos / (float)SpaceInvaders::numInvadersInicial;
+		}
+
 	} else{
 		// no muere
 
@@ -89,7 +99,12 @@ void Enemy::funControlFireAtInterval(float interval){
 
 void Enemy::funControlFireRandom(float pufo){
 	// dispara segun probabilidad aleatoria	
-	if(cocos2d::RandomHelper::random_int<int>(1, funcionControlProbDisparoAleatoria) == 1){
+	// HACK: y según el nº de invaders vivos :)
+	int dado = (int)((float)funcionControlProbDisparoAleatoria * SpaceInvaders::porcenInvadersVivos);
+	if(dado < 1){
+		dado = 1;
+	}
+	if(cocos2d::RandomHelper::random_int<int>(1, dado) == 1){
 		dispara();
 	}
 

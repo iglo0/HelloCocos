@@ -4,6 +4,9 @@
 #include "Pool.h"
 #include "Bullet.h"
 
+// OJO: variable estática
+Vec2 Player::playerPosition;
+
 Player::Player(Node *nodo, float playerSpeed){
 
 	// Empieza por el constructor de la base
@@ -48,6 +51,10 @@ Player::~Player(){
 void Player::update(float deltaT){
 	// TODO: Primero el de la clase base?
 	GameActor::update(deltaT);
+
+	// TODO: GameActor::update moverá al prota, ahora actualizo su posicion
+	// OJO!!: variable estática
+	playerPosition = sprite->getPosition();
 
 	//CCLOG("Player update @%f", Game::getInstance()->ellapsedTime);
 

@@ -8,7 +8,9 @@ USING_NS_CC;
 // ojo!!!: con los statics
 bool SpaceInvaders::spaceInvaderMovement_goingRight;		// pa donde tira
 bool SpaceInvaders::spaceInvaderMovement_goingDown;			// pa donde tira
-
+float SpaceInvaders::porcenInvadersVivos;
+int SpaceInvaders::numInvadersInicial;
+int SpaceInvaders::numInvadersVivos;
 
 SpaceInvaders::SpaceInvaders(int tamaX, int tamaY, float comprX, float comprY, float margX, float margY) : dimMaxX(tamaX), dimMaxY(tamaY), compressX(comprX), compressY(comprY), marginX(margX), marginY(margY) {}
 
@@ -83,6 +85,11 @@ void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &t
 			Pool::currentEnemies.push_back(tmp);
 		}
 	}
+
+	// OJO: ¡Statics!
+	porcenInvadersVivos = 1.0f;
+	numInvadersInicial = dimMaxX * dimMaxY;
+	numInvadersVivos = numInvadersInicial;
 }
 
 Vec2 SpaceInvaders::devuelvePosicionInicial(int dimX, int dimY){

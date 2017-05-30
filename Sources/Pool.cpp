@@ -25,12 +25,18 @@ std::vector<Bullet *> Pool::currentBulletsTipoBoss;
 
 
 void Pool::activa(std::vector<Bullet *> &pool, Vec2 pos){
+	bool foundOne = false;
 
 	for(auto x = pool.cbegin(); x != pool.cend(); ++x){
 		if(!(*x)->isActive()){
+			foundOne = true;
 			(*x)->activa(pos);
 			break;
 		}
+	}
+
+	if(!foundOne){
+		CCLOG("Pool agotado!");
 	}
 
 }
@@ -75,8 +81,6 @@ void Pool::activa(std::vector<Bullet *> &pool, Vec2 pos, Node *nodoPadre, float 
 			break;
 		}
 	}
-
-
 }
 
 void Pool::desactiva(Bullet &actor){

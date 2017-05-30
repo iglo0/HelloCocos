@@ -32,12 +32,18 @@ public:
 
 	bool disparar;
 	InputComponent *inputComponent;
+	// En Pool::xxx están todos los pools, aquí guardo el pool concreto que dispara el prota ahora. Supongo que así es más fácil cambiar de arma más adelante
 	std::vector<Bullet *> *poolMisBalas;
+
+	// TODO: una prueba para tener situado al player en todo momento (por ejemplo para dispararle con mala uva)
+	static Vec2 getCurrentPlayerPosition();
 
 private:
 	//const char *pathSprite = PLAYER_PATH_SPRITE;
 	float playerInitialScale = 0.5f;
 	float playerInitialRotation = 0;
 	int playerInitialZOrder = 0;
+
+	static Vec2 playerPosition;
 };
 
