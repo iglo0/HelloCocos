@@ -44,16 +44,16 @@ Git user attention
 
 ----
 # TRABAJO EN CURSO
-En desarrollo (Estimación)
+En desarrollo [Estimación]
 ```diff
 GRÁFICOS
-- Colisiones precisas. Definir el resto de los sprites (solo algunos están)
+- Colisiones precisas. Definir el resto de los sprites (solo algunos están) [pendiente de ver qué hago con la licencia de PhysicsEditor]
 
 LÓGICA DEL JUEGO
 Añadir comportamientos a los disparos
-- tiros en la dirección general del prota (ecuación lineal)
-- disparo de proyectiles que sigan trayectorias (seno/coseno)
-- disparo de múltiples proyectiles en abanico (bosses?)
+- tiros en la dirección general del prota (ecuación lineal) [03/06/17]
+- disparo de proyectiles que sigan trayectorias (seno/coseno) [04/06/17]
+- disparo de múltiples proyectiles en abanico (bosses?) [07/06/17]
 ```
 
 
