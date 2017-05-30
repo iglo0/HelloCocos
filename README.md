@@ -35,16 +35,12 @@ Git user attention
 
 ### ÚLTIMO HECHO
 
-```diff
-+ colisiones precisas funcionando (faltan por definir sprites aun)
-+ [corregido]De algún modo ahora los sprites con colisiones precisas trabajan con coordenadas distintas, ahora el 0,0 no está en el centro.
-+ [corregido]Los space invaders ahora llegan correctamente hasta los límites de la pantalla aunque haya destruido los de las esquinas 
-```
 - configuración con archivos en vez de #defines
 - rediseño de código (primera de 'n' :)
 - comenzada planificacion de tareas (este readme)
 - limpieza general de #includes del proyecto
 - Atlas de sprites en una sola textura (.plist y spritesheet.png generado con TexturePacker)
+- colisiones precisas funcionando (faltan por definir sprites aun)
 
 ----
 # TRABAJO EN CURSO
