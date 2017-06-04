@@ -16,6 +16,8 @@ Bullet::Bullet(Node *nodo, const char *name, const char *pathSprite, const char 
 	if(!GameActor::setSprite(nodo, pathSprite,name,tipoColision, colisionoCon,initialScale)){
 		CCLOG("No pude crear bala %s", pathSprite);
 	}
+
+	
 }
 
 Bullet::~Bullet(){
@@ -37,6 +39,8 @@ void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolS
 }
 
 Bullet *Bullet::creaBala(Node *nodo, tiposBala tipoBala, const char *bulletName){
+	return creaBala(nodo, tipoBala, bulletName, &GameActor::mueve);
+	/*
 	//Bullet *tmp;
 	Game *gameInstance = Game::getInstance();
 
@@ -89,7 +93,65 @@ Bullet *Bullet::creaBala(Node *nodo, tiposBala tipoBala, const char *bulletName)
 	}
 
 	return new Bullet(nodo, bulletName, pathSprite, pathSonidoDisparo, pathSonidoImpacto, speed, dmg, tipoColision, colisionoCon, initialScale);
+	*/
+}
 
+Bullet *Bullet::creaBala(Node *nodo, tiposBala tipoBala, const char *bulletName, punteroAFuncionMovimiento funcionMovimiento){
+	Bullet *tmp;
+	Game *gameInstance = Game::getInstance();
+
+	// los parametros de la bala
+	const char *pathSprite;
+	const char *pathSonidoDisparo;
+	const char *pathSonidoImpacto;
+	float speed;
+	float dmg;
+	int tipoColision;
+	int colisionoCon;
+	float initialScale;
+
+	switch(tipoBala){
+	case tipoPlayer:
+		pathSprite = gameInstance->bullet_player_path_sprite1.c_str();
+		pathSonidoDisparo = gameInstance->bullet_path_sound_fire.c_str();
+		pathSonidoImpacto = gameInstance->bullet_path_sound_impact.c_str();
+		speed = gameInstance->bullet_default_speed;
+		dmg = gameInstance->bullet_default_dmg;
+		tipoColision = (int)Game::CategoriaColision::Bala;
+		colisionoCon = (int)Game::CategoriaColision::Enemigo;
+		initialScale = gameInstance->bullet_default_scale;
+		break;
+	case tipoEnemy:
+		pathSprite = gameInstance->bullet_enemy_path_sprite2.c_str();
+		pathSonidoDisparo = gameInstance->bullet_path_sound_fire.c_str();
+		pathSonidoImpacto = gameInstance->bullet_path_sound_impact.c_str();
+		// Ojo!!!: las balas enemigas van a -velocidad
+		speed = -gameInstance->bullet_default_speed;
+		dmg = gameInstance->bullet_default_dmg;
+		tipoColision = (int)Game::CategoriaColision::BalaEnemigo;
+		colisionoCon = (int)Game::CategoriaColision::Jugador;
+		initialScale = gameInstance->bullet_default_scale;
+		break;
+	case tipoBoss:
+		pathSprite = gameInstance->bullet_enemy_path_sprite2.c_str();
+		pathSonidoDisparo = gameInstance->bullet_path_sound_fire.c_str();
+		pathSonidoImpacto = gameInstance->bullet_path_sound_impact.c_str();
+		// Ojo!!!: las balas enemigas van a -velocidad
+		speed = -gameInstance->bullet_default_speed;
+		dmg = gameInstance->bullet_default_dmg;
+		tipoColision = (int)Game::CategoriaColision::BalaEnemigo;
+		colisionoCon = (int)Game::CategoriaColision::Jugador;
+		initialScale = gameInstance->bullet_default_boss_scale;
+		break;
+	default:
+		CCLOG("Tipo bala desconocido: %d!", tipoBala);
+		break;
+	}
+
+	tmp = new Bullet(nodo, bulletName, pathSprite, pathSonidoDisparo, pathSonidoImpacto, speed, dmg, tipoColision, colisionoCon, initialScale);
+	tmp->funcionMovimientoActual = funcionMovimiento;
+
+	return tmp;
 }
 
 void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, tiposBala tipoBala) {

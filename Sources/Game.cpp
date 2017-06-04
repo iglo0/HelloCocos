@@ -4,7 +4,7 @@
 
 Game::Game(){
 	ellapsedTime = 0;
-	estadoActual = estadosJuego::menus;
+	//estadoActual = estadosJuego::menus;
 
 	// TODO: me tengo que asegurar que esto se inicializa hacia el principio
 	// TODO: esto no es multiplataforma, aparentemente android/ios no leen el fichero desde resources

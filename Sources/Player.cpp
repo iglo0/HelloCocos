@@ -4,6 +4,10 @@
 #include "Pool.h"
 #include "Bullet.h"
 
+// HACK: para cambiar de gamestate desde la muerte
+#include "Level.h"
+#include "GameState.h"
+
 // OJO: variable estática
 Vec2 Player::playerPosition;
 
@@ -79,7 +83,10 @@ void Player::impacto(float dmg){
 
 void Player::killPlayer(){
 
-	Game::getInstance()->estadoActual = Game::estadosJuego::muerte;
+	// HACK: cambio de estado usando una referencia al nivel
+	Level::setGameState(new PlayerDeadState(this));
+	// "deprecated"? o no?
+	//Game::getInstance()->estadoActual = Game::estadosJuego::muerte;
 
 	// TODO: matar al jugador, quitar vidas, cambiar de estado, etc
 	// quién quita las vidas? player o level?
@@ -93,4 +100,8 @@ void Player::activatePlayerInInitialPos(){
 	posInicial.x = Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width / 2.0f;
 	posInicial.y = sprite->getScale()*sprite->getContentSize().height / 2.0f;
 	activa(posInicial);
+}
+
+Vec2 Player::getCurrentPlayerPosition(){
+	return playerPosition;
 }

@@ -46,14 +46,19 @@ Git user attention
 # TRABAJO EN CURSO
 En desarrollo [Estimación]
 ```diff
+
+ESTRUCTURA DEL JUEGO
+- he colado esto -> creando otra máquina de estados para el juego, intentando implementarla con el patrón "Estado"
+
 GRÁFICOS
-- Colisiones precisas. Definir el resto de los sprites (solo algunos están) [pendiente de ver qué hago con la licencia de PhysicsEditor]
++ Colisiones precisas. Definir el resto de los sprites (solo algunos están) [pendiente de ver qué hago con la licencia de PhysicsEditor]
 
 LÓGICA DEL JUEGO
-Añadir comportamientos a los disparos: preparando la estructura para hacer esto
+[en pausa]Añadir comportamientos a los disparos: preparando la estructura para hacer esto
 - tiros en la dirección general del prota (ecuación lineal) [03/06/17]
 - disparo de proyectiles que sigan trayectorias (seno/coseno) [04/06/17]
 - disparo de múltiples proyectiles en abanico (bosses?) [07/06/17]
+
 ```
 
 
@@ -134,6 +139,7 @@ GENERAL
 - Separar el manejo de datos, lógica y memoria de la clase de Pool (ir viendo Pool_manager)	
 
 ### ~~BUGS~~ OUTSTANDING FEATURES
+- a veces el jugador puede perder dos vidas juntas. ¿Es por que le dan dos balas? ¿o no? no lo tengo claro
 - los mensajes que deberían salir centrados no lo hacen (calculo la posición solo al principio y no lo actualizo cuando cambio el mensaje)
 
 ### DUDAS TÉCNICAS

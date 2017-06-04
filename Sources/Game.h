@@ -111,9 +111,9 @@ public:
 	// la idea es que desde la escena que sea, vaya añadiendo el deltaT en cada Update, para saber así el tiempo transcurrido desde el inicio de la escena, al menos
 	float ellapsedTime;
 
-	enum estadosJuego{ menus, introNivel, jugando, finNivel, finHorda, muerte, gameOver };
-	
-	estadosJuego estadoActual;
+	//enum estadosJuego{ menus, introNivel, jugando, finNivel, finHorda, muerte, gameOver };
+	//
+	//estadosJuego estadoActual;
 
 
 	// --------------------------------------------------------------

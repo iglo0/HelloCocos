@@ -1,6 +1,9 @@
 #pragma once 
 
 #include "cocos2d.h"	// necesario para declarar CREATE_FUNC y crear la escena en general
+
+class GameState;
+
 USING_NS_CC;
 
 //#include "Game.h"
@@ -47,6 +50,9 @@ public:
 	void onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
 	void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
 
+	// HACK: Para cambiar de estado mayormente
+	static void setGameState(GameState *);
+	static void vuelveAlMenu();
 private:
 	// funciones miembro privadas
 	// --------------------------------------------------------------
@@ -75,5 +81,10 @@ private:
 	//Label *lblPuntos;
 	//Label *lblHiScore;
 	//Label *lblVidas;
+
+	// HACK: --------------- PRUEBAS ----------------------------
+	GameState *gameState;
+	static Level *instance;
+	// ----------------------------------------------------
 
 };

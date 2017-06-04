@@ -7,6 +7,12 @@
 #include "Pool.h"
 #include "SpaceInvaders.h"
 #include "Menus.h"
+// HACK: --------------- PRUEBAS ----------------------------
+#include "GameState.h"
+// ----------------------------------------------------
+
+// variable estatica
+Level *Level::instance;
 
 Level::~Level(){
 	Director::getInstance()->setDisplayStats(false);
@@ -21,16 +27,17 @@ Level::~Level(){
 	gameInstance->puntos = 0;
 }
 
-
 Scene* Level::createScene(){
 	// Gracias a las físicas obtengo colisiones "gratis", y como un juego tipo space invaders 
 	// no creo que tenga muchos problemas de rendimiento... tiraré por ahí a ver
 	// TODO: Para lograr colisiones con precisión hay que hacer polígonos a mano (vs las cajas automáticas). Para un poco más adelante (pero no mucho)
 	// ----------------------------------------------------------------------------------------------------------------------------------------
-	// INI del motor de físicas Chipmunk
-	auto scene = Scene::createWithPhysics();
+
 	// 'scene' is an autorelease object
+	// sin física:
 	//auto scene = Scene::create();
+	// con física (chipmunk):
+	auto scene = Scene::createWithPhysics();
 
 	// set the world’s gravity to zero in both directions, which essentially disables gravity
 	scene->getPhysicsWorld()->setGravity(Vec2(0, 0));
@@ -54,6 +61,8 @@ bool Level::init(){
 	Size visibleSize;
 	Vec2 origin;
 	
+	instance = this;
+
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// inits
 	// ----------------------------------------------------------------------------------------------------------------------------------------
@@ -80,7 +89,7 @@ bool Level::init(){
 	listener->onKeyPressed = CC_CALLBACK_2(Level::onKeyPressed, this);
 	listener->onKeyReleased = CC_CALLBACK_2(Level::onKeyReleased, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
-
+	
 	// contact listener
 	auto contactListener = EventListenerPhysicsContact::create();
 	contactListener->onContactBegin = CC_CALLBACK_1(Level::onContactBegin, this);
@@ -100,7 +109,7 @@ bool Level::init(){
 	gameInstance->ellapsedTime = 0;
 
 	// Indica el estado inicial de esta escena
-	gameInstance->estadoActual = Game::estadosJuego::introNivel;
+	//gameInstance->estadoActual = Game::estadosJuego::introNivel;
 
 	initLevel();
 
@@ -124,12 +133,22 @@ bool Level::init(){
 	// displays fps
 	Director::getInstance()->setDisplayStats(true);
 
+
+	// inicia la máquina de estados
+	// PRUEBA: FSM
+	gameState = new IntroNivelState(player);
+	//gameState->enterState();
+
+
 	return true;
 }
 
 void Level::menuVuelveCallback(Ref *pSender){
 	// vuelve al menu
-	Director::getInstance()->replaceScene(Menus::CreateScene());
+	//Director::getInstance()->replaceScene(Menus::CreateScene());
+	
+	// funcion estatica visible desde fuera. Hala.
+	vuelveAlMenu();
 }
 
 bool Level::onContactBegin(PhysicsContact &contact){
@@ -205,11 +224,21 @@ void Level::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event){
 }
 
 void Level::update(float deltaT){
+	GameState *tmpState;
 	// siempre cuento el tiempo
 	gameInstance->ellapsedTime += deltaT;
 
-	// Y... estructura!
+	tmpState = gameState->update(deltaT);
+	if(tmpState){
+		// el estado ha cambiado 
+		delete gameState;
+		gameState = tmpState;
+	}
+	// ---------
 
+
+	// Y... estructura!
+	/*
 	switch(gameInstance->estadoActual){
 	case Game::estadosJuego::introNivel:
 		if(!iniciadoIntroNivel){
@@ -303,7 +332,7 @@ void Level::update(float deltaT){
 		break;
 
 	}
-
+	*/
 }
 
 
@@ -481,6 +510,20 @@ void Level::initLevel(){
 	tipos.push_back(Enemy::tipo1);
 
 	spaceInvaders.creaInvaders(this, tipos, Pool::currentBulletsTipo1, 60.0f, 30.0f, 1200);
+}
 
+void Level::setGameState(GameState *nuevo){
+	if(instance){
+		// HACK: Puedo hacer esto a lo bruto?
+		// me tendría que asegurar que gameState existe antes del delete. A priori... sí...
+		delete instance->gameState;
+		instance->gameState = nuevo;
+	} else{
+		CCLOG("Instance sin inicializar en Level");
+	}
+}
 
+// fun estatica
+void Level::vuelveAlMenu(){
+	Director::getInstance()->replaceScene(Menus::CreateScene());
 }

@@ -220,9 +220,6 @@ void GameActor::mueveSpaceInvader(){
 		}
 	}
 
-
-	// TODO: dejo para luego el moverse pabajo
-
 	sprite->setPosition(curPos);
 
 }
