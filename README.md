@@ -48,10 +48,11 @@ En desarrollo [Estimación]
 ```diff
 
 ESTRUCTURA DEL JUEGO
-- he colado esto -> creando otra máquina de estados para el juego, intentando implementarla con el patrón "Estado"
++ creada otra máquina de estados para el juego, intentando implementarla con el patrón "Estado"
+- reimplementando las funciones de movimiento (balas mayormente)
 
 GRÁFICOS
-+ Colisiones precisas. Definir el resto de los sprites (solo algunos están) [pendiente de ver qué hago con la licencia de PhysicsEditor]
++ Colisiones precisas. Definidos el resto de sprites
 
 LÓGICA DEL JUEGO
 [en pausa]Añadir comportamientos a los disparos: preparando la estructura para hacer esto
@@ -141,7 +142,9 @@ GENERAL
 ### ~~BUGS~~ OUTSTANDING FEATURES
 - a veces el jugador puede perder dos vidas juntas. ¿Es por que le dan dos balas? ¿o no? no lo tengo claro
 - los mensajes que deberían salir centrados no lo hacen (calculo la posición solo al principio y no lo actualizo cuando cambio el mensaje)
+- las colisiones precisas están mal gestionadas: cada sprite tiene varios polígonos y es posible colisionar con varios a la vez. No es problema salvo para la nave del jugador, que puede perder las vidas de 3 en 3 :-D
+- la gestión de movimiento de los space invaders tiene un problema, si destruyo los de las esquinas justo cuando están bajando, están bajando demasiado rato (pero no infinito, es curioso) r:-m
 
 ### DUDAS TÉCNICAS
 
-- ???
+- dándole vueltas a cómo conseguir comportamientos a base de "plug'n'play". Probando con polimorfismo y punteros a función, pero me termino atascando
