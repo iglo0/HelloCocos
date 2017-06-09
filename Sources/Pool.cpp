@@ -1,9 +1,8 @@
 #include "Pool.h"
-//#include "GameActor.h"	// TODO: A ver si cuela para hacer "genéricos" los pools
 #include "Bullet.h"
 #include "Enemy.h"	// si no lo incluyo no puedo llamar a "enemy->activa(xxx)"
-// TODO: si Pool incluye Enemy.h y Enemy incluye Pool.h... ¿cómo es que no casca?
-
+#include "Movimiento.h"
+#include "Player.h"	// este tiene la player position
 
 // ----------------------------------------------------------------------
 // OJOOO!
@@ -26,11 +25,28 @@ std::vector<Bullet *> Pool::currentBulletsTipoBoss;
 
 void Pool::activa(std::vector<Bullet *> &pool, Vec2 pos){
 	bool foundOne = false;
+	Bullet *tmp;
 
 	for(auto x = pool.cbegin(); x != pool.cend(); ++x){
-		if(!(*x)->isActive()){
+		tmp = *x;
+		if(!tmp->isActive()){
 			foundOne = true;
-			(*x)->activa(pos);
+			tmp->activa(pos);
+			//tmp->movimiento->init(tmp->getPosition(), Player::getCurrentPlayerPosition(), tmp->gameActorSpeed);
+			
+			////CCLOG("%s", typeid(m).name());	// este devuelve "class ClaseBase"
+			//CCLOG("%s", typeid(*m).name());		// este es el bueno "class ClaseDerivada"
+			//CCLOG("%s", typeid(*tmp->movimiento).name());
+			
+			//// OJO!!!: const char *c1 == const char *c2 compara las direcciones, para comparar contenido usar el *
+			//if(*typeid(pos).name() ==*"class cocos2d::Vec2"){
+			//	CCLOG("%s", "puta madre!");
+			//} else{
+			//	CCLOG("%s", "puta mierda");
+			//}
+			////CCLOG("%s", typeid(pos).name());
+			
+			tmp->movimiento->mueve(tmp->getPosition());
 			break;
 		}
 	}

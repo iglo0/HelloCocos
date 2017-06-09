@@ -10,6 +10,7 @@
 
 // OJO: variable estática
 Vec2 Player::playerPosition;
+Player *Player::playerInstance;
 
 Player::Player(Node *nodo, float playerSpeed){
 
@@ -47,9 +48,13 @@ Player::Player(Node *nodo, float playerSpeed){
 	// C++ does not have a keyword for "the base class" (super or base) since it supports multiple inheritance which may lead to ambiguity.
 	// Se puede hacer esto? ohhh...
 	GameActor::gameActorSpeed = playerSpeed;
+	
+	// HACK: AL crear un jugador, actualizo el static playerInstance
+	playerInstance = this;
 }
 
 Player::~Player(){
+	playerInstance = nullptr;
 }
 
 void Player::update(float deltaT){
@@ -82,6 +87,7 @@ void Player::impacto(float dmg){
 
 
 void Player::killPlayer(){
+	return;
 
 	// HACK: cambio de estado usando una referencia al nivel
 	Level::setGameState(new PlayerDeadState(this));
@@ -104,4 +110,8 @@ void Player::activatePlayerInInitialPos(){
 
 Vec2 Player::getCurrentPlayerPosition(){
 	return playerPosition;
+}
+
+Player *Player::getCurrentPlayer(){
+	return playerInstance;
 }

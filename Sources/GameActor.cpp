@@ -3,6 +3,8 @@
 #include "Game.h"
 #include "SpaceInvaders.h"
 
+#include "Testz.h"
+
 GameActor::GameActor(){
 	//CCLOG("Constructor de GameActor");
 	// me aseguro de que está inicializado
@@ -108,6 +110,10 @@ Sprite *GameActor::setSprite(Node *nodo, const char *ruta, const char *name, int
 
 Sprite *GameActor::getSprite(){
 	return sprite;
+}
+
+void GameActor::mueve(Vec2 donde){
+
 }
 
 void GameActor::mueve(){

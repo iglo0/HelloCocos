@@ -152,7 +152,8 @@ void Level::menuVuelveCallback(Ref *pSender){
 }
 
 bool Level::onContactBegin(PhysicsContact &contact){
-
+	// TODO: problema! colisiones múltiples, imagino que al definir con polígonos los objetos pueden llegar a colisionar varios polígonos de un objeto con otro.
+	// si por ejemplo le pasa al jugador, pierde varias vidas. Tengo que hacerlo de otro modo. Quizás esperar a hacerlo más tarde y no en el mismo momento en que salta una colisión.
 	Sprite *sprA, *sprB;
 
 	// HACK: Gestion de impactos, primera version que funciona
@@ -430,6 +431,22 @@ void Level::initLevel(){
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
+	// creacion del jugador
+	// ----------------------------------------------------------------------------------------------------------------------------------------
+
+	// instancio un jugador con los valores por defecto
+	//player = new Player(this, PLAYER_INITIAL_SPEED);
+	player = new Player(this, gameInstance->player_initial_speed);
+
+	// algo que disparar
+	// TODO: para cambiar de arma solo tendría que cambiar la referencia.... mola
+	player->poolMisBalas = &Pool::currentBulletsPlayerTipo1;
+
+	// Iba a colgar el inputComponent del jugador, quizá esté mejor colgando del nivel y con una referencia al jugador
+	inputComponent = new InputComponent;
+	inputComponent->player = player;
+
+	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// prepara los pools de balas a usar ¿en toda la partida?
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -447,22 +464,6 @@ void Level::initLevel(){
 	//Bullet::createBulletPool(this, Pool::currentBulletsTipo2, 30, "balaEne_", gameInstance->bullet_enemy_path_sprite2.c_str(), gameInstance->bullet_path_sound_fire.c_str(), gameInstance->bullet_path_sound_impact.c_str(), -gameInstance->bullet_default_speed, gameInstance->bullet_default_dmg * 2.0f,
 	//	(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador, gameInstance->bullet_default_boss_scale);
 	Bullet::createBulletPool(this, Pool::currentBulletsTipo2, 30, Bullet::tipoBoss);
-
-	// ----------------------------------------------------------------------------------------------------------------------------------------
-	// creacion del jugador
-	// ----------------------------------------------------------------------------------------------------------------------------------------
-
-	// instancio un jugador con los valores por defecto
-	//player = new Player(this, PLAYER_INITIAL_SPEED);
-	player = new Player(this, gameInstance->player_initial_speed);
-
-	// algo que disparar
-	// TODO: para cambiar de arma solo tendría que cambiar la referencia.... mola
-	player->poolMisBalas = &Pool::currentBulletsPlayerTipo1;
-
-	// Iba a colgar el inputComponent del jugador, quizá esté mejor colgando del nivel y con una referencia al jugador
-	inputComponent = new InputComponent;
-	inputComponent->player = player;
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// inicializo los enemigos iniciales
@@ -509,7 +510,7 @@ void Level::initLevel(){
 	tipos.push_back(Enemy::tipo2);
 	tipos.push_back(Enemy::tipo1);
 
-	spaceInvaders.creaInvaders(this, tipos, Pool::currentBulletsTipo1, 60.0f, 30.0f, 1200);
+	spaceInvaders.creaInvaders(this, tipos, Pool::currentBulletsTipo1, 50.0f, 15.0f, 30.0f, 1200);
 }
 
 void Level::setGameState(GameState *nuevo){

@@ -37,6 +37,7 @@ public:
 
 	// TODO: una prueba para tener situado al player en todo momento (por ejemplo para dispararle con mala uva)
 	static Vec2 getCurrentPlayerPosition();
+	static Player *getCurrentPlayer();
 
 private:
 	//const char *pathSprite = PLAYER_PATH_SPRITE;
@@ -45,5 +46,6 @@ private:
 	int playerInitialZOrder = 0;
 
 	static Vec2 playerPosition;
+	static Player *playerInstance;
 };
 

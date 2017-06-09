@@ -25,7 +25,7 @@ public:
 
 	enum tipoEnemigo{ tipo1, tipo2 };	// placeholder 
 
-	void creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &tipos, std::vector<Bullet *> &pool, float velMovHtal = 50.f, float velMovVcal = 10.f, int probDisparoAleat = 600);
+	void creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &tipos, std::vector<Bullet *> &pool, float velMovHtal = 50.f, float velMovVcal = 10.f, float vcalMoveAmount = 60.0f, int probDisparoAleat = 600);
 	//void creaFilaInvaders(Node *nodo, Enemy::tiposEnemigo tipo, int dimX, std::vector<Bullet *> &pool, float velMovHtal = 50.f, float velMovVcal = 10.f, int probDisparoAleat = RAND_MAX / 33, float dmg = 1.f);
 
 	Vec2 devuelvePosicionInicial(int dimX, int dimY);	// asigna una posicion inicial en pantalla según la posición en la matriz de invaders

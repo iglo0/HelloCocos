@@ -17,10 +17,10 @@ void InputComponent::keyPressed(EventKeyboard::KeyCode keyCode){
 		player->mueveDch = true;
 		break;
 	case EventKeyboard::KeyCode::KEY_UP_ARROW:
-		//player->mueveArr = true;
+		player->mueveArr = true;
 		break;
 	case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
-		//player->mueveAbj = true;
+		player->mueveAbj = true;
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_CTRL:
 	case EventKeyboard::KeyCode::KEY_LEFT_CTRL:

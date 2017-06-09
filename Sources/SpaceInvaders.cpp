@@ -16,7 +16,7 @@ SpaceInvaders::SpaceInvaders(int tamaX, int tamaY, float comprX, float comprY, f
 
 SpaceInvaders::~SpaceInvaders(){}
 
-void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &tipos, std::vector<Bullet *> &pool, float velMovHtal, float velMovVcal, int probDisparoAleat){
+void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &tipos, std::vector<Bullet *> &pool, float velMovHtal, float velMovVcal, float vcalMoveAmount,int probDisparoAleat){
 	// esta versión "2" se comporta distinto
 	// ¿En vez de un gestor de "Hordas"... no sería mejor que cada nave tenga su lógica y se llame al update de cada una?
 	// que cada una tenga su pool de balas también, pero puede ser una referencia al mismo pool
@@ -58,7 +58,7 @@ void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &t
 			tmp->spaceInvaderMovement_speedX = velMovHtal;
 			tmp->spaceInvaderMovement_speedY = velMovVcal;
 			tmp->spaceInvaderMovement_vcalMoveCurrTarget = 0;	// calculado luego
-			tmp->spaceInvaderMovement_vcalMoveAmount = 60.0f;
+			tmp->spaceInvaderMovement_vcalMoveAmount = vcalMoveAmount;
 
 			//tmp->spaceInvaderMovement_xMax = devuelvePosicionInicial(i, j).x + Director::getInstance()->getVisibleSize().width/2.5f - marginX;
 			//tmp->spaceInvaderMovement_xMin = devuelvePosicionInicial(i, j).x;

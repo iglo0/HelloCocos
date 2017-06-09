@@ -2,6 +2,8 @@
 
 #include "cocos2d.h"	// necesario para declarar Sprite
 
+class Movimiento;
+
 USING_NS_CC;
 
 class GameActor{
@@ -18,6 +20,7 @@ public:
 	//typedef void(GameActor::*punteroAFuncionMovimiento)(Vec2, double);
 	//v2: sin parametros, con variables miembro. Así no dependo tanto de la firma de la funcion
 	typedef void(GameActor::*punteroAFuncionMovimiento)();
+	typedef void(GameActor::*punteroAFuncionMovimientoV2)(Vec2);
 
 	Sprite *setSprite(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon, float initialScale = 1.0f);
 
@@ -30,11 +33,14 @@ public:
 	//virtual void update(float deltaT, GameActor *instancia = nullptr, void(GameActor::*)(Vec2, double) = nullptr, Vec2 posIni = Vec2::ZERO, double amplitude = 600.0);
 	//virtual void update(float deltaT, GameActor *instancia = nullptr, punteroAFuncionMovimiento = nullptr, Vec2 posIni = Vec2::ZERO, double amplitude = 600.0);
 	virtual void update(float deltaT);
-	virtual void mueve();				//
+	virtual void mueve();
+	virtual void mueve(Vec2);	//
 	virtual void impacto(float dmg);	//
 	//virtual void dispara() = 0;
 
 	// TEST!!!!
+	Movimiento *movimiento;
+
 	// posibles funciones de control para update configurable
 	//void mueveSeno(Vec2 posIni, double amplitude);	// Naming! funcion de movimiento *tipo* seno
 	//void mueveSpaceInvader(Vec2 whatever, double someNumber);
@@ -43,6 +49,7 @@ public:
 	void mueveSpaceInvader();
 	void mueveSeno2();			// TODO: implementar
 	void mueveDirigido();		// TODO: implementar
+	void mueveHaciaProta();		
 
 	// con dos ojones
 	// guardo aquí los parámetros que usará este gameaCtor para moverse, en cada update
@@ -52,6 +59,11 @@ public:
 	Vec2 funcionMovimientoTarget;
 	double funcionMovimientoAmplitude;
 	double funcionMovimientoSpeed;
+
+	// movimiento hacia
+	Vec2 mueveFrom;
+	Vec2 mueveTo;
+	Vec2 mueveDelta;
 	// movimiento tipo "space invader"
 	// *movimiento lateral -> esquina -> bajar -> pal otro lado -> bajar -> repetir
 	// cada nave se controla a sí misma, necesita:
@@ -77,9 +89,10 @@ public:
 	void desactiva();
 	bool isActive();
 
+	float gameActorSpeed;
+
 protected:
 	Sprite *sprite;
-	float gameActorSpeed;
 	float gameActorHP, gameActorHPInicial = 1.0;
 	int gameActorPoints;
 };
