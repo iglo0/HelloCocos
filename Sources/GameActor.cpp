@@ -257,7 +257,7 @@ void GameActor::desactiva(){
 		if(pb){
 			pb->setEnabled(false);
 		}
-
+		
 	}
 }
 

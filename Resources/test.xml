@@ -26,9 +26,9 @@
 	<enemy_t2_initial_size>0.35f</enemy_t2_initial_size>
 	<enemy_t2_initial_rotation>0</enemy_t2_initial_rotation>
 
-	<enemy_boss_generic_hp>20.0f</enemy_boss_generic_hp>
+	<enemy_boss_generic_hp>1.5f</enemy_boss_generic_hp>
 	<enemy_boss_path_sprite>boss1.png</enemy_boss_path_sprite>
-	<enemy_boss_initial_size>1.0f</enemy_boss_initial_size>
+	<enemy_boss_initial_size>0.6f</enemy_boss_initial_size>
 	<enemy_boss_initial_rotation>0</enemy_boss_initial_rotation>
 	<enemy_boss_points>500</enemy_boss_points>
 

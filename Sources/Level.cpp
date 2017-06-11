@@ -463,7 +463,7 @@ void Level::initLevel(){
 	// TODO: Pool ""Tipo 2"" ... ehm... para el boss?
 	//Bullet::createBulletPool(this, Pool::currentBulletsTipo2, 30, "balaEne_", gameInstance->bullet_enemy_path_sprite2.c_str(), gameInstance->bullet_path_sound_fire.c_str(), gameInstance->bullet_path_sound_impact.c_str(), -gameInstance->bullet_default_speed, gameInstance->bullet_default_dmg * 2.0f,
 	//	(int)Game::CategoriaColision::BalaEnemigo, (int)Game::CategoriaColision::Jugador, gameInstance->bullet_default_boss_scale);
-	Bullet::createBulletPool(this, Pool::currentBulletsTipo2, 30, Bullet::tipoBoss);
+	Bullet::createBulletPool(this, Pool::currentBulletsTipo2, 1, Bullet::tipoBoss);
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// inicializo los enemigos iniciales
@@ -489,7 +489,7 @@ void Level::initLevel(){
 
 	// y que ataque?
 	enemyBoss->funcionControlActual = &Enemy::funControlFireAtInterval;
-	enemyBoss->funcionControlTiempoDisparo = 1.0f;
+	enemyBoss->funcionControlTiempoDisparo = 3.0f;
 
 	enemyBoss->poolMisBalas = &Pool::currentBulletsTipo2;
 
@@ -510,7 +510,7 @@ void Level::initLevel(){
 	tipos.push_back(Enemy::tipo2);
 	tipos.push_back(Enemy::tipo1);
 
-	spaceInvaders.creaInvaders(this, tipos, Pool::currentBulletsTipo1, 50.0f, 15.0f, 30.0f, 1200);
+	spaceInvaders.creaInvaders(this, tipos, Pool::currentBulletsTipo1, 50.0f, 15.0f, 30.0f, 3600);
 }
 
 void Level::setGameState(GameState *nuevo){

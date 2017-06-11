@@ -11,6 +11,8 @@ USING_NS_CC;
 
 #pragma region CONSTANTES
 
+#define BULLET_HOMING_TTL					6.5
+
 // TODO: como nota, los archivos JSON son como los XML pero más fáciles de leer por un humano
 // --------------------------------------------------------------------
 // definicion de objetos

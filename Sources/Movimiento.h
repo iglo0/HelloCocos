@@ -4,12 +4,14 @@
 
 USING_NS_CC;
 
+class GameActor;
+
 class Movimiento{
 public:
 	Movimiento();
 	~Movimiento();
 
-	void init(float spd, float amp, Vec2 ori, Vec2 dir, Vec2 posIni, Sprite *target);
+	virtual void init(float spd, float amp, Vec2 ori, Vec2 dir, Vec2 posIni, Sprite *target);
 	virtual Vec2 mueve(Vec2 posIni)=0;
 
 protected:
@@ -36,5 +38,11 @@ public:
 	MueveHoming();
 	~MueveHoming();
 
+	void init(float spd, float amp, Vec2 ori, Vec2 dir, Vec2 posIni, Sprite *target) override;
 	Vec2 mueve(Vec2 posIni) override;
+
+	bool homing = false;	// si persigue al target o solo sale en su dirección inicial
+
+private:
+	Vec2 deltaXY;
 };

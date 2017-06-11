@@ -20,7 +20,7 @@ Bullet::Bullet(Node *nodo, const char *name, const char *pathSprite, const char 
 		CCLOG("No pude crear bala %s", pathSprite);
 	}
 
-	
+	ttl = BULLET_HOMING_TTL;
 }
 
 Bullet::~Bullet(){
@@ -94,6 +94,8 @@ Bullet *Bullet::creaBala(Node *nodo, tiposBala tipoBala, const char *bulletName,
 		// TODO: Ñapa para probar distintos tipos de movimiento de balas
 		delete claseMovimiento;
 		claseMovimiento = new MueveHoming();
+		
+		
 		break;
 	default:
 		CCLOG("Tipo bala desconocido: %d!", tipoBala);
@@ -137,6 +139,9 @@ void Bullet::impacto(float dmg){
 	// esta es facil, la bala desaparece
 	desactiva();
 
+	// TODO: no tan facil, el ttl!
+	ttl = BULLET_HOMING_TTL;
+
 	// TODO: reproducir sonido
 
 	// TODO: animacion impacto
@@ -152,6 +157,16 @@ void Bullet::mueve(){
 
 	if((nuPos.x > visibleSize.width) || (nuPos.x < 0) || (nuPos.y<0) || (nuPos.y>visibleSize.height)){
 		// se sale
+		// TODO: Probando con balas dirigidas
+		ttl = BULLET_HOMING_TTL;
+		desactiva();
+	}
+
+
+	ttl -= Director::getInstance()->getDeltaTime();
+	if(ttl <= 0){
+		// TODO: Probando con balas dirigidas
+		ttl = BULLET_HOMING_TTL;
 		desactiva();
 	}
 

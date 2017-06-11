@@ -31,9 +31,19 @@ Vec2 MueveDireccion::mueve(Vec2 posIni){
 MueveHoming::MueveHoming(){}
 MueveHoming::~MueveHoming(){}
 
+void MueveHoming::init(float spd, float amp, Vec2 ori, Vec2 dir, Vec2 posIni, Sprite * target){
+	_speed = spd;
+	_amplitude = amp;
+	_origin = ori;
+	_direction = dir;
+	_posInicial = posIni;
+	_target = target;
+
+}
+
 Vec2 MueveHoming::mueve(Vec2 posIni){
 	float deltaT = Director::getInstance()->getDeltaTime();
-	Vec2 deltaXY;
+	//Vec2 deltaXY;
 	Vec2 tmp;
 
 	deltaXY = posIni - _target->getPosition();

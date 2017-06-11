@@ -31,5 +31,7 @@ private:
 	//bool createBullet(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon);
 
 	//float bulletSpeed; // para esto, uso Base::gameActorSpeed
+	// TODO: Probando con balas dirigidas
+	float ttl;
 };
 

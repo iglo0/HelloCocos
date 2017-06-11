@@ -87,7 +87,7 @@ void Player::impacto(float dmg){
 
 
 void Player::killPlayer(){
-	return;
+	//return;
 
 	// HACK: cambio de estado usando una referencia al nivel
 	Level::setGameState(new PlayerDeadState(this));
