@@ -47,3 +47,16 @@ public:
 private:
 	Vec2 deltaXY;
 };
+
+//// movimiento tipo "space invader"
+//// *movimiento lateral -> esquina -> bajar -> pal otro lado -> bajar -> repetir
+//// cada nave se controla a sí misma, necesita:
+//// - dirección inicial
+//// - vel htal/vel vcal
+//// - limites x
+//float spaceInvaderMovement_speedX;				// cómo de rápido se mueve lateralmente
+//float spaceInvaderMovement_speedY;				// cómo de rápido baja
+//float spaceInvaderMovement_xMin;				// dónde hace tope
+//float spaceInvaderMovement_xMax;				// dónde hace tope
+//float spaceInvaderMovement_vcalMoveAmount;		// cuánto baja cuando baja
+//float spaceInvaderMovement_vcalMoveCurrTarget;	// cómo sé cuándo deja de bajar

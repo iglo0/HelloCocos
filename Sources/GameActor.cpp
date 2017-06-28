@@ -12,14 +12,10 @@ GameActor::GameActor(){
 
 	// todos los "actores" tienen unas características comunes: movimiento, vida...
 	gameActorHP = gameActorHPInicial;
-	mueveIzq = mueveDch = mueveArr = mueveAbj = false;
-	funcionMovimientoActual = nullptr;
+	//mueveIzq = mueveDch = mueveArr = mueveAbj = false;
+	//funcionMovimientoActual = nullptr;
 
-	//spaceInvaderMovement_goingRight = false;
-	spaceInvaderMovement_speedX = 0;
-	spaceInvaderMovement_speedY = 0;
-	spaceInvaderMovement_xMax = 0;
-	spaceInvaderMovement_xMin = 0;
+	movimiento = nullptr;
 }
 
 GameActor::~GameActor(){
@@ -27,24 +23,22 @@ GameActor::~GameActor(){
 }
 
 // TODO: no quiero que todos los GameActor se comporten igual. ¿Cómo hago que un enemigo se controle de la forma 1 o 2 o 3?
-////void GameActor::update(float deltaT, GameActor *instancia, void(GameActor::*funcionMovimiento)(Vec2, double), Vec2 posIni, double amplitude){
-//void GameActor::update(float deltaT, GameActor *instancia, punteroAFuncionMovimiento funMov, Vec2 posIni, double amplitude){
 void GameActor::update(float deltaT){
-		//CCLOG("GameActor update @%f", Game::getInstance()->ellapsedTime);
+	//CCLOG("GameActor update @%f", Game::getInstance()->ellapsedTime);
 
 	// TODO: hum, por ejemplo una bala entra por gameactor::update y luego quiero que vaya a bullet::mueve?
 	// más bien que sobrescriba el método update la bala también?
 	// JODER. Ha funcionado? Si paso una bala que tiene mueve sobrescrito, lo entiende y ejecuta el mueve correcto? Joder. Mola!!!
 	if(isActive()){
 		// Me tengo que mirar detenidamente pasar funciones como parametro
-		if(this->funcionMovimientoActual){
-			// TODO: si proporciono una funcion de movimiento, usa esta
-			//(this->*funcionMovimientoActual)(funcionMovimientoPosIni, funcionMovimientoAmplitude);
-			(this->*funcionMovimientoActual)();
-		} else{
+		//if(this->funcionMovimientoActual){
+		//	// TODO: si proporciono una funcion de movimiento, usa esta
+		//	//(this->*funcionMovimientoActual)(funcionMovimientoPosIni, funcionMovimientoAmplitude);
+		//	(this->*funcionMovimientoActual)();
+		//} else{
 			// TODO: por aquí pasa el player. No sé si me convence cómo lo tengo montado, aún...
-			mueve();
-		}
+			//mueve();
+		//}
 	}
 
 
@@ -116,119 +110,46 @@ void GameActor::mueve(Vec2 donde){
 
 }
 
-void GameActor::mueve(){
-
-	Vec2 pos = getPosition();
-	float deltaT = Director::getInstance()->getDeltaTime();
-
-	if(mueveIzq){
-		pos.x -= gameActorSpeed * deltaT;
-		if(pos.x < 0)
-			pos.x = 0;
-	}
-
-	if(mueveDch){
-		pos.x += gameActorSpeed * deltaT;
-		if(pos.x > Director::getInstance()->getVisibleSize().width){
-			pos.x = Director::getInstance()->getVisibleSize().width;
-		}
-	}
-
-	if(mueveArr){
-		pos.y += gameActorSpeed * deltaT;
-		if(pos.y > Director::getInstance()->getVisibleSize().height){
-			pos.y = Director::getInstance()->getVisibleSize().height;
-
-			// HACK: lo siento, lo quitaré vale?
-			if(sprite->getTag() == (int)Game::CategoriaColision::Bala){
-				desactiva();
-			}
-		}
-	}
-
-	if(mueveAbj){
-		pos.y -= gameActorSpeed * deltaT;
-		if(pos.y < 0){
-			pos.y = 0;
-		}
-	}
-
-	setPosition(pos);
-
-}
-
-void GameActor::mueveSeno(){
-	Vec2 pos = getPosition();
-
-	//float deltaT = Director::getInstance()->getDeltaTime();
-	float ellapsed = Game::getInstance()->ellapsedTime;
-
-	//pos.x = posIni.x + amplitude * sin(ellapsed / 2.0);
-	pos.x = funcionMovimientoPosIni.x + funcionMovimientoAmplitude * sin(ellapsed * funcionMovimientoSpeed);
-
-	setPosition(pos);
-
-}
-
-void GameActor::mueveSeno2(){
-	Vec2 pos = getPosition();
-
-	//float deltaT = Director::getInstance()->getDeltaTime();
-	float ellapsed = Game::getInstance()->ellapsedTime;
-
-	//pos.x = posIni.x + amplitude * sin(ellapsed / 2.0);
-	pos.x = funcionMovimientoPosIni.x + funcionMovimientoAmplitude * sin(ellapsed * funcionMovimientoSpeed);
-	pos.y += gameActorSpeed * Director::getInstance()->getDeltaTime();
-
-	setPosition(pos);
-
-}
-
-void GameActor::mueveSpaceInvader(){
-	float deltaT = Director::getInstance()->getDeltaTime();
-	Vec2 curPos = sprite->getPosition();
-
-
-	//if(spaceInvaderMovement_goingDown){
-	if(SpaceInvaders::spaceInvaderMovement_goingDown) {
-		// MOVIMIENTO VERTICAL
-		curPos.y -= spaceInvaderMovement_speedY * deltaT;
-
-		if(curPos.y <= spaceInvaderMovement_vcalMoveCurrTarget){
-			//spaceInvaderMovement_goingDown = false;
-			//spaceInvaderMovement_goingRight = !spaceInvaderMovement_goingRight;
-			SpaceInvaders::spaceInvaderMovement_goingDown = false;
-			SpaceInvaders::spaceInvaderMovement_goingRight = !SpaceInvaders::spaceInvaderMovement_goingRight;
-		}
-	} else{
-		// MOVIMIENTO LATERAL
-		//if(spaceInvaderMovement_goingRight){
-		if(SpaceInvaders::spaceInvaderMovement_goingRight){
-			curPos.x += spaceInvaderMovement_speedX * deltaT;
-
-			if(curPos.x >= spaceInvaderMovement_xMax){
-				////spaceInvaderMovement_goingRight = false;
-				SpaceInvaders::spaceInvaderMovement_goingDown = true;
-				//spaceInvaderMovement_goingDown = true;
-				spaceInvaderMovement_vcalMoveCurrTarget = curPos.y - spaceInvaderMovement_vcalMoveAmount;
-				// no hago "clipping" del movimiento porque me parece que se me van a apuchurrar los invaders a los lados
-			}
-		} else{
-			curPos.x -= spaceInvaderMovement_speedX * deltaT;
-
-			if(curPos.x <= spaceInvaderMovement_xMin){
-				////spaceInvaderMovement_goingRight = true;
-				SpaceInvaders::spaceInvaderMovement_goingDown = true;
-				//spaceInvaderMovement_goingDown = true;
-				spaceInvaderMovement_vcalMoveCurrTarget = curPos.y - spaceInvaderMovement_vcalMoveAmount;
-				// no hago "clipping" del movimiento porque me parece que se me van a apuchurrar los invaders a los lados
-			}
-		}
-	}
-
-	sprite->setPosition(curPos);
-
-}
+//void GameActor::mueve(){
+//
+//	Vec2 pos = getPosition();
+//	float deltaT = Director::getInstance()->getDeltaTime();
+//
+//	if(mueveIzq){
+//		pos.x -= gameActorSpeed * deltaT;
+//		if(pos.x < 0)
+//			pos.x = 0;
+//	}
+//
+//	if(mueveDch){
+//		pos.x += gameActorSpeed * deltaT;
+//		if(pos.x > Director::getInstance()->getVisibleSize().width){
+//			pos.x = Director::getInstance()->getVisibleSize().width;
+//		}
+//	}
+//
+//	if(mueveArr){
+//		pos.y += gameActorSpeed * deltaT;
+//		if(pos.y > Director::getInstance()->getVisibleSize().height){
+//			pos.y = Director::getInstance()->getVisibleSize().height;
+//
+//			// HACK: lo siento, lo quitaré vale?
+//			if(sprite->getTag() == (int)Game::CategoriaColision::Bala){
+//				desactiva();
+//			}
+//		}
+//	}
+//
+//	if(mueveAbj){
+//		pos.y -= gameActorSpeed * deltaT;
+//		if(pos.y < 0){
+//			pos.y = 0;
+//		}
+//	}
+//
+//	setPosition(pos);
+//
+//}
 
 
 
@@ -278,27 +199,27 @@ void GameActor::impacto(float dmg){
 }
 
 // TODO: unused, borrar!!!
-void GameActor::loadSpriteSheet(Node *nodo){
-	// load the Sprite Sheet
-	auto spritecache = SpriteFrameCache::getInstance();
-
-	// the .plist file can be generated with any of the tools mentioned below
-	spritecache->addSpriteFramesWithFile("spritesheet.plist");
-	
-	// Our .plist file has names for each of the sprites in it.  We'll grab
-	// the sprite named, "mysprite" from the sprite sheet:
-	auto mysprite = Sprite::createWithSpriteFrameName("explosion0.png");
-	// TODO: ¿Cómo sabe de qué spritesheet?
-	// Y por cierto: CASE SENSITIVE! 
-
-	//// this is equivalent to the previous example,
-	//// but it is created by retrieving the SpriteFrame from the cache.
-	//auto newspriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName("explosion0.png");
-	//auto newSprite = Sprite::createWithSpriteFrame(newspriteFrame);
-
-	mysprite->setPosition(Vec2(400, 400));
-
-	nodo->addChild(mysprite);
-
-	// oki esto funciona
-}
+//void GameActor::loadSpriteSheet(Node *nodo){
+//	// load the Sprite Sheet
+//	auto spritecache = SpriteFrameCache::getInstance();
+//
+//	// the .plist file can be generated with any of the tools mentioned below
+//	spritecache->addSpriteFramesWithFile("spritesheet.plist");
+//	
+//	// Our .plist file has names for each of the sprites in it.  We'll grab
+//	// the sprite named, "mysprite" from the sprite sheet:
+//	auto mysprite = Sprite::createWithSpriteFrameName("explosion0.png");
+//	// TODO: ¿Cómo sabe de qué spritesheet?
+//	// Y por cierto: CASE SENSITIVE! 
+//
+//	//// this is equivalent to the previous example,
+//	//// but it is created by retrieving the SpriteFrame from the cache.
+//	//auto newspriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName("explosion0.png");
+//	//auto newSprite = Sprite::createWithSpriteFrame(newspriteFrame);
+//
+//	mysprite->setPosition(Vec2(400, 400));
+//
+//	nodo->addChild(mysprite);
+//
+//	// oki esto funciona
+//}

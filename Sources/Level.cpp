@@ -235,105 +235,7 @@ void Level::update(float deltaT){
 		delete gameState;
 		gameState = tmpState;
 	}
-	// ---------
 
-
-	// Y... estructura!
-	/*
-	switch(gameInstance->estadoActual){
-	case Game::estadosJuego::introNivel:
-		if(!iniciadoIntroNivel){
-			// HACK: desactiva solo los pools de balas, tendría que renombrarlo o darle otra vuelta
-			Pool::disablePools();
-			// HACK: wtf... sintaxis es esta?
-			//Pool::disablePool<Bullet>((*player->poolMisBalas));
-			player->activatePlayerInInitialPos();
-
-
-			iniciadoIntroNivel = true;
-			tIniCambioEstado = gameInstance->ellapsedTime;
-
-			gameInstance->lblMensajes->setString("PREPARATE!");
-			gameInstance->lblMensajes->setVisible(true);
-		}
-
-		// TODO: Presentar un mensajito
-
-		if(gameInstance->ellapsedTime - tIniCambioEstado >= gameInstance->duracion_estado_intronivel){
-			gameInstance->lblMensajes->setVisible(false);
-
-			iniciadoIntroNivel = false;
-			gameInstance->estadoActual = Game::estadosJuego::jugando;
-		}
-
-		break;
-	case Game::estadosJuego::jugando:
-		// ---------------------------
-		// PROTA
-		// ---------------------------
-		player->update(deltaT);
-
-		// ---------------------------
-		// UPDATE ALL THE THINGS!!
-		// ---------------------------
-		Pool::updateAll(deltaT);
-
-		break;
-	case Game::estadosJuego::muerte:
-		if(!iniciadoMuerte){
-			iniciadoMuerte = true;
-			tIniCambioEstado = gameInstance->ellapsedTime;
-
-			--gameInstance->vidas;
-			gameInstance->actualizaVidas();
-
-			gameInstance->lblMensajes->setString("MUERTO!");
-			gameInstance->lblMensajes->setVisible(true);
-		}
-
-		// TODO: Presentar un mensajito
-
-		if(gameInstance->ellapsedTime - tIniCambioEstado >= gameInstance->duracion_estado_muerte){
-			gameInstance->lblMensajes->setVisible(false);
-
-			iniciadoMuerte = false;
-
-			if(gameInstance->vidas > 0){
-				gameInstance->estadoActual = Game::estadosJuego::introNivel;
-			} else{
-				gameInstance->estadoActual = Game::estadosJuego::gameOver;
-			}
-		}
-
-		break;
-	case Game::estadosJuego::gameOver:
-		if(!iniciadoGameOver){
-			iniciadoGameOver = true;
-			tIniCambioEstado = gameInstance->ellapsedTime;
-
-			gameInstance->lblMensajes->setString("GAME OVER!");
-			gameInstance->lblMensajes->setVisible(true);
-		}
-
-		// TODO: Presentar un mensajito
-
-		if(gameInstance->ellapsedTime - tIniCambioEstado >= gameInstance->duracion_estado_gameover){
-			gameInstance->lblMensajes->setVisible(false);
-			iniciadoGameOver = false;
-
-			// so what now...
-			menuVuelveCallback(nullptr);
-
-		}
-
-
-		break;
-	default:
-		CCLOG("estado juego no controlado: %d", gameInstance->estadoActual);
-		break;
-
-	}
-	*/
 }
 
 
@@ -481,11 +383,10 @@ void Level::initLevel(){
 	enemyBoss->activa(enePos);
 
 	// Cómo querré que se mueva?
-	//auto funcionControlMovimiento = &GameActor::mueveSeno;
-	enemyBoss->funcionMovimientoActual = &GameActor::mueveSeno;
-	enemyBoss->funcionMovimientoAmplitude = 600.0;
-	enemyBoss->funcionMovimientoPosIni = Vec2(Director::getInstance()->getVisibleSize().width / 2.0f, enemyBoss->getPosition().y);
-	enemyBoss->funcionMovimientoSpeed = 1 / 2.5;
+	//enemyBoss->funcionMovimientoActual = &GameActor::mueveSeno;
+	//enemyBoss->funcionMovimientoAmplitude = 600.0;
+	//enemyBoss->funcionMovimientoPosIni = Vec2(Director::getInstance()->getVisibleSize().width / 2.0f, enemyBoss->getPosition().y);
+	//enemyBoss->funcionMovimientoSpeed = 1 / 2.5;
 
 	// y que ataque?
 	enemyBoss->funcionControlActual = &Enemy::funControlFireAtInterval;

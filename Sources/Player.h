@@ -39,6 +39,10 @@ public:
 	static Vec2 getCurrentPlayerPosition();
 	static Player *getCurrentPlayer();
 
+	bool mueveIzq, mueveDch, mueveArr, mueveAbj;	// hace visibles los controles de un GameActor para controlarlo desde fuera. Realmente solo los usa Player :/
+
+	void muevePlayer();
+
 private:
 	//const char *pathSprite = PLAYER_PATH_SPRITE;
 	float playerInitialScale = 0.5f;

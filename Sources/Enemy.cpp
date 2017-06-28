@@ -9,11 +9,13 @@
 #include "Game.h"
 
 Enemy::Enemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float initialScale, float initialRotation, float hp){
+	//funcionMovimientoActual = nullptr;
 	createEnemy(nodo, pathSprite, rutaSonidoMuerte, initialScale, initialRotation, hp, Game::getInstance()->enemy_generic_points);
 }
 
 Enemy::Enemy(Node *nodo, enum tiposEnemigo tipo){
 	Game *gameInstance = Game::getInstance();
+	//funcionMovimientoActual = nullptr;
 
 	switch(tipo){
 	case tiposEnemigo::tipo1:
@@ -116,15 +118,9 @@ void Enemy::update(float deltaT){
 	if(isActive()){
 		// TODO: Me tengo que mirar detenidamente pasar funciones como parametro
 		// si proporciono una funcion de movimiento, usa esta
-		if(this->funcionMovimientoActual){
-			//(this->*funcionMovimientoActual)(this->funcionMovimientoPosIni, this->funcionMovimientoAmplitude);
-			(this->*funcionMovimientoActual)();
-
-
-		} else{
-			// TODO: Quiero una función de movimiento estándar-por-defecto para algo? :(
-			mueve();
-		}
+		//if(this->funcionMovimientoActual){
+		//	(this->*funcionMovimientoActual)();
+		//}
 
 		if(this->funcionControlActual){
 			// Añado una funcion de control de disparo. OOOH funciona!!
@@ -132,8 +128,6 @@ void Enemy::update(float deltaT){
 		}
 	}
 }
-
-
 void Enemy::dispara(){
 	if(poolMisBalas){
 		//CCLOG("Enemigo dispara!");

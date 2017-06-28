@@ -47,7 +47,7 @@ void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &t
 			tmp->activa(enePos);
 
 			// Cómo querré que se mueva?
-			tmp->funcionMovimientoActual = &GameActor::mueveSpaceInvader;
+			//tmp->funcionMovimientoActual = &GameActor::mueveSpaceInvader;
 
 			// HACK: Prueba SpaceInvaders
 			SpaceInvaders::spaceInvaderMovement_goingDown = false;
@@ -55,20 +55,17 @@ void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &t
 
 			//tmp->spaceInvaderMovement_goingRight = true;
 			//tmp->spaceInvaderMovement_goingDown = false;
-			tmp->spaceInvaderMovement_speedX = velMovHtal;
-			tmp->spaceInvaderMovement_speedY = velMovVcal;
-			tmp->spaceInvaderMovement_vcalMoveCurrTarget = 0;	// calculado luego
-			tmp->spaceInvaderMovement_vcalMoveAmount = vcalMoveAmount;
+			//tmp->spaceInvaderMovement_speedX = velMovHtal;
+			//tmp->spaceInvaderMovement_speedY = velMovVcal;
+			//tmp->spaceInvaderMovement_vcalMoveCurrTarget = 0;	// calculado luego
+			//tmp->spaceInvaderMovement_vcalMoveAmount = vcalMoveAmount;
 
-			//tmp->spaceInvaderMovement_xMax = devuelvePosicionInicial(i, j).x + Director::getInstance()->getVisibleSize().width/2.5f - marginX;
-			//tmp->spaceInvaderMovement_xMin = devuelvePosicionInicial(i, j).x;
-			
 			// cada "space invader" se puede mover entre los limites de la pantalla, pero el primero que llegue avisa al resto para que cambien su movimiento
 			// así con cualquier configuración de enemigos, siempre llegarán hasta los límites de la pantalla
 			
 			// TODO: cambiar el margen manual de 50?
-			tmp->spaceInvaderMovement_xMax = visibleSize.width - 50.0f;
-			tmp->spaceInvaderMovement_xMin = 50.0f;
+			//tmp->spaceInvaderMovement_xMax = visibleSize.width - 50.0f;
+			//tmp->spaceInvaderMovement_xMin = 50.0f;
 
 			// y que ataque?
 			//tmp->funcionControlActual = &Enemy::funControl1;

@@ -12,7 +12,7 @@ public:
 	~Bullet();
 
 	// Bala tiene un mueve especial que solo usa la velocidad (de GameActor) para ir arriba o abajo
-	void mueve () override;	
+	void mueveBala();	
 	// con override dejo claro al compilador que quiero implementar el método mueve de la clase base. No es 
 	// estrictamente necesario, pero así se que comprueba que las firmas sean idénticas y que en general 
 	// haga lo que creo que estoy haciendo.

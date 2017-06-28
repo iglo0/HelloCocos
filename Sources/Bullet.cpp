@@ -42,7 +42,7 @@ void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolS
 }
 
 Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletName){
-	return creaBala(nodo, tipoBala, bulletName, &GameActor::mueve, new MueveDireccion());
+	return creaBala(nodo, tipoBala, bulletName, nullptr, new MueveDireccion());
 }
 
 Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletName, punteroAFuncionMovimiento funcionMovimiento, Movimiento *claseMovimiento){
@@ -106,7 +106,7 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 
 	tmp->_bulletType = tipoBala;
 
-	tmp->funcionMovimientoActual = funcionMovimiento;
+	//tmp->funcionMovimientoActual = funcionMovimiento;
 
 	//tmp->movimiento = new MueveDireccion();
 	tmp->movimiento = claseMovimiento;
@@ -145,7 +145,7 @@ void Bullet::impacto(float dmg){
 }
 
 
-void Bullet::mueve(){
+void Bullet::mueveBala(){
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	
 	Vec2 oldPos = getPosition();

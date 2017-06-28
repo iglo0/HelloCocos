@@ -116,19 +116,23 @@ void Pool::updateAll(float deltaT){
 	// ...del player
 	for(auto x = currentBulletsPlayerTipo1.cbegin(); x != currentBulletsPlayerTipo1.cend(); ++x){
 		if((*x)->isActive()){
-			(*x)->update(deltaT);
+			//(*x)->update(deltaT);
+			(*x)->mueveBala();
 		}
 	}
 
 	// ...de los bichos
 	for(auto x = currentBulletsTipo1.cbegin(); x != currentBulletsTipo1.cend(); ++x){
 		if((*x)->isActive()){
-			(*x)->update(deltaT);
+			//(*x)->update(deltaT);
+			(*x)->mueveBala();
 		}
 	}
 	for(auto x = currentBulletsTipo2.cbegin(); x != currentBulletsTipo2.cend(); ++x){
 		if((*x)->isActive()){
-			(*x)->update(deltaT);
+			//(*x)->update(deltaT);
+			(*x)->mueveBala();
+
 		}
 	}
 
