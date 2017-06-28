@@ -20,7 +20,7 @@ Bullet::Bullet(Node *nodo, const char *name, const char *pathSprite, const char 
 		CCLOG("No pude crear bala %s", pathSprite);
 	}
 
-	ttl = BULLET_HOMING_TTL;
+	_ttl = BULLET_HOMING_TTL;
 }
 
 Bullet::~Bullet(){
@@ -41,11 +41,11 @@ void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolS
 	
 }
 
-Bullet *Bullet::creaBala(Node *nodo, tiposBala tipoBala, const char *bulletName){
+Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletName){
 	return creaBala(nodo, tipoBala, bulletName, &GameActor::mueve, new MueveDireccion());
 }
 
-Bullet *Bullet::creaBala(Node *nodo, tiposBala tipoBala, const char *bulletName, punteroAFuncionMovimiento funcionMovimiento, Movimiento *claseMovimiento){
+Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletName, punteroAFuncionMovimiento funcionMovimiento, Movimiento *claseMovimiento){
 	Bullet *tmp;
 	Game *gameInstance = Game::getInstance();
 
@@ -103,21 +103,18 @@ Bullet *Bullet::creaBala(Node *nodo, tiposBala tipoBala, const char *bulletName,
 	}
 
 	tmp = new Bullet(nodo, bulletName, pathSprite, pathSonidoDisparo, pathSonidoImpacto, speed, dmg, tipoColision, colisionoCon, initialScale);
+
+	tmp->_bulletType = tipoBala;
+
 	tmp->funcionMovimientoActual = funcionMovimiento;
-	
-	//if(RandomHelper::random_int(1, 5) == 1){
-	//	tmp->movimiento = new MueveHoming();
-	//} else{
-	//	tmp->movimiento = new MueveDireccion();
-	//}
-	
+
 	//tmp->movimiento = new MueveDireccion();
 	tmp->movimiento = claseMovimiento;
 	tmp->movimiento->init(speed, 0, Vec2::ZERO, Vec2(0, 1.0f), Vec2::ZERO, Player::getCurrentPlayer()->getSprite());
 	return tmp;
 }
 
-void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, tiposBala tipoBala) {
+void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, bulletTypes tipoBala) {
 	Bullet *tmp;
 	//const char *name;
 
@@ -140,7 +137,7 @@ void Bullet::impacto(float dmg){
 	desactiva();
 
 	// TODO: no tan facil, el ttl!
-	ttl = BULLET_HOMING_TTL;
+	_ttl = BULLET_HOMING_TTL;
 
 	// TODO: reproducir sonido
 
@@ -158,15 +155,15 @@ void Bullet::mueve(){
 	if((nuPos.x > visibleSize.width) || (nuPos.x < 0) || (nuPos.y<0) || (nuPos.y>visibleSize.height)){
 		// se sale
 		// TODO: Probando con balas dirigidas
-		ttl = BULLET_HOMING_TTL;
+		_ttl = BULLET_HOMING_TTL;
 		desactiva();
 	}
 
 
-	ttl -= Director::getInstance()->getDeltaTime();
-	if(ttl <= 0){
+	_ttl -= Director::getInstance()->getDeltaTime();
+	if(_ttl <= 0){
 		// TODO: Probando con balas dirigidas
-		ttl = BULLET_HOMING_TTL;
+		_ttl = BULLET_HOMING_TTL;
 		desactiva();
 	}
 

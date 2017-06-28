@@ -15,6 +15,7 @@ public:
 	virtual Vec2 mueve(Vec2 posIni)=0;
 
 protected:
+
 	float _speed;
 	float _amplitude;		// si quiero darle un movimiento oscilante
 	Vec2 _origin;			// para aplicar una dirección 

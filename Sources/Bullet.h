@@ -5,7 +5,7 @@
 
 class Bullet : public GameActor{
 public:
-	enum tiposBala {tipoPlayer, tipoEnemy, tipoBoss};
+	enum bulletTypes {tipoPlayer, tipoEnemy, tipoBoss};
 
 	// name for debug purposes
 	Bullet(Node *nodo, const char *name, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon, float initialSize = 1.0f);
@@ -18,10 +18,10 @@ public:
 	// haga lo que creo que estoy haciendo.
 
 	// métodos estáticos que crean instancias
-	static Bullet *creaBala(Node *nodo, tiposBala tipoBala, const char *bulletName);
-	static Bullet *creaBala(Node *nodo, tiposBala tipoBala, const char *bulletName, punteroAFuncionMovimiento pFuncionMovimiento, Movimiento *claseMovimiento);
+	static Bullet *creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletName);
+	static Bullet *creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletName, punteroAFuncionMovimiento pFuncionMovimiento, Movimiento *claseMovimiento);
 	static void createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, const char *name, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon, float initialScale = 1.0f);
-	static void createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, tiposBala tipoBala);
+	static void createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, bulletTypes tipoBala);
 
 	void impacto(float dmg) override;
 
@@ -32,6 +32,7 @@ private:
 
 	//float bulletSpeed; // para esto, uso Base::gameActorSpeed
 	// TODO: Probando con balas dirigidas
-	float ttl;
+	float _ttl;
+	bulletTypes _bulletType;
 };
 
