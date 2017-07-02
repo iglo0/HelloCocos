@@ -1,4 +1,6 @@
-![nice screenshot!](/Resources/HelloCocos.jpg)
+
+<!--![nice screenshot!](/Resources/HelloCocos.jpg)-->
+![status](https://dl2.pushbulletusercontent.com/JXwF9psx3Dcsh9vST2ElAgx3TNk398EX/IMG_1969.PNG)
 <!--img src="http://www.cocos2d-x.org/attachments/801/cocos2dx_portrait.png" width=100-->
 
 <!-- colores
@@ -11,7 +13,7 @@ tabla col | col
 -- | --
 fila | fila
 -->
-
+<!--
 # cocos2d-x
 ## aprendiendo c++ con cocos
 
@@ -148,3 +150,4 @@ GENERAL
 ### DUDAS TÉCNICAS
 
 - dándole vueltas a cómo conseguir comportamientos a base de "plug'n'play". Probando con polimorfismo y punteros a función, pero me termino atascando
+-->
