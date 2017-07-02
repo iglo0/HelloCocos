@@ -30,6 +30,7 @@ USING_NS_CC;
 #define CONFIG_BULLET_DEFAULT_BOSS_SCALE	"bullet_default_boss_scale"
 #define CONFIG_BULLET_DEFAULT_DMG			"bullet_default_dmg"
 #define CONFIG_BULLET_DEFAULT_SPEED			"bullet_default_speed"
+#define CONFIG_BULLET_HOMING_SPEED			"bullet_homing_speed"
 
 #define CONFIG_ENEMY_GENERIC_SPEED			"enemy_generic_speed"
 #define CONFIG_ENEMY_GENERIC_HP				"enemy_generic_hp"
@@ -138,6 +139,7 @@ public:
 	float bullet_default_boss_scale;
 	float bullet_default_dmg;
 	float bullet_default_speed;
+	float bullet_homing_speed;
 	// enemies
 	float enemy_generic_speed;
 	float enemy_generic_hp;

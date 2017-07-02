@@ -13,9 +13,9 @@
 std::vector<Enemy *> Pool::currentEnemies;
 // Balas
 std::vector<Bullet *> Pool::currentBulletsPlayerTipo1;
-std::vector<Bullet *> Pool::currentBulletsTipo1;
+std::vector<Bullet *> Pool::currentBulletsTipoNormal;
 std::vector<Bullet *> Pool::currentBulletsTipo2;
-std::vector<Bullet *> Pool::currentBulletsTipoBoss;
+std::vector<Bullet *> Pool::currentBulletsTipoBossHoming;
 
 // ----------------------------------------------------------------------
 // ----------------------------------------------------------------------
@@ -46,7 +46,8 @@ void Pool::activa(std::vector<Bullet *> &pool, Vec2 pos){
 			//}
 			////CCLOG("%s", typeid(pos).name());
 			
-			tmp->movimiento->mueve(tmp->getPosition());
+			// TODO: Por qué hacía este mueve() en el activa?... lo quito...
+			//tmp->movimiento->mueve(tmp->getPosition());
 			break;
 		}
 	}
@@ -122,7 +123,7 @@ void Pool::updateAll(float deltaT){
 	}
 
 	// ...de los bichos
-	for(auto x = currentBulletsTipo1.cbegin(); x != currentBulletsTipo1.cend(); ++x){
+	for(auto x = currentBulletsTipoNormal.cbegin(); x != currentBulletsTipoNormal.cend(); ++x){
 		if((*x)->isActive()){
 			//(*x)->update(deltaT);
 			(*x)->mueveBala();
@@ -136,6 +137,14 @@ void Pool::updateAll(float deltaT){
 		}
 	}
 
+	// ...del boss
+	for(auto x = currentBulletsTipoBossHoming.cbegin(); x != currentBulletsTipoBossHoming.cend(); ++x){
+		if((*x)->isActive()){
+			//(*x)->update(deltaT);
+			(*x)->mueveBala();
+		}
+	}
+
 }
 
 
@@ -144,18 +153,18 @@ void Pool::deletePools(){
 
 	deletePool<Enemy>(currentEnemies);
 	deletePool<Bullet>(currentBulletsPlayerTipo1);
-	deletePool<Bullet>(currentBulletsTipo1);
+	deletePool<Bullet>(currentBulletsTipoNormal);
 	deletePool<Bullet>(currentBulletsTipo2);
-	deletePool<Bullet>(currentBulletsTipoBoss);
+	deletePool<Bullet>(currentBulletsTipoBossHoming);
 }
 
 void Pool::disablePools(){
 
 	//disablePool<Enemy>(currentEnemies);
 	disablePool<Bullet>(currentBulletsPlayerTipo1);
-	disablePool<Bullet>(currentBulletsTipo1);
+	disablePool<Bullet>(currentBulletsTipoNormal);
 	disablePool<Bullet>(currentBulletsTipo2);
-	disablePool<Bullet>(currentBulletsTipoBoss);
+	disablePool<Bullet>(currentBulletsTipoBossHoming);
 }
 
 

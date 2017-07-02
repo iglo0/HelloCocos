@@ -110,52 +110,8 @@ void GameActor::mueve(Vec2 donde){
 
 }
 
-//void GameActor::mueve(){
-//
-//	Vec2 pos = getPosition();
-//	float deltaT = Director::getInstance()->getDeltaTime();
-//
-//	if(mueveIzq){
-//		pos.x -= gameActorSpeed * deltaT;
-//		if(pos.x < 0)
-//			pos.x = 0;
-//	}
-//
-//	if(mueveDch){
-//		pos.x += gameActorSpeed * deltaT;
-//		if(pos.x > Director::getInstance()->getVisibleSize().width){
-//			pos.x = Director::getInstance()->getVisibleSize().width;
-//		}
-//	}
-//
-//	if(mueveArr){
-//		pos.y += gameActorSpeed * deltaT;
-//		if(pos.y > Director::getInstance()->getVisibleSize().height){
-//			pos.y = Director::getInstance()->getVisibleSize().height;
-//
-//			// HACK: lo siento, lo quitaré vale?
-//			if(sprite->getTag() == (int)Game::CategoriaColision::Bala){
-//				desactiva();
-//			}
-//		}
-//	}
-//
-//	if(mueveAbj){
-//		pos.y -= gameActorSpeed * deltaT;
-//		if(pos.y < 0){
-//			pos.y = 0;
-//		}
-//	}
-//
-//	setPosition(pos);
-//
-//}
-
-
-
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
+// TODO: no es lo mismo activar una bala (dirigida, normal, ...) que un enemigo? tendría que permitir heredar por tipo de GameActor...
 void GameActor::activa(Vec2 pos){
 	if(sprite){
 		sprite->setPosition(pos);

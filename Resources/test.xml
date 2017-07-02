@@ -12,6 +12,7 @@
 	<bullet_default_boss_scale>3.0f</bullet_default_boss_scale>
 	<bullet_default_dmg>1.0f</bullet_default_dmg>
 	<bullet_default_speed>500.0f</bullet_default_speed>
+	<bullet_homing_speed>166.7f</bullet_homing_speed>
 	
 	<enemy_generic_speed>100.0f</enemy_generic_speed>
 	<enemy_generic_hp>1.0f</enemy_generic_hp>

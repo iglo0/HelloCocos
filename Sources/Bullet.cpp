@@ -42,10 +42,8 @@ void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolS
 }
 
 Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletName){
-	return creaBala(nodo, tipoBala, bulletName, nullptr, new MueveDireccion());
-}
-
-Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletName, punteroAFuncionMovimiento funcionMovimiento, Movimiento *claseMovimiento){
+	//return creaBala(nodo, tipoBala, bulletName, nullptr, nullptr);
+	Movimiento *claseMovimiento;
 	Bullet *tmp;
 	Game *gameInstance = Game::getInstance();
 
@@ -69,8 +67,11 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 		tipoColision = (int)Game::CategoriaColision::Bala;
 		colisionoCon = (int)Game::CategoriaColision::Enemigo;
 		initialScale = gameInstance->bullet_default_scale;
+
+		claseMovimiento = new MueveVcal(speed);
+
 		break;
-	case tipoEnemy:
+	case tipoEnemyDirigido:
 		pathSprite = gameInstance->bullet_enemy_path_sprite2.c_str();
 		pathSonidoDisparo = gameInstance->bullet_path_sound_fire.c_str();
 		pathSonidoImpacto = gameInstance->bullet_path_sound_impact.c_str();
@@ -80,8 +81,10 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 		tipoColision = (int)Game::CategoriaColision::BalaEnemigo;
 		colisionoCon = (int)Game::CategoriaColision::Jugador;
 		initialScale = gameInstance->bullet_default_scale;
+
+		claseMovimiento = new MueveDireccion(speed);
 		break;
-	case tipoBoss:
+	case tipoEnemyNormal:
 		pathSprite = gameInstance->bullet_enemy_path_sprite2.c_str();
 		pathSonidoDisparo = gameInstance->bullet_path_sound_fire.c_str();
 		pathSonidoImpacto = gameInstance->bullet_path_sound_impact.c_str();
@@ -90,12 +93,24 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 		dmg = gameInstance->bullet_default_dmg;
 		tipoColision = (int)Game::CategoriaColision::BalaEnemigo;
 		colisionoCon = (int)Game::CategoriaColision::Jugador;
+		initialScale = gameInstance->bullet_default_scale;
+
+		claseMovimiento = new MueveVcal(speed);
+
+		break;
+	case tipoBossHoming:
+		pathSprite = gameInstance->bullet_enemy_path_sprite2.c_str();
+		pathSonidoDisparo = gameInstance->bullet_path_sound_fire.c_str();
+		pathSonidoImpacto = gameInstance->bullet_path_sound_impact.c_str();
+		// Ojo!!!: las balas enemigas van a -velocidad
+		speed = -gameInstance->bullet_homing_speed;
+		dmg = gameInstance->bullet_default_dmg;
+		tipoColision = (int)Game::CategoriaColision::BalaEnemigo;
+		colisionoCon = (int)Game::CategoriaColision::Jugador;
 		initialScale = gameInstance->bullet_default_boss_scale;
-		// TODO: Ñapa para probar distintos tipos de movimiento de balas
-		delete claseMovimiento;
+
 		claseMovimiento = new MueveHoming();
-		
-		
+
 		break;
 	default:
 		CCLOG("Tipo bala desconocido: %d!", tipoBala);
@@ -110,9 +125,99 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 
 	//tmp->movimiento = new MueveDireccion();
 	tmp->movimiento = claseMovimiento;
-	tmp->movimiento->init(speed, 0, Vec2::ZERO, Vec2(0, 1.0f), Vec2::ZERO, Player::getCurrentPlayer()->getSprite());
+	//tmp->movimiento->init(speed, 0, Vec2::ZERO, Vec2(0, 1.0f), Vec2::ZERO, Player::getCurrentPlayer()->getSprite());
 	return tmp;
 }
+
+//Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletName, punteroAFuncionMovimiento funcionMovimiento, Movimiento *claseMovimiento){
+//	Bullet *tmp;
+//	Game *gameInstance = Game::getInstance();
+//
+//	// los parametros de la bala
+//	const char *pathSprite;
+//	const char *pathSonidoDisparo;
+//	const char *pathSonidoImpacto;
+//	float speed;
+//	float dmg;
+//	int tipoColision;
+//	int colisionoCon;
+//	float initialScale;
+//
+//	switch(tipoBala){
+//	case tipoPlayer:
+//		pathSprite = gameInstance->bullet_player_path_sprite1.c_str();
+//		pathSonidoDisparo = gameInstance->bullet_path_sound_fire.c_str();
+//		pathSonidoImpacto = gameInstance->bullet_path_sound_impact.c_str();
+//		speed = gameInstance->bullet_default_speed;
+//		dmg = gameInstance->bullet_default_dmg;
+//		tipoColision = (int)Game::CategoriaColision::Bala;
+//		colisionoCon = (int)Game::CategoriaColision::Enemigo;
+//		initialScale = gameInstance->bullet_default_scale;
+//
+//		claseMovimiento = new MueveVcal(speed);
+//
+//		break;
+//	case tipoEnemyDirigido:
+//		pathSprite = gameInstance->bullet_enemy_path_sprite2.c_str();
+//		pathSonidoDisparo = gameInstance->bullet_path_sound_fire.c_str();
+//		pathSonidoImpacto = gameInstance->bullet_path_sound_impact.c_str();
+//		// Ojo!!!: las balas enemigas van a -velocidad
+//		speed = -gameInstance->bullet_default_speed;
+//		dmg = gameInstance->bullet_default_dmg;
+//		tipoColision = (int)Game::CategoriaColision::BalaEnemigo;
+//		colisionoCon = (int)Game::CategoriaColision::Jugador;
+//		initialScale = gameInstance->bullet_default_scale;
+//
+//		claseMovimiento = new MueveDireccion(speed);
+//		break;
+//	case tipoEnemyNormal:
+//		pathSprite = gameInstance->bullet_enemy_path_sprite2.c_str();
+//		pathSonidoDisparo = gameInstance->bullet_path_sound_fire.c_str();
+//		pathSonidoImpacto = gameInstance->bullet_path_sound_impact.c_str();
+//		// Ojo!!!: las balas enemigas van a -velocidad
+//		speed = -gameInstance->bullet_default_speed;
+//		dmg = gameInstance->bullet_default_dmg;
+//		tipoColision = (int)Game::CategoriaColision::BalaEnemigo;
+//		colisionoCon = (int)Game::CategoriaColision::Jugador;
+//		initialScale = gameInstance->bullet_default_scale;
+//
+//		claseMovimiento = new MueveVcal(speed);
+//
+//		break;
+//	case tipoBossHoming:
+//		pathSprite = gameInstance->bullet_enemy_path_sprite2.c_str();
+//		pathSonidoDisparo = gameInstance->bullet_path_sound_fire.c_str();
+//		pathSonidoImpacto = gameInstance->bullet_path_sound_impact.c_str();
+//		// Ojo!!!: las balas enemigas van a -velocidad
+//		speed = -gameInstance->bullet_default_speed;
+//		dmg = gameInstance->bullet_default_dmg;
+//		tipoColision = (int)Game::CategoriaColision::BalaEnemigo;
+//		colisionoCon = (int)Game::CategoriaColision::Jugador;
+//		initialScale = gameInstance->bullet_default_boss_scale;
+//		// TODO: Ñapa para probar distintos tipos de movimiento de balas
+//		if(claseMovimiento != nullptr){
+//			delete claseMovimiento;
+//		}
+//		claseMovimiento = new MueveHoming();
+//		
+//		
+//		break;
+//	default:
+//		CCLOG("Tipo bala desconocido: %d!", tipoBala);
+//		break;
+//	}
+//
+//	tmp = new Bullet(nodo, bulletName, pathSprite, pathSonidoDisparo, pathSonidoImpacto, speed, dmg, tipoColision, colisionoCon, initialScale);
+//
+//	tmp->_bulletType = tipoBala;
+//
+//	//tmp->funcionMovimientoActual = funcionMovimiento;
+//
+//	//tmp->movimiento = new MueveDireccion();
+//	tmp->movimiento = claseMovimiento;
+//	tmp->movimiento->init(speed, 0, Vec2::ZERO, Vec2(0, 1.0f), Vec2::ZERO, Player::getCurrentPlayer()->getSprite());
+//	return tmp;
+//}
 
 void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, bulletTypes tipoBala) {
 	Bullet *tmp;
@@ -193,4 +298,48 @@ void Bullet::mueveBala(){
 
 	setPosition(pos);
 	*/
+}
+
+void Bullet::activa(Vec2 posIni){
+	GameActor::activa(posIni);
+
+	// OJO: la diferencia entre activar un GameActor Enemy o Bullet (p.ej.) es que los enemigos a fecha de hoy hacen siempre lo mismo, pero una bala dirigida tiene que
+	// poder cambiar el target cuando se activa, y cuando vaya añadiendo comportamientos será más probable que tenga que inicializarlas distinto
+
+	// y luego...
+	switch(_bulletType){
+	case bulletTypes::tipoBossHoming:
+	{	// si voy a inicializar variables en el case, o las inicializo en el default, o lo meto entre llaves... o utilizo funciones dentro del case, para dejarlo todo más limpio.
+		CCLOG("Activando bala tipoBossHoming");
+		
+		MueveHoming *m = (MueveHoming *)movimiento;
+		m->init(gameActorSpeed, Player::getCurrentPlayer()->getSprite());
+		
+		break;
+	}
+	case bulletTypes::tipoEnemyDirigido:
+	{	// si voy a inicializar variables en el case, o las inicializo en el default, o lo meto entre llaves... o utilizo funciones dentro del case, para dejarlo todo más limpio.
+		CCLOG("Activando bala tipoEnemyDirigido");
+		
+		// Accedo a la clase movimiento que DEBE ser de tipo MueveDireccion
+		MueveDireccion *m = (MueveDireccion *)movimiento;
+		// y la inicializo para esta instancia que quiero crear
+		m->init(getPosition(), Player::getCurrentPlayerPosition());
+
+		break;
+	}
+	case bulletTypes::tipoEnemyNormal:
+		CCLOG("Activando bala tipoEnemyNormal");
+		break;
+	case bulletTypes::tipoPlayer:
+		CCLOG("Activando bala tipoPlayer");
+		// no hay que cambiarle parámetros, solo necesitan la velocidad que es fija
+		//MueveVcal *b = (MueveVcal *)movimiento;
+		//b->init(gameActorSpeed);
+		break;
+	default:
+		CCLOG("Activando bala (desconocida) %d", _bulletType);
+		break;
+	}
+
 }

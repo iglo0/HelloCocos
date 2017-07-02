@@ -3,26 +3,46 @@
 Movimiento::Movimiento(){}
 Movimiento::~Movimiento(){}
 
-void Movimiento::init(float spd, float amp, Vec2 ori, Vec2 dir, Vec2 posIni, Sprite * target){
-	_speed = spd;
-	_amplitude = amp;
-	_origin = ori;
-	_direction = dir;
-	_posInicial = posIni;
-	_target = target;
+//void Movimiento::init(float spd, float amp, Vec2 ori, Vec2 dir, Vec2 posIni, Sprite * target){
+//	_speed = spd;
+//	_amplitude = amp;
+//	_origin = ori;
+//	_direction = dir;
+//	_posInicial = posIni;
+//	_target = target;
+//}
+
+MueveVcal::MueveVcal(float speed) : _speed(speed){
+	_direction = Vec2(0, speed);
+}
+MueveVcal::~MueveVcal(){};
+
+Vec2 MueveVcal::mueve(Vec2 posActual){
+	float deltaT = Director::getInstance()->getDeltaTime();
+
+	Vec2 tmp = _direction * deltaT;
+
+	return posActual + tmp;
 }
 
 
-MueveDireccion::MueveDireccion(){}
+MueveDireccion::MueveDireccion(float speed): _speed(speed) {}
 MueveDireccion::~MueveDireccion(){}
 
-Vec2 MueveDireccion::mueve(Vec2 posIni){
+void MueveDireccion::init(Vec2 ori, Vec2 dest){
+	_direction = ori - dest;
+	// que no varie la velocidad según la distancia
+	_direction.normalize();
+}
+
+Vec2 MueveDireccion::mueve(Vec2 posActual){
 	float deltaT = Director::getInstance()->getDeltaTime();
 	Vec2 deltaXY;
 	Vec2 tmp;
 
-	deltaXY = (_direction - _origin) * deltaT * _speed;
-	tmp = posIni + deltaXY;
+	//deltaXY = (_direction - _origin) * deltaT * _speed;
+	deltaXY = _direction * deltaT * _speed;
+	tmp = posActual + deltaXY;
 	
 	return tmp;
 }
@@ -31,27 +51,26 @@ Vec2 MueveDireccion::mueve(Vec2 posIni){
 MueveHoming::MueveHoming(){}
 MueveHoming::~MueveHoming(){}
 
-void MueveHoming::init(float spd, float amp, Vec2 ori, Vec2 dir, Vec2 posIni, Sprite * target){
+void MueveHoming::init(float spd, Sprite *target){
 	_speed = spd;
-	_amplitude = amp;
-	_origin = ori;
-	_direction = dir;
-	_posInicial = posIni;
+	//_amplitude = amp;
+	//_origin = ori;
+	//_direction = dir;
+	//_posInicial = posIni;
 	_target = target;
 
 }
 
-Vec2 MueveHoming::mueve(Vec2 posIni){
+Vec2 MueveHoming::mueve(Vec2 posActual){
 	float deltaT = Director::getInstance()->getDeltaTime();
 	//Vec2 deltaXY;
 	Vec2 tmp;
 
-	deltaXY = posIni - _target->getPosition();
+	deltaXY = posActual - _target->getPosition();
 	deltaXY.normalize();	// para que no dependa de la distancia entre el enemigo y el jugador
-	deltaXY *= deltaT * _speed / 3.0f;	// TODO: parametrizar la reducción de velocidad
+	deltaXY *= deltaT * _speed;
 
-	tmp = posIni + deltaXY;
-
+	tmp = posActual + deltaXY;
 
 	return tmp;
 }

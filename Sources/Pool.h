@@ -68,8 +68,8 @@ public:
 	// comprobar que en el CPP está todo, ojo *allí* toca incluir Pool:: antes del nombre y quitar el static
 	static std::vector<Enemy *> currentEnemies;
 	static std::vector<Bullet *> currentBulletsPlayerTipo1;
-	static std::vector<Bullet *> currentBulletsTipoBoss;
-	static std::vector<Bullet *> currentBulletsTipo1;
+	static std::vector<Bullet *> currentBulletsTipoBossHoming;
+	static std::vector<Bullet *> currentBulletsTipoNormal;
 	static std::vector<Bullet *> currentBulletsTipo2;
 
 private:

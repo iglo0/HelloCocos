@@ -41,7 +41,8 @@ public:
 	Sprite *getSprite();
 
 	//bool mueveIzq, mueveDch, mueveArr, mueveAbj;	// hace visibles los controles de un GameActor para controlarlo desde fuera. Realmente solo los usa Player :/
-	void activa(Vec2 pos);
+	// permito redefinirlo según tipos
+	virtual void activa(Vec2 pos);
 	void desactiva();
 	bool isActive();
 

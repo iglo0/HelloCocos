@@ -83,9 +83,9 @@ void Player::update(float deltaT){
 }
 
 void Player::impacto(float dmg){
-	CCLOG("Player says OUCH!");
+	//CCLOG("Player says OUCH!");
 
-	killPlayer();
+	//killPlayer();
 
 }
 

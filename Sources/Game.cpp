@@ -189,6 +189,7 @@ void Game::loadConfig(const char *filename){
 	bullet_default_boss_scale = atof(xml_default_values.child_value(CONFIG_BULLET_DEFAULT_BOSS_SCALE));
 	bullet_default_dmg = atof(xml_default_values.child_value(CONFIG_BULLET_DEFAULT_DMG));
 	bullet_default_speed = atof(xml_default_values.child_value(CONFIG_BULLET_DEFAULT_SPEED));
+	bullet_homing_speed = atof(xml_default_values.child_value(CONFIG_BULLET_HOMING_SPEED));
 
 	enemy_generic_speed = atof(xml_default_values.child_value(CONFIG_ENEMY_GENERIC_SPEED));
 	enemy_generic_hp = atof(xml_default_values.child_value(CONFIG_ENEMY_GENERIC_HP));

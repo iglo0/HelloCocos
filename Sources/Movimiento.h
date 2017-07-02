@@ -11,27 +11,47 @@ public:
 	Movimiento();
 	~Movimiento();
 
-	virtual void init(float spd, float amp, Vec2 ori, Vec2 dir, Vec2 posIni, Sprite *target);
+	//void init(float spd, float amp, Vec2 ori, Vec2 dir, Vec2 posIni, Sprite *target);
+	
 	virtual Vec2 mueve(Vec2 posIni)=0;
 
 protected:
 
+	//float _speed;
+	//float _amplitude;		// si quiero darle un movimiento oscilante
+	//Vec2 _origin;			// para aplicar una dirección 
+	//Vec2 _direction;		// la típica bala podría ser ((0,0) -> (0,1)) * speed
+	//Vec2 _posInicial;		// en caso de ser una función dependiente del tiempo (movimiento sinusoidal p.ej.), no se mueve en base a su pos actual sino a la inicial * tiempo
+	//						// (aunque supongo que también podría hacerse relativo)
+	//Sprite *_target;		// movimiento hacia un sprite
+};
+
+class MueveVcal : public Movimiento{
+public:
+
+	MueveVcal(float speed);
+	~MueveVcal();
+
+	//void init();
+
+	Vec2 mueve(Vec2 posActual) override;
+
+private:
 	float _speed;
-	float _amplitude;		// si quiero darle un movimiento oscilante
-	Vec2 _origin;			// para aplicar una dirección 
-	Vec2 _direction;		// la típica bala podría ser ((0,0) -> (0,1)) * speed
-	Vec2 _posInicial;		// en caso de ser una función dependiente del tiempo (movimiento sinusoidal p.ej.), no se mueve en base a su pos actual sino a la inicial * tiempo
-							// (aunque supongo que también podría hacerse relativo)
-	Sprite *_target;		// movimiento hacia un sprite
+	Vec2 _direction;
 };
 
 class MueveDireccion : public Movimiento{
 public:
-	MueveDireccion();
+	MueveDireccion(float speed);
 	~MueveDireccion();
 
-	//void init(float spd, float amp, Vec2 ori, Vec2 dir, Vec2 posIni, Sprite *buscar) override;
-	Vec2 mueve(Vec2 posIni) override;
+	void init(Vec2 origin, Vec2 target);
+	Vec2 mueve(Vec2 posActual) override;
+
+private:
+	float _speed;
+	Vec2 _direction;
 };
 
 class MueveHoming : public Movimiento{
@@ -39,13 +59,16 @@ public:
 	MueveHoming();
 	~MueveHoming();
 
-	void init(float spd, float amp, Vec2 ori, Vec2 dir, Vec2 posIni, Sprite *target) override;
-	Vec2 mueve(Vec2 posIni) override;
+	void init(float spd, Sprite *target);
+	Vec2 mueve(Vec2 posActual) override;
 
 	bool homing = false;	// si persigue al target o solo sale en su dirección inicial
 
 private:
 	Vec2 deltaXY;
+	float _speed;
+	Sprite *_target;		// movimiento hacia un sprite
+
 };
 
 //// movimiento tipo "space invader"
