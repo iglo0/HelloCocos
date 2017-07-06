@@ -1,4 +1,7 @@
 #include "Movimiento.h"
+#include "Game.h"
+
+#pragma region Base
 
 Movimiento::Movimiento(){}
 Movimiento::~Movimiento(){}
@@ -11,6 +14,10 @@ Movimiento::~Movimiento(){}
 //	_posInicial = posIni;
 //	_target = target;
 //}
+
+#pragma endregion
+
+#pragma region MueveVcal
 
 MueveVcal::MueveVcal(float speed) : _speed(speed){
 	_direction = Vec2(0, speed);
@@ -25,6 +32,9 @@ Vec2 MueveVcal::mueve(Vec2 posActual){
 	return posActual + tmp;
 }
 
+#pragma endregion
+
+#pragma region MueveDireccion
 
 MueveDireccion::MueveDireccion(float speed): _speed(speed) {}
 MueveDireccion::~MueveDireccion(){}
@@ -47,6 +57,9 @@ Vec2 MueveDireccion::mueve(Vec2 posActual){
 	return tmp;
 }
 
+#pragma endregion
+
+#pragma region MueveHoming
 
 MueveHoming::MueveHoming(){}
 MueveHoming::~MueveHoming(){}
@@ -75,8 +88,24 @@ Vec2 MueveHoming::mueve(Vec2 posActual){
 	return tmp;
 }
 
+#pragma endregion
+
+#pragma region MueveSeno
+
+MueveSeno::MueveSeno(){}
+MueveSeno::~MueveSeno(){}
+
+Vec2 MueveSeno::mueve(Vec2 posActual){
+	float eTime = Game::getInstance()->ellapsedTime;
+
+	
+	return posActual;
+}
 
 
+#pragma endregion
+
+#pragma region MueveSpaceInvader
 //void GameActor::mueveSpaceInvader(){
 //float deltaT = Director::getInstance()->getDeltaTime();
 //Vec2 curPos = sprite->getPosition();
@@ -122,3 +151,4 @@ Vec2 MueveHoming::mueve(Vec2 posActual){
 //sprite->setPosition(curPos);
 
 //}
+#pragma endregion

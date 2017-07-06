@@ -28,15 +28,15 @@ Player::Player(Node *nodo, float playerSpeed){
 	
 	// crea el sprite (desactivado: sin física ni visualización)
 	//sprite = GameActor::setSprite(nodo, PLAYER_PATH_SPRITE, "player", (int)Game::CategoriaColision::Jugador, (int)Game::CategoriaColision::BalaEnemigo | (int)Game::CategoriaColision::Enemigo);
-	sprite = GameActor::setSprite(nodo, Game::getInstance()->player_path_sprite.c_str(), "player", (int)Game::CategoriaColision::Jugador, (int)Game::CategoriaColision::BalaEnemigo | (int)Game::CategoriaColision::Enemigo);
+	sprite_ = GameActor::setSprite(nodo, Game::getInstance()->player_path_sprite.c_str(), "player", (int)Game::CategoriaColision::Jugador, (int)Game::CategoriaColision::BalaEnemigo | (int)Game::CategoriaColision::Enemigo);
 
-	if(!sprite){
+	if(!sprite_){
 		CCLOG("!!!Jugador sin sprite!!!");
 		return;
 	}
 
-	sprite->setScale(playerInitialScale);
-	sprite->setRotation(playerInitialRotation);
+	sprite_->setScale(playerInitialScale);
+	sprite_->setRotation(playerInitialRotation);
 
 	// en vez de hacerlo aquí siempre, prefiero esperar a que se haga cuando toque (en el intro nivel por ejemplo)
 	//activatePlayerInInitialPos();
@@ -50,7 +50,7 @@ Player::Player(Node *nodo, float playerSpeed){
 	// if Base::foo is not virtual then Derived::foo does not override Base::foo but hides it
 	// C++ does not have a keyword for "the base class" (super or base) since it supports multiple inheritance which may lead to ambiguity.
 	// Se puede hacer esto? ohhh...
-	GameActor::gameActorSpeed = playerSpeed;
+	GameActor::gameActorSpeed_ = playerSpeed;
 	
 	// HACK: AL crear un jugador, actualizo el static playerInstance
 	playerInstance = this;
@@ -67,7 +67,7 @@ void Player::update(float deltaT){
 
 	// TODO: GameActor::update moverá al prota, ahora actualizo su posicion
 	// OJO!!: variable estática
-	playerPosition = sprite->getPosition();
+	playerPosition = sprite_->getPosition();
 
 	//CCLOG("Player update @%f", Game::getInstance()->ellapsedTime);
 
@@ -77,7 +77,7 @@ void Player::update(float deltaT){
 		//currentWeapon->fire(getPosition());
 		if(poolMisBalas){
 			// TODO: no entiendo muy bien la sintaxis, ¿por qué tengo que usar *?
-			Pool::activa(*poolMisBalas, sprite->getPosition());
+			Pool::activa(*poolMisBalas, sprite_->getPosition());
 		}
 	}
 }
@@ -85,7 +85,7 @@ void Player::update(float deltaT){
 void Player::impacto(float dmg){
 	//CCLOG("Player says OUCH!");
 
-	//killPlayer();
+	killPlayer();
 
 }
 
@@ -108,7 +108,7 @@ void Player::activatePlayerInInitialPos(){
 	// posición inicial centrado abajo
 	Vec2 posInicial;
 	posInicial.x = Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width / 2.0f;
-	posInicial.y = sprite->getScale()*sprite->getContentSize().height / 2.0f;
+	posInicial.y = sprite_->getScale()*sprite_->getContentSize().height / 2.0f;
 	activa(posInicial);
 }
 
@@ -125,32 +125,32 @@ void Player::muevePlayer(){
 	float deltaT = Director::getInstance()->getDeltaTime();
 
 	if(mueveIzq){
-		pos.x -= gameActorSpeed * deltaT;
+		pos.x -= gameActorSpeed_ * deltaT;
 		if(pos.x < 0)
 			pos.x = 0;
 	}
 
 	if(mueveDch){
-		pos.x += gameActorSpeed * deltaT;
+		pos.x += gameActorSpeed_ * deltaT;
 		if(pos.x > Director::getInstance()->getVisibleSize().width){
 			pos.x = Director::getInstance()->getVisibleSize().width;
 		}
 	}
 
 	if(mueveArr){
-		pos.y += gameActorSpeed * deltaT;
+		pos.y += gameActorSpeed_ * deltaT;
 		if(pos.y > Director::getInstance()->getVisibleSize().height){
 			pos.y = Director::getInstance()->getVisibleSize().height;
 
 			// HACK: lo siento, lo quitaré vale?
-			if(sprite->getTag() == (int)Game::CategoriaColision::Bala){
+			if(sprite_->getTag() == (int)Game::CategoriaColision::Bala){
 				desactiva();
 			}
 		}
 	}
 
 	if(mueveAbj){
-		pos.y -= gameActorSpeed * deltaT;
+		pos.y -= gameActorSpeed_ * deltaT;
 		if(pos.y < 0){
 			pos.y = 0;
 		}

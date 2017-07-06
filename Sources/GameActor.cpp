@@ -8,14 +8,14 @@
 GameActor::GameActor(){
 	//CCLOG("Constructor de GameActor");
 	// me aseguro de que está inicializado
-	sprite = nullptr;
+	sprite_ = nullptr;
 
 	// todos los "actores" tienen unas características comunes: movimiento, vida...
-	gameActorHP = gameActorHPInicial;
+	gameActorHP_ = gameActorHPInicial_;
 	//mueveIzq = mueveDch = mueveArr = mueveAbj = false;
 	//funcionMovimientoActual = nullptr;
 
-	movimiento = nullptr;
+	movimiento_ = nullptr;
 }
 
 GameActor::~GameActor(){
@@ -23,6 +23,7 @@ GameActor::~GameActor(){
 }
 
 // TODO: no quiero que todos los GameActor se comporten igual. ¿Cómo hago que un enemigo se controle de la forma 1 o 2 o 3?
+// TODO: más aun... ¿para qué uso update en GameActor? P.ej.: las balas se mueven con un mueve() desde el pool... i'm just sayin'
 void GameActor::update(float deltaT){
 	//CCLOG("GameActor update @%f", Game::getInstance()->ellapsedTime);
 
@@ -45,16 +46,16 @@ void GameActor::update(float deltaT){
 }
 
 Vec2 GameActor::getPosition(){
-	if(sprite){
-		return sprite->getPosition();
+	if(sprite_){
+		return sprite_->getPosition();
 	}
 	// TODO: Ojo error
 	return Vec2();
 }
 
 void GameActor::setPosition(Vec2 pos){
-	if(sprite){
-		sprite->setPosition(pos);
+	if(sprite_){
+		sprite_->setPosition(pos);
 	} else{
 		CCLOG("GameActor::setPosition -> no sprite");
 	}
@@ -75,35 +76,35 @@ Sprite *GameActor::setSprite(Node *nodo, const char *ruta, const char *name, int
 	// Pues en realidad me puedo olvidar de ellos... si en el .plist se incluye la información poligonal (algorythm=polygon), Sprite::createWithSpriteFrameName lo aplica. Yeah!!
 
 	// OJO: Sprite::createWithSpriteFrameName(ruta) -> CASE SENSITIVE! 
-	sprite = Sprite::createWithSpriteFrameName(ruta);
+	sprite_ = Sprite::createWithSpriteFrameName(ruta);
 
-	if(!sprite){
+	if(!sprite_){
 		CCLOG("GameActor::setSprite '%s'=SIN DEFINIR", ruta);
 		return nullptr;// o return sprite pal caso
 	}
 
-	sprite->setScale(initialScale);
+	sprite_->setScale(initialScale);
 
-	sprite->setName(name);
+	sprite_->setName(name);
 
-	Game::anadeFisica(sprite, tipoColision, colisionaCon, name, ruta);
+	Game::anadeFisica(sprite_, tipoColision, colisionaCon, name, ruta);
 
 	//TODO: ya tengo para recuperar mis datos :)
-	sprite->setUserData(this);
+	sprite_->setUserData(this);
 	// y su tipo
-	sprite->setTag(tipoColision);
+	sprite_->setTag(tipoColision);
 
 	// lo creo invisible y sin colisiones activas
 	desactiva();
 
 	// hecho
-	nodo->addChild(sprite);
+	nodo->addChild(sprite_);
 
-	return sprite;
+	return sprite_;
 }
 
 Sprite *GameActor::getSprite(){
-	return sprite;
+	return sprite_;
 }
 
 void GameActor::mueve(Vec2 donde){
@@ -113,13 +114,13 @@ void GameActor::mueve(Vec2 donde){
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // TODO: no es lo mismo activar una bala (dirigida, normal, ...) que un enemigo? tendría que permitir heredar por tipo de GameActor...
 void GameActor::activa(Vec2 pos){
-	if(sprite){
-		sprite->setPosition(pos);
+	if(sprite_){
+		sprite_->setPosition(pos);
 
-		sprite->setVisible(true);
+		sprite_->setVisible(true);
 		// TODO: Activar físicas
 
-		PhysicsBody *pb = sprite->getPhysicsBody();
+		PhysicsBody *pb = sprite_->getPhysicsBody();
 		if(pb){
 			pb->setEnabled(true);
 		}
@@ -127,10 +128,10 @@ void GameActor::activa(Vec2 pos){
 }
 
 void GameActor::desactiva(){
-	if(sprite){
-		sprite->setVisible(false);
+	if(sprite_){
+		sprite_->setVisible(false);
 
-		PhysicsBody *pb = sprite->getPhysicsBody();
+		PhysicsBody *pb = sprite_->getPhysicsBody();
 		if(pb){
 			pb->setEnabled(false);
 		}
@@ -139,9 +140,9 @@ void GameActor::desactiva(){
 }
 
 bool GameActor::isActive(){
-	if(sprite){
+	if(sprite_){
 		// HACK: por ejemplo
-		return sprite->isVisible();
+		return sprite_->isVisible();
 	}
 	// si he llegado aquí, que no hay ni sprite...
 	return false;
@@ -149,7 +150,7 @@ bool GameActor::isActive(){
 
 
 void GameActor::impacto(float dmg){
-	const char *name = sprite->getName().c_str();
+	const char *name = sprite_->getName().c_str();
 
 	CCLOG ("GameActor %s says: ouch %f", name, dmg);
 }

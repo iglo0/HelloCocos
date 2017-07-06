@@ -182,6 +182,7 @@ void Game::loadConfig(const char *filename){
 	player_initial_speed = atof(xml_default_values.child_value(CONFIG_PLAYER_INITIAL_SPEED));
 	
 	bullet_player_path_sprite1 = xml_default_values.child_value(CONFIG_BULLET_PLAYER_PATH_SPRITE1);
+	bullet_enemy_path_sprite1 = xml_default_values.child_value(CONFIG_BULLET_ENEMY_PATH_SPRITE1);
 	bullet_enemy_path_sprite2 = xml_default_values.child_value(CONFIG_BULLET_ENEMY_PATH_SPRITE2);
 	bullet_path_sound_fire = xml_default_values.child_value(CONFIG_BULLET_PATH_SOUND_FIRE);
 	bullet_path_sound_impact = xml_default_values.child_value(CONFIG_BULLET_PATH_SOUND_IMPACT);

@@ -33,7 +33,7 @@ public:
 	//virtual void dispara() = 0;
 
 	// TEST!!!!
-	Movimiento *movimiento;
+	Movimiento *movimiento_;
 	//punteroAFuncionMovimiento funcionMovimientoActual;
 
 	Vec2 getPosition();
@@ -46,10 +46,10 @@ public:
 	void desactiva();
 	bool isActive();
 
-	float gameActorSpeed;
+	float gameActorSpeed_;
 
 protected:
-	Sprite *sprite;
-	float gameActorHP, gameActorHPInicial = 1.0;
-	int gameActorPoints;
+	Sprite *sprite_;
+	float gameActorHP_, gameActorHPInicial_ = 1.0;
+	int gameActorPoints_;
 };

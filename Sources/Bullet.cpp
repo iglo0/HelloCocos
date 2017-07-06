@@ -12,7 +12,7 @@ Bullet::Bullet(Node *nodo, const char *name, const char *pathSprite, const char 
 	GameActor::GameActor();
 	//bulletSpeed = speed;
 	bulletDmg = dmg;
-	gameActorSpeed = speed;
+	gameActorSpeed_ = speed;
 	
 	//CCLOG("creando bala: %s", name);
 	//if(!createBullet(nodo, pathSprite, name, tipoColision, colisionoCon)){
@@ -85,7 +85,7 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 		claseMovimiento = new MueveDireccion(speed);
 		break;
 	case tipoEnemyNormal:
-		pathSprite = gameInstance->bullet_enemy_path_sprite2.c_str();
+		pathSprite = gameInstance->bullet_enemy_path_sprite1.c_str();
 		pathSonidoDisparo = gameInstance->bullet_path_sound_fire.c_str();
 		pathSonidoImpacto = gameInstance->bullet_path_sound_impact.c_str();
 		// Ojo!!!: las balas enemigas van a -velocidad
@@ -99,7 +99,7 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 
 		break;
 	case tipoBossHoming:
-		pathSprite = gameInstance->bullet_enemy_path_sprite2.c_str();
+		pathSprite = gameInstance->bullet_enemy_path_sprite1.c_str();
 		pathSonidoDisparo = gameInstance->bullet_path_sound_fire.c_str();
 		pathSonidoImpacto = gameInstance->bullet_path_sound_impact.c_str();
 		// Ojo!!!: las balas enemigas van a -velocidad
@@ -124,7 +124,7 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 	//tmp->funcionMovimientoActual = funcionMovimiento;
 
 	//tmp->movimiento = new MueveDireccion();
-	tmp->movimiento = claseMovimiento;
+	tmp->movimiento_ = claseMovimiento;
 	//tmp->movimiento->init(speed, 0, Vec2::ZERO, Vec2(0, 1.0f), Vec2::ZERO, Player::getCurrentPlayer()->getSprite());
 	return tmp;
 }
@@ -254,7 +254,7 @@ void Bullet::mueveBala(){
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	
 	Vec2 oldPos = getPosition();
-	Vec2 nuPos = movimiento->mueve(oldPos);
+	Vec2 nuPos = movimiento_->mueve(oldPos);
 	setPosition(nuPos);
 
 	if((nuPos.x > visibleSize.width) || (nuPos.x < 0) || (nuPos.y<0) || (nuPos.y>visibleSize.height)){
@@ -312,8 +312,8 @@ void Bullet::activa(Vec2 posIni){
 	{	// si voy a inicializar variables en el case, o las inicializo en el default, o lo meto entre llaves... o utilizo funciones dentro del case, para dejarlo todo más limpio.
 		CCLOG("Activando bala tipoBossHoming");
 		
-		MueveHoming *m = (MueveHoming *)movimiento;
-		m->init(gameActorSpeed, Player::getCurrentPlayer()->getSprite());
+		MueveHoming *m = (MueveHoming *)movimiento_;
+		m->init(gameActorSpeed_, Player::getCurrentPlayer()->getSprite());
 		
 		break;
 	}
@@ -322,7 +322,7 @@ void Bullet::activa(Vec2 posIni){
 		CCLOG("Activando bala tipoEnemyDirigido");
 		
 		// Accedo a la clase movimiento que DEBE ser de tipo MueveDireccion
-		MueveDireccion *m = (MueveDireccion *)movimiento;
+		MueveDireccion *m = (MueveDireccion *)movimiento_;
 		// y la inicializo para esta instancia que quiero crear
 		m->init(getPosition(), Player::getCurrentPlayerPosition());
 

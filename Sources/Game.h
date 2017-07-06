@@ -23,6 +23,7 @@ USING_NS_CC;
 #define CONFIG_PLAYER_PATH_SPRITE			"player_path_sprite"
 
 #define CONFIG_BULLET_PLAYER_PATH_SPRITE1	"bullet_player_path_sprite1"
+#define CONFIG_BULLET_ENEMY_PATH_SPRITE1	"bullet_enemy_path_sprite1"
 #define CONFIG_BULLET_ENEMY_PATH_SPRITE2	"bullet_enemy_path_sprite2"
 #define CONFIG_BULLET_PATH_SOUND_FIRE		"bullet_path_sound_fire"
 #define CONFIG_BULLET_PATH_SOUND_IMPACT		"bullet_path_sound_impact"
@@ -132,6 +133,7 @@ public:
 	std::string player_path_sprite;
 	// bullets
 	std::string bullet_player_path_sprite1;
+	std::string bullet_enemy_path_sprite1;
 	std::string bullet_enemy_path_sprite2;
 	std::string bullet_path_sound_fire;
 	std::string bullet_path_sound_impact;

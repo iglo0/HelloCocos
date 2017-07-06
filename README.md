@@ -1,7 +1,5 @@
 Reescribiendo parte del "core". A ver si consigo quedarme agusto con la forma de gestionar objetos (sobre todo enemigos y proyectiles).
 
-Resumen del estado actual:
-
 <!--![nice screenshot!](/Resources/HelloCocos.jpg)-->
 ![status](https://dl2.pushbulletusercontent.com/JXwF9psx3Dcsh9vST2ElAgx3TNk398EX/IMG_1969.PNG)
 <!--img src="http://www.cocos2d-x.org/attachments/801/cocos2dx_portrait.png" width=100-->

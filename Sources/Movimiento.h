@@ -62,13 +62,20 @@ public:
 	void init(float spd, Sprite *target);
 	Vec2 mueve(Vec2 posActual) override;
 
-	bool homing = false;	// si persigue al target o solo sale en su dirección inicial
-
 private:
 	Vec2 deltaXY;
 	float _speed;
 	Sprite *_target;		// movimiento hacia un sprite
 
+};
+
+class MueveSeno : public Movimiento{
+public:
+	MueveSeno();
+	~MueveSeno();
+
+	void init();
+	Vec2 mueve(Vec2 posActual) override;
 };
 
 //// movimiento tipo "space invader"

@@ -39,7 +39,9 @@ void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &t
 
 		for(size_t i = 0; i < dimMaxX; i++){
 
-			tmp = new Enemy(nodo, tipo);
+			// TODO: fijo a cada tipo de enemigo un tipo de disparo con el "tipo" así que no necesito cambiarlo luego más abajo
+			tmp = new Enemy(tipo);
+			tmp->initEnemy(nodo);
 
 			// Pruebo el nuevo Enemy:GameActor 
 			// lo inicializo y le asigno un comportamiento
@@ -69,11 +71,12 @@ void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &t
 
 			// y que ataque?
 			//tmp->funcionControlActual = &Enemy::funControl1;
-			tmp->funcionControlActual = &Enemy::funControlFireRandom;
+			tmp->funcionControlActual_ = &Enemy::funControlFireRandom;
 			//tmp->funcionControlTiempoDisparo = 1.0f;
-			tmp->funcionControlProbDisparoAleatoria = probDisparoAleat;
+			tmp->funcionControlProbDisparoAleatoria_ = probDisparoAleat;
 
-			tmp->poolMisBalas = &pool;
+			// TODO: esto lo quito porque cada tipo de enemigo ya sabrá su tipo de pool
+			//tmp->poolMisBalas_ = &pool;
 
 			// hale, definido
 

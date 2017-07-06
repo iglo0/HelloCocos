@@ -5,7 +5,8 @@
 	<player_path_sprite>spaceshipspr.png</player_path_sprite>
 
 	<bullet_player_path_sprite1>bullet_2_blue.png</bullet_player_path_sprite1>
-	<bullet_enemy_path_sprite2>bullet_orange0000.png</bullet_enemy_path_sprite2>
+	<bullet_enemy_path_sprite1>bullet_orange0000.png</bullet_enemy_path_sprite1>
+	<bullet_enemy_path_sprite2>bullet_purple0000.png</bullet_enemy_path_sprite2>
 	<bullet_path_sound_fire>sonidos/shoot.wav</bullet_path_sound_fire>
 	<bullet_path_sound_impact>sonidos/fastinvader1.wav</bullet_path_sound_impact>
 	<bullet_default_scale>1.0f</bullet_default_scale>

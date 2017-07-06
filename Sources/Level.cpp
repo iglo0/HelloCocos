@@ -7,6 +7,7 @@
 #include "Pool.h"
 #include "SpaceInvaders.h"
 #include "Menus.h"
+#include "Movimiento.h"
 // HACK: --------------- PRUEBAS ----------------------------
 #include "GameState.h"
 // ----------------------------------------------------
@@ -360,6 +361,9 @@ void Level::initLevel(){
 	// TODO: Pool para los enemigos normales
 	Bullet::createBulletPool(this, Pool::currentBulletsTipoNormal, 60, Bullet::tipoEnemyNormal);
 
+	// TODO: Pool para los enemigos con disparo dirigido
+	Bullet::createBulletPool(this, Pool::currentBulletsTipo2, 60, Bullet::tipoEnemyDirigido);
+
 	// TODO: Pool para el boss
 	Bullet::createBulletPool(this, Pool::currentBulletsTipoBossHoming, 5, Bullet::tipoBossHoming);
 
@@ -371,8 +375,8 @@ void Level::initLevel(){
 	// No necesito que sea una variable miembro, vivirá en un array en alguna parte.
 	Enemy *enemyBoss;
 
-	//enemyBoss = new Enemy(this, ENEMY_BOSS_PATH_SPRITE, ENEMY_PATH_SOUND_DIE, ENEMY_BOSS_INITIAL_SIZE, ENEMY_BOSS_INITIAL_ROTATION, ENEMY_BOSS_GENERIC_HP);
-	enemyBoss = new Enemy(this, Enemy::tiposEnemigo::tipoBoss);
+	enemyBoss = new Enemy(Enemy::tiposEnemigo::tipoBoss);
+	enemyBoss->initEnemy(this);
 
 	// situo al enemigo arriba en el medio, con medio cuerpo de margen superior
 	Vec2 enePos = Vec2(visibleSize.width / 2.0f, visibleSize.height - enemyBoss->getSprite()->getContentSize().height / 2.0f);
@@ -385,10 +389,12 @@ void Level::initLevel(){
 	//enemyBoss->funcionMovimientoSpeed = 1 / 2.5;
 
 	// y que ataque?
-	enemyBoss->funcionControlActual = &Enemy::funControlFireAtInterval;
-	enemyBoss->funcionControlTiempoDisparo = 5.0f;
+	enemyBoss->funcionControlActual_ = &Enemy::funControlFireAtInterval;
+	enemyBoss->funcionControlTiempoDisparo_ = 5.0f;
 
-	enemyBoss->poolMisBalas = &Pool::currentBulletsTipoBossHoming;
+	enemyBoss->movimiento_ = new MueveSeno();
+
+	//enemyBoss->poolMisBalas_ = &Pool::currentBulletsTipoBossHoming;
 
 	// hale, definido
 
@@ -402,7 +408,6 @@ void Level::initLevel(){
 
 	// creo una lista de enemigos que tiene que coincidir aprox con el nº de filas. Un tipo de enemigo por fila. Si se le acaban los tipos, repite el ultimo hasta el fin de las filas
 	std::vector<Enemy::tiposEnemigo> tipos;
-	tipos.push_back(Enemy::tipo2);
 	tipos.push_back(Enemy::tipo2);
 	tipos.push_back(Enemy::tipo2);
 	tipos.push_back(Enemy::tipo1);
