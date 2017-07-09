@@ -392,7 +392,9 @@ void Level::initLevel(){
 	enemyBoss->funcionControlActual_ = &Enemy::funControlFireAtInterval;
 	enemyBoss->funcionControlTiempoDisparo_ = 5.0f;
 
-	enemyBoss->movimiento_ = new MueveSeno();
+	MueveSeno *m = new MueveSeno();
+	m->init(600.0f, enePos, 0.333f);
+	enemyBoss->movimiento_ = m;
 
 	//enemyBoss->poolMisBalas_ = &Pool::currentBulletsTipoBossHoming;
 

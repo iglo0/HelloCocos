@@ -2,6 +2,8 @@
 
 #include "Pool.h"
 
+#include "Movimiento.h"
+
 USING_NS_CC;
 
 
@@ -47,6 +49,12 @@ void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &t
 			// lo inicializo y le asigno un comportamiento
 			enePos = devuelvePosicionInicial(i, j);
 			tmp->activa(enePos);
+
+			MueveSpaceInvader *m = new MueveSpaceInvader();
+			// void init(float speedX, float speedY, float xMin, float xMax, float vcalMoveAmount, float vcalMoveCurrTarget);
+			m->init(velMovHtal, velMovVcal, 50.0f, visibleSize.width - 50.0f, vcalMoveAmount, 0);
+			
+			tmp->movimiento_ = m;
 
 			// Cómo querré que se mueva?
 			//tmp->funcionMovimientoActual = &GameActor::mueveSpaceInvader;

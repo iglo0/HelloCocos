@@ -74,19 +74,38 @@ public:
 	MueveSeno();
 	~MueveSeno();
 
-	void init();
+	void init(float amplitude, Vec2 posInicial, float speedFactor);
 	Vec2 mueve(Vec2 posActual) override;
+
+private:
+	float amplitude_;
+	Vec2 posInicial_;
+	float speedFactor_;
 };
 
-//// movimiento tipo "space invader"
-//// *movimiento lateral -> esquina -> bajar -> pal otro lado -> bajar -> repetir
-//// cada nave se controla a sí misma, necesita:
-//// - dirección inicial
-//// - vel htal/vel vcal
-//// - limites x
-//float spaceInvaderMovement_speedX;				// cómo de rápido se mueve lateralmente
-//float spaceInvaderMovement_speedY;				// cómo de rápido baja
-//float spaceInvaderMovement_xMin;				// dónde hace tope
-//float spaceInvaderMovement_xMax;				// dónde hace tope
-//float spaceInvaderMovement_vcalMoveAmount;		// cuánto baja cuando baja
-//float spaceInvaderMovement_vcalMoveCurrTarget;	// cómo sé cuándo deja de bajar
+class MueveSpaceInvader : public Movimiento{
+	// movimiento tipo "space invader"
+	// *movimiento lateral -> esquina -> bajar -> pal otro lado -> bajar -> repetir
+	// cada nave se controla a sí misma, necesita:
+	// - dirección inicial
+	// - vel htal/vel vcal
+	// - limites x
+
+public:
+	MueveSpaceInvader();
+	~MueveSpaceInvader();
+
+	void init(float speedX, float speedY, float xMin, float xMax, float vcalMoveAmount, float vcalMoveCurrTarget);
+	Vec2 mueve(Vec2 posActual) override;
+
+
+private:
+
+	float spaceInvaderMovement_speedX_;				// cómo de rápido se mueve lateralmente
+	float spaceInvaderMovement_speedY_;				// cómo de rápido baja
+	float spaceInvaderMovement_xMin_;				// dónde hace tope
+	float spaceInvaderMovement_xMax_;				// dónde hace tope
+	float spaceInvaderMovement_vcalMoveAmount_;		// cuánto baja cuando baja
+	float spaceInvaderMovement_vcalMoveCurrTarget_;	// cómo sé cuándo deja de bajar
+};
+

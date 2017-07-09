@@ -7,6 +7,8 @@
 #include "Pool.h"
 #include "Game.h"
 
+#include "Movimiento.h"
+
 //Enemy::Enemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float initialScale, float initialRotation, float hp){
 //	//funcionMovimientoActual = nullptr;
 //	createEnemy(nodo, pathSprite, rutaSonidoMuerte, initialScale, initialRotation, hp, Game::getInstance()->enemy_generic_points);
@@ -131,6 +133,10 @@ void Enemy::update(float deltaT){
 		//if(this->funcionMovimientoActual){
 		//	(this->*funcionMovimientoActual)();
 		//}
+
+		if(movimiento_){
+			setPosition(movimiento_->mueve(sprite_->getPosition()));
+		}
 
 		if(this->funcionControlActual_){
 			// Añado una funcion de control de disparo. OOOH funciona!!
