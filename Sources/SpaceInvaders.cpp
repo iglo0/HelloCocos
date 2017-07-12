@@ -63,33 +63,14 @@ void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &t
 			SpaceInvaders::spaceInvaderMovement_goingDown = false;
 			SpaceInvaders::spaceInvaderMovement_goingRight = true;
 
-			//tmp->spaceInvaderMovement_goingRight = true;
-			//tmp->spaceInvaderMovement_goingDown = false;
-			//tmp->spaceInvaderMovement_speedX = velMovHtal;
-			//tmp->spaceInvaderMovement_speedY = velMovVcal;
-			//tmp->spaceInvaderMovement_vcalMoveCurrTarget = 0;	// calculado luego
-			//tmp->spaceInvaderMovement_vcalMoveAmount = vcalMoveAmount;
-
 			// cada "space invader" se puede mover entre los limites de la pantalla, pero el primero que llegue avisa al resto para que cambien su movimiento
 			// así con cualquier configuración de enemigos, siempre llegarán hasta los límites de la pantalla
 			
-			// TODO: cambiar el margen manual de 50?
-			//tmp->spaceInvaderMovement_xMax = visibleSize.width - 50.0f;
-			//tmp->spaceInvaderMovement_xMin = 50.0f;
-
 			// y que ataque?
-			//tmp->funcionControlActual = &Enemy::funControl1;
 			tmp->funcionControlActual_ = &Enemy::funControlFireRandom;
-			//tmp->funcionControlTiempoDisparo = 1.0f;
 			tmp->funcionControlProbDisparoAleatoria_ = probDisparoAleat;
 
-			// TODO: esto lo quito porque cada tipo de enemigo ya sabrá su tipo de pool
-			//tmp->poolMisBalas_ = &pool;
-
 			// hale, definido
-
-			// TODO: cada vez que cree un Enemy lo meto en el array de Pool
-			// TODO: lo podría meter en el new de Enemy?
 			Pool::currentEnemies.push_back(tmp);
 		}
 	}

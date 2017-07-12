@@ -406,7 +406,7 @@ void Level::initLevel(){
 	// ---------------------------------------------------------------------------------------------
 	// crea los "Space Invaders
 	// TODO: temporal, tiene que haber una progresión
-	SpaceInvaders spaceInvaders = SpaceInvaders(11, 5, 0.8f, 0.45f, 50.0f, 150.0f);
+	SpaceInvaders spaceInvaders = SpaceInvaders(11, 5, 0.42f, 0.52f, 50.0f, 150.0f);
 
 	// creo una lista de enemigos que tiene que coincidir aprox con el nº de filas. Un tipo de enemigo por fila. Si se le acaban los tipos, repite el ultimo hasta el fin de las filas
 	std::vector<Enemy::tiposEnemigo> tipos;

@@ -6,7 +6,7 @@
 #include "SpaceInvaders.h"
 #include "Pool.h"
 #include "Game.h"
-
+#include "Bullet.h"
 #include "Movimiento.h"
 
 //Enemy::Enemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float initialScale, float initialRotation, float hp){
@@ -159,4 +159,44 @@ void Enemy::dispara(){
 	} else{
 		CCLOG("Enemigo intenta disparar sin pool");
 	}
+}
+
+void Enemy::disparaN(int n){
+	std::vector<Bullet *> bs;
+	Bullet *tmp;
+
+	if(poolMisBalas_){
+		bs = reservaVectorBalas(n);
+
+	}
+
+}
+
+std::vector<Bullet *> Enemy::reservaVectorBalas(int n){
+	Bullet *tmp;
+	std::vector<Bullet *> bs;
+
+	for(int i = 0; i < n; i++){
+		tmp = Pool::activa(*poolMisBalas_, sprite_->getPosition());
+		if(tmp){
+			// Pool::activa devuelve nullptr si no puede
+			bs.push_back(tmp);
+
+		} else{
+			CCLOG("No puedo reservar %d balas", n);
+			liberaVectorBalas(bs);
+			break;
+		}
+	}
+
+	return bs;
+}
+
+void Enemy::liberaVectorBalas(std::vector<Bullet *> bs){
+
+	for(auto x = poolMisBalas_->cbegin(); x != poolMisBalas_->cend(); ++x){
+		(*x)->desactiva();
+	}
+
+	bs.clear();
 }

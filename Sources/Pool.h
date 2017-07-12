@@ -30,9 +30,7 @@ USING_NS_CC;
 class Pool{
 public:
 
-	static void activa(std::vector<Bullet *> &pool, Vec2 pos);
-	// TODO: Test con varios parámetros a cambiar al vuelo
-	static void activa(std::vector<Bullet *> &pool, Vec2 pos, Node *nodoPadre, float initial_size, float initial_rotation, float dmg, int zOrder);
+	static Bullet *activa(std::vector<Bullet *> &pool, Vec2 pos);
 	static void desactiva(Bullet &bullet);
 
 	// updates all GameActors in the pools

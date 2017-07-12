@@ -134,39 +134,29 @@ void MueveSpaceInvader::init(
 Vec2 MueveSpaceInvader::mueve(Vec2 posIni){
 	float deltaT = Director::getInstance()->getDeltaTime();
 
-	//if(spaceInvaderMovement_goingDown){
 	if(SpaceInvaders::spaceInvaderMovement_goingDown) {
 		// MOVIMIENTO VERTICAL
 		posIni.y -= spaceInvaderMovement_speedY_ * deltaT;
 
 		if(posIni.y <= spaceInvaderMovement_vcalMoveCurrTarget_){
-			//spaceInvaderMovement_goingDown = false;
-			//spaceInvaderMovement_goingRight = !spaceInvaderMovement_goingRight;
 			SpaceInvaders::spaceInvaderMovement_goingDown = false;
 			SpaceInvaders::spaceInvaderMovement_goingRight = !SpaceInvaders::spaceInvaderMovement_goingRight;
 		}
 	} else{
 		// MOVIMIENTO LATERAL
-		//if(spaceInvaderMovement_goingRight){
 		if(SpaceInvaders::spaceInvaderMovement_goingRight){
 			posIni.x += spaceInvaderMovement_speedX_ * deltaT;
 
 			if(posIni.x >= spaceInvaderMovement_xMax_){
-				////spaceInvaderMovement_goingRight = false;
 				SpaceInvaders::spaceInvaderMovement_goingDown = true;
-				//spaceInvaderMovement_goingDown = true;
 				spaceInvaderMovement_vcalMoveCurrTarget_ = posIni.y - spaceInvaderMovement_vcalMoveAmount_;
-				// no hago "clipping" del movimiento porque me parece que se me van a apuchurrar los invaders a los lados
 			}
 		} else{
 			posIni.x -= spaceInvaderMovement_speedX_ * deltaT;
 
 			if(posIni.x <= spaceInvaderMovement_xMin_){
-				////spaceInvaderMovement_goingRight = true;
 				SpaceInvaders::spaceInvaderMovement_goingDown = true;
-				//spaceInvaderMovement_goingDown = true;
 				spaceInvaderMovement_vcalMoveCurrTarget_ = posIni.y - spaceInvaderMovement_vcalMoveAmount_;
-				// no hago "clipping" del movimiento porque me parece que se me van a apuchurrar los invaders a los lados
 			}
 		}
 	}
