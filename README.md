@@ -69,14 +69,9 @@ EFECTOS
 
 
 ### POR PLANIFICAR (tareas pendientes que ir planificando)
-LÓGICA DEL JUEGO
-- Añadir comportamientos a las naves
-	- enemigos que salen y entran en la formación (por ejemplo: Galaxian/Galaga)
-		- que sigan splines? LOL ni siquiera he empezado por y=x
-	- que los enemigos disparen más cuantos menos queden
+
 GRÁFICOS
 - Independencia de resolución
-- ~~Colisiones precisas. Definidos el resto de sprites~~
 
 
 ### IDEAS (a hacer ~~cuando las ranas críen pelo~~ más adelante)
@@ -96,10 +91,14 @@ LÓGICA DEL JUEGO
 		- puntos de golpe fijos
 		- energía recargable
 	- power-ups usables por los enemigos (no que los cojan sino poder crear enemigos con ellos)
+- Añadir comportamientos a las naves
+	- enemigos que salen y entran en la formación (por ejemplo: Galaxian/Galaga)
+		- que sigan splines? LOL ni siquiera he empezado por y=x
 - ~~tiros en la dirección general del prota [03/06/17] [hecho hacia el 01/07]~~
 - ~~disparo de proyectiles que sigan trayectorias (seno/coseno) [04/06/17] [hecho hacia el 01/07]~~
 - ~~Añadir las casitas (las típicas del Space Invaders que protegen al prota)~~
 	- ~~que sean destructibles~~
+- ~~que los enemigos disparen más cuantos menos queden~~
 
 EFECTOS
 - Sonido
@@ -121,6 +120,7 @@ GRÁFICOS
 - Animaciones
 	- Animaciones sencillas (en loop) de los objetos
 	- Poder definir animaciones en loop y one-off
+- ~~Colisiones precisas. Definidos el resto de sprites~~
 
 ESTRUCTURA DEL JUEGO
 - jefes cada "x" oleadas
@@ -139,7 +139,7 @@ GENERAL
 - Separar el manejo de datos, lógica y memoria de la clase de Pool (ir viendo Pool_manager)	
 
 ### ~~BUGS~~ OUTSTANDING FEATURES
-- a veces el jugador puede perder dos vidas juntas. ¿Es por que le dan dos balas? ¿o no? no lo tengo claro
+- ~~a veces el jugador puede perder dos vidas juntas. ¿Es por que le dan dos balas? ¿o no? no lo tengo claro~~ <-- "solucionado" usando un solo polígono para sus colisiones
 - los mensajes que deberían salir centrados no lo hacen (calculo la posición solo al principio y no lo actualizo cuando cambio el mensaje)
 - las colisiones precisas están mal gestionadas: cada sprite tiene varios polígonos y es posible colisionar con varios a la vez. No es problema salvo para la nave del jugador, que puede perder las vidas de 3 en 3 :-D
 - la gestión de movimiento de los space invaders tiene un problema, si destruyo al que uso de guía se va el movimiento a tomar por saco.
