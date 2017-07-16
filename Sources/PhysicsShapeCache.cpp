@@ -162,6 +162,7 @@ PhysicsShapeCache::BodyDef *PhysicsShapeCache::getBodyDef(const std::string &nam
     }
     catch(std::out_of_range&)
     {
+		CCLOG("Aqui casca este hijoputa");
     }
 
     try
@@ -243,7 +244,7 @@ bool PhysicsShapeCache::setBodyOnSprite(const std::string &name, Sprite *sprite)
     return body != nullptr;
 }
 
-PhysicsBody * PhysicsShapeCache::ignSetBodyOnSprite(const std::string &name, Sprite *sprite){
+PhysicsBody *PhysicsShapeCache::ignSetBodyOnSprite(const std::string &name, Sprite *sprite){
 	// TODO: OJO! Exception thrown at ... Microsoft C++ exception: std::out_of_range at memory location .... (pero funciona...????)
 	PhysicsBody *body = createBodyWithName(name);
 	if(body){

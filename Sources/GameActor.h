@@ -8,6 +8,8 @@ USING_NS_CC;
 
 class GameActor{
 public:
+	enum gameActorTypes {bullet, enemy, player, destructible};
+
 	GameActor();
 	~GameActor();
 
@@ -31,6 +33,7 @@ public:
 	float gameActorSpeed_;
 	Movimiento *movimiento_;
 	//punteroAFuncionMovimiento funcionMovimientoActual;
+	gameActorTypes type_;
 
 
 protected:
@@ -38,4 +41,5 @@ protected:
 	float gameActorHP_, gameActorHPInicial_ = 1.0;
 	int gameActorPoints_;
 	bool estaActivo_;
+
 };

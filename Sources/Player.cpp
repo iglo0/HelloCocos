@@ -16,6 +16,7 @@ Player::Player(Node *nodo, float playerSpeed){
 
 	// Empieza por el constructor de la base
 	GameActor::GameActor();
+	GameActor::type_ = GameActor::gameActorTypes::player;
 
 	mueveIzq = mueveDch = mueveArr = mueveAbj = false;
 
@@ -84,7 +85,7 @@ void Player::update(float deltaT){
 
 void Player::impacto(float dmg){
 	//CCLOG("Player says OUCH!");
-
+	
 	killPlayer();
 
 }
@@ -143,7 +144,7 @@ void Player::muevePlayer(){
 			pos.y = Director::getInstance()->getVisibleSize().height;
 
 			// HACK: lo siento, lo quitaré vale?
-			if(sprite_->getTag() == (int)Game::CategoriaColision::Bala){
+			if(sprite_->getTag() == (int)Game::CategoriaColision::BalaJugador){
 				desactiva();
 			}
 		}

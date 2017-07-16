@@ -216,6 +216,29 @@ void Game::loadConfig(const char *filename){
 	initial_hi_score = atoi(xml_default_values.child_value(CONFIG_INITIAL_HI_SCORE));
 	vidas_iniciales = atoi(xml_default_values.child_value(CONFIG_VIDAS_INICIALES));
 
+	// casitas
+	sprite_casa_bloque = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE);
+	sprite_casa_bloque_roto_01 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_01);
+	sprite_casa_bloque_roto_02 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_02);
+	sprite_casa_bloque_roto_03 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_03);
+	sprite_casa_bloque_roto_04 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_04);
+	sprite_casa_bloque_roto_05 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_05);
+	sprite_casa_bloque_roto_06 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_06);
+	sprite_casa_bloque_roto_07 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_07);
+	sprite_casa_bloque_roto_08 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_08);
+	sprite_casa_bloque_roto_09 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_09);
+	sprite_casa_bloque_roto_10 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_10);
+	sprite_casa_bloque_roto_11 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_11);
+	sprite_casa_bloque_roto_12 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_12);
+	sprite_casa_bloque_roto_13 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_13);
+	sprite_casa_bloque_roto_14 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_14);
+	sprite_casa_bloque_roto_15 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_15);
+	sprite_casa_bloque_roto_dch = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_DCH);
+	sprite_casa_bloque_roto_izq = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_IZQ);
+	sprite_casa_esquina_dch = xml_default_values.child_value(CONFIG_SPRITE_CASA_ESQUINA_DCH);
+	sprite_casa_esquina_izq = xml_default_values.child_value(CONFIG_SPRITE_CASA_ESQUINA_IZQ);
+
+
 }
 
 //Game::~Game(){

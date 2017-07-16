@@ -1123,126 +1123,6 @@
                 </array>
             </dict>
 
-            <key>shield1</key>
-            <dict>
-                <key>anchorpoint</key>
-                <string>{ 0.50600,0.50500 }</string>
-                <key>is_dynamic</key>
-                <true/>
-                <key>affected_by_gravity</key>
-                <true/>
-                <key>allows_rotation</key>
-                <true/>
-                <key>linear_damping</key>
-                <real>0</real>
-                <key>velocity_limit</key>
-                <real>1e+6</real>
-                <key>angular_damping</key>
-                <real>0</real>
-                <key>angular_velocity_limit</key>
-                <real>1e+6</real>
-                <key>fixtures</key>
-                <array>
-
-                </array>
-            </dict>
-
-            <key>shield2</key>
-            <dict>
-                <key>anchorpoint</key>
-                <string>{ 0.50000,0.50000 }</string>
-                <key>is_dynamic</key>
-                <true/>
-                <key>affected_by_gravity</key>
-                <true/>
-                <key>allows_rotation</key>
-                <true/>
-                <key>linear_damping</key>
-                <real>0</real>
-                <key>velocity_limit</key>
-                <real>1e+6</real>
-                <key>angular_damping</key>
-                <real>0</real>
-                <key>angular_velocity_limit</key>
-                <real>1e+6</real>
-                <key>fixtures</key>
-                <array>
-
-                </array>
-            </dict>
-
-            <key>shield3</key>
-            <dict>
-                <key>anchorpoint</key>
-                <string>{ 0.50000,0.50000 }</string>
-                <key>is_dynamic</key>
-                <true/>
-                <key>affected_by_gravity</key>
-                <true/>
-                <key>allows_rotation</key>
-                <true/>
-                <key>linear_damping</key>
-                <real>0</real>
-                <key>velocity_limit</key>
-                <real>1e+6</real>
-                <key>angular_damping</key>
-                <real>0</real>
-                <key>angular_velocity_limit</key>
-                <real>1e+6</real>
-                <key>fixtures</key>
-                <array>
-
-                </array>
-            </dict>
-
-            <key>shield4</key>
-            <dict>
-                <key>anchorpoint</key>
-                <string>{ 0.50000,0.50500 }</string>
-                <key>is_dynamic</key>
-                <true/>
-                <key>affected_by_gravity</key>
-                <true/>
-                <key>allows_rotation</key>
-                <true/>
-                <key>linear_damping</key>
-                <real>0</real>
-                <key>velocity_limit</key>
-                <real>1e+6</real>
-                <key>angular_damping</key>
-                <real>0</real>
-                <key>angular_velocity_limit</key>
-                <real>1e+6</real>
-                <key>fixtures</key>
-                <array>
-
-                </array>
-            </dict>
-
-            <key>shields</key>
-            <dict>
-                <key>anchorpoint</key>
-                <string>{ 0.50000,0.50000 }</string>
-                <key>is_dynamic</key>
-                <true/>
-                <key>affected_by_gravity</key>
-                <true/>
-                <key>allows_rotation</key>
-                <true/>
-                <key>linear_damping</key>
-                <real>0</real>
-                <key>velocity_limit</key>
-                <real>1e+6</real>
-                <key>angular_damping</key>
-                <real>0</real>
-                <key>angular_velocity_limit</key>
-                <real>1e+6</real>
-                <key>fixtures</key>
-                <array>
-
-                </array>
-            </dict>
-
             <key>Spaceship15</key>
             <dict>
                 <key>anchorpoint</key>
@@ -1588,6 +1468,116 @@
                             <key>position</key>
                             <string>{ -0.458,0.265 }</string>
                         </dict>
+                        
+                    </dict>
+
+                </array>
+            </dict>
+
+            <key>casa_esquina_dch</key>
+            <dict>
+                <key>anchorpoint</key>
+                <string>{ 0.50000,0.50000 }</string>
+                <key>is_dynamic</key>
+                <true/>
+                <key>affected_by_gravity</key>
+                <true/>
+                <key>allows_rotation</key>
+                <true/>
+                <key>linear_damping</key>
+                <real>0</real>
+                <key>velocity_limit</key>
+                <real>1e+6</real>
+                <key>angular_damping</key>
+                <real>0</real>
+                <key>angular_velocity_limit</key>
+                <real>1e+6</real>
+                <key>fixtures</key>
+                <array>
+
+                    <dict>
+                        <key>density</key>
+                        <real>1</real>
+                        <key>restitution</key>
+                        <real>0.20000000298023224</real>
+                        <key>friction</key>
+                        <real>0.699999988079071</real>
+                        <key>tag</key>
+                        <integer>0</integer>
+                        <key>group</key>
+                        <integer>0</integer>
+                        <key>category_mask</key>
+                        <integer>0</integer>
+                        <key>collision_mask</key>
+                        <integer>0</integer>
+                        <key>contact_test_mask</key>
+                        <integer>0</integer>
+                        <key>fixture_type</key>
+                        <string>POLYGON</string>
+                        
+                        <key>polygons</key>
+                        <array>
+                            <array>
+                                <string>{ 16.00000,-16.00000 }</string>
+                                <string>{ -16.00000,-16.00000 }</string>
+                                <string>{ -16.00000,16.00000 }</string>
+                            </array>
+                        </array>
+                        
+                    </dict>
+
+                </array>
+            </dict>
+
+            <key>casa_esquina_izq</key>
+            <dict>
+                <key>anchorpoint</key>
+                <string>{ 0.50000,0.50000 }</string>
+                <key>is_dynamic</key>
+                <true/>
+                <key>affected_by_gravity</key>
+                <true/>
+                <key>allows_rotation</key>
+                <true/>
+                <key>linear_damping</key>
+                <real>0</real>
+                <key>velocity_limit</key>
+                <real>1e+6</real>
+                <key>angular_damping</key>
+                <real>0</real>
+                <key>angular_velocity_limit</key>
+                <real>1e+6</real>
+                <key>fixtures</key>
+                <array>
+
+                    <dict>
+                        <key>density</key>
+                        <real>1</real>
+                        <key>restitution</key>
+                        <real>0.20000000298023224</real>
+                        <key>friction</key>
+                        <real>0.699999988079071</real>
+                        <key>tag</key>
+                        <integer>0</integer>
+                        <key>group</key>
+                        <integer>0</integer>
+                        <key>category_mask</key>
+                        <integer>0</integer>
+                        <key>collision_mask</key>
+                        <integer>0</integer>
+                        <key>contact_test_mask</key>
+                        <integer>0</integer>
+                        <key>fixture_type</key>
+                        <string>POLYGON</string>
+                        
+                        <key>polygons</key>
+                        <array>
+                            <array>
+                                <string>{ 16.00000,16.00000 }</string>
+                                <string>{ 16.00000,-16.00000 }</string>
+                                <string>{ -16.00000,-16.00000 }</string>
+                            </array>
+                        </array>
                         
                     </dict>
 

@@ -21,6 +21,7 @@ USING_NS_CC;
 class Player;
 class InputComponent;
 class Game;
+class GameActor;
 
 class Level : public cocos2d::Layer
 {
@@ -58,6 +59,10 @@ private:
 	// --------------------------------------------------------------
 	void createGUI();
 	void initLevel();
+
+	void creaCasitas(int numba, float margen);
+	void creaCasita(Vec2 esquinaInfIzq);
+	GameActor *creaDestructible(Vec2 pos, int type=0);
 
 	// variables miembro privadas
 	// --------------------------------------------------------------

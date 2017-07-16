@@ -8,9 +8,9 @@
 #include "SpaceInvaders.h"
 #include "Menus.h"
 #include "Movimiento.h"
-// HACK: --------------- PRUEBAS ----------------------------
+#include "Game.h"
 #include "GameState.h"
-// ----------------------------------------------------
+
 
 // variable estatica
 Level *Level::instance;
@@ -189,7 +189,7 @@ bool Level::onContactBegin(PhysicsContact &contact){
 	actor2 = (GameActor *)sprB->getUserData();
 
 	// calcula el daño que 1 hace a 2
-	if(sprA->getTag() == (int)Game::CategoriaColision::Bala || sprA->getTag() == (int)Game::CategoriaColision::BalaEnemigo){
+	if(sprA->getTag() == (int)Game::CategoriaColision::BalaJugador || sprA->getTag() == (int)Game::CategoriaColision::BalaEnemigo){
 		bulletTmp = (Bullet *)sprA->getUserData();
 		impactDmg1 = bulletTmp->bulletDmg;
 	} else {
@@ -197,7 +197,7 @@ bool Level::onContactBegin(PhysicsContact &contact){
 	}
 
 	// y viceversa
-	if(sprB->getTag() == (int)Game::CategoriaColision::Bala || sprB->getTag() == (int)Game::CategoriaColision::BalaEnemigo){
+	if(sprB->getTag() == (int)Game::CategoriaColision::BalaJugador || sprB->getTag() == (int)Game::CategoriaColision::BalaEnemigo){
 		bulletTmp = (Bullet *)sprB->getUserData();
 		impactDmg2 = bulletTmp->bulletDmg;
 	} else{
@@ -415,6 +415,83 @@ void Level::initLevel(){
 	tipos.push_back(Enemy::tipo1);
 
 	spaceInvaders.creaInvaders(this, tipos, Pool::currentBulletsTipoNormal, 50.0f, 15.0f, 30.0f, 3600);
+
+	creaCasitas(4, 100.0f);
+}
+
+void Level::creaCasitas(int numba, float margen){
+	// TODO: no ponerlo a mano
+	int casaWidth = 128;
+	auto winSize = Director::getInstance()->getWinSize();
+	float separa = (winSize.width - margen * 2) / numba;
+
+	// Suspenso en trigonometría xD
+	/*
+	Si quiero dividir 100 / 4, me sale que coloco las casas cada 25 espacios, pero si las quiero centradas
+	las tengo que poner en el medio de cada uno de estos espacios
+
+	Y acordarme que 0,0 en un sprite es el medio, así que tengo que colocarlas en -ancho/2 del sprite
+
+	|....+....|....+....|....+....|....+....|
+	0		 25			50		  75		100
+
+	*/
+
+	for(int i = 0; i < numba; i++){
+		// intenta calcular como dividir el espacio para que quepan num casitas, dejando margenes a los lados y situando cada una en la mitad del punto (x - anchoCasa/2)
+		creaCasita(Vec2(margen + separa/2.0f + i*separa - casaWidth/2.0f, 120.0f));
+	}
+
+}
+
+void Level::creaCasita(Vec2 esquinaInfIzq){
+	Sprite *spr = Sprite::createWithSpriteFrameName(gameInstance->sprite_casa_bloque.c_str());
+	auto blockSize = spr->getContentSize();
+	Vec2 posBloque;
+	GameActor *bloque;
+
+	for(int j = 0; j < 4; j++){
+		for(int i = 0; i < 4; i++){
+			posBloque = esquinaInfIzq;
+			// ojo que 0,0 es el centro del sprite, si cuento con que empiece en la esquina inferior izquierda tengo que desplazarlo la mitad de su ancho. El alto también, pero ahora me la pela :P
+			posBloque.x += i * blockSize.width + blockSize.width/2.0f;
+			posBloque.y += j * blockSize.height;
+
+			// hace el tejado de forma sucia
+			if(i == 0 && j == 3){
+				bloque = creaDestructible(posBloque,1);
+			} else if(i == 3 && j == 3){
+				bloque = creaDestructible(posBloque,2);
+			} else{
+				bloque = creaDestructible(posBloque);
+			}
+		}
+	}
+}
+
+GameActor *Level::creaDestructible(Vec2 pos, int type){
+	GameActor *tmp = new GameActor();
+	tmp->type_ = GameActor::gameActorTypes::destructible;
+	const char *spritePath;
+
+	switch(type){
+	case 0:
+		spritePath = gameInstance->sprite_casa_bloque.c_str();
+		break;
+	case 1:
+		spritePath = gameInstance->sprite_casa_esquina_izq.c_str();
+		break;
+	case 2:
+		spritePath = gameInstance->sprite_casa_esquina_dch.c_str();
+		break;
+	default:
+		break;
+	}
+
+	tmp->setSprite(this, spritePath, "casa", (int)Game::CategoriaColision::Jugador, (int)Game::CategoriaColision::BalaJugador | (int)Game::CategoriaColision::BalaEnemigo);
+	tmp->activa(pos);
+
+	return tmp;
 }
 
 void Level::setGameState(GameState *nuevo){

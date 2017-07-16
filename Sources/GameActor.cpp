@@ -135,5 +135,14 @@ bool GameActor::isActive(){
 void GameActor::impacto(float dmg){
 	const char *name = sprite_->getName().c_str();
 
-	CCLOG ("GameActor %s says: ouch %f", name, dmg);
+	switch (type_){
+	case gameActorTypes::destructible:
+		CCLOG("Casa is fucked");
+		desactiva();
+		break;
+	default:
+		CCLOG ("GameActor %s says: ouch %f", name, dmg);
+		break;
+	}
+
 }

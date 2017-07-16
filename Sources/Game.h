@@ -9,7 +9,7 @@
 
 USING_NS_CC;
 
-#pragma region CONSTANTES
+#pragma region CONSTANTES de configuración
 
 #define BULLET_HOMING_TTL					6.5
 
@@ -56,6 +56,27 @@ USING_NS_CC;
 
 #define CONFIG_INITIAL_HI_SCORE				"initial_hi_score"
 #define CONFIG_VIDAS_INICIALES				"vidas_iniciales"
+
+#define CONFIG_SPRITE_CASA_BLOQUE			"sprite_casa_bloque"
+#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_01	"sprite_casa_bloque_roto_01"
+#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_02	"sprite_casa_bloque_roto_02"
+#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_03	"sprite_casa_bloque_roto_03"
+#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_04	"sprite_casa_bloque_roto_04"
+#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_05	"sprite_casa_bloque_roto_05"
+#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_06	"sprite_casa_bloque_roto_06"
+#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_07	"sprite_casa_bloque_roto_07"
+#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_08	"sprite_casa_bloque_roto_08"
+#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_09	"sprite_casa_bloque_roto_09"
+#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_10	"sprite_casa_bloque_roto_10"
+#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_11	"sprite_casa_bloque_roto_11"
+#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_12	"sprite_casa_bloque_roto_12"
+#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_13	"sprite_casa_bloque_roto_13"
+#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_14	"sprite_casa_bloque_roto_14"
+#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_15	"sprite_casa_bloque_roto_15"
+#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_DCH	"sprite_casa_bloque_roto_dch"
+#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_IZQ	"sprite_casa_bloque_roto_izq"
+#define CONFIG_SPRITE_CASA_ESQUINA_DCH		"sprite_casa_esquina_dch"
+#define CONFIG_SPRITE_CASA_ESQUINA_IZQ		"sprite_casa_esquina_izq"
 
 #pragma endregion
 
@@ -125,9 +146,9 @@ public:
 	// --------------------------------------------------------------
 	// TODO: Aparentemente copiar el .xml en resources no es multiplataforma y cascará en android/ios
 	void loadConfig(const char *filename);
-	
-	// variables donde almacenar la configuracion
 
+	#pragma region variables de configuracion
+	// variables donde almacenar la configuracion
 	// player
 	float player_initial_speed;
 	std::string player_path_sprite;
@@ -167,6 +188,29 @@ public:
 	int initial_hi_score;
 	int vidas_iniciales;
 
+	// casitas
+	std::string sprite_casa_bloque;
+	std::string sprite_casa_bloque_roto_01;
+	std::string sprite_casa_bloque_roto_02;
+	std::string sprite_casa_bloque_roto_03;
+	std::string sprite_casa_bloque_roto_04;
+	std::string sprite_casa_bloque_roto_05;
+	std::string sprite_casa_bloque_roto_06;
+	std::string sprite_casa_bloque_roto_07;
+	std::string sprite_casa_bloque_roto_08;
+	std::string sprite_casa_bloque_roto_09;
+	std::string sprite_casa_bloque_roto_10;
+	std::string sprite_casa_bloque_roto_11;
+	std::string sprite_casa_bloque_roto_12;
+	std::string sprite_casa_bloque_roto_13;
+	std::string sprite_casa_bloque_roto_14;
+	std::string sprite_casa_bloque_roto_15;
+	std::string sprite_casa_bloque_roto_dch;
+	std::string sprite_casa_bloque_roto_izq;
+	std::string sprite_casa_esquina_dch;
+	std::string sprite_casa_esquina_izq;
+	#pragma endregion
+
 	// --------------------------------------------------------------
 
 	// TODO: ES ESTE UN BUEN SITIO PARA ESTO???
@@ -184,11 +228,11 @@ public:
 		// a monster, the next bit over to represent a projectile, and so on.
 		None = 0,
 		Jugador = (1 << 0),			// 1
-		Bala = (1 << 1),			// 2
+		BalaJugador = (1 << 1),			// 2
 		Enemigo = (1 << 2),			// 4
 		BalaEnemigo = (1 << 3),		// 8
 		//EnemigosYBalas = CategoriaColision::Enemigo | CategoriaColision::BalaEnemigo,
-		All = CategoriaColision::Jugador | CategoriaColision::Bala | CategoriaColision::Enemigo | CategoriaColision::BalaEnemigo
+		All = CategoriaColision::Jugador | CategoriaColision::BalaJugador | CategoriaColision::Enemigo | CategoriaColision::BalaEnemigo
 	};
 
 };

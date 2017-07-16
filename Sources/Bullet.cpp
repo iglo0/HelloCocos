@@ -10,6 +10,8 @@ USING_NS_CC;
 Bullet::Bullet(Node *nodo, const char *name, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon, float initialScale){
 	// inicializa la clase base primero
 	GameActor::GameActor();
+	GameActor::type_ = GameActor::gameActorTypes::bullet;
+
 	//bulletSpeed = speed;
 	bulletDmg = dmg;
 	gameActorSpeed_ = speed;
@@ -63,8 +65,8 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 		pathSonidoImpacto = gameInstance->bullet_path_sound_impact.c_str();
 		speed = gameInstance->bullet_default_speed;
 		dmg = gameInstance->bullet_default_dmg;
-		tipoColision = (int)Game::CategoriaColision::Bala;
-		colisionoCon = (int)Game::CategoriaColision::Enemigo;
+		tipoColision = (int)Game::CategoriaColision::BalaJugador;
+		colisionoCon = (int)Game::CategoriaColision::Enemigo | (int)Game::CategoriaColision::BalaEnemigo;
 		initialScale = gameInstance->bullet_default_scale;
 
 		claseMovimiento = new MueveVcal(speed);
@@ -78,7 +80,7 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 		speed = -gameInstance->bullet_default_speed;
 		dmg = gameInstance->bullet_default_dmg;
 		tipoColision = (int)Game::CategoriaColision::BalaEnemigo;
-		colisionoCon = (int)Game::CategoriaColision::Jugador;
+		colisionoCon = (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::BalaJugador;
 		initialScale = gameInstance->bullet_default_scale;
 
 		claseMovimiento = new MueveDireccion(speed);
@@ -91,7 +93,7 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 		speed = -gameInstance->bullet_default_speed;
 		dmg = gameInstance->bullet_default_dmg;
 		tipoColision = (int)Game::CategoriaColision::BalaEnemigo;
-		colisionoCon = (int)Game::CategoriaColision::Jugador;
+		colisionoCon = (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::BalaJugador;
 		initialScale = gameInstance->bullet_default_scale;
 
 		claseMovimiento = new MueveVcal(speed);
@@ -105,7 +107,7 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 		speed = -gameInstance->bullet_homing_speed;
 		dmg = gameInstance->bullet_default_dmg;
 		tipoColision = (int)Game::CategoriaColision::BalaEnemigo;
-		colisionoCon = (int)Game::CategoriaColision::Jugador;
+		colisionoCon = (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::BalaJugador;
 		initialScale = gameInstance->bullet_default_boss_scale;
 
 		claseMovimiento = new MueveHoming();
@@ -146,6 +148,7 @@ void Bullet::impacto(float dmg){
 	desactiva();
 
 	// TODO: no tan facil, el ttl!
+	// TODO: que hace esta linea aqui O.o
 	_ttl = BULLET_HOMING_TTL;
 
 	// TODO: reproducir sonido
@@ -186,7 +189,7 @@ void Bullet::activa(Vec2 posIni){
 	switch(_bulletType){
 	case bulletTypes::tipoBossHoming:
 	{	// si voy a inicializar variables en el case, o las inicializo en el default, o lo meto entre llaves... o utilizo funciones dentro del case, para dejarlo todo más limpio.
-		CCLOG("Activando bala tipoBossHoming");
+		//CCLOG("Activando bala tipoBossHoming");
 		
 		MueveHoming *m = (MueveHoming *)movimiento_;
 		m->init(gameActorSpeed_, Player::getCurrentPlayer()->getSprite());
@@ -195,7 +198,7 @@ void Bullet::activa(Vec2 posIni){
 	}
 	case bulletTypes::tipoEnemyDirigido:
 	{	// si voy a inicializar variables en el case, o las inicializo en el default, o lo meto entre llaves... o utilizo funciones dentro del case, para dejarlo todo más limpio.
-		CCLOG("Activando bala tipoEnemyDirigido");
+		//CCLOG("Activando bala tipoEnemyDirigido");
 		
 		// Accedo a la clase movimiento que DEBE ser de tipo MueveDireccion
 		MueveDireccion *m = (MueveDireccion *)movimiento_;
@@ -205,10 +208,10 @@ void Bullet::activa(Vec2 posIni){
 		break;
 	}
 	case bulletTypes::tipoEnemyNormal:
-		CCLOG("Activando bala tipoEnemyNormal");
+		//CCLOG("Activando bala tipoEnemyNormal");
 		break;
 	case bulletTypes::tipoPlayer:
-		CCLOG("Activando bala tipoPlayer");
+		//CCLOG("Activando bala tipoPlayer");
 		// no hay que cambiarle parámetros, solo necesitan la velocidad que es fija
 		//MueveVcal *b = (MueveVcal *)movimiento;
 		//b->init(gameActorSpeed);

@@ -41,4 +41,28 @@
 
 	<initial_hi_score>5000</initial_hi_score>
 	<vidas_iniciales>3</vidas_iniciales>
+
+	<!-- no cambiar estos nombres de archivo -->
+	<sprite_casa_bloque>casa_bloque.png</sprite_casa_bloque>
+	<sprite_casa_bloque_roto_01>casa_bloque_roto_01.png</sprite_casa_bloque_roto_01>
+	<sprite_casa_bloque_roto_02>casa_bloque_roto_02.png</sprite_casa_bloque_roto_02>
+	<sprite_casa_bloque_roto_03>casa_bloque_roto_03.png</sprite_casa_bloque_roto_03>
+	<sprite_casa_bloque_roto_04>casa_bloque_roto_04.png</sprite_casa_bloque_roto_04>
+	<sprite_casa_bloque_roto_05>casa_bloque_roto_05.png</sprite_casa_bloque_roto_05>
+	<sprite_casa_bloque_roto_06>casa_bloque_roto_06.png</sprite_casa_bloque_roto_06>
+	<sprite_casa_bloque_roto_07>casa_bloque_roto_07.png</sprite_casa_bloque_roto_07>
+	<sprite_casa_bloque_roto_08>casa_bloque_roto_08.png</sprite_casa_bloque_roto_08>
+	<sprite_casa_bloque_roto_09>casa_bloque_roto_09.png</sprite_casa_bloque_roto_09>
+	<sprite_casa_bloque_roto_10>casa_bloque_roto_10.png</sprite_casa_bloque_roto_10>
+	<sprite_casa_bloque_roto_11>casa_bloque_roto_11.png</sprite_casa_bloque_roto_11>
+	<sprite_casa_bloque_roto_12>casa_bloque_roto_12.png</sprite_casa_bloque_roto_12>
+	<sprite_casa_bloque_roto_13>casa_bloque_roto_13.png</sprite_casa_bloque_roto_13>
+	<sprite_casa_bloque_roto_14>casa_bloque_roto_14.png</sprite_casa_bloque_roto_14>
+	<sprite_casa_bloque_roto_15>casa_bloque_roto_15.png</sprite_casa_bloque_roto_15>
+	<sprite_casa_bloque_roto_dch>casa_bloque_roto_dch.png</sprite_casa_bloque_roto_dch>
+	<sprite_casa_bloque_roto_izq>casa_bloque_roto_izq.png</sprite_casa_bloque_roto_izq>
+	<sprite_casa_esquina_dch>casa_esquina_dch.png</sprite_casa_esquina_dch>
+	<sprite_casa_esquina_izq>casa_esquina_izq.png</sprite_casa_esquina_izq>
+
+
 </default_values>
