@@ -49,18 +49,10 @@ Git user attention
 En desarrollo [Estimación]
 ```diff
 
-ESTRUCTURA DEL JUEGO
-+ creada otra máquina de estados para el juego, intentando implementarla con el patrón "Estado"
-- reimplementando las funciones de movimiento (balas mayormente)
-
-GRÁFICOS
-+ Colisiones precisas. Definidos el resto de sprites
-
 LÓGICA DEL JUEGO
-[en pausa]Añadir comportamientos a los disparos: preparando la estructura para hacer esto
-+ tiros en la dirección general del prota [03/06/17] [hecho hacia el 01/07]
-+ disparo de proyectiles que sigan trayectorias (seno/coseno) [04/06/17] [hecho hacia el 01/07]
++ Añadir comportamientos a los disparos: preparando la estructura para hacer esto
 - disparo de múltiples proyectiles en abanico (bosses?) [07/06/17]
+- Que las casitas se vayan destruyendo ahí donde sean disparadas
 
 ```
 
@@ -84,15 +76,14 @@ LÓGICA DEL JUEGO
 	- que los enemigos disparen más cuantos menos queden
 GRÁFICOS
 - Independencia de resolución
+- ~~Colisiones precisas. Definidos el resto de sprites~~
+
 
 ### IDEAS (a hacer ~~cuando las ranas críen pelo~~ más adelante)
 
 En ningún orden particular:
 
 LÓGICA DEL JUEGO
-- Añadir las casitas (las típicas del Space Invaders que protegen al prota)
-	- que sean destructibles
-		- que se vayan destruyendo ahí donde sean disparadas
 - Añadir power-ups
 	- nuevos tipos de disparo para el jugador
 		- tiro a tiro
@@ -105,6 +96,10 @@ LÓGICA DEL JUEGO
 		- puntos de golpe fijos
 		- energía recargable
 	- power-ups usables por los enemigos (no que los cojan sino poder crear enemigos con ellos)
+- ~~tiros en la dirección general del prota [03/06/17] [hecho hacia el 01/07]~~
+- ~~disparo de proyectiles que sigan trayectorias (seno/coseno) [04/06/17] [hecho hacia el 01/07]~~
+- ~~Añadir las casitas (las típicas del Space Invaders que protegen al prota)~~
+	- ~~que sean destructibles~~
 
 EFECTOS
 - Sonido
@@ -129,6 +124,8 @@ GRÁFICOS
 
 ESTRUCTURA DEL JUEGO
 - jefes cada "x" oleadas
+- ~~creada otra máquina de estados para el juego, intentando implementarla con el patrón "Estado"~~
+- ~~reimplementando las funciones de movimiento (balas mayormente)~~
 
 GENERAL
 - Tabla de records
