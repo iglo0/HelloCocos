@@ -52,7 +52,7 @@ En desarrollo [Estimación]
 LÓGICA DEL JUEGO
 + Añadir comportamientos a los disparos: preparando la estructura para hacer esto
 - disparo de múltiples proyectiles en abanico (bosses?) [07/06/17]
-- Que las casitas se vayan destruyendo ahí donde sean disparadas
++ Que las casitas se vayan destruyendo ahí donde sean disparadas
 
 ```
 
