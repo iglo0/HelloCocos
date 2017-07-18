@@ -48,16 +48,19 @@ Git user attention
 # TRABAJO EN CURSO
 En desarrollo [Estimación]
 ```diff
-
 LÓGICA DEL JUEGO
 + Añadir comportamientos a los disparos: preparando la estructura para hacer esto
 - disparo de múltiples proyectiles en abanico (bosses?) [07/06/17]
 + Que las casitas se vayan destruyendo ahí donde sean disparadas
-
 ```
 
 
 ### PLANIFICADO (lo siguiente que pienso hacer)
+
+GRÁFICOS
+- Animaciones
+	- Animaciones sencillas (en loop) de los objetos
+	- Poder definir animaciones en loop y one-off
 
 ESTRUCTURA DEL JUEGO
 - detectar la destrucción de las oleadas de enemigos
@@ -117,9 +120,6 @@ EFECTOS
 - Parpadeo de las naves (periodo de invulnerabilidad)
 
 GRÁFICOS
-- Animaciones
-	- Animaciones sencillas (en loop) de los objetos
-	- Poder definir animaciones en loop y one-off
 - ~~Colisiones precisas. Definidos el resto de sprites~~
 
 ESTRUCTURA DEL JUEGO
