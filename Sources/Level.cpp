@@ -153,8 +153,13 @@ void Level::menuVuelveCallback(Ref *pSender){
 }
 
 bool Level::onContactBegin(PhysicsContact &contact){
+	// TODO: la gestión de colisiones necesita un reprogramado curioso...
+
 	// TODO: problema! colisiones múltiples, imagino que al definir con polígonos los objetos pueden llegar a colisionar varios polígonos de un objeto con otro.
 	// si por ejemplo le pasa al jugador, pierde varias vidas. Tengo que hacerlo de otro modo. Quizás esperar a hacerlo más tarde y no en el mismo momento en que salta una colisión.
+
+	// nanananananannanaaaa prota definido con un triángulo. Colisiones simples de nuevo! O:-)
+
 	Sprite *sprA, *sprB;
 
 	// HACK: Gestion de impactos, primera version que funciona
@@ -187,6 +192,9 @@ bool Level::onContactBegin(PhysicsContact &contact){
 
 	actor1 = (GameActor *)sprA->getUserData();
 	actor2 = (GameActor *)sprB->getUserData();
+
+	if(actor1->type_ == GameActor::gameActorTypes::destructible || actor2->type_ == GameActor::gameActorTypes::destructible)
+		actor1 = actor1;	// punto de parada if casita
 
 	// calcula el daño que 1 hace a 2
 	if(sprA->getTag() == (int)Game::CategoriaColision::BalaJugador || sprA->getTag() == (int)Game::CategoriaColision::BalaEnemigo){
@@ -445,6 +453,7 @@ void Level::creaCasitas(int numba, float margen){
 }
 
 void Level::creaCasita(Vec2 esquinaInfIzq){
+	// HACK: solo cargo este sprite para calcular su tamaño
 	Sprite *spr = Sprite::createWithSpriteFrameName(gameInstance->sprite_casa_bloque.c_str());
 	auto blockSize = spr->getContentSize();
 	Vec2 posBloque;
@@ -459,10 +468,13 @@ void Level::creaCasita(Vec2 esquinaInfIzq){
 
 			// hace el tejado de forma sucia
 			if(i == 0 && j == 3){
+				// esquina superior izquierda?
 				bloque = creaDestructible(posBloque,1);
 			} else if(i == 3 && j == 3){
+				// esquina superior derecha?
 				bloque = creaDestructible(posBloque,2);
 			} else{
+				// pos bloque estándar
 				bloque = creaDestructible(posBloque);
 			}
 		}
@@ -488,9 +500,10 @@ GameActor *Level::creaDestructible(Vec2 pos, int type){
 		break;
 	}
 
-	tmp->setSprite(this, spritePath, "casa", (int)Game::CategoriaColision::Jugador, (int)Game::CategoriaColision::BalaJugador | (int)Game::CategoriaColision::BalaEnemigo);
+	tmp->setSprite(this, spritePath, "casa", (int)Game::CategoriaColision::Destructible, 
+		(int)Game::CategoriaColision::BalaJugador | (int)Game::CategoriaColision::BalaEnemigo | (int)Game::CategoriaColision::Enemigo);
 	tmp->activa(pos);
-
+	
 	return tmp;
 }
 

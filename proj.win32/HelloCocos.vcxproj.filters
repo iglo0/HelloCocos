@@ -69,6 +69,12 @@
     <ClCompile Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\Movimiento.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\AnimTest.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\EscenaVacia.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Sources\KeyboardTest.h">
@@ -132,6 +138,12 @@
       <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\Movimiento.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\AnimTest.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\EscenaVacia.h">
       <Filter>Sources</Filter>
     </ClInclude>
   </ItemGroup>

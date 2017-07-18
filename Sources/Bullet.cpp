@@ -66,7 +66,7 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 		speed = gameInstance->bullet_default_speed;
 		dmg = gameInstance->bullet_default_dmg;
 		tipoColision = (int)Game::CategoriaColision::BalaJugador;
-		colisionoCon = (int)Game::CategoriaColision::Enemigo | (int)Game::CategoriaColision::BalaEnemigo;
+		colisionoCon = (int)Game::CategoriaColision::Enemigo | (int)Game::CategoriaColision::BalaEnemigo | (int)Game::CategoriaColision::Destructible;
 		initialScale = gameInstance->bullet_default_scale;
 
 		claseMovimiento = new MueveVcal(speed);
@@ -80,7 +80,7 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 		speed = -gameInstance->bullet_default_speed;
 		dmg = gameInstance->bullet_default_dmg;
 		tipoColision = (int)Game::CategoriaColision::BalaEnemigo;
-		colisionoCon = (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::BalaJugador;
+		colisionoCon = (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::BalaJugador | (int)Game::CategoriaColision::Destructible;
 		initialScale = gameInstance->bullet_default_scale;
 
 		claseMovimiento = new MueveDireccion(speed);
@@ -93,7 +93,7 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 		speed = -gameInstance->bullet_default_speed;
 		dmg = gameInstance->bullet_default_dmg;
 		tipoColision = (int)Game::CategoriaColision::BalaEnemigo;
-		colisionoCon = (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::BalaJugador;
+		colisionoCon = (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::BalaJugador | (int)Game::CategoriaColision::Destructible;
 		initialScale = gameInstance->bullet_default_scale;
 
 		claseMovimiento = new MueveVcal(speed);
@@ -107,7 +107,7 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 		speed = -gameInstance->bullet_homing_speed;
 		dmg = gameInstance->bullet_default_dmg;
 		tipoColision = (int)Game::CategoriaColision::BalaEnemigo;
-		colisionoCon = (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::BalaJugador;
+		colisionoCon = (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::BalaJugador | (int)Game::CategoriaColision::Destructible;
 		initialScale = gameInstance->bullet_default_boss_scale;
 
 		claseMovimiento = new MueveHoming();

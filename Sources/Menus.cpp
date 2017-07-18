@@ -3,6 +3,8 @@
 #include "Level.h"
 #include "KeyboardTest.h"
 #include "PolyspriteTest.h"
+#include "AnimTest.h"
+#include "EscenaVacia.h"
 #include "Game.h"
 
 cocos2d::Scene * Menus::CreateScene(){
@@ -49,17 +51,22 @@ bool Menus::init(){
 	/////////////////////////////
 	// 3. add your codes below...
 
-	#pragma region mis cosas
+	#pragma region Menus --------------------------------------------------------------------------------------------------
+	// menus en orden inverso, pero la numeracion (*1.0f, *2.0f ...) va en orden y asi me es mas facil
+
 	// creating a Menu from a Vector of items
 	Vector<MenuItem*> menuItems;
 
 	// Ojo la Y va p'arriba
 	float pos = 0;
 
-	// menus en orden inverso, pero la numeracion (*1.0f, *2.0f ...) va en orden y asi me es mas facil
 	auto menuSalir = MenuItemFont::create("Salir", CC_CALLBACK_1(Menus::MenuCloseCallback, this));
 	menuSalir->setPosition(0.0f, menuSalir->getContentSize().height * ++pos);
 	menuItems.pushBack(menuSalir);
+
+	auto menuEscenaVacia = MenuItemFont::create("Escena Vacia (duh)", CC_CALLBACK_1(Menus::MenuEscenaVaciaCallback, this));
+	menuEscenaVacia->setPosition(0.0f, menuEscenaVacia->getContentSize().height * ++pos);
+	menuItems.pushBack(menuEscenaVacia);
 
 	auto menuKeyTest = MenuItemFont::create("Keyboard Test", CC_CALLBACK_1(Menus::MenuKeyTestCallback, this));
 	menuKeyTest->setPosition(0.0f, menuKeyTest->getContentSize().height * ++pos);
@@ -69,9 +76,9 @@ bool Menus::init(){
 	menuSpritesTest->setPosition(0.0f, menuSpritesTest->getContentSize().height * ++pos);
 	menuItems.pushBack(menuSpritesTest);
 
-	//auto menuJugar = MenuItemFont::create("Jugar", CC_CALLBACK_1(Menus::MenuJugarCallback, this));
-	//menuJugar->setPosition(0.0f, menuJugar->getContentSize().height * ++pos);
-	//menuItems.pushBack(menuJugar);
+	auto menuAnimTest = MenuItemFont::create("AnimTest", CC_CALLBACK_1(Menus::MenuAnimTestCallback, this));
+	menuAnimTest->setPosition(0.0f, menuAnimTest->getContentSize().height * ++pos);
+	menuItems.pushBack(menuAnimTest);
 
 	auto menuJugar2 = MenuItemFont::create("Jugar2", CC_CALLBACK_1(Menus::MenuJugar2Callback, this));
 	menuJugar2->setPosition(0.0f, menuJugar2->getContentSize().height * ++pos);
@@ -80,19 +87,14 @@ bool Menus::init(){
 	/* repeat for as many menu items as needed */
 
 	auto miMenu = Menu::createWithArray(menuItems);
-	//miMenu->setPosition(100.0f, 200.0f);
 	this->addChild(miMenu, 1);
 
 	// me aseguro de inicializar Game antes de empezar
 	// HACK: el constructor ya inicializa las variables, me vale con llamar a Game::getInstance() y ya.
 	// al inicializarse, cargará las preferencias y se inicializará
 	Game::getInstance();
-	//Game::getInstance()->ellapsedTime = 0;
-	//Game::getInstance()->estadoActual = Game::estadosJuego::menus;
 
 	#pragma endregion
-
-
 
 	return true;
 }
@@ -139,6 +141,18 @@ void Menus::MenuKeyTestCallback(cocos2d::Ref *pSender){
 
 void Menus::MenuPolyspritesCallback(cocos2d::Ref *pSender){
 	auto scene = PolyspriteTest::createScene();
+	auto director = Director::getInstance();
+	director->replaceScene(scene);
+}
+
+void Menus::MenuAnimTestCallback(cocos2d::Ref *pSender){
+	auto scene = AnimTest::createScene();
+	auto director = Director::getInstance();
+	director->replaceScene(scene);
+}
+
+void Menus::MenuEscenaVaciaCallback(cocos2d::Ref *pSender){
+	auto scene = EscenaVacia::createScene();
 	auto director = Director::getInstance();
 	director->replaceScene(scene);
 }

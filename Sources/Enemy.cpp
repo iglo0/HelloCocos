@@ -52,7 +52,9 @@ void Enemy::initEnemy(Node * nodo, const char * pathSprite, const char * rutaSon
 	GameActor::gameActorHP_ = hp;
 	GameActor::gameActorSpeed_ = Game::getInstance()->enemy_generic_speed;
 
-	setSprite(nodo, pathSprite, "Enemigo", (int)Game::CategoriaColision::Enemigo, (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::BalaJugador, initialScale);
+	setSprite(nodo, pathSprite, "Enemigo", (int)Game::CategoriaColision::Enemigo,
+		(int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::BalaJugador | (int)Game::CategoriaColision::Destructible,
+		initialScale);
 
 	//tIniDisparo_ = 0;
 	//funcionControlActual = nullptr;

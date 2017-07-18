@@ -228,11 +228,12 @@ public:
 		// a monster, the next bit over to represent a projectile, and so on.
 		None = 0,
 		Jugador = (1 << 0),			// 1
-		BalaJugador = (1 << 1),			// 2
+		BalaJugador = (1 << 1),		// 2
 		Enemigo = (1 << 2),			// 4
 		BalaEnemigo = (1 << 3),		// 8
+		Destructible = (1 << 4),	// 16
 		//EnemigosYBalas = CategoriaColision::Enemigo | CategoriaColision::BalaEnemigo,
-		All = CategoriaColision::Jugador | CategoriaColision::BalaJugador | CategoriaColision::Enemigo | CategoriaColision::BalaEnemigo
+		All = CategoriaColision::Jugador | CategoriaColision::BalaJugador | CategoriaColision::Enemigo | CategoriaColision::BalaEnemigo | CategoriaColision::Destructible
 	};
 
 };
