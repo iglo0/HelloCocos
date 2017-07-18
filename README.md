@@ -12,7 +12,7 @@ tabla col | col
 -- | --
 fila | fila
 -->
-<!--
+
 # cocos2d-x
 ## aprendiendo c++ con cocos
 
@@ -36,8 +36,9 @@ Git user attention
 
 ### ÚLTIMO HECHO
 
+- salen las típicas "casitas" destructibles tras las que te puedes proteger
 - configuración con archivos en vez de #defines
-- rediseño de código (primera de 'n' :)
+- rediseño de código (segunda de 'n' :)
 - comenzada planificacion de tareas (este readme)
 - limpieza general de #includes del proyecto
 - Atlas de sprites en una sola textura (.plist y spritesheet.png generado con TexturePacker)
@@ -48,18 +49,10 @@ Git user attention
 En desarrollo [Estimación]
 ```diff
 
-ESTRUCTURA DEL JUEGO
-+ creada otra máquina de estados para el juego, intentando implementarla con el patrón "Estado"
-- reimplementando las funciones de movimiento (balas mayormente)
-
-GRÁFICOS
-+ Colisiones precisas. Definidos el resto de sprites
-
 LÓGICA DEL JUEGO
-[en pausa]Añadir comportamientos a los disparos: preparando la estructura para hacer esto
-- tiros en la dirección general del prota (ecuación lineal) [03/06/17]
-- disparo de proyectiles que sigan trayectorias (seno/coseno) [04/06/17]
++ Añadir comportamientos a los disparos: preparando la estructura para hacer esto
 - disparo de múltiples proyectiles en abanico (bosses?) [07/06/17]
+- Que las casitas se vayan destruyendo ahí donde sean disparadas
 
 ```
 
@@ -76,22 +69,16 @@ EFECTOS
 
 
 ### POR PLANIFICAR (tareas pendientes que ir planificando)
-LÓGICA DEL JUEGO
-- Añadir comportamientos a las naves
-	- enemigos que salen y entran en la formación (por ejemplo: Galaxian/Galaga)
-		- que sigan splines? LOL ni siquiera he empezado por y=x
-	- que los enemigos disparen más cuantos menos queden
+
 GRÁFICOS
 - Independencia de resolución
+
 
 ### IDEAS (a hacer ~~cuando las ranas críen pelo~~ más adelante)
 
 En ningún orden particular:
 
 LÓGICA DEL JUEGO
-- Añadir las casitas (las típicas del Space Invaders que protegen al prota)
-	- que sean destructibles
-		- que se vayan destruyendo ahí donde sean disparadas
 - Añadir power-ups
 	- nuevos tipos de disparo para el jugador
 		- tiro a tiro
@@ -104,6 +91,14 @@ LÓGICA DEL JUEGO
 		- puntos de golpe fijos
 		- energía recargable
 	- power-ups usables por los enemigos (no que los cojan sino poder crear enemigos con ellos)
+- Añadir comportamientos a las naves
+	- enemigos que salen y entran en la formación (por ejemplo: Galaxian/Galaga)
+		- que sigan splines? LOL ni siquiera he empezado por y=x
+- ~~tiros en la dirección general del prota [03/06/17] [hecho hacia el 01/07]~~
+- ~~disparo de proyectiles que sigan trayectorias (seno/coseno) [04/06/17] [hecho hacia el 01/07]~~
+- ~~Añadir las casitas (las típicas del Space Invaders que protegen al prota)~~
+	- ~~que sean destructibles~~
+- ~~que los enemigos disparen más cuantos menos queden~~
 
 EFECTOS
 - Sonido
@@ -125,9 +120,12 @@ GRÁFICOS
 - Animaciones
 	- Animaciones sencillas (en loop) de los objetos
 	- Poder definir animaciones en loop y one-off
+- ~~Colisiones precisas. Definidos el resto de sprites~~
 
 ESTRUCTURA DEL JUEGO
 - jefes cada "x" oleadas
+- ~~creada otra máquina de estados para el juego, intentando implementarla con el patrón "Estado"~~
+- ~~reimplementando las funciones de movimiento (balas mayormente)~~
 
 GENERAL
 - Tabla de records
@@ -141,12 +139,11 @@ GENERAL
 - Separar el manejo de datos, lógica y memoria de la clase de Pool (ir viendo Pool_manager)	
 
 ### ~~BUGS~~ OUTSTANDING FEATURES
-- a veces el jugador puede perder dos vidas juntas. ¿Es por que le dan dos balas? ¿o no? no lo tengo claro
+- ~~a veces el jugador puede perder dos vidas juntas. ¿Es por que le dan dos balas? ¿o no? no lo tengo claro~~ <-- "solucionado" usando un solo polígono para sus colisiones
 - los mensajes que deberían salir centrados no lo hacen (calculo la posición solo al principio y no lo actualizo cuando cambio el mensaje)
 - las colisiones precisas están mal gestionadas: cada sprite tiene varios polígonos y es posible colisionar con varios a la vez. No es problema salvo para la nave del jugador, que puede perder las vidas de 3 en 3 :-D
-- la gestión de movimiento de los space invaders tiene un problema, si destruyo los de las esquinas justo cuando están bajando, están bajando demasiado rato (pero no infinito, es curioso) r:-m
+- la gestión de movimiento de los space invaders tiene un problema, si destruyo al que uso de guía se va el movimiento a tomar por saco.
 
 ### DUDAS TÉCNICAS
 
-- dándole vueltas a cómo conseguir comportamientos a base de "plug'n'play". Probando con polimorfismo y punteros a función, pero me termino atascando
--->
+- ¡ninguna!
