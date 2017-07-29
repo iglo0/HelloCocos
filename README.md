@@ -36,7 +36,7 @@ Git user attention
 
 ### ÚLTIMO HECHO
 
-- salen las típicas "casitas" destructibles tras las que te puedes proteger
+- salen las típicas "casitas" destructibles tras las que te puedes proteger (y se rompen a cachitos)
 - configuración con archivos en vez de #defines
 - rediseño de código (segunda de 'n' :)
 - comenzada planificacion de tareas (este readme)
@@ -49,18 +49,15 @@ Git user attention
 En desarrollo [Estimación]
 ```diff
 LÓGICA DEL JUEGO
-+ Añadir comportamientos a los disparos: preparando la estructura para hacer esto
 - disparo de múltiples proyectiles en abanico (bosses?) [07/06/17]
-+ Que las casitas se vayan destruyendo ahí donde sean disparadas
+
+GRÁFICOS
+- Animaciones sencillas (en loop) de los objetos
+- Poder definir animaciones en loop y one-off
 ```
 
 
 ### PLANIFICADO (lo siguiente que pienso hacer)
-
-GRÁFICOS
-- Animaciones
-	- Animaciones sencillas (en loop) de los objetos
-	- Poder definir animaciones en loop y one-off
 
 ESTRUCTURA DEL JUEGO
 - detectar la destrucción de las oleadas de enemigos
@@ -72,10 +69,6 @@ EFECTOS
 
 
 ### POR PLANIFICAR (tareas pendientes que ir planificando)
-
-GRÁFICOS
-- Independencia de resolución
-
 
 ### IDEAS (a hacer ~~cuando las ranas críen pelo~~ más adelante)
 
@@ -120,6 +113,7 @@ EFECTOS
 - Parpadeo de las naves (periodo de invulnerabilidad)
 
 GRÁFICOS
+- Independencia de resolución
 - ~~Colisiones precisas. Definidos el resto de sprites~~
 
 ESTRUCTURA DEL JUEGO
