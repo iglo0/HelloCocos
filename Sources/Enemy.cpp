@@ -165,7 +165,7 @@ void Enemy::dispara(){
 
 void Enemy::disparaN(int n){
 	std::vector<Bullet *> bs;
-	Bullet *tmp;
+	//Bullet *tmp;
 
 	if(poolMisBalas_){
 		bs = reservaVectorBalas(n);

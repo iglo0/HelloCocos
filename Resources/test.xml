@@ -64,5 +64,32 @@
 	<sprite_casa_esquina_dch>casa_esquina_dch.png</sprite_casa_esquina_dch>
 	<sprite_casa_esquina_izq>casa_esquina_izq.png</sprite_casa_esquina_izq>
 
+	<bullet_t1_anim>
+		<frame0>
+			<path>bullet_orange0000.png</path>
+			<wait>0.1</wait>
+			<next>1</next>
+		</frame0>
+		<frame1>
+			<path>bullet_orange0001.png</path>
+			<wait>0.1</wait>
+			<next>2</next>
+		</frame1>
+		<frame2>
+			<path>bullet_orange0002.png</path>
+			<wait>0.1</wait>
+			<next>3</next>
+		</frame2>
+		<frame3>
+			<path>bullet_orange0003.png</path>
+			<wait>0.1</wait>
+			<next>4</next>
+		</frame3>
+		<frame4>
+			<path>bullet_orange0004.png</path>
+			<wait>0.1</wait>
+			<next>0</next>
+		</frame4>
+	</bullet_t1_anim>
 
 </default_values>

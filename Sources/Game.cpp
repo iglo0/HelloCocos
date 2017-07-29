@@ -20,6 +20,36 @@ Game *Game::getInstance(){
 	return instance;
 }
 
+Sprite *Game::creaSprite(const char *ruta, const char *name, int tipoColision, int colisionaCon, float initialScale){
+	Sprite *tmp;
+
+	// OJO: Sprite::createWithSpriteFrameName(ruta) -> CASE SENSITIVE! 
+	tmp = Sprite::createWithSpriteFrameName(ruta);
+
+	if(!tmp){
+		CCLOG("Game::creaSprite '%s'=SIN DEFINIR", ruta);
+		return nullptr;// o return sprite pal caso
+	}
+
+	tmp->setScale(initialScale);
+
+	tmp->setName(name);
+
+	anadeFisica(tmp, tipoColision, colisionaCon, name, ruta);
+
+	//TODO: Ops¿?
+	//tmp->setUserData(this);
+	// y su tipo
+	tmp->setTag(tipoColision);
+
+	//desactiva();
+
+	// hecho
+	//nodo->addChild(tmp);
+
+	return tmp;
+}
+
 void Game::anadeFisica(Sprite *sprite, int tipoColision, int colisionaCon, const char *name, const char *colliderName){
 	PhysicsBody *fisicaSprite;
 	PhysicsShapeCache *physicsShapeCache;

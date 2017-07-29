@@ -106,6 +106,10 @@ public:
 	// devuelve la instancia, y se asegura de inicializarlo solo una vez aun con concurrencia (recomendado desde c++11)
 	static Game *getInstance();
 
+	// para que todas mis creaciones de sprite sean iguales
+	// HACK: le falta asignarle spriteData para que funcionen las colisiones. OJETE!
+	static Sprite *creaSprite(const char *ruta, const char *name, int tipoColision, int colisionaCon, float initialScale);
+
 	// prueba fisica
 	static void anadeFisica(Sprite *sprite, int tipoColision, int colisionaCon, const char *name = "[NONAME]", const char *colliderName="");
 	//static void updateAll(float deltaT); // updates all gameActors in da pools. Ummm Game no conoce cómo está definido Enemy (declaración adelantada), y no puede acceder a sus miembros.
