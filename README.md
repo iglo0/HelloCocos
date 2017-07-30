@@ -54,6 +54,12 @@ LÓGICA DEL JUEGO
 GRÁFICOS
 - Animaciones sencillas (en loop) de los objetos
 - Poder definir animaciones en loop y one-off
+- Definir animaciones para las balas
+- Definir animaciones para los enemigos
+- Sacar explosiones animadas
+
+GENERAL
+- Carga de definición de las animaciones en ficheros XML
 ```
 
 
