@@ -2,99 +2,11 @@
 #include "Menus.h"
 #include "pugixml.hpp"
 #include "Game.h"
+#include "AnimSprites.h"
 
 // C++11 -> std::this_thread::sleep_for(std::chrono::milliseconds(x));
 //#include <chrono>
 //#include <thread>
-
-#pragma region AnimFrame
-
-AnimSprites::AnimSprites(Node *parent): parent_(parent){}
-
-AnimSprites::~AnimSprites(){}
-
-void AnimSprites::addFrame(std::string animName, AnimSprites::frame *f){
-
-	// me aseguro que está desactivado
-	hideFrame(f);
-	//showFrame(f);
-
-	// si existe key la añade, si no la crea. MOOOLA!
-	animations_[animName].push_back(f);
-
-	parent_->addChild(f->sprite_);
-}
-
-void AnimSprites::hideFrame(frame *f){
-	PhysicsBody *p;
-
-	f->sprite_->setVisible(false);
-	p = f->sprite_->getPhysicsBody();
-	if(p){
-		p->setEnabled(false);
-	}
-}
-
-void AnimSprites::showFrame(frame *f){
-	PhysicsBody *p;
-
-	f->sprite_->setVisible(true);
-	p = f->sprite_->getPhysicsBody();
-	if(p){
-		p->setEnabled(true);
-	}
-}
-
-void AnimSprites::update(float deltaT){
-	//std::vector<frame *> currAnim = animations_[currAnimName_];
-	frame *f;
-
-	if(Game::getInstance()->ellapsedTime >= currFrameTEnd_){
-		f = (*currAnimation_)[currFrame_];
-
-		// oculto este frame
-		hideFrame(f);
-		if(!f->isLastFrame_){
-			// sigo con el loop
-			if(++currFrame_ >= lastFrame_){
-				currFrame_ = 0;
-			}
-
-			playFrame(currFrame_);
-		}
-
-	}
-}
-
-void AnimSprites::playStart(std::string animName){
-	//std::vector<frame *> tmp = animations_[animName];
-	currAnimation_ = &animations_[animName];
-	frame *f;
-
-	if(currAnimation_->size() > 0){
-		lastFrame_ = currAnimation_->size() - 1;
-	} else{
-		lastFrame_ = 0;
-	}
-	currAnimName_ = animName;
-
-	playFrame(0);	// asigna currFrame_
-}
-
-void AnimSprites::playFrame(int numFrame){
-	frame *f;
-
-	currFrame_ = numFrame;
-
-	f = (*currAnimation_)[currFrame_];
-
-	currFrameTIni_ = Game::getInstance()->ellapsedTime;
-	currFrameTEnd_ = currFrameTIni_ + f->delaySeconds_;
-
-	showFrame(f);
-}
-
-#pragma endregion
 
 AnimTest::~AnimTest(){
 	Director::getInstance()->setDisplayStats(false);
@@ -187,7 +99,7 @@ void AnimTest::miInit(){
 	f = new AnimSprites::frame(spr, delay, false, std::string(""));
 	animaciones_->addFrame(std::string("loop"), f);
 	
-	spr = Game::creaSprite("bullet_orange0001.png", "bullet_orange0001.png", 0, 0, size);
+	spr = Game::creaSprite("bullet_blue0001.png", "bullet_orange0001.png", 0, 0, size);
 	//spr = Sprite::createWithSpriteFrameName("bullet_orange0001.png");
 	f = new AnimSprites::frame(spr, delay, false, std::string(""));
 	animaciones_->addFrame(std::string("loop"), f);
@@ -198,7 +110,7 @@ void AnimTest::miInit(){
 	animaciones_->addFrame(std::string("loop"), f);
 
 	//spr = Sprite::createWithSpriteFrameName("bullet_orange0003.png");
-	spr = Game::creaSprite("bullet_orange0003.png", "bullet_orange0003.png", 0, 0, size);
+	spr = Game::creaSprite("bullet_blue0003.png", "bullet_orange0003.png", 0, 0, size);
 	f = new AnimSprites::frame(spr, delay, false, std::string(""));
 	animaciones_->addFrame(std::string("loop"), f);
 
