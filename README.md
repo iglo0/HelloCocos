@@ -52,8 +52,8 @@ LÓGICA DEL JUEGO
 - disparo de múltiples proyectiles en abanico (bosses?) [07/06/17]
 
 GRÁFICOS
-- Animaciones sencillas (en loop) de los objetos
-- Poder definir animaciones en loop y one-off
++ Animaciones sencillas (en loop) de los objetos
++ Poder definir animaciones en loop y one-off
 - Definir animaciones para las balas
 - Definir animaciones para los enemigos
 - Sacar explosiones animadas
