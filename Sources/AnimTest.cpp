@@ -86,6 +86,8 @@ bool AnimTest::init(){
 
 void AnimTest::miInit(){
 
+	carga("test.xml");
+
 	animaciones_ = new AnimSprites(this);
 	Sprite *spr;
 	AnimSprites::frame *f;
@@ -252,35 +254,74 @@ void AnimTest::carga(const char *filename){
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file(filename);
 
+	pugi::xml_node xml_root = doc.child("default_values");
+	
+	auto x = xml_root.child_value("anim");
+	//player_initial_speed = atof(xml_default_values.child_value(CONFIG_PLAYER_INITIAL_SPEED));
+
+	
+	#pragma region save test
+	pugi::xml_document docWrite;
+	auto declarationNode = docWrite.append_child(pugi::node_declaration);
+	declarationNode.append_attribute("version") = "0.1";
+	declarationNode.append_attribute("encoding") = "ISO-8859-1";
+	declarationNode.append_attribute("standalone") = "yes";
+
+	auto root = docWrite.append_child("MyRoot");
+
+	// Append some child elements below root
+	// Add as last element
+	pugi::xml_node nodeChild = root.append_child("MyChild");
+	nodeChild.append_attribute("hint") = "inserted as last child";
+	nodeChild.append_attribute("intVal") = 5;
+	// Add as last element
+	nodeChild = root.append_child("MyChild");
+	nodeChild.append_attribute("hint") = "also inserted as last child";
+	nodeChild.append_attribute("doubleVal") = 2.03;
+	// Add as first element
+	nodeChild = root.prepend_child("MyChild");
+	nodeChild.append_attribute("hint") = "inserted at front";
+	nodeChild.append_attribute("boolVal") = false;
+
+
+	pugi::xml_node childrenWithValues = root.append_child("ChildrenWithValue");
+	// Add child of type integer
+	pugi::xml_node nodeChildWithValues = childrenWithValues.append_child("MyChildWithIntValue");
+	nodeChildWithValues.append_child(pugi::node_pcdata).set_value(std::to_string(4712).c_str());
+	// Add child of type double
+	nodeChildWithValues = childrenWithValues.append_child("MyChildWithDoubleValue");
+	nodeChildWithValues.append_child(pugi::node_pcdata).set_value(std::to_string(3.18).c_str());
+	// Add child of type bool
+	nodeChildWithValues = childrenWithValues.append_child("MyChildWithBoolValue");
+	nodeChildWithValues.append_child(pugi::node_pcdata).set_value(std::to_string(false).c_str());
+
+
+	bool saveSucceeded = docWrite.save_file("testw.xml", PUGIXML_TEXT("  "));
+	assert(saveSucceeded);
+	#pragma endregion
+
+
 	//std::cout << "Load result: " << result.description() << ", whatever: " << doc.child("book").attribute("category").value() << std::endl;
 	//std::cout << doc.child("person").child_value("firstname") << std::endl;
 	//std::cout << doc.child("person").child_value("lastname") << std::endl;
-
 	// C++11
 	//for(pugi::xml_node person : doc.children("person")){
 	//	//std::cout << person.child_value("firstname") << " " << person.child_value("lastname") << std::endl;
 	//	CCLOG("%s", person.child_value("firstname"));
 	//}
-
 	//config_properties.insert({ CONFIG_PLAYER_INITIAL_SPEED, xml_default_values.child_value(CONFIG_PLAYER_INITIAL_SPEED) });
 	//config_properties.insert({ CONFIG_PLAYER_PATH_SPRITE, xml_default_values.child_value(CONFIG_PLAYER_PATH_SPRITE) });
-
 	//auto iter = config_properties.find(CONFIG_PLAYER_INITIAL_SPEED);
-
 	//if(iter != config_properties.end()){
 	//	// ojo find devuelve un iterator
 	//	CCLOG("%s", iter->second);
 	//}
-
 	//iter = config_properties.find(CONFIG_PLAYER_PATH_SPRITE);
 	//if(iter != config_properties.end()){
 	//	CCLOG("%s", iter->second);
 	//}
 
 
-	pugi::xml_node xml_default_values = doc.child("default_values");
-	
-	auto x = xml_default_values.child_value("bullet_t1_anim");
-	//player_initial_speed = atof(xml_default_values.child_value(CONFIG_PLAYER_INITIAL_SPEED));
+
 
 }

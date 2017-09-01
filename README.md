@@ -36,34 +36,28 @@ Git user attention
 
 ### ÚLTIMO HECHO
 
-- salen las típicas "casitas" destructibles tras las que te puedes proteger (y se rompen a cachitos)
-- configuración con archivos en vez de #defines
-- rediseño de código (segunda de 'n' :)
-- comenzada planificacion de tareas (este readme)
-- limpieza general de #includes del proyecto
-- Atlas de sprites en una sola textura (.plist y spritesheet.png generado con TexturePacker)
-- colisiones precisas funcionando (faltan por definir sprites aun)
+- Clase AnimSprites de gestión de animaciones y escena AnimTest de prueba.
 
 ----
 # TRABAJO EN CURSO
 En desarrollo [Estimación]
 ```diff
-LÓGICA DEL JUEGO
-- disparo de múltiples proyectiles en abanico (bosses?) [07/06/17]
-
-GRÁFICOS
-+ Animaciones sencillas (en loop) de los objetos
-+ Poder definir animaciones en loop y one-off
-- Definir animaciones para las balas
-- Definir animaciones para los enemigos
-- Sacar explosiones animadas
-
 GENERAL
-- Carga de definición de las animaciones en ficheros XML
+- Carga de definición de las animaciones en ficheros XML [10/09/2017]
 ```
 
 
 ### PLANIFICADO (lo siguiente que pienso hacer)
+GENERAL
+- Modificar la gestión de los pools para que trabajen con animaciones [17/09/2017]
+
+GRÁFICOS
+- Definir animaciones para las balas
+- Definir animaciones para los enemigos
+- Sacar explosiones animadas
+
+LÓGICA DEL JUEGO
+- disparo de múltiples proyectiles en abanico (bosses?) ~~[07/06/17]~~
 
 ESTRUCTURA DEL JUEGO
 - detectar la destrucción de las oleadas de enemigos
