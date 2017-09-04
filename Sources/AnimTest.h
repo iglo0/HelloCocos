@@ -36,7 +36,10 @@ public:
 	void mueveNodo();
 
 private:
-	void carga(const char *);
+	#pragma region xml
+	void xmlLoadTest(const char *);
+	void xmlSaveTest(const char *);
+	#pragma endregion
 	void miInit();
 	//void mueveNodo();
 

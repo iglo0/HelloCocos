@@ -86,7 +86,7 @@ bool AnimTest::init(){
 
 void AnimTest::miInit(){
 
-	carga("test.xml");
+	xmlLoadTest("test.xml");
 
 	animaciones_ = new AnimSprites(this);
 	Sprite *spr;
@@ -250,17 +250,15 @@ void AnimTest::mueveNodo(){
 	animaciones_->setPosition(pos);
 }
 
-void AnimTest::carga(const char *filename){
+#pragma region xml cosaz
+
+// OJO: unused
+void AnimTest::xmlSaveTest(const char *filename){
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file(filename);
 
 	pugi::xml_node xml_root = doc.child("default_values");
-	
-	auto x = xml_root.child_value("anim");
-	//player_initial_speed = atof(xml_default_values.child_value(CONFIG_PLAYER_INITIAL_SPEED));
 
-	
-	#pragma region save test
 	pugi::xml_document docWrite;
 	auto declarationNode = docWrite.append_child(pugi::node_declaration);
 	declarationNode.append_attribute("version") = "0.1";
@@ -296,9 +294,83 @@ void AnimTest::carga(const char *filename){
 	nodeChildWithValues.append_child(pugi::node_pcdata).set_value(std::to_string(false).c_str());
 
 
-	bool saveSucceeded = docWrite.save_file("testw.xml", PUGIXML_TEXT("  "));
+	bool saveSucceeded = docWrite.save_file(filename, PUGIXML_TEXT("  "));
 	assert(saveSucceeded);
-	#pragma endregion
+
+}
+
+void AnimTest::xmlLoadTest(const char *filename){
+	/*
+	* xml_node is the handle to document node; it can point to any node in the document, including document itself.
+
+	There is a special value of xml_node type, known as null node or empty node. It does not correspond to any node in any document, and thus resembles null pointer. 
+	However, all operations are defined on empty nodes; generally the operations don’t do anything and return empty nodes/attributes or empty strings as their result. 
+	This is useful [...] you can get the grandparent of a node like so: node.parent().parent(); 
+	if a node is a null node or it does not have a parent, the first parent() call returns null node; the second parent() call then also returns null node, so you don’t have to check for errors twice.
+
+	You can test if a handle is null via implicit boolean cast: if (node) { …? } or if (!node) { …? }.
+
+	* xml_attribute is the handle to an XML attribute; it has the same semantics as xml_node
+
+	* load_file, as well as other loading functions, destroys the existing document tree and then tries to load the new tree from the specified file. 
+	The result of the operation is returned in an xml_parse_result object
+
+	* You can get node or attribute name via name() accessor, and value via value() accessor. Note that both functions never return null pointers
+	they either return a string with the relevant content, or an empty string if name/value is absent or if the handle is null.
+
+	Also there are two notable things for reading values:
+
+    It is common to store data as text contents of some node - i.e. <node><description>This is a node< / description>< / node>.
+	In this case, <description> node does not have a value, but instead has a child of type node_pcdata with value "This is a node".
+	pugixml provides child_value() and text() helper functions to parse such data.
+
+	In many cases attribute values have types that are not strings - i.e.an attribute may always contain values that should be treated as integers, 
+	despite the fact that they are represented as strings in XML.pugixml provides several accessors that convert attribute value to some other type.
+
+	*/
+
+
+	pugi::xml_document doc;
+	pugi::xml_parse_result result = doc.load_file(filename);
+
+	if(!result){
+		// error! salir o algo
+		CCLOG("Error parseando xml %s", filename);
+		return;
+	}
+
+	// al nivel raíz del xml tengo default_values que uso para la configuración y al mismo nivel varios "animset" que definen un set de animaciones
+	for(pugi::xml_node animset = doc.child("animset"); animset; animset = animset.next_sibling("animset")){
+		// aquí hay un animset
+
+		CCLOG("animset name=%s", animset.attribute("name").value());
+
+		// dentro debería haber varios anim
+		for(pugi::xml_node anim = animset.child("anim"); anim; anim = anim.next_sibling("anim")){
+
+			CCLOG("    name=%s, loop=%s", anim.attribute("name").value(), anim.attribute("loop").value());
+
+			// dentro de cada anim, varios frame
+			for(pugi::xml_node frame = anim.child("frame"); frame; frame = frame.next_sibling("frame")) {
+				// y aquí por fin están cada frame que necesita la animación
+				CCLOG("        path=%s t=%s", frame.attribute("path").value(), frame.attribute("wait").value());
+			}
+
+		}
+
+	}
+
+	//pugi::xml_node xml_root = doc.child("default_values");
+	//pugi::xml_node xml_root = doc.child("animset");
+
+	//auto x = xml_root.child_value("bullet_t1_anim");
+	
+	// next_sibling	"lateral traversing"
+	// next_child, parent "vertical traversing"
+	// 
+	
+
+	//player_initial_speed = atof(xml_default_values.child_value(CONFIG_PLAYER_INITIAL_SPEED));
 
 
 	//std::cout << "Load result: " << result.description() << ", whatever: " << doc.child("book").attribute("category").value() << std::endl;
@@ -325,3 +397,5 @@ void AnimTest::carga(const char *filename){
 
 
 }
+
+#pragma endregion

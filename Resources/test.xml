@@ -64,32 +64,28 @@
 	<sprite_casa_esquina_dch>casa_esquina_dch.png</sprite_casa_esquina_dch>
 	<sprite_casa_esquina_izq>casa_esquina_izq.png</sprite_casa_esquina_izq>
 
-	<animset name="bullet_t1_anim">	<!-- set de animaciones para xxx -->
-		<anim name="default" loop="1">			<!-- animacion 1 "yyy" de xxx -->
-			<frame>
-				<path>bullet_orange0000.png</path>
-				<wait>0.1</wait>
-			</frame>
-			<frame>
-				<path>bullet_orange0001.png</path>
-				<wait>0.1</wait>
-			</frame>
-			<frame>
-				<path>bullet_orange0002.png</path>
-				<wait>0.1</wait>
-			</frame>
-			<frame>
-				<path>bullet_orange0003.png</path>
-				<wait>0.1</wait>
-			</frame>
-			<frame>
-				<path>bullet_orange0004.png</path>
-				<wait>0.1</wait>
-			</frame>
-		</anim>
-		<anim name="kk">			<!-- animacion 2 "zzz" de xxx -->
-		</anim>
-	</animset>
-
-
 </default_values>
+
+<!-- prueba con n animset seguidos -->
+<!-- pruebo mezclando nodos con atributos -->
+<animset name="bullet_t1_anim">	<!-- set de animaciones para xxx -->
+	<anim name="default" loop="1">			<!-- animacion 1 "yyy" de xxx -->
+		<frame path="bullet_orange0000.png" wait="0.1" />
+		<frame path="bullet_orange0001.png" wait="0.1" />
+		<frame path="bullet_orange0002.png" wait="0.1" />
+		<frame path="bullet_orange0003.png" wait="0.1" />
+		<frame path="bullet_orange0004.png" wait="0.1" />
+	</anim>
+	<anim name="kk">			<!-- animacion 2 "zzz" de xxx -->
+	</anim>
+</animset>
+
+<animset name="bullet_t2_anim">
+	<anim name="default" loop="1">
+		<frame path="bullet_orange0000.png" wait="0.1" />
+		<frame path="bullet_blue0001.png" wait="0.1" />
+		<frame path="bullet_orange0002.png" wait="0.1" />
+		<frame path="bullet_blue0003.png" wait="0.1" />
+	</anim>
+</animset>
+
