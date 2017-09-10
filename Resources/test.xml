@@ -70,22 +70,20 @@
 <!-- pruebo mezclando nodos con atributos -->
 <animset name="bullet_t1_anim">	<!-- set de animaciones para xxx -->
 	<anim name="default" loop="1">			<!-- animacion 1 "yyy" de xxx -->
-		<frame path="bullet_orange0000.png" wait="0.1" />
-		<frame path="bullet_orange0001.png" wait="0.1" />
-		<frame path="bullet_orange0002.png" wait="0.1" />
-		<frame path="bullet_orange0003.png" wait="0.1" />
-		<frame path="bullet_orange0004.png" wait="0.1" />
-	</anim>
-	<anim name="kk">			<!-- animacion 2 "zzz" de xxx -->
+		<frame path="bullet_orange0000.png" wait="0.2" size="4.0" />
+		<frame path="bullet_orange0001.png" wait="0.2" size="4.0" />
+		<frame path="bullet_orange0002.png" wait="0.2" size="4.0" />
+		<frame path="bullet_orange0003.png" wait="0.2" size="4.0" />
+		<frame path="bullet_orange0004.png" wait="0.2" size="4.0" />
 	</anim>
 </animset>
-
+<!--
 <animset name="bullet_t2_anim">
 	<anim name="default" loop="1">
-		<frame path="bullet_orange0000.png" wait="0.1" />
-		<frame path="bullet_blue0001.png" wait="0.1" />
-		<frame path="bullet_orange0002.png" wait="0.1" />
-		<frame path="bullet_blue0003.png" wait="0.1" />
+		<frame path="bullet_orange0000.png" wait="0.1" size="4.0" />
+		<frame path="bullet_blue0001.png" wait="0.1" size="4.0" />
+		<frame path="bullet_orange0002.png" wait="0.1" size="4.0" />
+		<frame path="bullet_blue0003.png" wait="0.1" size="4.0" />
 	</anim>
 </animset>
-
+-->

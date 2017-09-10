@@ -85,9 +85,13 @@ bool AnimTest::init(){
 #pragma endregion
 
 void AnimTest::miInit(){
-
+	
 	xmlLoadTest("test.xml");
 
+	// Oookay tengo animaciones_ cargado. Y ahora?
+	animaciones_->playStart("default");
+
+	/*
 	animaciones_ = new AnimSprites(this);
 	Sprite *spr;
 	AnimSprites::frame *f;
@@ -122,7 +126,7 @@ void AnimTest::miInit(){
 	animaciones_->addFrame(std::string("loop"), f);
 
 	animaciones_->playStart("loop");
-
+	*/
 }
 
 void AnimTest::menuVuelveCallback(Ref *pSender){
@@ -179,41 +183,14 @@ void AnimTest::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event){
 }
 
 void AnimTest::update(float deltaT){
-	//Sleep(1000); // Win32 Sleep() has millisecond precision, but it's accuracy can be orders of magnitude higher.
-	//std::this_thread::sleep_for(std::chrono::milliseconds(1000));	// estándar, portable
-
 	// siempre cuento el tiempo
 	Game::getInstance()->ellapsedTime += deltaT;
 
 	mueveNodo();
 
-	#pragma region animacion
 	if(animaciones_){
 		animaciones_->update(deltaT);
 	}
-	/*
-	size_t lastFrame;
-	if(currFrame_ > 0){
-		lastFrame = currFrame_ - 1;
-	} else{
-		lastFrame = numFrames_ - 1;
-	}
-
-	AnimSprites *tmp = frames_[lastFrame];
-	tmp->show(false);
-	tmp = frames_[currFrame_];
-	tmp->show(true);
-
-	if(currFrame_ >= numFrames_ - 1){
-		currFrame_ = 0;
-	} else{
-		++currFrame_;
-	}
-
-	// TODO: pero bloqueo todo haciendo esto
-	std::this_thread::sleep_for(std::chrono::milliseconds(tmp->delay_));	// estándar, portable
-	*/
-	#pragma endregion
 }
 
 void AnimTest::mueveNodo(){
@@ -303,32 +280,29 @@ void AnimTest::xmlLoadTest(const char *filename){
 	/*
 	* xml_node is the handle to document node; it can point to any node in the document, including document itself.
 
-	There is a special value of xml_node type, known as null node or empty node. It does not correspond to any node in any document, and thus resembles null pointer. 
+	* There is a special value of xml_node type, known as null node or empty node. It does not correspond to any node in any document, and thus resembles null pointer. 
 	However, all operations are defined on empty nodes; generally the operations don’t do anything and return empty nodes/attributes or empty strings as their result. 
 	This is useful [...] you can get the grandparent of a node like so: node.parent().parent(); 
 	if a node is a null node or it does not have a parent, the first parent() call returns null node; the second parent() call then also returns null node, so you don’t have to check for errors twice.
 
-	You can test if a handle is null via implicit boolean cast: if (node) { …? } or if (!node) { …? }.
-
+	* You can test if a handle is null via implicit boolean cast: if (node) { …? } or if (!node) { …? }.
+	
 	* xml_attribute is the handle to an XML attribute; it has the same semantics as xml_node
-
-	* load_file, as well as other loading functions, destroys the existing document tree and then tries to load the new tree from the specified file. 
-	The result of the operation is returned in an xml_parse_result object
-
+	
 	* You can get node or attribute name via name() accessor, and value via value() accessor. Note that both functions never return null pointers
 	they either return a string with the relevant content, or an empty string if name/value is absent or if the handle is null.
 
 	Also there are two notable things for reading values:
 
-    It is common to store data as text contents of some node - i.e. <node><description>This is a node< / description>< / node>.
+    * It is common to store data as text contents of some node - i.e. <node><description>This is a node< / description>< / node>.
 	In this case, <description> node does not have a value, but instead has a child of type node_pcdata with value "This is a node".
 	pugixml provides child_value() and text() helper functions to parse such data.
 
 	In many cases attribute values have types that are not strings - i.e.an attribute may always contain values that should be treated as integers, 
 	despite the fact that they are represented as strings in XML.pugixml provides several accessors that convert attribute value to some other type.
-
 	*/
-
+	
+	auto directorInstance = Director::getInstance();
 
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file(filename);
@@ -339,63 +313,47 @@ void AnimTest::xmlLoadTest(const char *filename){
 		return;
 	}
 
-	// al nivel raíz del xml tengo default_values que uso para la configuración y al mismo nivel varios "animset" que definen un set de animaciones
-	for(pugi::xml_node animset = doc.child("animset"); animset; animset = animset.next_sibling("animset")){
-		// aquí hay un animset
+	char *animSetName, *animName, *framePath;
+	float frameWait, spriteScale;
+	bool animLoop;
 
-		CCLOG("animset name=%s", animset.attribute("name").value());
+	animaciones_ = new AnimSprites(Vec2(directorInstance->getWinSize().width/2.0f, directorInstance->getWinSize().height/2.0f));
+	AnimSprites::frame *tmpFrame;
+	AnimSprites::animation *tmpAnimation;
+
+	// al nivel raíz del xml tengo default_values que uso para la configuración y al mismo nivel varios "animset" que definen un set de animaciones
+	for(pugi::xml_node xmlAnimSet = doc.child("animset"); xmlAnimSet; xmlAnimSet = xmlAnimSet.next_sibling("animset")){
+		// encontrado un <animset>. Dentro debería haber 0..n <anim>s y 0..m <frame>s
+
+		// animSet tiene name y nada más
+		animSetName = (char *)xmlAnimSet.attribute("name").value();
 
 		// dentro debería haber varios anim
-		for(pugi::xml_node anim = animset.child("anim"); anim; anim = anim.next_sibling("anim")){
+		for(pugi::xml_node xmlAnim = xmlAnimSet.child("anim"); xmlAnim; xmlAnim = xmlAnim.next_sibling("anim")){
 
-			CCLOG("    name=%s, loop=%s", anim.attribute("name").value(), anim.attribute("loop").value());
+			// cada anim de animSet tiene un nombre para la animación, atributos como si es loop o no y la lista de frames
+			animName = (char *)xmlAnim.attribute("name").value();
+			animLoop = xmlAnim.attribute("loop").as_bool();
 
-			// dentro de cada anim, varios frame
-			for(pugi::xml_node frame = anim.child("frame"); frame; frame = frame.next_sibling("frame")) {
-				// y aquí por fin están cada frame que necesita la animación
-				CCLOG("        path=%s t=%s", frame.attribute("path").value(), frame.attribute("wait").value());
+			// voy creando una estructura en memoria para el juego
+			tmpAnimation = new AnimSprites::animation(animLoop);
+
+			// busco los frames que hay y los asigno
+			for(pugi::xml_node xmlFrame = xmlAnim.child("frame"); xmlFrame; xmlFrame = xmlFrame.next_sibling("frame")) {
+
+				// ruta al archivo del sprite
+				framePath = (char *)xmlFrame.attribute("path").value();
+				frameWait = xmlFrame.attribute("wait").as_float();
+				spriteScale = xmlFrame.attribute("size").as_float();
+
+				tmpFrame = new AnimSprites::frame(this, framePath, frameWait, spriteScale);
+				// addFrame añade el frame a la animación si existe en el set (por nombre), o crea una nueva si no.
+				tmpAnimation->addFrame(tmpFrame);
 			}
-
 		}
 
+		animaciones_->addAnimation(animName, tmpAnimation);
 	}
-
-	//pugi::xml_node xml_root = doc.child("default_values");
-	//pugi::xml_node xml_root = doc.child("animset");
-
-	//auto x = xml_root.child_value("bullet_t1_anim");
-	
-	// next_sibling	"lateral traversing"
-	// next_child, parent "vertical traversing"
-	// 
-	
-
-	//player_initial_speed = atof(xml_default_values.child_value(CONFIG_PLAYER_INITIAL_SPEED));
-
-
-	//std::cout << "Load result: " << result.description() << ", whatever: " << doc.child("book").attribute("category").value() << std::endl;
-	//std::cout << doc.child("person").child_value("firstname") << std::endl;
-	//std::cout << doc.child("person").child_value("lastname") << std::endl;
-	// C++11
-	//for(pugi::xml_node person : doc.children("person")){
-	//	//std::cout << person.child_value("firstname") << " " << person.child_value("lastname") << std::endl;
-	//	CCLOG("%s", person.child_value("firstname"));
-	//}
-	//config_properties.insert({ CONFIG_PLAYER_INITIAL_SPEED, xml_default_values.child_value(CONFIG_PLAYER_INITIAL_SPEED) });
-	//config_properties.insert({ CONFIG_PLAYER_PATH_SPRITE, xml_default_values.child_value(CONFIG_PLAYER_PATH_SPRITE) });
-	//auto iter = config_properties.find(CONFIG_PLAYER_INITIAL_SPEED);
-	//if(iter != config_properties.end()){
-	//	// ojo find devuelve un iterator
-	//	CCLOG("%s", iter->second);
-	//}
-	//iter = config_properties.find(CONFIG_PLAYER_PATH_SPRITE);
-	//if(iter != config_properties.end()){
-	//	CCLOG("%s", iter->second);
-	//}
-
-
-
-
 }
 
 #pragma endregion

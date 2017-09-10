@@ -5,20 +5,37 @@
 //#include <chrono>
 //#include <thread>
 
-AnimSprites::AnimSprites(Node *parent): parent_(parent){}
+AnimSprites::AnimSprites(Vec2 posIni) : position_(posIni) {
+	currentAnimation_ = nullptr;
+	currentFrame_ = nullptr;
+}
 
 AnimSprites::~AnimSprites(){}
 
-void AnimSprites::addFrame(std::string animName, AnimSprites::frame *f){
+AnimSprites::frame::frame(Node *parent, const char *spritePath, float displaySeconds, float spriteScale){
+	displaySeconds_ = displaySeconds;
+	sprite_ = Sprite::createWithSpriteFrameName(spritePath);
+	sprite_->setScale(spriteScale);
+	parent->addChild(sprite_);
+}
 
-	// me aseguro que está desactivado
-	hideFrame(f);
-	//showFrame(f);
+void AnimSprites::animation::addFrame(frame * f){
+	animationFrames_.push_back(f);
+}
 
-	// si existe key la añade, si no la crea. MOOOLA!
-	animations_[animName].push_back(f);
+void AnimSprites::addAnimation(std::string animName, animation *a){
+	// TODO: comprobar si existe ya una y borrarla?
 
-	parent_->addChild(f->sprite_);
+	// si existe la rellena y si no, la crea
+	animations_[animName] = a;
+}
+
+Vec2 AnimSprites::getPosition(){
+	return position_;
+}
+
+void AnimSprites::setPosition(Vec2 pos){
+	position_ = pos;
 }
 
 void AnimSprites::hideFrame(frame *f){
@@ -34,6 +51,11 @@ void AnimSprites::hideFrame(frame *f){
 void AnimSprites::showFrame(frame *f){
 	PhysicsBody *p;
 
+	currentFrame_ = f;
+	currFrameTIni_ = Game::getInstance()->ellapsedTime;
+	currFrameTEnd_ = currFrameTIni_ + f->displaySeconds_;
+
+	f->sprite_->setPosition(position_);
 	f->sprite_->setVisible(true);
 	p = f->sprite_->getPhysicsBody();
 	if(p){
@@ -41,51 +63,52 @@ void AnimSprites::showFrame(frame *f){
 	}
 }
 
+void AnimSprites::playStart(std::string animName){
+	initAnimation(animations_[animName]);
+}
+
+void AnimSprites::playNextFrame(){
+	// TODO: Hacer más caso al loop
+	if(currentFrameNum_ < lastFrameNum_){
+		++currentFrameNum_;
+		hideFrame(currentFrame_);
+	} else if(currentAnimation_->loop_){
+		hideFrame(currentFrame_);
+		currentFrameNum_ = 0;
+	} else{
+		// finalizar la animacion
+		// currFrameNum_ = currFrameNum_;
+	}
+	
+	showFrame(currentAnimation_->animationFrames_[currentFrameNum_]);
+}
+
+void AnimSprites::initAnimation(animation *a){
+	currentAnimation_ = a;
+
+	if(currentFrame_){
+		hideFrame(currentFrame_);
+	}
+
+	currentFrameNum_ = 0;
+	lastFrameNum_ = a->animationFrames_.size()-1;
+	//currentFrame_ = a->animationFrames_[currentFrameNum_];
+	//lastFrame_ = currentFrame_;
+
+	showFrame(a->animationFrames_[currentFrameNum_]);
+
+}
+
 void AnimSprites::update(float deltaT){
-	//std::vector<frame *> currAnim = animations_[currAnimName_];
-	frame *f;
 
 	if(Game::getInstance()->ellapsedTime >= currFrameTEnd_){
-		f = (*currAnimation_)[currFrame_];
-
-		// oculto este frame
-		hideFrame(f);
-		if(!f->isLastFrame_){
-			// sigo con el loop
-			// lastframe empieza en 0 también
-			if(++currFrame_ > lastFrame_){
-				currFrame_ = 0;
-			}
-
-			playFrame(currFrame_);
-		}
-
+		// cambio de frame
+		playNextFrame();
 	}
-}
 
-void AnimSprites::playStart(std::string animName){
-	//std::vector<frame *> tmp = animations_[animName];
-	currAnimation_ = &animations_[animName];
-
-	if(currAnimation_->size() > 0){
-		lastFrame_ = currAnimation_->size() - 1;
-	} else{
-		lastFrame_ = 0;
+	if(currentFrame_){
+		currentFrame_->sprite_->setPosition(position_);
 	}
-	currAnimName_ = animName;
 
-	playFrame(0);	// asigna currFrame_
 }
 
-void AnimSprites::playFrame(int numFrame){
-	frame *f;
-
-	currFrame_ = numFrame;
-
-	f = (*currAnimation_)[currFrame_];
-
-	currFrameTIni_ = Game::getInstance()->ellapsedTime;
-	currFrameTEnd_ = currFrameTIni_ + f->delaySeconds_;
-
-	showFrame(f);
-}

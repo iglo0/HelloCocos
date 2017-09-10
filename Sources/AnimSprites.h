@@ -21,42 +21,52 @@ El sistema de animaciones necesitaría:
 
 USING_NS_CC;
 
+// Clase que contiene todas las animaciones de un solo objeto
+// Normalmente contendrá n sprites pero solo uno será visible
 class AnimSprites{
 public:
-	AnimSprites(Node *parent);
+	AnimSprites(Vec2 iniPos=Vec2::ZERO);
 	~AnimSprites();
 
 	struct frame{
-		frame(Sprite *sprite, float delaySeconds, bool isLastFrame, std::string nextAnimName) : sprite_(sprite), delaySeconds_(delaySeconds), isLastFrame_(isLastFrame), nextAnimationName_(nextAnimName){}
+		frame(Node *parent, const char *spritePath, float displaySeconds, float spriteScale=1.0f);
 
 		Sprite *sprite_;
-		float delaySeconds_;
-		bool isLastFrame_;	// indica que la animación acaba en este frame, y saltará a la siguiente o acabará
-		std::string nextAnimationName_;
+		float displaySeconds_;
 	};
 
+	struct animation{
+		animation(bool loop) : loop_(loop){}
+		void addFrame(frame *f);
 
-	//void init(std::string animName, std::vector<frame *> frames);
-	void addFrame(std::string animName, frame *f);
+		bool loop_;
+		std::vector<frame *> animationFrames_;
+	};
+
+	void addAnimation(std::string animName, animation *a);
+
 	void playStart(std::string animName);
 	void update(float deltaT);
 
-	void setPosition(Vec2 pos){ parent_->setPosition(pos); }
-	Vec2 getPosition(){ return parent_->getPosition(); }
+	void setPosition(Vec2 pos);
+	Vec2 getPosition();
 
 private:
 
+	void initAnimation(animation *a);
+	void playNextFrame();
+
 	// TODO: la idea es animations_["attack"] = frames para "attack"
-	std::unordered_map<std::string, std::vector<frame *>> animations_;
-	Node *parent_;
+	std::unordered_map<std::string, animation *> animations_;
+	animation *currentAnimation_;
 
-	int currFrame_, lastFrame_;
+	//Node *parent_;	// no puedo acceder desde frame o animation a parent_ ¿?
+	frame *currentFrame_;// , *lastFrame_;
+	int currentFrameNum_, lastFrameNum_;
 	float currFrameTIni_, currFrameTEnd_;
-	std::string currAnimName_;
-	std::vector<frame *> *currAnimation_;
-
-	void playFrame(int numFrame);
+	//void playFrame(int numFrame);
 	void hideFrame(frame *f);
 	void showFrame(frame *f);
-
+	
+	Vec2 position_;
 };
