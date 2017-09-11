@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- ************************************************************************ -->
+<!-- ************************************************************************ -->
+<!-- ************************************************************************ -->
+<!-- actual -->
+<!-- ************************************************************************ -->
+<!-- ************************************************************************ -->
+<!-- ************************************************************************ -->
 <!-- esto, guardado en resources, no funcionara en android/ios aparentemente -->
+<!-- creo que me voy a calzar los default_values y darle otra pinta -->
 <default_values>
 	<player_initial_speed>300.0f</player_initial_speed>
 	<player_path_sprite>spaceshipspr.png</player_path_sprite>
@@ -66,6 +74,67 @@
 
 </default_values>
 
+<!-- ************************************************************************ -->
+<!-- ************************************************************************ -->
+<!-- ************************************************************************ -->
+<!-- ideas -->
+<!-- ************************************************************************ -->
+<!-- ************************************************************************ -->
+<!-- ************************************************************************ -->
+
+
+<definitions>
+	<weapon id="bullet_t1" type="default" dmg="1" speed="500.0" sound_fire="sonidos/shoot.wav" sound_impact="sonidos/fastinvader1.wav">
+		<anim name="default" loop="1">
+			<frame path="bullet_orange0000.png" wait="0.2" size="1.0" />
+			<frame path="bullet_orange0001.png" wait="0.2" size="1.0" />
+			<frame path="bullet_orange0002.png" wait="0.2" size="1.0" />
+			<frame path="bullet_orange0003.png" wait="0.2" size="1.0" />
+			<frame path="bullet_orange0004.png" wait="0.2" size="1.0" />
+		</anim>
+	</weapon>
+
+	<enemy id="enemy_t1" hp="1.0" points="100" sound_die="sonidos/invaderkilled.wav" attack="default">
+		<sprite path="aliensprite2.png" scale="0.3" rotation="0" />
+		<weapon id="bullet_t1" anim="default" />
+	</enemy>
+
+	<enemy id="enemy_t2" hp="1.0" points="100" sound_die="sonidos/invaderkilled.wav" attack="default">
+		<sprite path="Spaceship15.png" scale="0.35" rotation="0" />
+		<weapon id="bullet_t1" anim="default" />
+	</enemy>
+	
+	<enemy id="ovni" hp="1.5" points="500" sound_die="sonidos/invaderkilled.wav" attack="homing">>
+		<sprite path="boss1.png" scale="0.6" rotation="0" />
+		<weapon id="bullet_t1" anim="default" />
+	</enemy>
+	
+</definitions>
+
+<levels>
+	<level>
+		<ovni id="ovni" />
+		<row>
+			<enemy id="enemy_t1" cant="11" />
+		</row>
+		<row>
+			<enemy id="enemy_t2" />
+			<enemy id="enemy_t1" />
+			<enemy id="enemy_t2" />
+			<enemy id="enemy_t1" />
+			<enemy id="enemy_t2" />
+			<enemy id="enemy_t1" />
+		</row>
+	</level>
+</levels>
+
+<!-- ************************************************************************ -->
+<!-- ************************************************************************ -->
+<!-- ************************************************************************ -->
+<!-- pruebas -->
+<!-- ************************************************************************ -->
+<!-- ************************************************************************ -->
+<!-- ************************************************************************ -->
 <!-- prueba con n animset seguidos -->
 <!-- pruebo mezclando nodos con atributos -->
 <animset name="bullet_t1_anim">	<!-- set de animaciones para xxx -->
