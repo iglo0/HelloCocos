@@ -104,7 +104,7 @@
 		<weapon id="bullet_t1" anim="default" />
 	</enemy>
 	
-	<enemy id="ovni" hp="1.5" points="500" sound_die="sonidos/invaderkilled.wav" attack="homing">>
+	<enemy id="ovni" hp="1.5" points="500" sound_die="sonidos/invaderkilled.wav" attack="homing">
 		<sprite path="boss1.png" scale="0.6" rotation="0" />
 		<weapon id="bullet_t1" anim="default" />
 	</enemy>

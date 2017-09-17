@@ -86,6 +86,9 @@ bool AnimTest::init(){
 
 void AnimTest::miInit(){
 	
+	//float x = getFromConfig<float>("patata");
+	//int i = getFromConfig<int>("pera");
+
 	xmlLoadTest("test.xml");
 
 	// Oookay tengo animaciones_ cargado. Y ahora?

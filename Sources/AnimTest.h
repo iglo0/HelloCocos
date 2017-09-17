@@ -37,9 +37,12 @@ public:
 
 private:
 	#pragma region xml
+
 	void xmlLoadTest(const char *);
 	void xmlSaveTest(const char *);
+
 	#pragma endregion
+
 	void miInit();
 	//void mueveNodo();
 
