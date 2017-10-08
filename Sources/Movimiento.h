@@ -13,7 +13,7 @@ public:
 
 	//void init(float spd, float amp, Vec2 ori, Vec2 dir, Vec2 posIni, Sprite *target);
 	
-	virtual Vec2 mueve(Vec2 posIni)=0;
+	virtual Vec2 mueve(Vec2 posIni, float deltaT)=0;
 
 protected:
 
@@ -34,7 +34,7 @@ public:
 
 	//void init();
 
-	Vec2 mueve(Vec2 posActual) override;
+	Vec2 mueve(Vec2 posActual, float deltaT) override;
 
 private:
 	float _speed;
@@ -47,7 +47,7 @@ public:
 	~MueveDireccion();
 
 	void init(Vec2 origin, Vec2 target);
-	Vec2 mueve(Vec2 posActual) override;
+	Vec2 mueve(Vec2 posActual, float deltaT) override;
 
 private:
 	float _speed;
@@ -60,7 +60,7 @@ public:
 	~MueveHoming();
 
 	void init(float spd, Sprite *target);
-	Vec2 mueve(Vec2 posActual) override;
+	Vec2 mueve(Vec2 posActual, float deltaT) override;
 
 private:
 	Vec2 deltaXY;
@@ -75,7 +75,7 @@ public:
 	~MueveSeno();
 
 	void init(float amplitude, Vec2 posInicial, float speedFactor);
-	Vec2 mueve(Vec2 posActual) override;
+	Vec2 mueve(Vec2 posActual, float deltaT) override;
 
 private:
 	float amplitude_;
@@ -96,7 +96,7 @@ public:
 	~MueveSpaceInvader();
 
 	void init(float speedX, float speedY, float xMin, float xMax, float vcalMoveAmount, float vcalMoveCurrTarget);
-	Vec2 mueve(Vec2 posActual) override;
+	Vec2 mueve(Vec2 posActual, float deltaT) override;
 
 
 private:

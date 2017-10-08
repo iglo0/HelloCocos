@@ -3,6 +3,7 @@
 #include "cocos2d.h"	// necesario para declarar Sprite
 
 class Movimiento;
+class AnimSprites;		// "Componente" para animaciones
 
 USING_NS_CC;
 
@@ -25,8 +26,10 @@ public:
 	virtual void impacto(float dmg);	//
 	Vec2 getPosition();
 	void setPosition(Vec2);
+	void setPosition(float, float);
 	Sprite *getSprite();
 	virtual void activa(Vec2 pos);
+	virtual void activa(float x, float y);
 	void desactiva();
 	bool isActive();
 
@@ -34,7 +37,7 @@ public:
 	Movimiento *movimiento_;
 	//punteroAFuncionMovimiento funcionMovimientoActual;
 	gameActorTypes type_;
-
+	AnimSprites *animSprites_;
 
 protected:
 	Sprite *sprite_;

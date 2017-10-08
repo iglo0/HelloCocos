@@ -2,6 +2,7 @@
 
 #include "Game.h"
 #include "SpaceInvaders.h"
+#include "AnimSprites.h"
 
 #include "Testz.h"
 
@@ -17,6 +18,7 @@ GameActor::GameActor(){
 
 	movimiento_ = nullptr;
 	estaActivo_ = false;
+	animSprites_ = nullptr;
 }
 
 GameActor::~GameActor(){
@@ -24,7 +26,11 @@ GameActor::~GameActor(){
 }
 
 // TODO: Aquí la he liado, no quiero un métood update en GameActor... quiero que lo hereden los hijos
+// o sí? Qué pasa con componentes comunes como la animación?
 void GameActor::update(float deltaT){
+	if(animSprites_){
+		animSprites_->update(deltaT);
+	}
 }
 
 Vec2 GameActor::getPosition(){
@@ -41,6 +47,10 @@ void GameActor::setPosition(Vec2 pos){
 	} else{
 		CCLOG("GameActor::setPosition -> no sprite");
 	}
+}
+
+void GameActor::setPosition(float x, float y){
+	setPosition	(Vec2(x, y));
 }
 
 Sprite *GameActor::setSprite(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon, float initialScale){
@@ -92,7 +102,11 @@ void GameActor::mueve(Vec2 donde){
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // TODO: no es lo mismo activar una bala (dirigida, normal, ...) que un enemigo? tendría que permitir heredar por tipo de GameActor...
 void GameActor::activa(Vec2 pos){
-	if(sprite_){
+	if(animSprites_){
+		animSprites_->setPosition(pos);
+		animSprites_->playStart("default");
+
+	} else if(sprite_){
 		sprite_->setPosition(pos);
 
 		sprite_->setVisible(true);
@@ -105,6 +119,10 @@ void GameActor::activa(Vec2 pos){
 	}
 
 	estaActivo_ = true;
+}
+
+void GameActor::activa(float x, float y){
+	activa(Vec2(x, y));
 }
 
 void GameActor::desactiva(){

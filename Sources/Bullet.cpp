@@ -5,6 +5,9 @@
 #include "Movimiento.h"
 #include "Player.h"
 
+#include "AnimSprites.h"
+#include "XmlHelper.h"
+
 USING_NS_CC;
 
 Bullet::Bullet(Node *nodo, const char *name, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon, float initialScale){
@@ -23,6 +26,8 @@ Bullet::Bullet(Node *nodo, const char *name, const char *pathSprite, const char 
 	}
 
 	_ttl = BULLET_HOMING_TTL;
+
+	animSprites_ = nullptr;
 }
 
 Bullet::~Bullet(){
@@ -43,6 +48,7 @@ void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolS
 	
 }
 
+// creaBala se llama desde mi propio createBulletPool
 Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletName){
 	Movimiento *claseMovimiento;
 	Bullet *tmp;
@@ -127,6 +133,26 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 	return tmp;
 }
 
+Bullet *Bullet::creaBalaAnimada(Node *nodo, bulletTypes tipoBala, const char *bulletName, const char *animSetName){
+	XmlHelper *xh = new XmlHelper();
+
+	Bullet *tmp = creaBala(nodo, tipoBala, bulletName);
+
+	// TODO: Improvisando fuertemente
+	
+	// me cargo el sprite creado por creaBala, sin anestesia
+	//tmp->sprite_->removeFromParent();
+	//tmp->sprite_ = nullptr;
+	tmp->sprite_->setVisible(false);
+	// ¿...o...?
+	//nodo->removeChild(tmp->sprite_, true);
+
+
+	tmp->animSprites_ = xh->loadAnimation(nodo, animSetName);
+
+	return tmp;
+}
+
 void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, bulletTypes tipoBala) {
 	Bullet *tmp;
 	//const char *name;
@@ -156,12 +182,11 @@ void Bullet::impacto(float dmg){
 	// TODO: animacion impacto
 }
 
-
-void Bullet::mueveBala(){
+void Bullet::update(float deltaT){
 	auto visibleSize = Director::getInstance()->getVisibleSize();
-	
+
 	Vec2 oldPos = getPosition();
-	Vec2 nuPos = movimiento_->mueve(oldPos);
+	Vec2 nuPos = movimiento_->mueve(oldPos, deltaT);
 	setPosition(nuPos);
 
 	if((nuPos.x > visibleSize.width) || (nuPos.x < 0) || (nuPos.y<0) || (nuPos.y>visibleSize.height)){
@@ -177,6 +202,12 @@ void Bullet::mueveBala(){
 		_ttl = BULLET_HOMING_TTL;
 		desactiva();
 	}
+
+	if(animSprites_){
+		CCLOG("Animate, bala!");
+		animSprites_->update(deltaT);
+	}
+
 }
 
 void Bullet::activa(Vec2 posIni){
@@ -221,4 +252,16 @@ void Bullet::activa(Vec2 posIni){
 		break;
 	}
 
+	// TODO: Lo nuevo
+	// Mejor lo meto en GameActor
+	//if(animations_){
+	//	// existen animaciones? y me quiero activar? me tiro a la piscina
+	//	animations_->playStart(std::string("default"));
+	//	animations_->setPosition(getPosition());
+	//}
+
+}
+
+void Bullet::activa(float x, float y){
+	activa(Vec2(x, y));
 }

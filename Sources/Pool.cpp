@@ -4,6 +4,8 @@
 #include "Movimiento.h"
 #include "Player.h"	// este tiene la player position
 
+#include "AnimSprites.h"
+
 // ----------------------------------------------------------------------
 // OJOOO!
 // ----------------------------------------------------------------------
@@ -16,6 +18,76 @@ std::vector<Bullet *> Pool::currentBulletsPlayerTipo1;
 std::vector<Bullet *> Pool::currentBulletsTipoNormal;
 std::vector<Bullet *> Pool::currentBulletsTipo2;
 std::vector<Bullet *> Pool::currentBulletsTipoBossHoming;
+
+//std::vector<AnimSprites *> currentAnimfucksgrlz;
+
+
+
+// ----------------------------------------------------------------------
+// PRUEBAS --------------------------------------------------------------
+// ----------------------------------------------------------------------
+//
+//MiSprite::MiSprite(){
+//	sprite = nullptr;
+//	inUse = false;
+//}
+//
+//MiSprite::~MiSprite(){
+//	// Sprite es autorelease así que supongo que se arregla solito
+//}
+//
+//MiSprite *MiSprite::createWithSpriteFrameName(const std::string &spriteFrameName){
+//	MiSprite *tmp = new MiSprite();
+//
+//	tmp->sprite = Sprite::createWithSpriteFrameName(spriteFrameName);
+//	tmp->desActiva();
+//
+//	return tmp;
+//}
+//
+//// activa y mueve
+//void MiSprite::activa(Vec2 p){
+//	inUse = true;
+//
+//	if(sprite){
+//		sprite->setPosition(p);
+//		sprite->setVisible(true);
+//		auto pb = sprite->getPhysicsBody();
+//
+//		if(pb){
+//			pb->setEnabled(true);
+//		}
+//	}
+//}
+//
+//// solo activa
+//void MiSprite::activa(){
+//	inUse = true;
+//
+//	if(sprite){
+//		sprite->setVisible(true);
+//		auto pb = sprite->getPhysicsBody();
+//
+//		if(pb){
+//			pb->setEnabled(true);
+//		}
+//	}
+//}
+//
+//
+//void MiSprite::desActiva(){
+//	inUse = false;
+//
+//	if(sprite){
+//		sprite->setVisible(false);
+//		auto pb = sprite->getPhysicsBody();
+//
+//		if(pb){
+//			pb->setEnabled(false);
+//		}
+//	}
+//}
+
 
 // ----------------------------------------------------------------------
 // ----------------------------------------------------------------------
@@ -69,22 +141,22 @@ void Pool::updateAll(float deltaT){
 	// ...del player
 	for(auto x = currentBulletsPlayerTipo1.cbegin(); x != currentBulletsPlayerTipo1.cend(); ++x){
 		if((*x)->isActive()){
-			//(*x)->update(deltaT);
-			(*x)->mueveBala();
+			(*x)->update(deltaT);
+			//(*x)->mueveBala();
 		}
 	}
 
 	// ...de los bichos
 	for(auto x = currentBulletsTipoNormal.cbegin(); x != currentBulletsTipoNormal.cend(); ++x){
 		if((*x)->isActive()){
-			//(*x)->update(deltaT);
-			(*x)->mueveBala();
+			(*x)->update(deltaT);
+			//(*x)->mueveBala();
 		}
 	}
 	for(auto x = currentBulletsTipo2.cbegin(); x != currentBulletsTipo2.cend(); ++x){
 		if((*x)->isActive()){
-			//(*x)->update(deltaT);
-			(*x)->mueveBala();
+			(*x)->update(deltaT);
+			//(*x)->mueveBala();
 
 		}
 	}
@@ -92,8 +164,8 @@ void Pool::updateAll(float deltaT){
 	// ...del boss
 	for(auto x = currentBulletsTipoBossHoming.cbegin(); x != currentBulletsTipoBossHoming.cend(); ++x){
 		if((*x)->isActive()){
-			//(*x)->update(deltaT);
-			(*x)->mueveBala();
+			(*x)->update(deltaT);
+			//(*x)->mueveBala();
 		}
 	}
 

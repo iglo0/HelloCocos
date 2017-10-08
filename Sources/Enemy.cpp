@@ -129,6 +129,9 @@ void Enemy::funControlFireRandom(float pufo){
 void Enemy::update(float deltaT){
 	//CCLOG("GameActor update @%f", Game::getInstance()->ellapsedTime);
 
+	// a 09/2017 es solo para el futuro animSprites
+	GameActor::update(deltaT);
+
 	if(isActive()){
 		// TODO: Me tengo que mirar detenidamente pasar funciones como parametro
 		// si proporciono una funcion de movimiento, usa esta
@@ -137,7 +140,7 @@ void Enemy::update(float deltaT){
 		//}
 
 		if(movimiento_){
-			setPosition(movimiento_->mueve(sprite_->getPosition()));
+			setPosition(movimiento_->mueve(sprite_->getPosition(), deltaT));
 		}
 
 		if(this->funcionControlActual_){
@@ -163,42 +166,42 @@ void Enemy::dispara(){
 	}
 }
 
-void Enemy::disparaN(int n){
-	std::vector<Bullet *> bs;
-	//Bullet *tmp;
-
-	if(poolMisBalas_){
-		bs = reservaVectorBalas(n);
-
-	}
-
-}
-
-std::vector<Bullet *> Enemy::reservaVectorBalas(int n){
-	Bullet *tmp;
-	std::vector<Bullet *> bs;
-
-	for(int i = 0; i < n; i++){
-		tmp = Pool::activa(*poolMisBalas_, sprite_->getPosition());
-		if(tmp){
-			// Pool::activa devuelve nullptr si no puede
-			bs.push_back(tmp);
-
-		} else{
-			CCLOG("No puedo reservar %d balas", n);
-			liberaVectorBalas(bs);
-			break;
-		}
-	}
-
-	return bs;
-}
-
-void Enemy::liberaVectorBalas(std::vector<Bullet *> bs){
-
-	for(auto x = poolMisBalas_->cbegin(); x != poolMisBalas_->cend(); ++x){
-		(*x)->desactiva();
-	}
-
-	bs.clear();
-}
+//void Enemy::disparaN(int n){
+//	std::vector<Bullet *> bs;
+//	//Bullet *tmp;
+//
+//	if(poolMisBalas_){
+//		bs = reservaVectorBalas(n);
+//
+//	}
+//
+//}
+//
+//std::vector<Bullet *> Enemy::reservaVectorBalas(int n){
+//	Bullet *tmp;
+//	std::vector<Bullet *> bs;
+//
+//	for(int i = 0; i < n; i++){
+//		tmp = Pool::activa(*poolMisBalas_, sprite_->getPosition());
+//		if(tmp){
+//			// Pool::activa devuelve nullptr si no puede
+//			bs.push_back(tmp);
+//
+//		} else{
+//			CCLOG("No puedo reservar %d balas", n);
+//			liberaVectorBalas(bs);
+//			break;
+//		}
+//	}
+//
+//	return bs;
+//}
+//
+//void Enemy::liberaVectorBalas(std::vector<Bullet *> bs){
+//
+//	for(auto x = poolMisBalas_->cbegin(); x != poolMisBalas_->cend(); ++x){
+//		(*x)->desactiva();
+//	}
+//
+//	bs.clear();
+//}

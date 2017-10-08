@@ -16,6 +16,7 @@ AnimSprites::frame::frame(Node *parent, const char *spritePath, float displaySec
 	displaySeconds_ = displaySeconds;
 	sprite_ = Sprite::createWithSpriteFrameName(spritePath);
 	sprite_->setScale(spriteScale);
+	sprite_->setVisible(false);
 	parent->addChild(sprite_);
 }
 

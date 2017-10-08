@@ -27,6 +27,10 @@ void InputComponent::keyPressed(EventKeyboard::KeyCode keyCode){
 	case EventKeyboard::KeyCode::KEY_SPACE:
 		player->disparar = true;
 		break;
+	case EventKeyboard::KeyCode::KEY_ESCAPE:
+		// como salgo
+		CCLOG("ESC sin controlar");
+		break;
 	default:
 		break;
 	}

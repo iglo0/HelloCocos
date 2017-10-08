@@ -19,8 +19,8 @@ MueveVcal::MueveVcal(float speed) : _speed(speed){
 }
 MueveVcal::~MueveVcal(){};
 
-Vec2 MueveVcal::mueve(Vec2 posActual){
-	float deltaT = Director::getInstance()->getDeltaTime();
+Vec2 MueveVcal::mueve(Vec2 posActual, float deltaT){
+	//float deltaT = Director::getInstance()->getDeltaTime();
 
 	Vec2 tmp = _direction * deltaT;
 
@@ -40,8 +40,8 @@ void MueveDireccion::init(Vec2 ori, Vec2 dest){
 	_direction.normalize();
 }
 
-Vec2 MueveDireccion::mueve(Vec2 posActual){
-	float deltaT = Director::getInstance()->getDeltaTime();
+Vec2 MueveDireccion::mueve(Vec2 posActual, float deltaT){
+	//float deltaT = Director::getInstance()->getDeltaTime();
 	Vec2 deltaXY;
 	Vec2 tmp;
 
@@ -69,8 +69,8 @@ void MueveHoming::init(float spd, Sprite *target){
 
 }
 
-Vec2 MueveHoming::mueve(Vec2 posActual){
-	float deltaT = Director::getInstance()->getDeltaTime();
+Vec2 MueveHoming::mueve(Vec2 posActual, float deltaT){
+	//float deltaT = Director::getInstance()->getDeltaTime();
 	//Vec2 deltaXY;
 	Vec2 tmp;
 
@@ -100,7 +100,7 @@ void MueveSeno::init(float amplitude, Vec2 posInicial, float speedFactor){
 	speedFactor_ = speedFactor;
 }
 
-Vec2 MueveSeno::mueve(Vec2 posActual){
+Vec2 MueveSeno::mueve(Vec2 posActual, float deltaT){
 	float eTime = Game::getInstance()->ellapsedTime;
 	// eTime * speedFactor modifica la velocidad de movimiento, amplitude_ lo amplio que es.
 	float posX = sin(eTime * speedFactor_) * amplitude_;
@@ -131,8 +131,8 @@ void MueveSpaceInvader::init(
 	spaceInvaderMovement_vcalMoveCurrTarget_ = spaceInvaderMovement_vcalMoveCurrTarget;
 }
 
-Vec2 MueveSpaceInvader::mueve(Vec2 posIni){
-	float deltaT = Director::getInstance()->getDeltaTime();
+Vec2 MueveSpaceInvader::mueve(Vec2 posIni, float deltaT){
+	//float deltaT = Director::getInstance()->getDeltaTime();
 
 	if(SpaceInvaders::spaceInvaderMovement_goingDown) {
 		// MOVIMIENTO VERTICAL

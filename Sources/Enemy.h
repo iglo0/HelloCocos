@@ -40,7 +40,7 @@ public:
 
 	// todo: sobrecargarlo desde GameActor???
 	void dispara();
-	void disparaN(int n);
+	//void disparaN(int n);
 
 	// ---------------------------------------------------------------------------------------------------------
 	// funciones de control
@@ -74,6 +74,6 @@ private:
 	//void createEnemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, float rotation, float hp, int points = Game::getInstance()->enemy_generic_points);
 	//void createEnemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, float rotation, float hp, int points, std::vector<Bullet *> *poolMisBalas=nullptr);
 	void initEnemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, float rotation, float hp, int points, std::vector<Bullet *> *poolMisBalas = nullptr);
-	void liberaVectorBalas(std::vector<Bullet *> bs);
-	std::vector<Bullet *> reservaVectorBalas(int n);
+	//void liberaVectorBalas(std::vector<Bullet *> bs);
+	//std::vector<Bullet *> reservaVectorBalas(int n);
 };

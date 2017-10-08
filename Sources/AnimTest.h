@@ -5,6 +5,7 @@
 USING_NS_CC;
 
 class AnimSprites;
+class Bullet;
 
 class AnimTest : public cocos2d::Layer
 {
@@ -39,7 +40,10 @@ private:
 	#pragma region xml
 
 	void xmlLoadTest(const char *);
+	// unused: prueba de conceto
 	void xmlSaveTest(const char *);
+
+
 
 	#pragma endregion
 
@@ -48,10 +52,6 @@ private:
 
 	bool mueveArr_, mueveAbj_, mueveIzq_, mueveDch_;
 
-	//Node *nodo_;
-	//std::vector<AnimSprites *> frames_;
-	//size_t currFrame_;
-	//size_t numFrames_;
-
-	AnimSprites *animaciones_;
+	//AnimSprites *animaciones_;
+	std::vector<Bullet *> balas_;
 };
