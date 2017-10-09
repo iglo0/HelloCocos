@@ -29,11 +29,14 @@ GameActor::~GameActor(){
 // o sí? Qué pasa con componentes comunes como la animación?
 void GameActor::update(float deltaT){
 	if(animSprites_){
+		animSprites_->setPosition(currPos_);
 		animSprites_->update(deltaT);
 	}
 }
 
 Vec2 GameActor::getPosition(){
+	return currPos_;
+
 	if(sprite_){
 		return sprite_->getPosition();
 	}
@@ -42,6 +45,15 @@ Vec2 GameActor::getPosition(){
 }
 
 void GameActor::setPosition(Vec2 pos){
+	currPos_ = pos;
+	if(sprite_){
+		sprite_->setPosition(pos);
+	} 
+	if(animSprites_){
+		// so what
+	}
+	return;
+
 	if(sprite_){
 		sprite_->setPosition(pos);
 	} else{
@@ -104,7 +116,7 @@ void GameActor::mueve(Vec2 donde){
 void GameActor::activa(Vec2 pos){
 	if(animSprites_){
 		animSprites_->setPosition(pos);
-		animSprites_->playStart("default");
+		animSprites_->playStart("default", true);
 
 	} else if(sprite_){
 		sprite_->setPosition(pos);

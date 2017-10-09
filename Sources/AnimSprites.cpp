@@ -17,6 +17,8 @@ AnimSprites::frame::frame(Node *parent, const char *spritePath, float displaySec
 	sprite_ = Sprite::createWithSpriteFrameName(spritePath);
 	sprite_->setScale(spriteScale);
 	sprite_->setVisible(false);
+	// TODO: temp para almacenar el fichero de la textura y comprobar que las animaciones van en orden
+	sprite_->setName(std::string(spritePath));
 	parent->addChild(sprite_);
 }
 
@@ -64,8 +66,8 @@ void AnimSprites::showFrame(frame *f){
 	}
 }
 
-void AnimSprites::playStart(std::string animName){
-	initAnimation(animations_[animName]);
+void AnimSprites::playStart(std::string animName, bool randomStart){
+	initAnimation(animations_[animName], randomStart);
 }
 
 void AnimSprites::playNextFrame(){
@@ -82,19 +84,24 @@ void AnimSprites::playNextFrame(){
 	}
 	
 	showFrame(currentAnimation_->animationFrames_[currentFrameNum_]);
+	
+	//CCLOG("frame [%d] <%s>", currentFrameNum_, currentFrame_->sprite_->getName().c_str());
 }
 
-void AnimSprites::initAnimation(animation *a){
+void AnimSprites::initAnimation(animation *a, bool randomStart){
 	currentAnimation_ = a;
 
 	if(currentFrame_){
 		hideFrame(currentFrame_);
 	}
 
-	currentFrameNum_ = 0;
-	lastFrameNum_ = a->animationFrames_.size()-1;
-	//currentFrame_ = a->animationFrames_[currentFrameNum_];
-	//lastFrame_ = currentFrame_;
+	lastFrameNum_ = a->animationFrames_.size() - 1;
+
+	if(randomStart){
+		currentFrameNum_ = RandomHelper::random_int<int>(0, lastFrameNum_);
+	} else{
+		currentFrameNum_ = 0;
+	}
 
 	showFrame(a->animationFrames_[currentFrameNum_]);
 

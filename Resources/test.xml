@@ -89,11 +89,10 @@
 		<mibala>	<!-- me ha resultado más cómodo buscar por nodos <xxx> en vez de atributos <anim name="xxx">... -->
 			<!-- OJO!! de momento que exista siempre "default", que la cargo a cañón -->
 			<anim name="default" loop="1">			<!-- animacion 1 "yyy" de xxx -->
-				<frame path="bullet_orange0000.png" wait="0.2" size="4.0" />
-				<frame path="bullet_orange0001.png" wait="0.2" size="4.0" />
-				<frame path="bullet_orange0002.png" wait="0.2" size="4.0" />
-				<frame path="bullet_orange0003.png" wait="0.2" size="4.0" />
-				<frame path="bullet_orange0004.png" wait="0.2" size="4.0" />
+				<frame path="bullet_orange0000.png" wait="0.1" size="2.0" />
+				<frame path="bullet_orange0001.png" wait="0.1" size="3.0" />
+				<frame path="bullet_orange0002.png" wait="0.1" size="2.0" />
+				<frame path="bullet_orange0001.png" wait="0.1" size="3.0" />
 			</anim>
 		</mibala>
 	</animset>

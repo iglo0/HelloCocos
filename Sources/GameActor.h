@@ -44,5 +44,5 @@ protected:
 	float gameActorHP_, gameActorHPInicial_ = 1.0;
 	int gameActorPoints_;
 	bool estaActivo_;
-
+	Vec2 currPos_;
 };

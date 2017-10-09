@@ -28,6 +28,10 @@ Bullet::Bullet(Node *nodo, const char *name, const char *pathSprite, const char 
 	_ttl = BULLET_HOMING_TTL;
 
 	animSprites_ = nullptr;
+
+	// TODO: hory shit
+	XmlHelper *xh = new XmlHelper();
+	animSprites_ = xh->loadAnimation(nodo, "mibala");
 }
 
 Bullet::~Bullet(){
@@ -143,6 +147,7 @@ Bullet *Bullet::creaBalaAnimada(Node *nodo, bulletTypes tipoBala, const char *bu
 	// me cargo el sprite creado por creaBala, sin anestesia
 	//tmp->sprite_->removeFromParent();
 	//tmp->sprite_ = nullptr;
+	// TODO: corregir -> no puedor porque la posicion del mismo cuelga de su sprite. 
 	tmp->sprite_->setVisible(false);
 	// ¿...o...?
 	//nodo->removeChild(tmp->sprite_, true);
@@ -204,7 +209,8 @@ void Bullet::update(float deltaT){
 	}
 
 	if(animSprites_){
-		CCLOG("Animate, bala!");
+		//CCLOG("Animate, bala!");
+		animSprites_->setPosition(nuPos);
 		animSprites_->update(deltaT);
 	}
 

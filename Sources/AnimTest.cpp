@@ -28,7 +28,7 @@ Scene* AnimTest::createScene(){
 	// con física (chipmunk):
 	auto scene = Scene::createWithPhysics();
 	scene->getPhysicsWorld()->setGravity(Vec2(0, 0));
-	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
 	// 'layer' is an autorelease object
@@ -95,7 +95,7 @@ void AnimTest::miInit(){
 	//cocos2d::RandomHelper::random_int<int>(1, dado) == 1)
 	//xh->loadAnimation(this, "mibala");
 	
-	for(int i = 0; i < 500; i++){
+	for(int i = 0; i < 1; i++){
 		tmp = Bullet::creaBalaAnimada(this, Bullet::bulletTypes::tipoEnemyNormal, "plz", "mibala");
 		//tmp->getSprite()->setScale(4.0f);
 		tmp->activa(cocos2d::RandomHelper::random_real<float>(0, screenSize.width), cocos2d::RandomHelper::random_real<float>(0, screenSize.height));

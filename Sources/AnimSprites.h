@@ -45,7 +45,7 @@ public:
 
 	void addAnimation(std::string animName, animation *a);
 
-	void playStart(std::string animName);
+	void playStart(std::string animName, bool randomStart=false);
 	void update(float deltaT);
 
 	void setPosition(Vec2 pos);
@@ -53,7 +53,7 @@ public:
 
 private:
 
-	void initAnimation(animation *a);
+	void initAnimation(animation *a, bool randomStart=false);
 	void playNextFrame();
 
 	// TODO: la idea es animations_["attack"] = frames para "attack"
