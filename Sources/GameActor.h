@@ -37,12 +37,12 @@ public:
 	Movimiento *movimiento_;
 	//punteroAFuncionMovimiento funcionMovimientoActual;
 	gameActorTypes type_;
-	AnimSprites *animSprites_;
+	//AnimSprites *animSprites_;
 
 protected:
 	Sprite *sprite_;
 	float gameActorHP_, gameActorHPInicial_ = 1.0;
 	int gameActorPoints_;
 	bool estaActivo_;
-	Vec2 currPos_;
+	//Vec2 currPos_;
 };

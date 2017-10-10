@@ -5,21 +5,40 @@
 //#include <chrono>
 //#include <thread>
 
-AnimSprites::AnimSprites(Vec2 posIni) : position_(posIni) {
+AnimSprites::AnimSprites(Sprite *parentSprite) : parentSprite_(parentSprite) {
 	currentAnimation_ = nullptr;
 	currentFrame_ = nullptr;
+	//parentSprite_ = nullptr;
 }
 
 AnimSprites::~AnimSprites(){}
 
 AnimSprites::frame::frame(Node *parent, const char *spritePath, float displaySeconds, float spriteScale){
+	// TODO: no haría falta un physicsbody?
 	displaySeconds_ = displaySeconds;
 	sprite_ = Sprite::createWithSpriteFrameName(spritePath);
 	sprite_->setScale(spriteScale);
 	sprite_->setVisible(false);
 	// TODO: temp para almacenar el fichero de la textura y comprobar que las animaciones van en orden
 	sprite_->setName(std::string(spritePath));
+
 	parent->addChild(sprite_);
+
+	// añade física
+	// TODO: la física está unida a la clase padre de este componente, voy a dejarlo pasar de momento y centrarme en animaciones
+	/* lo que viene faltando: 
+
+	Game::anadeFisica(sprite_, tipoColision, colisionaCon, name, ruta);
+
+	//TODO: ya tengo para recuperar mis datos :)
+	sprite_->setUserData(this);
+	// y su tipo
+	sprite_->setTag(tipoColision);
+
+	// lo creo invisible y sin colisiones activas
+	desactiva();
+
+	*/
 }
 
 void AnimSprites::animation::addFrame(frame * f){
@@ -33,13 +52,17 @@ void AnimSprites::addAnimation(std::string animName, animation *a){
 	animations_[animName] = a;
 }
 
-Vec2 AnimSprites::getPosition(){
-	return position_;
-}
-
-void AnimSprites::setPosition(Vec2 pos){
-	position_ = pos;
-}
+//Vec2 AnimSprites::getPosition(){
+//	if(parentSprite_){
+//		return parentSprite_->getPosition();
+//	}
+//	//return position_;
+//}
+//
+//void AnimSprites::setPosition(Vec2 pos){
+//	position_ = pos;
+//	//currentFrame_->sprite_->setPosition(pos);
+//}
 
 void AnimSprites::hideFrame(frame *f){
 	PhysicsBody *p;
@@ -58,7 +81,7 @@ void AnimSprites::showFrame(frame *f){
 	currFrameTIni_ = Game::getInstance()->ellapsedTime;
 	currFrameTEnd_ = currFrameTIni_ + f->displaySeconds_;
 
-	f->sprite_->setPosition(position_);
+	//f->sprite_->setPosition(position_);
 	f->sprite_->setVisible(true);
 	p = f->sprite_->getPhysicsBody();
 	if(p){
@@ -115,7 +138,7 @@ void AnimSprites::update(float deltaT){
 	}
 
 	if(currentFrame_){
-		currentFrame_->sprite_->setPosition(position_);
+		//currentFrame_->sprite_->setPosition(position_);
 	}
 
 }

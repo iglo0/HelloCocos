@@ -5,8 +5,8 @@
 #include "Movimiento.h"
 #include "Player.h"
 
-#include "AnimSprites.h"
-#include "XmlHelper.h"
+//#include "AnimSprites.h"
+//#include "XmlHelper.h"
 
 USING_NS_CC;
 
@@ -25,13 +25,13 @@ Bullet::Bullet(Node *nodo, const char *name, const char *pathSprite, const char 
 		CCLOG("No pude crear bala %s", pathSprite);
 	}
 
-	_ttl = BULLET_HOMING_TTL;
-
-	animSprites_ = nullptr;
+	ttl_ = BULLET_HOMING_TTL;
+	//static_assert(L'??' == 0x1F4A9, "Compiler lacks Unicode support");
+	//animSprites_ = nullptr;
 
 	// TODO: hory shit
-	XmlHelper *xh = new XmlHelper();
-	animSprites_ = xh->loadAnimation(nodo, "mibala");
+	//XmlHelper *xh = new XmlHelper();
+	//animSprites_ = xh->loadAnimation(nodo, "mibala");
 }
 
 Bullet::~Bullet(){
@@ -94,6 +94,7 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 		initialScale = gameInstance->bullet_default_scale;
 
 		claseMovimiento = new MueveDireccion(speed);
+
 		break;
 	case tipoEnemyNormal:
 		pathSprite = gameInstance->bullet_enemy_path_sprite1.c_str();
@@ -130,33 +131,33 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 
 	tmp = new Bullet(nodo, bulletName, pathSprite, pathSonidoDisparo, pathSonidoImpacto, speed, dmg, tipoColision, colisionoCon, initialScale);
 
-	tmp->_bulletType = tipoBala;
+	tmp->bulletType_ = tipoBala;
 
 	tmp->movimiento_ = claseMovimiento;
-
-	return tmp;
-}
-
-Bullet *Bullet::creaBalaAnimada(Node *nodo, bulletTypes tipoBala, const char *bulletName, const char *animSetName){
-	XmlHelper *xh = new XmlHelper();
-
-	Bullet *tmp = creaBala(nodo, tipoBala, bulletName);
-
-	// TODO: Improvisando fuertemente
 	
-	// me cargo el sprite creado por creaBala, sin anestesia
-	//tmp->sprite_->removeFromParent();
-	//tmp->sprite_ = nullptr;
-	// TODO: corregir -> no puedor porque la posicion del mismo cuelga de su sprite. 
-	tmp->sprite_->setVisible(false);
-	// ¿...o...?
-	//nodo->removeChild(tmp->sprite_, true);
-
-
-	tmp->animSprites_ = xh->loadAnimation(nodo, animSetName);
-
 	return tmp;
 }
+
+//Bullet *Bullet::creaBalaAnimada(Node *nodo, bulletTypes tipoBala, const char *bulletName, const char *animSetName){
+//	XmlHelper *xh = new XmlHelper();
+//
+//	Bullet *tmp = creaBala(nodo, tipoBala, bulletName);
+//
+//	// TODO: Improvisando fuertemente
+//	
+//	// me cargo el sprite creado por creaBala, sin anestesia
+//	//tmp->sprite_->removeFromParent();
+//	//tmp->sprite_ = nullptr;
+//	// TODO: corregir -> no puedor porque la posicion del mismo cuelga de su sprite. 
+//	tmp->sprite_->setVisible(false);
+//	// ¿...o...?
+//	//nodo->removeChild(tmp->sprite_, true);
+//
+//
+//	//tmp->animSprites_ = xh->loadAnimation(nodo, animSetName);
+//
+//	return tmp;
+//}
 
 void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, bulletTypes tipoBala) {
 	Bullet *tmp;
@@ -180,7 +181,7 @@ void Bullet::impacto(float dmg){
 
 	// TODO: no tan facil, el ttl!
 	// TODO: que hace esta linea aqui O.o
-	_ttl = BULLET_HOMING_TTL;
+	ttl_ = BULLET_HOMING_TTL;
 
 	// TODO: reproducir sonido
 
@@ -190,29 +191,29 @@ void Bullet::impacto(float dmg){
 void Bullet::update(float deltaT){
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 
+	// actualiza la posición del sprite y del animsprites
 	Vec2 oldPos = getPosition();
 	Vec2 nuPos = movimiento_->mueve(oldPos, deltaT);
 	setPosition(nuPos);
+	// -----------------------------------------------
 
 	if((nuPos.x > visibleSize.width) || (nuPos.x < 0) || (nuPos.y<0) || (nuPos.y>visibleSize.height)){
 		// se sale
 		// TODO: Probando con balas dirigidas
-		_ttl = BULLET_HOMING_TTL;
+		ttl_ = BULLET_HOMING_TTL;
 		desactiva();
 	}
 
-	_ttl -= Director::getInstance()->getDeltaTime();
-	if(_ttl <= 0){
+	ttl_ -= Director::getInstance()->getDeltaTime();
+	if(ttl_ <= 0){
 		// TODO: Probando con balas dirigidas
-		_ttl = BULLET_HOMING_TTL;
+		ttl_ = BULLET_HOMING_TTL;
 		desactiva();
 	}
 
-	if(animSprites_){
-		//CCLOG("Animate, bala!");
-		animSprites_->setPosition(nuPos);
-		animSprites_->update(deltaT);
-	}
+	//if(animSprites_){
+	//	animSprites_->update(deltaT);
+	//}
 
 }
 
@@ -223,7 +224,7 @@ void Bullet::activa(Vec2 posIni){
 	// poder cambiar el target cuando se activa, y cuando vaya añadiendo comportamientos será más probable que tenga que inicializarlas distinto
 
 	// y luego...
-	switch(_bulletType){
+	switch(bulletType_){
 	case bulletTypes::tipoBossHoming:
 	{	// si voy a inicializar variables en el case, o las inicializo en el default, o lo meto entre llaves... o utilizo funciones dentro del case, para dejarlo todo más limpio.
 		//CCLOG("Activando bala tipoBossHoming");
@@ -254,7 +255,7 @@ void Bullet::activa(Vec2 posIni){
 		//b->init(gameActorSpeed);
 		break;
 	default:
-		CCLOG("Activando bala (desconocida) %d", _bulletType);
+		CCLOG("Activando bala (desconocida) %d", bulletType_);
 		break;
 	}
 

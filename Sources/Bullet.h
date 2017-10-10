@@ -13,19 +13,16 @@ public:
 	Bullet(Node *nodo, const char *name, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon, float initialSize = 1.0f);
 	~Bullet();
 
-	// Bala tiene un mueve especial que solo usa la velocidad (de GameActor) para ir arriba o abajo
-	//void mueveBala();	
-	// con override dejo claro al compilador que quiero implementar el método mueve de la clase base. No es 
-	// estrictamente necesario, pero así se que comprueba que las firmas sean idénticas y que en general 
-	// haga lo que creo que estoy haciendo.
-
 	// métodos estáticos que crean instancias
 	static Bullet *creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletName);
-	static Bullet *creaBalaAnimada(Node *nodo, bulletTypes tipoBala, const char *bulletName, const char *animSetName);
+	//static Bullet *creaBalaAnimada(Node *nodo, bulletTypes tipoBala, const char *bulletName, const char *animSetName);
 	//static Bullet *creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletName, punteroAFuncionMovimiento pFuncionMovimiento, Movimiento *claseMovimiento);
 	static void createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, const char *name, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon, float initialScale = 1.0f);
 	static void createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, bulletTypes tipoBala);
 
+	// con override dejo claro al compilador que quiero implementar el método mueve de la clase base. No es 
+	// estrictamente necesario, pero así se que comprueba que las firmas sean idénticas y que en general 
+	// haga lo que creo que estoy haciendo.
 	void activa(Vec2 posIni) override;
 	void activa(float x, float y) override;
 	void impacto(float dmg) override;
@@ -34,13 +31,9 @@ public:
 	float bulletDmg;
 
 private:
-	//bool createBullet(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon);
 
-	//float bulletSpeed; // para esto, uso Base::gameActorSpeed
 	// TODO: Probando con balas dirigidas
-	float _ttl;
-	bulletTypes _bulletType;
-
-	//AnimSprites *animations_;
+	float ttl_;
+	bulletTypes bulletType_;
 };
 

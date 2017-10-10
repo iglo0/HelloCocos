@@ -95,15 +95,15 @@ void AnimTest::miInit(){
 	//cocos2d::RandomHelper::random_int<int>(1, dado) == 1)
 	//xh->loadAnimation(this, "mibala");
 	
-	for(int i = 0; i < 1; i++){
-		tmp = Bullet::creaBalaAnimada(this, Bullet::bulletTypes::tipoEnemyNormal, "plz", "mibala");
-		//tmp->getSprite()->setScale(4.0f);
-		tmp->activa(cocos2d::RandomHelper::random_real<float>(0, screenSize.width), cocos2d::RandomHelper::random_real<float>(0, screenSize.height));
-		//tmp->activa(cocos2d::RandomHelper::random_real<float>(0, screenSize.width), screenSize.height);
-		//tmp->animSprites_ = xh->loadAnimation(this, "mibala");
+	//for(int i = 0; i < 100; i++){
+	//	tmp = Bullet::creaBalaAnimada(this, Bullet::bulletTypes::tipoEnemyNormal, "plz", "mibala");
+	//	//tmp->getSprite()->setScale(4.0f);
+	//	tmp->activa(cocos2d::RandomHelper::random_real<float>(0, screenSize.width), cocos2d::RandomHelper::random_real<float>(0, screenSize.height));
+	//	//tmp->activa(cocos2d::RandomHelper::random_real<float>(0, screenSize.width), screenSize.height);
+	//	//tmp->animSprites_ = xh->loadAnimation(this, "mibala");
 
-		balas_.push_back(tmp);
-	}
+	//	balas_.push_back(tmp);
+	//}
 }
 
 void AnimTest::menuVuelveCallback(Ref *pSender){

@@ -25,7 +25,8 @@ USING_NS_CC;
 // Normalmente contendrá n sprites pero solo uno será visible
 class AnimSprites{
 public:
-	AnimSprites(Vec2 iniPos=Vec2::ZERO);
+	//AnimSprites(Vec2 iniPos = Vec2::ZERO);
+	AnimSprites(Sprite *parentSprite);
 	~AnimSprites();
 
 	struct frame{
@@ -48,8 +49,8 @@ public:
 	void playStart(std::string animName, bool randomStart=false);
 	void update(float deltaT);
 
-	void setPosition(Vec2 pos);
-	Vec2 getPosition();
+	//void setPosition(Vec2 pos);
+	//Vec2 getPosition();
 
 private:
 
@@ -68,5 +69,6 @@ private:
 	void hideFrame(frame *f);
 	void showFrame(frame *f);
 	
-	Vec2 position_;
+	//Vec2 position_;
+	Sprite *parentSprite_;
 };
