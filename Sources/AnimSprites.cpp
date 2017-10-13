@@ -1,17 +1,36 @@
 #include "AnimSprites.h"
+//#include "GameActor.h"
 #include "Game.h"
 
 // C++11 -> std::this_thread::sleep_for(std::chrono::milliseconds(x));
 //#include <chrono>
 //#include <thread>
 
-AnimSprites::AnimSprites(Sprite *parentSprite) : parentSprite_(parentSprite) {
+AnimSprites::AnimSprites(Node *parent) {
 	currentAnimation_ = nullptr;
 	currentFrame_ = nullptr;
-	//parentSprite_ = nullptr;
 }
 
-AnimSprites::~AnimSprites(){}
+AnimSprites::~AnimSprites(){
+	// TODO: destruir:
+	//std::unordered_map<std::string, animation *> animations_;
+	animations_.erase(animations_.begin(), animations_.end());
+}
+
+AnimSprites::animation::~animation(){
+	// TODO: destruir los animation frames
+	for(auto af = animationFrames_.cbegin(); af != animationFrames_.cend();++af){
+		auto *tmp = *af;
+		if(tmp->sprite_){
+			tmp->sprite_->removeFromParent();
+		}
+	}
+	animationFrames_.erase(animationFrames_.begin(), animationFrames_.end());
+}
+
+void AnimSprites::animation::addFrame(frame * f){
+	animationFrames_.push_back(f);
+}
 
 AnimSprites::frame::frame(Node *parent, const char *spritePath, float displaySeconds, float spriteScale){
 	// TODO: no haría falta un physicsbody?
@@ -21,12 +40,13 @@ AnimSprites::frame::frame(Node *parent, const char *spritePath, float displaySec
 	sprite_->setVisible(false);
 	// TODO: temp para almacenar el fichero de la textura y comprobar que las animaciones van en orden
 	sprite_->setName(std::string(spritePath));
-
+	
+	//parent_->getSprite()->getParent()->addChild(sprite_);
 	parent->addChild(sprite_);
 
 	// añade física
 	// TODO: la física está unida a la clase padre de este componente, voy a dejarlo pasar de momento y centrarme en animaciones
-	/* lo que viene faltando: 
+	/* lo que viene faltando:
 
 	Game::anadeFisica(sprite_, tipoColision, colisionaCon, name, ruta);
 
@@ -41,9 +61,6 @@ AnimSprites::frame::frame(Node *parent, const char *spritePath, float displaySec
 	*/
 }
 
-void AnimSprites::animation::addFrame(frame * f){
-	animationFrames_.push_back(f);
-}
 
 void AnimSprites::addAnimation(std::string animName, animation *a){
 	// TODO: comprobar si existe ya una y borrarla?
@@ -59,10 +76,9 @@ void AnimSprites::addAnimation(std::string animName, animation *a){
 //	//return position_;
 //}
 //
-//void AnimSprites::setPosition(Vec2 pos){
-//	position_ = pos;
-//	//currentFrame_->sprite_->setPosition(pos);
-//}
+void AnimSprites::setPosition(Vec2 pos){
+	currentFrame_->sprite_->setPosition(pos);
+}
 
 void AnimSprites::hideFrame(frame *f){
 	PhysicsBody *p;
@@ -87,6 +103,7 @@ void AnimSprites::showFrame(frame *f){
 	if(p){
 		p->setEnabled(true);
 	}
+
 }
 
 void AnimSprites::playStart(std::string animName, bool randomStart){
@@ -135,10 +152,6 @@ void AnimSprites::update(float deltaT){
 	if(Game::getInstance()->ellapsedTime >= currFrameTEnd_){
 		// cambio de frame
 		playNextFrame();
-	}
-
-	if(currentFrame_){
-		//currentFrame_->sprite_->setPosition(position_);
 	}
 
 }

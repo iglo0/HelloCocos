@@ -89,7 +89,6 @@ bool AnimTest::init(){
 #pragma endregion
 
 void AnimTest::miInit(){
-	Bullet *tmp;
 	XmlHelper *xh = new XmlHelper;
 	auto screenSize = Director::getInstance()->getWinSize();
 	//cocos2d::RandomHelper::random_int<int>(1, dado) == 1)

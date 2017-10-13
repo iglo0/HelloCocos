@@ -5,8 +5,8 @@
 #include "Movimiento.h"
 #include "Player.h"
 
-//#include "AnimSprites.h"
-//#include "XmlHelper.h"
+#include "AnimSprites.h"
+#include "XmlHelper.h"
 
 USING_NS_CC;
 
@@ -57,6 +57,8 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 	Movimiento *claseMovimiento;
 	Bullet *tmp;
 	Game *gameInstance = Game::getInstance();
+	AnimSprites *animS;
+	XmlHelper *xh;
 
 	// los parametros de la bala
 	const char *pathSprite;
@@ -81,6 +83,9 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 
 		claseMovimiento = new MueveVcal(speed);
 
+		// TODO: sistema de animacion sin configurar
+		animS = nullptr;
+
 		break;
 	case tipoEnemyDirigido:
 		pathSprite = gameInstance->bullet_enemy_path_sprite2.c_str();
@@ -94,6 +99,11 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 		initialScale = gameInstance->bullet_default_scale;
 
 		claseMovimiento = new MueveDireccion(speed);
+
+		// TODO: sistema de animacion sin configurar
+		//xh = new XmlHelper();
+		//animS = xh->loadAnimation(nodo, "mibala");
+		animS = nullptr;
 
 		break;
 	case tipoEnemyNormal:
@@ -109,6 +119,11 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 
 		claseMovimiento = new MueveVcal(speed);
 
+		// TODO: sistema de animacion sin configurar
+		//xh = new XmlHelper();
+		//animS = xh->loadAnimation(nodo, "mibala");
+		animS = nullptr;
+
 		break;
 	case tipoBossHoming:
 		pathSprite = gameInstance->bullet_enemy_path_sprite1.c_str();
@@ -123,17 +138,22 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 
 		claseMovimiento = new MueveHoming();
 
+		// TODO: sistema de animacion sin configurar
+		xh = new XmlHelper();
+		animS = xh->loadAnimation(nodo, "mibala");
+
 		break;
 	default:
 		CCLOG("Tipo bala desconocido: %d!", tipoBala);
+		animS = nullptr;
 		break;
 	}
 
 	tmp = new Bullet(nodo, bulletName, pathSprite, pathSonidoDisparo, pathSonidoImpacto, speed, dmg, tipoColision, colisionoCon, initialScale);
-
 	tmp->bulletType_ = tipoBala;
-
 	tmp->movimiento_ = claseMovimiento;
+
+	tmp->animSprites_ = animS;
 	
 	return tmp;
 }
@@ -211,9 +231,11 @@ void Bullet::update(float deltaT){
 		desactiva();
 	}
 
-	//if(animSprites_){
-	//	animSprites_->update(deltaT);
-	//}
+	if(animSprites_){
+		// TODO: ajusta posicion de la animacion
+		animSprites_->update(deltaT);
+		animSprites_->setPosition(nuPos);
+	}
 
 }
 
@@ -258,15 +280,6 @@ void Bullet::activa(Vec2 posIni){
 		CCLOG("Activando bala (desconocida) %d", bulletType_);
 		break;
 	}
-
-	// TODO: Lo nuevo
-	// Mejor lo meto en GameActor
-	//if(animations_){
-	//	// existen animaciones? y me quiero activar? me tiro a la piscina
-	//	animations_->playStart(std::string("default"));
-	//	animations_->setPosition(getPosition());
-	//}
-
 }
 
 void Bullet::activa(float x, float y){

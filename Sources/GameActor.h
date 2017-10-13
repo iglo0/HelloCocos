@@ -20,6 +20,7 @@ public:
 	typedef void(GameActor::*punteroAFuncionMovimientoV2)(Vec2);
 
 	Sprite *setSprite(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon, float initialScale = 1.0f);
+	void setSprite(Sprite *);
 
 	virtual void update(float deltaT);
 	virtual void mueve(Vec2);	//
@@ -37,12 +38,12 @@ public:
 	Movimiento *movimiento_;
 	//punteroAFuncionMovimiento funcionMovimientoActual;
 	gameActorTypes type_;
-	//AnimSprites *animSprites_;
 
 protected:
 	Sprite *sprite_;
 	float gameActorHP_, gameActorHPInicial_ = 1.0;
 	int gameActorPoints_;
 	bool estaActivo_;
+	AnimSprites *animSprites_;
 	//Vec2 currPos_;
 };

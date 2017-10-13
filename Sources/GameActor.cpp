@@ -8,26 +8,33 @@
 
 GameActor::GameActor(){
 	//CCLOG("Constructor de GameActor");
-	// me aseguro de que está inicializado
-	sprite_ = nullptr;
-
-	// todos los "actores" tienen unas características comunes: movimiento, vida...
-	gameActorHP_ = gameActorHPInicial_;
-	//mueveIzq = mueveDch = mueveArr = mueveAbj = false;
-	//funcionMovimientoActual = nullptr;
-
+	// me aseguro de que está todo inicializado
 	movimiento_ = nullptr;
 	estaActivo_ = false;
-	//animSprites_ = nullptr;
+	animSprites_ = nullptr;
+	sprite_ = nullptr;
+
+	// TODO: guarripeich que pone 1 punto de vida a todo por defecto
+	gameActorHP_ = gameActorHPInicial_;
+
 }
 
 GameActor::~GameActor(){
 	//CCLOG("Destructor de GameActor");
+	// TODO: destruir animSprites
+	if(animSprites_){
+		;
+	}
+	// movimiento?
 }
 
 // TODO: Aquí la he liado, no quiero un métood update en GameActor... quiero que lo hereden los hijos
 // o sí? Qué pasa con componentes comunes como la animación?
 void GameActor::update(float deltaT){
+	if(animSprites_){
+		// Aquí debo llegar con un gameactor activo, es en el "activar" donde tengo que preocuparme por inicializar su animacion
+		animSprites_->update(deltaT);
+	}
 }
 
 Vec2 GameActor::getPosition(){
@@ -53,6 +60,11 @@ void GameActor::setPosition(Vec2 pos){
 
 void GameActor::setPosition(float x, float y){
 	setPosition	(Vec2(x, y));
+}
+
+void GameActor::setSprite(Sprite *s){
+	// OJO: machaco la referencia a mi sprite con otra
+	sprite_ = s;
 }
 
 Sprite *GameActor::setSprite(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon, float initialScale){
@@ -104,11 +116,9 @@ void GameActor::mueve(Vec2 donde){
 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // TODO: no es lo mismo activar una bala (dirigida, normal, ...) que un enemigo? tendría que permitir heredar por tipo de GameActor...
 void GameActor::activa(Vec2 pos){
-	//if(animSprites_){
-	//	//animSprites_->setPosition(pos);
-	//	animSprites_->playStart("default");
-
-	//}
+	if(animSprites_){
+		animSprites_->playStart("default");
+	}
 	
 	if(sprite_){
 		sprite_->setPosition(pos);

@@ -244,7 +244,6 @@ void Level::update(float deltaT){
 		delete gameState;
 		gameState = tmpState;
 	}
-
 }
 
 
