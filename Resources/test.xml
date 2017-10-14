@@ -20,7 +20,7 @@
 	<bullet_default_scale>1.0f</bullet_default_scale>
 	<bullet_default_boss_scale>3.0f</bullet_default_boss_scale>
 	<bullet_default_dmg>1.0f</bullet_default_dmg>
-	<bullet_default_speed>500.0f</bullet_default_speed>
+	<bullet_default_speed>400.0f</bullet_default_speed>
 	<bullet_homing_speed>166.7f</bullet_homing_speed>
 	
 	<enemy_generic_speed>100.0f</enemy_generic_speed>
@@ -86,15 +86,32 @@
 <definitions>
 	<animset>
 		<!-- set de animaciones para xxx -->
-		<mibala>	<!-- me ha resultado más cómodo buscar por nodos <xxx> en vez de atributos <anim name="xxx">... -->
+		<balaEnemiga>
+			<anim name="default" loop="1">			<!-- animacion 1 "yyy" de xxx -->
+				<frame path="bullet_orange0000.png" wait="0.1" size="1.0" />
+				<frame path="bullet_orange0001.png" wait="0.1" size="1.5" />
+				<frame path="bullet_orange0002.png" wait="0.1" size="1.0" />
+				<frame path="bullet_orange0001.png" wait="0.1" size="1.5" />
+			</anim>
+		</balaEnemiga>
+		<balaHoming>	<!-- me ha resultado más cómodo buscar por nodos <xxx> en vez de atributos <anim name="xxx">... -->
 			<!-- OJO!! de momento que exista siempre "default", que la cargo a cañón -->
 			<anim name="default" loop="1">			<!-- animacion 1 "yyy" de xxx -->
 				<frame path="bullet_blue0000.png" wait="0.1" size="2.0" />
-				<frame path="bullet_blue0001.png" wait="0.1" size="3.0" />
+				<frame path="bullet_orange0001.png" wait="0.1" size="3.0" />
 				<frame path="bullet_blue0002.png" wait="0.1" size="2.0" />
-				<frame path="bullet_blue0001.png" wait="0.1" size="3.0" />
+				<frame path="bullet_orange0001.png" wait="0.1" size="3.0" />
 			</anim>
-		</mibala>
+		</balaHoming>
+		<balaDirigida>	<!-- me ha resultado más cómodo buscar por nodos <xxx> en vez de atributos <anim name="xxx">... -->
+			<!-- OJO!! de momento que exista siempre "default", que la cargo a cañón -->
+			<anim name="default" loop="1">			<!-- animacion 1 "yyy" de xxx -->
+				<frame path="bullet_purple0000.png" wait="0.1" size="1.5" />
+				<frame path="bullet_purple0001.png" wait="0.1" size="1.0" />
+				<frame path="bullet_purple0002.png" wait="0.1" size="1.5" />
+				<frame path="bullet_purple0001.png" wait="0.1" size="1.0" />
+			</anim>
+		</balaDirigida>
 	</animset>
 
 </definitions>

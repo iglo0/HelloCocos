@@ -101,9 +101,9 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 		claseMovimiento = new MueveDireccion(speed);
 
 		// TODO: sistema de animacion sin configurar
-		//xh = new XmlHelper();
-		//animS = xh->loadAnimation(nodo, "mibala");
-		animS = nullptr;
+		xh = new XmlHelper();
+		animS = xh->loadAnimation(nodo, "balaDirigida");
+		//animS = nullptr;
 
 		break;
 	case tipoEnemyNormal:
@@ -120,9 +120,9 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 		claseMovimiento = new MueveVcal(speed);
 
 		// TODO: sistema de animacion sin configurar
-		//xh = new XmlHelper();
-		//animS = xh->loadAnimation(nodo, "mibala");
-		animS = nullptr;
+		xh = new XmlHelper();
+		animS = xh->loadAnimation(nodo, "balaEnemiga");
+		//animS = nullptr;
 
 		break;
 	case tipoBossHoming:
@@ -140,7 +140,7 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 
 		// TODO: sistema de animacion sin configurar
 		xh = new XmlHelper();
-		animS = xh->loadAnimation(nodo, "mibala");
+		animS = xh->loadAnimation(nodo, "balaHoming");
 
 		break;
 	default:

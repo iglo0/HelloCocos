@@ -40,8 +40,12 @@ void GameActor::update(float deltaT){
 Vec2 GameActor::getPosition(){
 	//return currPos_;
 
-	if(sprite_){
-		return sprite_->getPosition();
+	if(animSprites_){
+		return animSprites_->getPosition();
+	} else{
+		if(sprite_){
+			return sprite_->getPosition();
+		}
 	}
 	// TODO: Ojo error
 	return Vec2();
@@ -118,19 +122,21 @@ void GameActor::mueve(Vec2 donde){
 void GameActor::activa(Vec2 pos){
 	if(animSprites_){
 		animSprites_->playStart("default");
-	}
-	
-	if(sprite_){
-		sprite_->setPosition(pos);
+		animSprites_->setPosition(pos);
+	} else{
+		if(sprite_){
+			sprite_->setPosition(pos);
 
-		sprite_->setVisible(true);
-		// TODO: Activar físicas
+			sprite_->setVisible(true);
+			// TODO: Activar físicas
 
-		PhysicsBody *pb = sprite_->getPhysicsBody();
-		if(pb){
-			pb->setEnabled(true);
+			PhysicsBody *pb = sprite_->getPhysicsBody();
+			if(pb){
+				pb->setEnabled(true);
+			}
 		}
 	}
+	
 
 	estaActivo_ = true;
 }

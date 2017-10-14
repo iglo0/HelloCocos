@@ -69,13 +69,14 @@ void AnimSprites::addAnimation(std::string animName, animation *a){
 	animations_[animName] = a;
 }
 
-//Vec2 AnimSprites::getPosition(){
-//	if(parentSprite_){
-//		return parentSprite_->getPosition();
-//	}
-//	//return position_;
-//}
-//
+Vec2 AnimSprites::getPosition(){
+	if(currentFrame_){
+		return currentFrame_->sprite_->getPosition();
+	} else{
+		CCLOG("opalee");
+	}
+}
+
 void AnimSprites::setPosition(Vec2 pos){
 	currentFrame_->sprite_->setPosition(pos);
 }

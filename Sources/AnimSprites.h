@@ -56,7 +56,7 @@ public:
 	//void linkTo(Sprite *);
 
 	void setPosition(Vec2 pos);
-	//Vec2 getPosition();
+	Vec2 getPosition();
 
 private:
 

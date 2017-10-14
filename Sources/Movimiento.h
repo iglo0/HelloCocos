@@ -11,19 +11,9 @@ public:
 	Movimiento();
 	~Movimiento();
 
-	//void init(float spd, float amp, Vec2 ori, Vec2 dir, Vec2 posIni, Sprite *target);
-	
 	virtual Vec2 mueve(Vec2 posIni, float deltaT)=0;
 
 protected:
-
-	//float _speed;
-	//float _amplitude;		// si quiero darle un movimiento oscilante
-	//Vec2 _origin;			// para aplicar una dirección 
-	//Vec2 _direction;		// la típica bala podría ser ((0,0) -> (0,1)) * speed
-	//Vec2 _posInicial;		// en caso de ser una función dependiente del tiempo (movimiento sinusoidal p.ej.), no se mueve en base a su pos actual sino a la inicial * tiempo
-	//						// (aunque supongo que también podría hacerse relativo)
-	//Sprite *_target;		// movimiento hacia un sprite
 };
 
 class MueveVcal : public Movimiento{
@@ -33,7 +23,6 @@ public:
 	~MueveVcal();
 
 	//void init();
-
 	Vec2 mueve(Vec2 posActual, float deltaT) override;
 
 private:
