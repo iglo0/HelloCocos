@@ -7,13 +7,15 @@ USING_NS_CC;
 
 // TODO: para que sepa qué devolver? 
 class AnimSprites;
+class GameActor;
 
 class XmlHelper{
 public:
 	XmlHelper(){};
 	~XmlHelper(){};
 
-	AnimSprites *loadAnimation(Node *parentNode, const char *animName);
+	AnimSprites *loadAnimation(Node *parentNode, const char *animName, GameActor *gameActor = nullptr);
+	void assignPhysicsToAnimation(AnimSprites *anim, GameActor *gA, int tipoColision, int colisionaCon);
 
 	// TODO: tests, borrar
 	//void loadAnimationsTestz(const char *filename, Node *parentNode);

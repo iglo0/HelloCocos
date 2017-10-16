@@ -1,9 +1,10 @@
 #include "XmlHelper.h"
 #include "pugixml.hpp"
-
+#include "GameActor.h"	// TODO: no se si con esto cojo los gameactor y sus hijos?
+#include "Game.h"
 #include "AnimSprites.h"	// para tratar con la clase
 
-AnimSprites *XmlHelper::loadAnimation(Node *parentNode, const char *animSetName){
+AnimSprites *XmlHelper::loadAnimation(Node *parentNode, const char *animSetName, GameActor *gameActor){
 	char *currAnimName, *framePath;
 	float frameWait, spriteScale;
 	bool animLoop;
@@ -56,6 +57,7 @@ AnimSprites *XmlHelper::loadAnimation(Node *parentNode, const char *animSetName)
 				spriteScale = xmlFrame.attribute("size").as_float();
 
 				tmpFrame = new AnimSprites::frame(parentNode, framePath, frameWait, spriteScale);
+				tmpFrame->sprite_->setUserData(gameActor);
 				// addFrame añade el frame a la animación si existe en el set (por nombre), o crea una nueva si no.
 				tmpAnimation->addFrame(tmpFrame);
 			}
@@ -73,3 +75,29 @@ AnimSprites *XmlHelper::loadAnimation(Node *parentNode, const char *animSetName)
 }
 
 
+void XmlHelper::assignPhysicsToAnimation(AnimSprites *anim, GameActor *gA, int tipoColision, int colisionaCon){
+	AnimSprites::animation *tmpAnim;
+	AnimSprites::frame *tmpFrame;
+
+	if(anim){
+		for(auto it = anim->animations_.cbegin(); it != anim->animations_.cend(); ++it){
+			tmpAnim = (AnimSprites::animation *)(*it).second;
+
+			for(auto f = tmpAnim->animationFrames_.cbegin(); f != tmpAnim->animationFrames_.cend(); ++f){
+				tmpFrame = (AnimSprites::frame *)(*f);
+				tmpFrame->sprite_->setUserData(gA);
+
+				Game::anadeFisica(tmpFrame->sprite_, tipoColision, colisionaCon,"psch", tmpFrame->sprite_->getName().c_str());
+
+				// HACK: PRUEBA! A ver is se enlentece aquí
+				// respuesta: Sí.
+				// TODO: tengo que darle una vuelta a ver por qué se terminan creando los sprites de las animaciones con la física activada
+				//tmpFrame->sprite_->setVisible(false);
+				//auto pb = tmpFrame->sprite_->getPhysicsBody();
+				//if(pb){
+				//	pb->setEnabled(false);
+				//}
+			}
+		}
+	}
+}

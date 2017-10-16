@@ -96,6 +96,9 @@ void Game::anadeFisica(Sprite *sprite, int tipoColision, int colisionaCon, const
 	// (no afectaría por que es dinamico, está puesto por completar)
 	fisicaSprite->setCollisionBitmask((int)Game::CategoriaColision::None);
 
+	// TODO: Prueba a capón
+	fisicaSprite->setEnabled(false);
+
 	sprite->setPhysicsBody(fisicaSprite);
 
 	sprite->setName(name);

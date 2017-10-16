@@ -58,13 +58,17 @@ public:
 	void setPosition(Vec2 pos);
 	Vec2 getPosition();
 
+	void desactiva();
+
+	std::unordered_map<std::string, animation *> animations_;
+
+
 private:
 
-	void initAnimation(animation *a, bool randomStart=false);
+	void startAnimation(animation *a, bool randomStart=false);
 	void playNextFrame();
 
 	// TODO: la idea es animations_["attack"] = frames para "attack"
-	std::unordered_map<std::string, animation *> animations_;
 	animation *currentAnimation_;
 
 	//Node *parent_;	// no puedo acceder desde frame o animation a parent_ ¿?
@@ -75,6 +79,8 @@ private:
 	void hideFrame(frame *f);
 	void showFrame(frame *f);
 	
+	bool estaActivo_;
+
 	//Vec2 position_;
 	//Sprite *parentSprite_;
 	//GameActor *parent_;

@@ -9,6 +9,7 @@
 AnimSprites::AnimSprites(Node *parent) {
 	currentAnimation_ = nullptr;
 	currentFrame_ = nullptr;
+	estaActivo_ = false;
 }
 
 AnimSprites::~AnimSprites(){
@@ -48,7 +49,7 @@ AnimSprites::frame::frame(Node *parent, const char *spritePath, float displaySec
 	// TODO: la física está unida a la clase padre de este componente, voy a dejarlo pasar de momento y centrarme en animaciones
 	/* lo que viene faltando:
 
-	Game::anadeFisica(sprite_, tipoColision, colisionaCon, name, ruta);
+	Game::anadeFisica(sprite_, tipoColision, colisionaCon, spritePath, ruta);
 
 	//TODO: ya tengo para recuperar mis datos :)
 	sprite_->setUserData(this);
@@ -74,6 +75,7 @@ Vec2 AnimSprites::getPosition(){
 		return currentFrame_->sprite_->getPosition();
 	} else{
 		CCLOG("opalee");
+		return Vec2::ZERO;
 	}
 }
 
@@ -83,6 +85,12 @@ void AnimSprites::setPosition(Vec2 pos){
 
 void AnimSprites::hideFrame(frame *f){
 	PhysicsBody *p;
+	if(!f){
+		return;
+	}
+	if(!f->sprite_){
+		return;
+	}
 
 	f->sprite_->setVisible(false);
 	p = f->sprite_->getPhysicsBody();
@@ -93,6 +101,8 @@ void AnimSprites::hideFrame(frame *f){
 
 void AnimSprites::showFrame(frame *f){
 	PhysicsBody *p;
+
+	CCLOG("Showing frame %s", f->sprite_->getName().c_str());
 
 	currentFrame_ = f;
 	currFrameTIni_ = Game::getInstance()->ellapsedTime;
@@ -108,7 +118,7 @@ void AnimSprites::showFrame(frame *f){
 }
 
 void AnimSprites::playStart(std::string animName, bool randomStart){
-	initAnimation(animations_[animName], randomStart);
+	startAnimation(animations_[animName], randomStart);
 }
 
 void AnimSprites::playNextFrame(){
@@ -129,8 +139,9 @@ void AnimSprites::playNextFrame(){
 	//CCLOG("frame [%d] <%s>", currentFrameNum_, currentFrame_->sprite_->getName().c_str());
 }
 
-void AnimSprites::initAnimation(animation *a, bool randomStart){
+void AnimSprites::startAnimation(animation *a, bool randomStart){
 	currentAnimation_ = a;
+	estaActivo_ = true;
 
 	if(currentFrame_){
 		hideFrame(currentFrame_);
@@ -149,6 +160,9 @@ void AnimSprites::initAnimation(animation *a, bool randomStart){
 }
 
 void AnimSprites::update(float deltaT){
+	if(!estaActivo_){
+		return;
+	}
 
 	if(Game::getInstance()->ellapsedTime >= currFrameTEnd_){
 		// cambio de frame
@@ -157,3 +171,7 @@ void AnimSprites::update(float deltaT){
 
 }
 
+void AnimSprites::desactiva(){
+	estaActivo_ = false;
+	hideFrame(currentFrame_);
+}

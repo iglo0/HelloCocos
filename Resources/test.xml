@@ -48,7 +48,7 @@
 	<duracion_estado_gameover>5.0f</duracion_estado_gameover>
 
 	<initial_hi_score>5000</initial_hi_score>
-	<vidas_iniciales>3</vidas_iniciales>
+	<vidas_iniciales>9999</vidas_iniciales>
 
 	<!-- no cambiar estos nombres de archivo -->
 	<sprite_casa_bloque>casa_bloque.png</sprite_casa_bloque>

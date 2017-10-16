@@ -58,7 +58,7 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 	Bullet *tmp;
 	Game *gameInstance = Game::getInstance();
 	AnimSprites *animS;
-	XmlHelper *xh;
+	XmlHelper *xh = nullptr;
 
 	// los parametros de la bala
 	const char *pathSprite;
@@ -152,6 +152,10 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 	tmp = new Bullet(nodo, bulletName, pathSprite, pathSonidoDisparo, pathSonidoImpacto, speed, dmg, tipoColision, colisionoCon, initialScale);
 	tmp->bulletType_ = tipoBala;
 	tmp->movimiento_ = claseMovimiento;
+
+	if(xh){
+		xh->assignPhysicsToAnimation(animS, tmp, tipoColision, colisionoCon);
+	}
 
 	tmp->animSprites_ = animS;
 	

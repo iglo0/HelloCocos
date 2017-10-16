@@ -156,6 +156,9 @@ void GameActor::desactiva(){
 		
 	}
 
+	if(animSprites_){
+		animSprites_->desactiva();
+	}
 	estaActivo_ = false;
 }
 

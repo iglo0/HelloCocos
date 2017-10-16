@@ -43,7 +43,7 @@ Scene* Level::createScene(){
 	// set the world’s gravity to zero in both directions, which essentially disables gravity
 	scene->getPhysicsWorld()->setGravity(Vec2(0, 0));
 	// enable debug drawing to see your physics bodies
-	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
 	// 'layer' is an autorelease object
