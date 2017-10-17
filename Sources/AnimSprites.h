@@ -19,7 +19,7 @@ El sistema de animaciones necesitaría:
 
 #include "cocos2d.h"	// necesario para declarar CREATE_FUNC y crear la escena en general
 
-//class GameActor;
+class GameActor;
 
 USING_NS_CC;
 
@@ -29,7 +29,7 @@ class AnimSprites{
 public:
 	//AnimSprites(Vec2 iniPos = Vec2::ZERO);
 	// OJO: AnimSprites pasa a controlar el sprite del GameActor que lo contiene
-	AnimSprites(Node *parent);
+	AnimSprites(GameActor *parent);
 	~AnimSprites();
 
 	struct frame{
@@ -83,5 +83,5 @@ private:
 
 	//Vec2 position_;
 	//Sprite *parentSprite_;
-	//GameActor *parent_;
+	GameActor *parent_;
 };

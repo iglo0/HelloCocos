@@ -4,7 +4,7 @@
 #include "SpaceInvaders.h"
 #include "AnimSprites.h"
 
-#include "Testz.h"
+#include "XmlHelper.h"
 
 GameActor::GameActor(){
 	//CCLOG("Constructor de GameActor");
@@ -25,12 +25,20 @@ GameActor::~GameActor(){
 	if(animSprites_){
 		;
 	}
+	if(sprite_){
+		; //sprite_->removeFromParent();
+	}
 	// movimiento?
 }
 
 // TODO: Aquí la he liado, no quiero un métood update en GameActor... quiero que lo hereden los hijos
 // o sí? Qué pasa con componentes comunes como la animación?
 void GameActor::update(float deltaT){
+	// TODO: implementar un TTL???
+	// Por ejemplo un gameActor que solo tenga una explosion quiero que vuelva a estar disponible al acabar
+	// y en vez de tratar de detectar el fin de la animación y que hablen los componentes, es cuestión de poner un TTL hábil...
+	// NAAAA, guarrada al canto :D
+
 	if(animSprites_){
 		// Aquí debo llegar con un gameactor activo, es en el "activar" donde tengo que preocuparme por inicializar su animacion
 		animSprites_->update(deltaT);
@@ -113,6 +121,10 @@ Sprite *GameActor::getSprite(){
 	return sprite_;
 }
 
+AnimSprites *GameActor::getAnimSprites(){
+	return animSprites_;
+}
+
 void GameActor::mueve(Vec2 donde){
 
 }
@@ -185,5 +197,24 @@ void GameActor::impacto(float dmg){
 		CCLOG ("GameActor %s says: ouch %f", name, dmg);
 		break;
 	}
+
+}
+
+void GameActor::createAnimationPool(Node *nodo, std::vector<GameActor*>& pool, int poolSize, const char *animSetName){
+	GameActor *tmp;
+	XmlHelper *xh = new XmlHelper();
+
+
+	for(int i = 0; i < poolSize; i++){
+		tmp = new GameActor();
+		tmp->animSprites_ = xh->loadAnimation(nodo, animSetName, tmp);
+
+		//tmp = new Bullet(nodo, (name + std::to_string(i)).c_str(), pathSprite, pathSonidoDisparo, pathSonidoImpacto, speed, dmg, tipoColision, colisionoCon, initialScale);
+
+		// TODO: que mas cosas hacer a la bala?
+
+		pool.push_back(tmp);
+	}
+
 
 }

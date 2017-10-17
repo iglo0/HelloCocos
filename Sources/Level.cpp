@@ -159,6 +159,12 @@ bool Level::onContactBegin(PhysicsContact &contact){
 	// si por ejemplo le pasa al jugador, pierde varias vidas. Tengo que hacerlo de otro modo. Quizás esperar a hacerlo más tarde y no en el mismo momento en que salta una colisión.
 
 	// nanananananannanaaaa prota definido con un triángulo. Colisiones simples de nuevo! O:-)
+	
+	
+	// explosiones!
+	Vec2 explosPos = contact.getContactData()->points[0];
+	Pool::activa(Pool::currentExplosions, explosPos);
+
 
 	Sprite *sprA, *sprB;
 
@@ -373,6 +379,8 @@ void Level::initLevel(){
 
 	// TODO: Pool para el boss
 	Bullet::createBulletPool(this, Pool::currentBulletsTipoBossHoming, 5, Bullet::tipoBossHoming);
+
+	GameActor::createAnimationPool(this, Pool::currentExplosions, 30, XML_EXPLOSION_ANIM);
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// inicializo los enemigos iniciales

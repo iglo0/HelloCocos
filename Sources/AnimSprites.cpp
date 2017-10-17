@@ -1,12 +1,12 @@
 #include "AnimSprites.h"
-//#include "GameActor.h"
+#include "GameActor.h"
 #include "Game.h"
 
 // C++11 -> std::this_thread::sleep_for(std::chrono::milliseconds(x));
 //#include <chrono>
 //#include <thread>
 
-AnimSprites::AnimSprites(Node *parent) {
+AnimSprites::AnimSprites(GameActor *parent): parent_(parent) {
 	currentAnimation_ = nullptr;
 	currentFrame_ = nullptr;
 	estaActivo_ = false;
@@ -132,6 +132,14 @@ void AnimSprites::playNextFrame(){
 	} else{
 		// finalizar la animacion
 		// currFrameNum_ = currFrameNum_;
+		// TODO: HACK: cuando acaba una animacion intento desactivar al gameActor padre
+		// usado en explosiones
+		// TODO: versión 2 con TTL en GameActor??
+		desactiva();
+		if(parent_){
+			parent_->desactiva();
+		}
+		
 	}
 	
 	showFrame(currentAnimation_->animationFrames_[currentFrameNum_]);

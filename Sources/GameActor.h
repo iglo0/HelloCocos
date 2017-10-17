@@ -22,6 +22,9 @@ public:
 	Sprite *setSprite(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon, float initialScale = 1.0f);
 	void setSprite(Sprite *);
 
+	static void createAnimationPool(Node *nodo, std::vector<GameActor *> &pool, int poolSize, const char *animSetName);
+
+
 	virtual void update(float deltaT);
 	virtual void mueve(Vec2);	//
 	virtual void impacto(float dmg);	//
@@ -29,6 +32,7 @@ public:
 	void setPosition(Vec2);
 	void setPosition(float, float);
 	Sprite *getSprite();
+	AnimSprites *getAnimSprites();
 	virtual void activa(Vec2 pos);
 	virtual void activa(float x, float y);
 	void desactiva();

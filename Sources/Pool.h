@@ -13,6 +13,7 @@
 
 class Enemy;
 class Bullet;
+class GameActor;
 //class AnimSprites;
 
 USING_NS_CC;
@@ -55,6 +56,8 @@ public:
 
 	static Bullet *activa(std::vector<Bullet *> &pool, Vec2 pos);
 	static void desactiva(Bullet &bullet);
+	static GameActor *activa(std::vector<GameActor *> &pool, Vec2 pos);
+	static void desactiva(GameActor &bullet);
 
 	// updates all GameActors in the pools
 	static void updateAll(float deltaT);
@@ -76,11 +79,16 @@ public:
 	static void deletePool<Enemy>(std::vector<Enemy *> &v);
 	template <>
 	static void deletePool<Bullet>(std::vector<Bullet *> &v);
+	template <>
+	static void deletePool<GameActor>(std::vector<GameActor *> &v);
 
 	template <class T>
 	static void disablePool(std::vector<T *> &v);
+	// especializaciones
 	template <>
 	static void disablePool<Bullet>(std::vector<Bullet *> &v);
+	template <>
+	static void disablePool<GameActor>(std::vector<GameActor *> &v);
 
 	// ------------------------------------------------------------------------------------------------
 	// GameActor pools
@@ -92,6 +100,7 @@ public:
 	static std::vector<Bullet *> currentBulletsTipoBossHoming;
 	static std::vector<Bullet *> currentBulletsTipoNormal;
 	static std::vector<Bullet *> currentBulletsTipo2;
+	static std::vector<GameActor *> currentExplosions;
 	//static std::vector<AnimSprites *> currentAnimfucksgrlz;
 private:
 };

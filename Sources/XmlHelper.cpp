@@ -24,7 +24,7 @@ AnimSprites *XmlHelper::loadAnimation(Node *parentNode, const char *animSetName,
 
 	// cuando cargo un "animSet" la idea es que sea completo e independiente, así que creo un nuevo objeto en vez de intentar añadir a otro.
 	// en resumen, que new AnimSprites(...)
-	tmpAnimSprites = new AnimSprites(parentNode);
+	tmpAnimSprites = new AnimSprites(gameActor);
 	AnimSprites::frame *tmpFrame;
 	AnimSprites::animation *tmpAnimation;
 

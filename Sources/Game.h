@@ -78,6 +78,8 @@ USING_NS_CC;
 #define CONFIG_SPRITE_CASA_ESQUINA_DCH		"sprite_casa_esquina_dch"
 #define CONFIG_SPRITE_CASA_ESQUINA_IZQ		"sprite_casa_esquina_izq"
 
+#define XML_EXPLOSION_ANIM	"explosion"
+
 #pragma endregion
 
 // declaraciones adelantadas
