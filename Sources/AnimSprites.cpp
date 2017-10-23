@@ -99,7 +99,7 @@ void AnimSprites::hideFrame(frame *f){
 	}
 }
 
-void AnimSprites::showFrame(frame *f){
+void AnimSprites::showFrame(frame *f, Vec2 pos){
 	PhysicsBody *p;
 
 	CCLOG("Showing frame %s", f->sprite_->getName().c_str());
@@ -108,7 +108,7 @@ void AnimSprites::showFrame(frame *f){
 	currFrameTIni_ = Game::getInstance()->ellapsedTime;
 	currFrameTEnd_ = currFrameTIni_ + f->displaySeconds_;
 
-	//f->sprite_->setPosition(position_);
+	f->sprite_->setPosition(pos);
 	f->sprite_->setVisible(true);
 	p = f->sprite_->getPhysicsBody();
 	if(p){
@@ -117,11 +117,14 @@ void AnimSprites::showFrame(frame *f){
 
 }
 
-void AnimSprites::playStart(std::string animName, bool randomStart){
-	startAnimation(animations_[animName], randomStart);
+void AnimSprites::playStart(std::string animName, Vec2 pos, bool randomStart){
+	startAnimation(animations_[animName], pos, randomStart);
 }
 
 void AnimSprites::playNextFrame(){
+	// que el nuevo frame empiece donde estaba el anterior
+	Vec2 tmpPos = currentFrame_->sprite_->getPosition();
+
 	// TODO: Hacer más caso al loop
 	if(currentFrameNum_ < lastFrameNum_){
 		++currentFrameNum_;
@@ -142,12 +145,12 @@ void AnimSprites::playNextFrame(){
 		
 	}
 	
-	showFrame(currentAnimation_->animationFrames_[currentFrameNum_]);
+	showFrame(currentAnimation_->animationFrames_[currentFrameNum_], tmpPos);
 	
 	//CCLOG("frame [%d] <%s>", currentFrameNum_, currentFrame_->sprite_->getName().c_str());
 }
 
-void AnimSprites::startAnimation(animation *a, bool randomStart){
+void AnimSprites::startAnimation(animation *a, Vec2 pos, bool randomStart){
 	currentAnimation_ = a;
 	estaActivo_ = true;
 
@@ -163,7 +166,7 @@ void AnimSprites::startAnimation(animation *a, bool randomStart){
 		currentFrameNum_ = 0;
 	}
 
-	showFrame(a->animationFrames_[currentFrameNum_]);
+	showFrame(a->animationFrames_[currentFrameNum_], pos);
 
 }
 

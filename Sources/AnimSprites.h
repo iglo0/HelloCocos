@@ -51,7 +51,7 @@ public:
 
 	void addAnimation(std::string animName, animation *a);
 
-	void playStart(std::string animName, bool randomStart=false);
+	void playStart(std::string animName, Vec2 pos, bool randomStart=false);
 	void update(float deltaT);
 	//void linkTo(Sprite *);
 
@@ -65,7 +65,7 @@ public:
 
 private:
 
-	void startAnimation(animation *a, bool randomStart=false);
+	void startAnimation(animation *a, Vec2 pos, bool randomStart=false);
 	void playNextFrame();
 
 	// TODO: la idea es animations_["attack"] = frames para "attack"
@@ -77,8 +77,8 @@ private:
 	float currFrameTIni_, currFrameTEnd_;
 	//void playFrame(int numFrame);
 	void hideFrame(frame *f);
-	void showFrame(frame *f);
-	
+	void showFrame(frame *f, Vec2 donde);
+
 	bool estaActivo_;
 
 	//Vec2 position_;

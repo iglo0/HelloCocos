@@ -79,6 +79,7 @@ USING_NS_CC;
 #define CONFIG_SPRITE_CASA_ESQUINA_IZQ		"sprite_casa_esquina_izq"
 
 #define XML_EXPLOSION_ANIM	"explosion"
+#define XML_IMPACT_ANIM	"impacto"
 
 #pragma endregion
 

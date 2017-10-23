@@ -20,6 +20,7 @@ std::vector<Bullet *> Pool::currentBulletsTipo2;
 std::vector<Bullet *> Pool::currentBulletsTipoBossHoming;
 
 std::vector<GameActor *> Pool::currentExplosions;
+std::vector<GameActor *> Pool::currentImpacts;
 
 
 
@@ -146,7 +147,7 @@ GameActor *Pool::activa(std::vector<GameActor *> &pool, Vec2 pos){
 			//if(*typeid(pos).name() ==*"class cocos2d::Vec2"){
 
 			return tmp;
-			break;
+			//break;
 		}
 	}
 
@@ -222,6 +223,7 @@ void Pool::deletePools(){
 	deletePool<Bullet>(currentBulletsTipo2);
 	deletePool<Bullet>(currentBulletsTipoBossHoming);
 	deletePool<GameActor>(currentExplosions);
+	deletePool<GameActor>(currentImpacts);
 }
 
 void Pool::disablePools(){
@@ -232,6 +234,7 @@ void Pool::disablePools(){
 	disablePool<Bullet>(currentBulletsTipo2);
 	disablePool<Bullet>(currentBulletsTipoBossHoming);
 	disablePool<GameActor>(currentExplosions);
+	disablePool<GameActor>(currentImpacts);
 }
 
 

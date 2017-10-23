@@ -37,42 +37,94 @@ Git user attention
 ### ÚLTIMO HECHO
 
 - Clase AnimSprites de gestión de animaciones y escena AnimTest de prueba.
+- Carga y definición de animaciones por XML
 
 ----
 # TRABAJO EN CURSO
 En desarrollo [Estimación]
 ```diff
 GENERAL
-- Carga de definición de las animaciones en ficheros XML [10/09/2017]
-```
-
-
-### PLANIFICADO (lo siguiente que pienso hacer)
-GENERAL
-- Modificar la gestión de los pools para que trabajen con animaciones [17/09/2017]
++ Modificar la gestión de los pools para que trabajen con animaciones [17/09/2017]
+- Implementar un Time To Live (TTL) para objetos que deban vivir un rato solo
 
 GRÁFICOS
-- Definir animaciones para las balas
-- Definir animaciones para los enemigos
-- Sacar explosiones animadas
+- Animación para las explosiones
+- Animación para los impactos de balas
 
-LÓGICA DEL JUEGO
-- disparo de múltiples proyectiles en abanico (bosses?) ~~[07/06/17]~~
+GENERAL
+- Implementar un Time To Live (TTL) para objetos que deban vivir un rato solo
+```
+
+### PLANIFICADO (lo siguiente que pienso hacer)
+
+GRÁFICOS
+- Definir animaciones para los enemigos
+- Que se muestren los trozos rotos de las casitas
 
 ESTRUCTURA DEL JUEGO
 - detectar la destrucción de las oleadas de enemigos
 - avance de oleadas cada vez más dificiles
 
+
+### POR PLANIFICAR (tareas pendientes que ir planificando)
+
+ESTRUCTURA DEL JUEGO
+- carga de niveles desde xml
+
 EFECTOS
 - Sonido
 	- reintroducir el sonido
-
-
-### POR PLANIFICAR (tareas pendientes que ir planificando)
+	- ojo a los parones al reproducir sonidos
 
 ### IDEAS (a hacer ~~cuando las ranas críen pelo~~ más adelante)
 
 En ningún orden particular:
+
+LÓGICA DEL JUEGO
+- disparo de múltiples proyectiles en abanico (bosses?) ~~[07/06/17]~~
+- ~~tiros en la dirección general del prota [03/06/17] [hecho hacia el 01/07]~~
+- ~~disparo de proyectiles que sigan trayectorias (seno/coseno) [04/06/17] [hecho hacia el 01/07]~~
+- ~~Añadir las casitas (las típicas del Space Invaders que protegen al prota)~~
+	- ~~que sean destructibles~~
+- ~~que los enemigos disparen más cuantos menos queden~~
+
+EFECTOS
+- Sonido
+	- buscar una alternativa que permita variar pitch y otros parámetros en windows (el motor sonoro por defecto no lo hace)
+- Música
+	- en los menús
+	- durante el juego
+	- para los bosses
+	- de game over
+	- de records
+- Usar Acciones (de cocos) para darle brillo al juego
+	- "terremotos"
+	- rotación y zoomeado de sprites
+	- movimientos con aceleración y frenado (no bruscos)
+- Parpadeo de las naves (periodo de invulnerabilidad)
+
+GRÁFICOS
+- ~~Colisiones precisas. Definidos el resto de sprites~~
+- ~~Definir animaciones para las balas~~
+
+ESTRUCTURA DEL JUEGO
+- jefes cada "x" oleadas
+- ~~creada otra máquina de estados para el juego, intentando implementarla con el patrón "Estado"~~
+- ~~reimplementando las funciones de movimiento (balas mayormente)~~
+
+GENERAL
+- Tabla de records
+	- pantalla para verla, o reutilizar los menús... o montarla encima de la del juego tras el game over...
+	- poder definir "n" entradas
+	- Almacenamiento de tabla de records
+- Definición de niveles en archivos de texto
+	- cantidad y comportamiento de los enemigos por nivel
+	- o...
+	- definición de niveles a manija, con enemigos que salgan en puntos fijos o al de tiempo
+- Separar el manejo de datos, lógica y memoria de la clase de Pool (ir viendo Pool_manager)	
+- ~~Carga de definición de las animaciones en ficheros XML [10/09/2017]~~
+
+### OLVIDADO
 
 LÓGICA DEL JUEGO
 - Añadir power-ups
@@ -90,47 +142,10 @@ LÓGICA DEL JUEGO
 - Añadir comportamientos a las naves
 	- enemigos que salen y entran en la formación (por ejemplo: Galaxian/Galaga)
 		- que sigan splines? LOL ni siquiera he empezado por y=x
-- ~~tiros en la dirección general del prota [03/06/17] [hecho hacia el 01/07]~~
-- ~~disparo de proyectiles que sigan trayectorias (seno/coseno) [04/06/17] [hecho hacia el 01/07]~~
-- ~~Añadir las casitas (las típicas del Space Invaders que protegen al prota)~~
-	- ~~que sean destructibles~~
-- ~~que los enemigos disparen más cuantos menos queden~~
-
-EFECTOS
-- Sonido
-	- buscar una alternativa que permita variar pitch y otros parámetros en windows (el motor sonoro por defecto no lo hace)
-	- ojo a los parones al reproducir sonidos
-- Música
-	- en los menús
-	- durante el juego
-	- para los bosses
-	- de game over
-	- de records
-- Usar Acciones (de cocos) para darle brillo al juego
-	- "terremotos"
-	- rotación y zoomeado de sprites
-	- movimientos con aceleración y frenado (no bruscos)
-- Parpadeo de las naves (periodo de invulnerabilidad)
 
 GRÁFICOS
 - Independencia de resolución
-- ~~Colisiones precisas. Definidos el resto de sprites~~
 
-ESTRUCTURA DEL JUEGO
-- jefes cada "x" oleadas
-- ~~creada otra máquina de estados para el juego, intentando implementarla con el patrón "Estado"~~
-- ~~reimplementando las funciones de movimiento (balas mayormente)~~
-
-GENERAL
-- Tabla de records
-	- pantalla para verla, o reutilizar los menús... o montarla encima de la del juego tras el game over...
-	- poder definir "n" entradas
-	- Almacenamiento de tabla de records
-- Definición de niveles en archivos de texto
-	- cantidad y comportamiento de los enemigos por nivel
-	- o...
-	- definición de niveles a manija, con enemigos que salgan en puntos fijos o al de tiempo
-- Separar el manejo de datos, lógica y memoria de la clase de Pool (ir viendo Pool_manager)	
 
 ### ~~BUGS~~ OUTSTANDING FEATURES
 - ~~a veces el jugador puede perder dos vidas juntas. ¿Es por que le dan dos balas? ¿o no? no lo tengo claro~~ <-- "solucionado" usando un solo polígono para sus colisiones

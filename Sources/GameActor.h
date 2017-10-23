@@ -49,5 +49,8 @@ protected:
 	int gameActorPoints_;
 	bool estaActivo_;
 	AnimSprites *animSprites_;
+
+	// TODO: implementar el TTL
+	float ttl_, tIni_, tEnd_;
 	//Vec2 currPos_;
 };

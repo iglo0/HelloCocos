@@ -161,9 +161,9 @@ bool Level::onContactBegin(PhysicsContact &contact){
 	// nanananananannanaaaa prota definido con un triángulo. Colisiones simples de nuevo! O:-)
 	
 	
-	// explosiones!
-	Vec2 explosPos = contact.getContactData()->points[0];
-	Pool::activa(Pool::currentExplosions, explosPos);
+	// muestra el impacto gráficamente
+	Vec2 impactoPos = contact.getContactData()->points[0];
+	Pool::activa(Pool::currentImpacts, impactoPos);
 
 
 	Sprite *sprA, *sprB;
@@ -381,6 +381,7 @@ void Level::initLevel(){
 	Bullet::createBulletPool(this, Pool::currentBulletsTipoBossHoming, 5, Bullet::tipoBossHoming);
 
 	GameActor::createAnimationPool(this, Pool::currentExplosions, 30, XML_EXPLOSION_ANIM);
+	GameActor::createAnimationPool(this, Pool::currentImpacts, 30, XML_IMPACT_ANIM);
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// inicializo los enemigos iniciales

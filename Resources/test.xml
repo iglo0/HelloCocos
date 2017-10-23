@@ -113,12 +113,18 @@
 			</anim>
 		</balaDirigida>
 		<explosion>
-			<anim name="default" loop="0">			<!-- animacion 1 "yyy" de xxx -->
+			<anim name="default" loop="1">
 				<frame path="explosion0.png" wait="0.3" size="0.6" />
 				<frame path="explosion1.png" wait="0.3" size="0.6" />
 				<frame path="explosion2.png" wait="0.3" size="0.6" />
 			</anim>
 		</explosion>
+		<impacto>
+			<anim name="default" loop="1">
+				<frame path="impacto1.png" wait="0.3" size="1.0" />
+				<frame path="impacto2.png" wait="0.3" size="1.0" />
+			</anim>
+		</impacto>
 	</animset>
 
 </definitions>

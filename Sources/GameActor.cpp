@@ -133,8 +133,8 @@ void GameActor::mueve(Vec2 donde){
 // TODO: no es lo mismo activar una bala (dirigida, normal, ...) que un enemigo? tendría que permitir heredar por tipo de GameActor...
 void GameActor::activa(Vec2 pos){
 	if(animSprites_){
-		animSprites_->playStart("default");
-		animSprites_->setPosition(pos);
+		animSprites_->playStart("default", pos);
+		//animSprites_->setPosition(pos);
 	} else{
 		if(sprite_){
 			sprite_->setPosition(pos);
@@ -191,6 +191,7 @@ void GameActor::impacto(float dmg){
 	switch (type_){
 	case gameActorTypes::destructible:
 		CCLOG("Casa is fucked");
+		// TODO: añadir aquí el código para sacar un cacho trozo de casa rota
 		desactiva();
 		break;
 	default:

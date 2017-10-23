@@ -101,6 +101,7 @@ public:
 	static std::vector<Bullet *> currentBulletsTipoNormal;
 	static std::vector<Bullet *> currentBulletsTipo2;
 	static std::vector<GameActor *> currentExplosions;
+	static std::vector<GameActor *> currentImpacts;
 	//static std::vector<AnimSprites *> currentAnimfucksgrlz;
 private:
 };

@@ -79,6 +79,8 @@ void Enemy::impacto(float dmg){
 		// muere
 		desactiva();
 		// TODO: explosion
+		Pool::activa(Pool::currentExplosions, getPosition());
+
 		// TODO: dar puntos
 		// TODO: y distinguir el tipo de enemigo que es!
 		//Game::getInstance()->puntos += ENEMY_GENERIC_POINTS;
