@@ -211,8 +211,29 @@ void Pool::updateAll(float deltaT){
 			//(*x)->mueveBala();
 		}
 	}
+
+	for(auto x = currentImpacts.cbegin(); x != currentImpacts.cend(); ++x){
+		if((*x)->isActive()){
+			(*x)->update(deltaT);
+			//(*x)->mueveBala();
+		}
+	}
 }
 
+
+void Pool::updateMinimal(float deltaT){
+	for(auto x = currentExplosions.cbegin(); x != currentExplosions.cend(); ++x){
+		if((*x)->isActive()){
+			(*x)->update(deltaT);
+		}
+	}
+
+	for(auto x = currentImpacts.cbegin(); x != currentImpacts.cend(); ++x){
+		if((*x)->isActive()){
+			(*x)->update(deltaT);
+		}
+	}
+}
 
 void Pool::deletePools(){
 	// TODO: Intento borrar los pools 
@@ -259,19 +280,9 @@ void Pool::deletePool<Bullet>(std::vector<Bullet *> &v){
 template<>
 void Pool::deletePool<GameActor>(std::vector<GameActor *> &v){
 	GameActor *gameActor;
-	//Sprite *sprite;
-	//AnimSprites *animSprites;
 
 	for(auto x = v.cbegin(); x != v.cend(); ++x){
 		gameActor = (*x);
-		//sprite = gameActor->getSprite();
-		//animSprites = gameActor->getAnimSprites();
-		//if(sprite){
-		//	sprite->removeFromParent();
-		//}
-		//if(animSprites){
-		//	// me parece que el destructor se encarga de todo	
-		//}
 		// me parece que el destructor se encarga de todo	
 		delete gameActor;
 	}

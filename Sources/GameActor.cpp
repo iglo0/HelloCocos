@@ -16,6 +16,7 @@ GameActor::GameActor(){
 
 	// TODO: guarripeich que pone 1 punto de vida a todo por defecto
 	gameActorHP_ = gameActorHPInicial_;
+	ttl_ = -1.0f;
 
 }
 
@@ -42,6 +43,13 @@ void GameActor::update(float deltaT){
 	if(animSprites_){
 		// Aquí debo llegar con un gameactor activo, es en el "activar" donde tengo que preocuparme por inicializar su animacion
 		animSprites_->update(deltaT);
+	}
+
+	if(ttl_ >= 0){
+		if(Game::getInstance()->ellapsedTime >= tEnd_){
+			// me desactivo
+			desactiva();
+		}
 	}
 }
 
@@ -149,6 +157,11 @@ void GameActor::activa(Vec2 pos){
 		}
 	}
 	
+	if(ttl_ > 0){
+		// sé que tiene un ttl, así que calculo cuándo le toca acabar
+		tIni_ = Game::getInstance()->ellapsedTime;
+		tEnd_ = tIni_ + ttl_;
+	}
 
 	estaActivo_ = true;
 }
@@ -205,17 +218,19 @@ void GameActor::createAnimationPool(Node *nodo, std::vector<GameActor*>& pool, i
 	GameActor *tmp;
 	XmlHelper *xh = new XmlHelper();
 
-
 	for(int i = 0; i < poolSize; i++){
 		tmp = new GameActor();
 		tmp->animSprites_ = xh->loadAnimation(nodo, animSetName, tmp);
 
-		//tmp = new Bullet(nodo, (name + std::to_string(i)).c_str(), pathSprite, pathSonidoDisparo, pathSonidoImpacto, speed, dmg, tipoColision, colisionoCon, initialScale);
-
-		// TODO: que mas cosas hacer a la bala?
+		// TODO: que mas cosas hacer?
+		//tmp->setTTL(ttl);
 
 		pool.push_back(tmp);
 	}
+}
 
+void GameActor::setTTL(float ttl){
+
+	ttl_ = ttl;
 
 }

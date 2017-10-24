@@ -41,18 +41,15 @@ Git user attention
 
 ----
 # TRABAJO EN CURSO
-En desarrollo [Estimación]
+En desarrollo [Estimación][Finalizado]
 ```diff
 GENERAL
-+ Modificar la gestión de los pools para que trabajen con animaciones [17/09/2017]
-- Implementar un Time To Live (TTL) para objetos que deban vivir un rato solo
++ Modificar la gestión de los pools para que trabajen con animaciones [17/09/2017][?]
++ Implementar un Time To Live (TTL) para objetos que deban vivir un rato solo [?][24/10/2017]
 
 GRÁFICOS
-- Animación para las explosiones
-- Animación para los impactos de balas
-
-GENERAL
-- Implementar un Time To Live (TTL) para objetos que deban vivir un rato solo
++ Animación para las explosiones
++ Animación para los impactos de balas
 ```
 
 ### PLANIFICADO (lo siguiente que pienso hacer)

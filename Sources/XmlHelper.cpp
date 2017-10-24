@@ -6,7 +6,7 @@
 
 AnimSprites *XmlHelper::loadAnimation(Node *parentNode, const char *animSetName, GameActor *gameActor){
 	char *currAnimName, *framePath;
-	float frameWait, spriteScale;
+	float frameWait, spriteScale, ttl;
 	bool animLoop;
 	AnimSprites *tmpAnimSprites;
 
@@ -44,6 +44,13 @@ AnimSprites *XmlHelper::loadAnimation(Node *parentNode, const char *animSetName,
 			// cada anim de animSet tiene un nombre para la animación, atributos como si es loop o no y la lista de frames
 			currAnimName = (char *)xmlAnim.attribute("name").value();
 			animLoop = xmlAnim.attribute("loop").as_bool();
+			// si encuentra el atributo ttl lo aplica, si no no.
+			if(!xmlAnim.attribute("ttl").empty()){
+				ttl = xmlAnim.attribute("ttl").as_float();
+				if(gameActor){
+					gameActor->setTTL(ttl);
+				}
+			}
 
 			// voy creando una estructura en memoria para el juego
 			tmpAnimation = new AnimSprites::animation(animLoop);

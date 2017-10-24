@@ -94,6 +94,8 @@ void Player::impacto(float dmg){
 void Player::killPlayer(){
 	//return;
 
+	Pool::activa(Pool::currentExplosions, getPosition());
+
 	// HACK: cambio de estado usando una referencia al nivel
 	Level::setGameState(new PlayerDeadState(this));
 	// "deprecated"? o no?

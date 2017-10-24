@@ -380,8 +380,9 @@ void Level::initLevel(){
 	// TODO: Pool para el boss
 	Bullet::createBulletPool(this, Pool::currentBulletsTipoBossHoming, 5, Bullet::tipoBossHoming);
 
-	GameActor::createAnimationPool(this, Pool::currentExplosions, 30, XML_EXPLOSION_ANIM);
-	GameActor::createAnimationPool(this, Pool::currentImpacts, 30, XML_IMPACT_ANIM);
+	// TODO: probando a detectar el fin de las animaciones con ttl o con loop=0 (ver .xml)
+	GameActor::createAnimationPool(this, Pool::currentExplosions, 5, XML_EXPLOSION_ANIM);
+	GameActor::createAnimationPool(this, Pool::currentImpacts, 20, XML_IMPACT_ANIM);
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// inicializo los enemigos iniciales

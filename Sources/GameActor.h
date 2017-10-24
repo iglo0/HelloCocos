@@ -37,6 +37,7 @@ public:
 	virtual void activa(float x, float y);
 	void desactiva();
 	bool isActive();
+	void setTTL(float ttl);
 
 	float gameActorSpeed_;
 	Movimiento *movimiento_;

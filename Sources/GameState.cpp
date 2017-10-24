@@ -73,6 +73,8 @@ void PlayerDeadState::enterState(){
 }
 
 GameState *PlayerDeadState::update(float deltaT){
+	Pool::updateMinimal(deltaT);
+
 	if(gameInstance->ellapsedTime - tIni >= gameInstance->duracion_estado_muerte){
 		// cambio de estado
 		if(gameInstance->vidas > 0){
@@ -100,6 +102,8 @@ void GameOverState::enterState(){
 }
 
 GameState *GameOverState::update(float deltaT){
+	Pool::updateMinimal(deltaT);
+
 	if(gameInstance->ellapsedTime - tIni >= gameInstance->duracion_estado_gameover){
 		gameInstance->lblMensajes->setVisible(false);
 		

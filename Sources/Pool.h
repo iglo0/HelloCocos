@@ -61,6 +61,9 @@ public:
 
 	// updates all GameActors in the pools
 	static void updateAll(float deltaT);
+	// HACK: quiero ver explosiones al morir y poco más
+	// debería? hacer uno genérico pero no sé si podría evitar especializarlo para cada tipo de pool, de momento esto es lo que hay
+	static void updateMinimal(float deltaT);
 	
 	static void deletePools();
 	static void disablePools();	// desactiva todos los pools, (útil p.ej. tras una muerte)

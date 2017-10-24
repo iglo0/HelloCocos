@@ -138,11 +138,15 @@ void AnimSprites::playNextFrame(){
 		// TODO: HACK: cuando acaba una animacion intento desactivar al gameActor padre
 		// usado en explosiones
 		// TODO: versión 2 con TTL en GameActor??
-		desactiva();
 		if(parent_){
 			parent_->desactiva();
+		} else{
+			// si hay parent, su desactiva termina llamando a este. Porsiaca...
+			desactiva();
 		}
 		
+		// OJO!!!: si no quiero volver a mostrar el frame recién ocultado como un perfecto gañán, mejor salir aquí O:-)
+		return;
 	}
 	
 	showFrame(currentAnimation_->animationFrames_[currentFrameNum_], tmpPos);
