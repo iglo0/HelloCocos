@@ -64,6 +64,11 @@ private:
 	void creaCasita(Vec2 esquinaInfIzq);
 	GameActor *creaDestructible(Vec2 pos, int type=0);
 
+	// TODO: test captura de pantalla
+	void afterCaptured(bool succeed, const std::string& outputFile);
+	bool capturing_ = false;
+	// --------------------------------------------------------------
+
 	// variables miembro privadas
 	// --------------------------------------------------------------
 	Game *gameInstance;	// cacheo la instancia de Game

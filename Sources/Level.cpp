@@ -237,6 +237,10 @@ void Level::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event){
 	//CCLOG("released %d", keyCode);
 	inputComponent->keyReleased(keyCode);
 
+	// HACK: ÑAPA
+	if(keyCode == EventKeyboard::KeyCode::KEY_C){
+		capturing_ = !capturing_;
+	}
 }
 
 void Level::update(float deltaT){
@@ -249,6 +253,11 @@ void Level::update(float deltaT){
 		// el estado ha cambiado 
 		delete gameState;
 		gameState = tmpState;
+	}
+
+	// lo guarda en %appdata%\..\local\HelloCocos 
+	if(capturing_){
+		utils::captureScreen(CC_CALLBACK_2(Level::afterCaptured, this), std::string("shot") + std::to_string(Game::getInstance()->ellapsedTime) + std::string(".png"));
 	}
 }
 
@@ -530,4 +539,18 @@ void Level::setGameState(GameState *nuevo){
 // fun estatica
 void Level::vuelveAlMenu(){
 	Director::getInstance()->replaceScene(Menus::CreateScene());
+}
+
+void Level::afterCaptured(bool succeed, const std::string& outputFile){
+	if(succeed){
+		log("Capture screen succeeded.");
+		//// show screenshot
+		//auto sp = Sprite::create(outputFile);
+		//addChild(sp, 0, childName);
+		//Size s = Director::getInstance()->getWinSize();
+		//sp->setPosition(s.width / 2, s.height / 2);
+		//sp->setScale(0.25);
+	} else{
+		log("Capture screen failed.");
+	}
 }
