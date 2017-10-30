@@ -14,7 +14,7 @@ public:
 	~Bullet();
 
 	// métodos estáticos que crean instancias
-	static Bullet *creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletName);
+	static Bullet *creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletName, const char *bulletDef="");
 	//static Bullet *creaBalaAnimada(Node *nodo, bulletTypes tipoBala, const char *bulletName, const char *animSetName);
 	//static Bullet *creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletName, punteroAFuncionMovimiento pFuncionMovimiento, Movimiento *claseMovimiento);
 	static void createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, const char *name, const char *pathSprite, const char *pathSonidoDisparo, const char *pathSonidoImpacto, float speed, float dmg, int tipoColision, int colisionoCon, float initialScale = 1.0f);

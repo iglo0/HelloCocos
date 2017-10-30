@@ -8,6 +8,7 @@ USING_NS_CC;
 // TODO: para que sepa qué devolver? 
 class AnimSprites;
 class GameActor;
+class Bullet;
 
 class XmlHelper{
 public:
@@ -15,6 +16,7 @@ public:
 	~XmlHelper(){};
 
 	AnimSprites *loadAnimation(Node *parentNode, const char *animName, GameActor *gameActor = nullptr);
+	Bullet *loadBullet(Node *parentNode, const char *bulletName);
 	void assignPhysicsToAnimation(AnimSprites *anim, GameActor *gA, int tipoColision, int colisionaCon);
 
 	// TODO: tests, borrar

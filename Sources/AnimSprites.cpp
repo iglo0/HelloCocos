@@ -102,7 +102,7 @@ void AnimSprites::hideFrame(frame *f){
 void AnimSprites::showFrame(frame *f, Vec2 pos){
 	PhysicsBody *p;
 
-	CCLOG("Showing frame %s", f->sprite_->getName().c_str());
+	//CCLOG("Showing frame %s", f->sprite_->getName().c_str());
 
 	currentFrame_ = f;
 	currFrameTIni_ = Game::getInstance()->ellapsedTime;

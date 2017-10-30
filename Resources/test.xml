@@ -74,7 +74,7 @@
 
 </default_values>
 
-
+<!-- por cierto, ojo: ¡case SENSITIVE! -->
 <definitions>
 <!-- ************************************************************************ -->
 <!-- ************************************************************************ -->
@@ -83,7 +83,20 @@
 <!-- ************************************************************************ -->
 <!-- ************************************************************************ -->
 <!-- ************************************************************************ -->
-	<bullets>	
+<!-- mis colisiones
+
+	None = 0,
+	Jugador = (1 << 0),			// 1
+	BalaJugador = (1 << 1),		// 2
+	Enemigo = (1 << 2),			// 4
+	BalaEnemigo = (1 << 3),		// 8
+	Destructible = (1 << 4),	// 16
+	All = CategoriaColision::Jugador | CategoriaColision::BalaJugador | CategoriaColision::Enemigo | CategoriaColision::BalaEnemigo | CategoriaColision::Destructible
+	
+-->
+	<bullets>
+		<!-- speed <0 para que vayan hacia abajo, >0 hacia arriba -->
+		<bullet_enemy_default animSet="balaEnemiga" dmg="1.0" speed="-400.0" ttl="0" movement="default" tipoColision="8" colisionoCon="17" /> <!-- 16 | 1 -->
 	</bullets>
 <!-- ************************************************************************ -->
 <!-- ************************************************************************ -->

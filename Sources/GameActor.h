@@ -43,14 +43,14 @@ public:
 	Movimiento *movimiento_;
 	//punteroAFuncionMovimiento funcionMovimientoActual;
 	gameActorTypes type_;
+	// TODO: para acceder desde las clases derivadas
+	AnimSprites *animSprites_;
 
 protected:
 	Sprite *sprite_;
 	float gameActorHP_, gameActorHPInicial_ = 1.0;
 	int gameActorPoints_;
 	bool estaActivo_;
-	AnimSprites *animSprites_;
-
 	// TODO: implementar el TTL
 	float ttl_, tIni_, tEnd_;
 	//Vec2 currPos_;

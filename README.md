@@ -47,6 +47,8 @@ En desarrollo [Estimación][Finalizado]
 GENERAL
 + Modificar la gestión de los pools para que trabajen con animaciones [17/09/2017][?]
 + Implementar un Time To Live (TTL) para objetos que deban vivir un rato solo [?][24/10/2017]
+- Definición de niveles en archivos de texto
+	- Implementar la carga de objetos mediante xml (comportamiento, animacion... todo en ficheros)
 
 GRÁFICOS
 + Animación para las explosiones

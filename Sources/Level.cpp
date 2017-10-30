@@ -443,6 +443,10 @@ void Level::initLevel(){
 	spaceInvaders.creaInvaders(this, tipos, Pool::currentBulletsTipoNormal, 50.0f, 15.0f, 30.0f, 3600);
 
 	creaCasitas(4, 100.0f);
+
+
+	// Pruebas
+	Bullet *b = Bullet::creaBala(this, Bullet::bulletTypes::tipoEnemyNormal, "xmlsuxBullet", "bullet_enemy_default");
 }
 
 void Level::creaCasitas(int numba, float margen){

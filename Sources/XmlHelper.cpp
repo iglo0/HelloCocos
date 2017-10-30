@@ -3,6 +3,7 @@
 #include "GameActor.h"	// TODO: no se si con esto cojo los gameactor y sus hijos?
 #include "Game.h"
 #include "AnimSprites.h"	// para tratar con la clase
+#include "Bullet.h"
 
 AnimSprites *XmlHelper::loadAnimation(Node *parentNode, const char *animSetName, GameActor *gameActor){
 	char *currAnimName, *framePath;
@@ -81,6 +82,66 @@ AnimSprites *XmlHelper::loadAnimation(Node *parentNode, const char *animSetName,
 	return tmpAnimSprites;
 }
 
+Bullet *XmlHelper::loadBullet(Node *parentNode, const char *bulletName){
+	pugi::xml_document doc;
+	pugi::xml_parse_result result = doc.load_file(xmlFilename_);
+
+	Bullet *tmp = nullptr;
+	AnimSprites *bulletAnim;
+
+	if(!result){
+		// error! salir o algo
+		//CCLOG("Error parseando xml %s", filename);
+		return nullptr;
+	}
+
+	// buscar y carga los parámetros de la bala
+	std::string searchStr = std::string("definitions/bullets/") + std::string(bulletName);
+	// conversion a string y de vuelta a const char *
+	pugi::xpath_node xpathNode = doc.select_single_node(searchStr.c_str());
+
+	if(xpathNode){
+		pugi::xml_node selectedNode = xpathNode.node();
+
+		const char *animSetName = (char *)selectedNode.attribute("animSet").value();
+		float dmg = selectedNode.attribute("dmg").as_float();
+		const char *movement = (char *)selectedNode.attribute("movement").value();
+		float speed = selectedNode.attribute("speed").as_float();
+		int tipoColision = selectedNode.attribute("tipoColision").as_int();
+		int colisionoCon = selectedNode.attribute("colisionoCon").as_int();
+		float ttl = selectedNode.attribute("ttl").as_float();
+
+		// busca y carga la animación (o el sprite)
+		bulletAnim = loadAnimation(parentNode, animSetName);
+
+		tmp = new Bullet(parentNode, bulletName, "", "", "", speed, dmg, tipoColision, colisionoCon);
+		tmp->setTTL(ttl);
+
+		assignPhysicsToAnimation(bulletAnim, tmp, tipoColision, colisionoCon);
+		
+		tmp->animSprites_ = bulletAnim;
+
+		//CCLOG("%s", movement);
+
+		//pathSprite = gameInstance->bullet_enemy_path_sprite1.c_str();
+		//pathSonidoDisparo = gameInstance->bullet_path_sound_fire.c_str();
+		//pathSonidoImpacto = gameInstance->bullet_path_sound_impact.c_str();
+		//speed = -gameInstance->bullet_homing_speed;
+		//dmg = gameInstance->bullet_default_dmg;
+		//tipoColision = (int)Game::CategoriaColision::BalaEnemigo;
+		//colisionoCon = (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::BalaJugador | (int)Game::CategoriaColision::Destructible;
+		//initialScale = gameInstance->bullet_default_boss_scale;
+
+		//claseMovimiento = new MueveHoming();
+
+
+			//if(!xmlAnim.attribute("ttl").empty()){
+	}
+
+	return tmp;
+
+
+}
 
 void XmlHelper::assignPhysicsToAnimation(AnimSprites *anim, GameActor *gA, int tipoColision, int colisionaCon){
 	AnimSprites::animation *tmpAnim;

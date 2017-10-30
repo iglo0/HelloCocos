@@ -21,8 +21,10 @@ Bullet::Bullet(Node *nodo, const char *name, const char *pathSprite, const char 
 	
 	//CCLOG("creando bala: %s", name);
 	//if(!createBullet(nodo, pathSprite, name, tipoColision, colisionoCon)){
-	if(!GameActor::setSprite(nodo, pathSprite,name,tipoColision, colisionoCon,initialScale)){
-		CCLOG("No pude crear bala %s", pathSprite);
+	if(pathSprite != ""){
+		if(!GameActor::setSprite(nodo, pathSprite, name, tipoColision, colisionoCon, initialScale)){
+			CCLOG("No pude crear bala %s", pathSprite);
+		}
 	}
 
 	ttl_ = BULLET_HOMING_TTL;
@@ -53,7 +55,7 @@ void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolS
 }
 
 // creaBala se llama desde mi propio createBulletPool
-Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletName){
+Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletName, const char *bulletDef){
 	Movimiento *claseMovimiento;
 	Bullet *tmp;
 	Game *gameInstance = Game::getInstance();
@@ -148,6 +150,16 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 		animS = nullptr;
 		break;
 	}
+
+	// TODO: Nuevo -> con xml
+	if(bulletDef != ""){
+		xh = new XmlHelper();
+		tmp = xh->loadBullet(nodo, bulletDef);
+		if(tmp){
+			tmp->activa(500.0f, 600.0f);
+		}
+	}
+	// ---------------------------------------------------------------------------
 
 	tmp = new Bullet(nodo, bulletName, pathSprite, pathSonidoDisparo, pathSonidoImpacto, speed, dmg, tipoColision, colisionoCon, initialScale);
 	tmp->bulletType_ = tipoBala;
