@@ -27,7 +27,8 @@ Bullet::Bullet(Node *nodo, const char *name, const char *pathSprite, const char 
 		}
 	}
 
-	ttl_ = BULLET_HOMING_TTL;
+	//ttl_ = BULLET_HOMING_TTL;
+	ttl_ = -1.0f;
 	//static_assert(L'??' == 0x1F4A9, "Compiler lacks Unicode support");
 	//animSprites_ = nullptr;
 
@@ -37,6 +38,26 @@ Bullet::Bullet(Node *nodo, const char *name, const char *pathSprite, const char 
 }
 
 Bullet::~Bullet(){
+}
+
+// (OJO) static
+int Bullet::devuelveTipoPorNombre(const char *bType){
+	// strcmp devuelve 0 si igual
+	if(!strcmp(bType, "tipoPlayer")){
+		return bulletTypes::tipoPlayer;
+	} else if(!strcmp(bType, "tipoEnemyNormal")){
+		return bulletTypes::tipoEnemyNormal;
+	} else if(!strcmp(bType, "tipoEnemyDirigido")){
+		return bulletTypes::tipoEnemyDirigido;
+	} else if(!strcmp(bType, "tipoBossHoming")){
+		return bulletTypes::tipoBossHoming;
+	} 
+
+	CCLOG("tipo por nombre desconocido: %s", bType);
+	return -1;
+
+	//tipoPlayer, tipoEnemyNormal, tipoEnemyDirigido, tipoBossHoming};
+
 }
 
 // (OJO) static method
@@ -152,12 +173,11 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 	}
 
 	// TODO: Nuevo -> con xml
+	// funciona :)
 	if(bulletDef != ""){
 		xh = new XmlHelper();
 		tmp = xh->loadBullet(nodo, bulletDef);
-		if(tmp){
-			tmp->activa(500.0f, 600.0f);
-		}
+		return tmp;
 	}
 	// ---------------------------------------------------------------------------
 
@@ -170,7 +190,7 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 	}
 
 	tmp->animSprites_ = animS;
-	
+
 	return tmp;
 }
 
@@ -195,13 +215,13 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 //	return tmp;
 //}
 
-void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, bulletTypes tipoBala) {
+void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, bulletTypes tipoBala, const char *xmlDefName) {
 	Bullet *tmp;
 	//const char *name;
 
 	for(int i = 0; i < poolSize; i++){
 		//tmp = creaBala(nodo, tipoBala, (name + std::to_string(i)).c_str());
-		tmp = creaBala(nodo, tipoBala, ("balaTipo" + std::to_string(tipoBala) + "_" + std::to_string(i)).c_str());
+		tmp = creaBala(nodo, tipoBala, ("balaTipo" + std::to_string(tipoBala) + "_" + std::to_string(i)).c_str(), xmlDefName);
 
 		// TODO: que mas cosas hacer a la bala?
 
@@ -217,7 +237,7 @@ void Bullet::impacto(float dmg){
 
 	// TODO: no tan facil, el ttl!
 	// TODO: que hace esta linea aqui O.o
-	ttl_ = BULLET_HOMING_TTL;
+	//ttl_ = BULLET_HOMING_TTL;
 
 	// TODO: reproducir sonido
 
@@ -236,16 +256,22 @@ void Bullet::update(float deltaT){
 	if((nuPos.x > visibleSize.width) || (nuPos.x < 0) || (nuPos.y<0) || (nuPos.y>visibleSize.height)){
 		// se sale
 		// TODO: Probando con balas dirigidas
-		ttl_ = BULLET_HOMING_TTL;
+		//ttl_ = BULLET_HOMING_TTL;
 		desactiva();
 	}
 
-	ttl_ -= Director::getInstance()->getDeltaTime();
-	if(ttl_ <= 0){
-		// TODO: Probando con balas dirigidas
-		ttl_ = BULLET_HOMING_TTL;
-		desactiva();
+	if(ttl_ > 0){
+		if(Game::getInstance()->ellapsedTime >= tEnd_){
+			desactiva();
+		}
 	}
+
+	//ttl_ -= Director::getInstance()->getDeltaTime();
+	//if(ttl_ <= 0){
+	//	// TODO: Probando con balas dirigidas
+	//	ttl_ = BULLET_HOMING_TTL;
+	//	desactiva();
+	//}
 
 	if(animSprites_){
 		// TODO: ajusta posicion de la animacion
@@ -268,6 +294,7 @@ void Bullet::activa(Vec2 posIni){
 		//CCLOG("Activando bala tipoBossHoming");
 		
 		MueveHoming *m = (MueveHoming *)movimiento_;
+		// TODO: ooops! ¿qué pasa si intento seguir a una animación?
 		m->init(gameActorSpeed_, Player::getCurrentPlayer()->getSprite());
 		
 		break;
@@ -300,4 +327,8 @@ void Bullet::activa(Vec2 posIni){
 
 void Bullet::activa(float x, float y){
 	activa(Vec2(x, y));
+}
+
+void Bullet::setType(bulletTypes t){
+	bulletType_ = t;
 }

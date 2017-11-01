@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "AnimSprites.h"	// para tratar con la clase
 #include "Bullet.h"
+#include "Movimiento.h"
 
 AnimSprites *XmlHelper::loadAnimation(Node *parentNode, const char *animSetName, GameActor *gameActor){
 	char *currAnimName, *framePath;
@@ -105,7 +106,8 @@ Bullet *XmlHelper::loadBullet(Node *parentNode, const char *bulletName){
 
 		const char *animSetName = (char *)selectedNode.attribute("animSet").value();
 		float dmg = selectedNode.attribute("dmg").as_float();
-		const char *movement = (char *)selectedNode.attribute("movement").value();
+		//const char *movement = (char *)selectedNode.attribute("movement").value();
+		int movement = Bullet::devuelveTipoPorNombre(selectedNode.attribute("movement").value());
 		float speed = selectedNode.attribute("speed").as_float();
 		int tipoColision = selectedNode.attribute("tipoColision").as_int();
 		int colisionoCon = selectedNode.attribute("colisionoCon").as_int();
@@ -120,6 +122,31 @@ Bullet *XmlHelper::loadBullet(Node *parentNode, const char *bulletName){
 		assignPhysicsToAnimation(bulletAnim, tmp, tipoColision, colisionoCon);
 		
 		tmp->animSprites_ = bulletAnim;
+		tmp->setType((Bullet::bulletTypes)movement);
+
+		switch(movement){
+		case Bullet::bulletTypes::tipoBossHoming:
+			tmp->movimiento_ = new MueveHoming();
+			break;
+		case Bullet::bulletTypes::tipoEnemyDirigido:
+			tmp->movimiento_ = new MueveDireccion(speed);
+			break;
+		case Bullet::bulletTypes::tipoEnemyNormal:
+			tmp->movimiento_ = new MueveVcal(speed);
+			break;
+		case Bullet::bulletTypes::tipoPlayer:
+			tmp->movimiento_ = new MueveVcal(speed);
+			break;
+		default:
+			CCLOG("Tipo de movimiento desconocido en XmlHelper: %d", movement);
+			break;
+		}
+
+		//if(strcmp(movement,"default")==0){
+		//	tmp->movimiento_ = new MueveVcal(speed);
+		//} else{
+		//	CCLOG("Tipo movimiento '%s' sin definir en XML", movement);
+		//}
 
 		//CCLOG("%s", movement);
 

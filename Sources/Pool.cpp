@@ -262,7 +262,10 @@ void Pool::disablePools(){
 template <>	// TODO: Es una pena que no pueda convertir simplemente un vector<GameActor> en vector<Enemy> o vector<Bullet>
 void Pool::deletePool<Enemy>(std::vector<Enemy *> &v){
 	for(auto x = v.cbegin(); x != v.cend(); ++x){
-		(*x)->getSprite()->removeFromParent();
+		Sprite *tmp = (*x)->getSprite();
+		if(tmp){
+			tmp->removeFromParent();
+		}
 		delete (*x);
 	}
 	v.clear();
@@ -271,7 +274,10 @@ void Pool::deletePool<Enemy>(std::vector<Enemy *> &v){
 template<>
 void Pool::deletePool<Bullet>(std::vector<Bullet *> &v){
 	for(auto x = v.cbegin(); x != v.cend(); ++x){
-		(*x)->getSprite()->removeFromParent();
+		Sprite *tmp = (*x)->getSprite();
+		if(tmp){
+			tmp->removeFromParent();
+		}
 		delete (*x);
 	}
 	v.clear();

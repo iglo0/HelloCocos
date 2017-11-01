@@ -381,13 +381,13 @@ void Level::initLevel(){
 	Bullet::createBulletPool(this, Pool::currentBulletsPlayerTipo1, 2, Bullet::tipoPlayer);
 
 	// TODO: Pool para los enemigos normales
-	Bullet::createBulletPool(this, Pool::currentBulletsTipoNormal, 60, Bullet::tipoEnemyNormal);
+	Bullet::createBulletPool(this, Pool::currentBulletsTipoNormal, 60, Bullet::tipoEnemyNormal, "bullet_enemy_default");
 
 	// TODO: Pool para los enemigos con disparo dirigido
 	Bullet::createBulletPool(this, Pool::currentBulletsTipo2, 60, Bullet::tipoEnemyDirigido);
 
 	// TODO: Pool para el boss
-	Bullet::createBulletPool(this, Pool::currentBulletsTipoBossHoming, 5, Bullet::tipoBossHoming);
+	Bullet::createBulletPool(this, Pool::currentBulletsTipoBossHoming, 5, Bullet::tipoBossHoming, "bullet_enemy_homing");
 
 	// TODO: probando a detectar el fin de las animaciones con ttl o con loop=0 (ver .xml)
 	GameActor::createAnimationPool(this, Pool::currentExplosions, 5, XML_EXPLOSION_ANIM);
@@ -446,7 +446,7 @@ void Level::initLevel(){
 
 
 	// Pruebas
-	Bullet *b = Bullet::creaBala(this, Bullet::bulletTypes::tipoEnemyNormal, "xmlsuxBullet", "bullet_enemy_default");
+	//Bullet *b = Bullet::creaBala(this, Bullet::bulletTypes::tipoEnemyNormal, "xmlsuxBullet", "bullet_enemy_default");
 }
 
 void Level::creaCasitas(int numba, float margen){
