@@ -378,13 +378,13 @@ void Level::initLevel(){
 	// Creando pools de balas para todos los tipos necesarios
 	// TODO: prueba enésima de dónde colgar estos pools... ahora van a una clase propia "Pool".
 	// Pool de balas para el jugador
-	Bullet::createBulletPool(this, Pool::currentBulletsPlayerTipo1, 2, Bullet::tipoPlayer);
+	Bullet::createBulletPool(this, Pool::currentBulletsPlayerTipo1, 2, Bullet::tipoPlayer, "bullet_player");
 
 	// TODO: Pool para los enemigos normales
 	Bullet::createBulletPool(this, Pool::currentBulletsTipoNormal, 60, Bullet::tipoEnemyNormal, "bullet_enemy_default");
 
 	// TODO: Pool para los enemigos con disparo dirigido
-	Bullet::createBulletPool(this, Pool::currentBulletsTipo2, 60, Bullet::tipoEnemyDirigido);
+	Bullet::createBulletPool(this, Pool::currentBulletsTipo2, 60, Bullet::tipoEnemyDirigido, "bullet_enemy_dirigida");
 
 	// TODO: Pool para el boss
 	Bullet::createBulletPool(this, Pool::currentBulletsTipoBossHoming, 5, Bullet::tipoBossHoming, "bullet_enemy_homing");

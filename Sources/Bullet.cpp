@@ -92,7 +92,7 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 	int tipoColision;
 	int colisionoCon;
 	float initialScale;
-
+	/*
 	switch(tipoBala){
 	case tipoPlayer:
 		pathSprite = gameInstance->bullet_player_path_sprite1.c_str();
@@ -171,7 +171,7 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 		animS = nullptr;
 		break;
 	}
-
+	*/
 	// TODO: Nuevo -> con xml
 	// funciona :)
 	if(bulletDef != ""){
@@ -228,6 +228,7 @@ void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolS
 		pool.push_back(tmp);
 	}
 }
+
 
 void Bullet::impacto(float dmg){
 	// Sigo sorprendido que haciendo gameActorX->impacto(), sepa ejectura la función correcta :D

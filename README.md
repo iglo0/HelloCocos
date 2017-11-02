@@ -48,6 +48,7 @@ En desarrollo [Estimación][Finalizado]
 GENERAL
 + Modificar la gestión de los pools para que trabajen con animaciones [17/09/2017][?]
 + Implementar un Time To Live (TTL) para objetos que deban vivir un rato solo [?][24/10/2017]
++ Implementar la carga de balas mediante xml (comportamiento, animacion... todo en ficheros)
 
 GRÁFICOS
 + Animación para las explosiones
@@ -60,13 +61,6 @@ GRÁFICOS
 * Implementar la carga de enemigos mediante xml (comportamiento, animacion... todo en ficheros)
 ```diff
 - sin empezar
-```
-* Implementar la carga de balas mediante xml (comportamiento, animacion... todo en ficheros)
-```diff
-- Balas dirigidas
-+ Balas enemigas normales
-+ Balas 'homing'
-- Balas del jugador
 ```
 
 

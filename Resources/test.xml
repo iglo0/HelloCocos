@@ -99,8 +99,10 @@
 		speed <0 para que vayan hacia abajo y para las balas homing, >0 hacia arriba
 		enum bulletTypes {tipoPlayer, tipoEnemyNormal, tipoEnemyDirigido, tipoBossHoming};
 		-->
-		<bullet_enemy_default animSet="balaEnemiga" dmg="1.0" speed="-300.0" ttl="-1" movement="tipoEnemyNormal" tipoColision="8" colisionoCon="17" /> <!-- 16 | 1 -->
-		<bullet_enemy_homing animSet="balaHoming" dmg="1.0" speed="-166.7" ttl="6.5" movement="tipoBossHoming" tipoColision="8" colisionoCon="17" /> <!-- 16 | 1 -->
+		<bullet_enemy_default poolSize="60" animSet="balaEnemiga" dmg="1.0" speed="-300.0" ttl="-1" movement="tipoEnemyNormal" tipoColision="8" colisionoCon="19" /> <!-- 1+2+16 -->
+		<bullet_enemy_homing poolSize="2" animSet="balaHoming" dmg="1.0" speed="-166.7" ttl="6.5" movement="tipoBossHoming" tipoColision="8" colisionoCon="19" />
+		<bullet_enemy_dirigida poolSize="60" animSet="balaDirigida" dmg="1.0" speed="-300.0" ttl="-1" movement="tipoEnemyDirigido" tipoColision="8" colisionoCon="19" />
+		<bullet_player poolSize="60" animSet="balaPlayer" dmg="1.0" speed="300.0" ttl="-1" movement="tipoPlayer" tipoColision="2" colisionoCon="28" /> <!-- 4+8+16 -->
 	</bullets>
 <!-- ************************************************************************ -->
 <!-- ************************************************************************ -->
@@ -111,6 +113,12 @@
 <!-- ************************************************************************ -->
 	<animset>
 		<!-- set de animaciones para xxx -->
+		<balaPlayer>	<!-- debería ser un sprite fijo -->
+			<anim name="default" loop="1">
+				<frame path="bullet_2_blue.png" wait="0.05" size="1.0" />
+				<frame path="bullet_2_purple.png" wait="0.05" size="1.0" />
+			</anim>
+		</balaPlayer>
 		<balaEnemiga>
 			<anim name="default" loop="1">			<!-- animacion 1 "yyy" de xxx -->
 				<frame path="bullet_orange0000.png" wait="0.1" size="1.0" />
