@@ -218,10 +218,8 @@ bool Level::onContactBegin(PhysicsContact &contact){
 		impactDmg2 = gameInstance->bullet_default_dmg;
 	}
 
-
 	actor1->impacto(impactDmg2);
 	actor2->impacto(impactDmg1);
-
 
 	return true;
 }
@@ -440,7 +438,8 @@ void Level::initLevel(){
 	tipos.push_back(Enemy::tipo2);
 	tipos.push_back(Enemy::tipo1);
 
-	spaceInvaders.creaInvaders(this, tipos, Pool::currentBulletsTipoNormal, 50.0f, 15.0f, 30.0f, 3600);
+	//spaceInvaders.creaInvaders(this, tipos, Pool::currentBulletsTipoNormal, 50.0f, 15.0f, 30.0f, 3600);
+	spaceInvaders.creaInvaders(this, tipos, 50.0f, 15.0f, 30.0f, 3600);
 
 	creaCasitas(4, 100.0f);
 

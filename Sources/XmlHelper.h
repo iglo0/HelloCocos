@@ -9,6 +9,7 @@ USING_NS_CC;
 class AnimSprites;
 class GameActor;
 class Bullet;
+class Enemy;
 
 class XmlHelper{
 public:
@@ -16,7 +17,8 @@ public:
 	~XmlHelper(){};
 
 	AnimSprites *loadAnimation(Node *parentNode, const char *animName, GameActor *gameActor = nullptr);
-	Bullet *loadBullet(Node *parentNode, const char *bulletName);
+	Bullet *loadBullet(Node *parentNode, const char *xmlBulletDef, const char *bulletName="");
+	Enemy *loadEnemy(Node *parentNode, const char *xmlEnemyDef);
 	void assignPhysicsToAnimation(AnimSprites *anim, GameActor *gA, int tipoColision, int colisionaCon);
 
 	// TODO: tests, borrar

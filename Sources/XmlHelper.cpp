@@ -5,11 +5,12 @@
 #include "AnimSprites.h"	// para tratar con la clase
 #include "Bullet.h"
 #include "Movimiento.h"
+#include "Enemy.h"
 
 AnimSprites *XmlHelper::loadAnimation(Node *parentNode, const char *animSetName, GameActor *gameActor){
 	char *currAnimName, *framePath;
 	float frameWait, spriteScale, ttl;
-	bool animLoop;
+	bool animLoop, animFixed;
 	AnimSprites *tmpAnimSprites;
 
 	auto directorInstance = Director::getInstance();
@@ -40,12 +41,15 @@ AnimSprites *XmlHelper::loadAnimation(Node *parentNode, const char *animSetName,
 
 	if(xpathNode){
 		pugi::xml_node selectedNode = xpathNode.node();
+		//tmpAnimSprites->setIsFixedImage(selectedNode.attribute("fixedImage").as_bool());
 
 		for(pugi::xml_node xmlAnim = selectedNode.child("anim"); xmlAnim; xmlAnim = xmlAnim.next_sibling("anim")){
 
 			// cada anim de animSet tiene un nombre para la animación, atributos como si es loop o no y la lista de frames
 			currAnimName = (char *)xmlAnim.attribute("name").value();
 			animLoop = xmlAnim.attribute("loop").as_bool();
+			animFixed = xmlAnim.attribute("fixedImage").as_bool();
+
 			// si encuentra el atributo ttl lo aplica, si no no.
 			if(!xmlAnim.attribute("ttl").empty()){
 				ttl = xmlAnim.attribute("ttl").as_float();
@@ -55,7 +59,7 @@ AnimSprites *XmlHelper::loadAnimation(Node *parentNode, const char *animSetName,
 			}
 
 			// voy creando una estructura en memoria para el juego
-			tmpAnimation = new AnimSprites::animation(animLoop);
+			tmpAnimation = new AnimSprites::animation(animLoop, animFixed);
 
 			// busco los frames que hay y los asigno
 			for(pugi::xml_node xmlFrame = xmlAnim.child("frame"); xmlFrame; xmlFrame = xmlFrame.next_sibling("frame")){
@@ -83,21 +87,25 @@ AnimSprites *XmlHelper::loadAnimation(Node *parentNode, const char *animSetName,
 	return tmpAnimSprites;
 }
 
-Bullet *XmlHelper::loadBullet(Node *parentNode, const char *bulletName){
+Bullet *XmlHelper::loadBullet(Node *parentNode, const char *xmlBulletDef, const char *bulletName){
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file(xmlFilename_);
-
 	Bullet *tmp = nullptr;
 	AnimSprites *bulletAnim;
 
 	if(!result){
 		// error! salir o algo
-		//CCLOG("Error parseando xml %s", filename);
+		CCLOG("Error parseando xml %s", xmlFilename_);
 		return nullptr;
 	}
 
+	// Si no le he puesto un nombre a la bala, le casca el de su definición
+	if(std::strcmp(bulletName, "")==0){
+		bulletName = xmlBulletDef;
+	}
+
 	// buscar y carga los parámetros de la bala
-	std::string searchStr = std::string("definitions/bullets/") + std::string(bulletName);
+	std::string searchStr = std::string("definitions/bullets/") + std::string(xmlBulletDef);
 	// conversion a string y de vuelta a const char *
 	pugi::xpath_node xpathNode = doc.select_single_node(searchStr.c_str());
 
@@ -116,7 +124,8 @@ Bullet *XmlHelper::loadBullet(Node *parentNode, const char *bulletName){
 		// busca y carga la animación (o el sprite)
 		bulletAnim = loadAnimation(parentNode, animSetName);
 
-		tmp = new Bullet(parentNode, bulletName, "", "", "", speed, dmg, tipoColision, colisionoCon);
+		//tmp = new Bullet(parentNode, bulletName, "", "", "", speed, dmg, tipoColision, colisionoCon);
+		tmp = new Bullet(parentNode);
 		tmp->setTTL(ttl);
 
 		assignPhysicsToAnimation(bulletAnim, tmp, tipoColision, colisionoCon);
@@ -141,33 +150,85 @@ Bullet *XmlHelper::loadBullet(Node *parentNode, const char *bulletName){
 			CCLOG("Tipo de movimiento desconocido en XmlHelper: %d", movement);
 			break;
 		}
-
-		//if(strcmp(movement,"default")==0){
-		//	tmp->movimiento_ = new MueveVcal(speed);
-		//} else{
-		//	CCLOG("Tipo movimiento '%s' sin definir en XML", movement);
-		//}
-
-		//CCLOG("%s", movement);
-
-		//pathSprite = gameInstance->bullet_enemy_path_sprite1.c_str();
-		//pathSonidoDisparo = gameInstance->bullet_path_sound_fire.c_str();
-		//pathSonidoImpacto = gameInstance->bullet_path_sound_impact.c_str();
-		//speed = -gameInstance->bullet_homing_speed;
-		//dmg = gameInstance->bullet_default_dmg;
-		//tipoColision = (int)Game::CategoriaColision::BalaEnemigo;
-		//colisionoCon = (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::BalaJugador | (int)Game::CategoriaColision::Destructible;
-		//initialScale = gameInstance->bullet_default_boss_scale;
-
-		//claseMovimiento = new MueveHoming();
-
-
-			//if(!xmlAnim.attribute("ttl").empty()){
 	}
 
 	return tmp;
+}
 
+Enemy *XmlHelper::loadEnemy(Node *parentNode, const char *xmlEnemyDef){
+	pugi::xml_document doc;
+	pugi::xml_parse_result result = doc.load_file(xmlFilename_);
+	Enemy *tmp = nullptr;
+	AnimSprites *tmpAnim;
 
+	if(!result){
+		// error! salir o algo
+		CCLOG("Error parseando xml %s", xmlFilename_);
+		return nullptr;
+	}
+
+	// buscar y carga los parámetros de la bala
+	std::string searchStr = std::string("definitions/enemies/") + std::string(xmlEnemyDef);
+	// conversion a string y de vuelta a const char *
+	pugi::xpath_node xpathNode = doc.select_single_node(searchStr.c_str());
+
+	if(xpathNode){
+		pugi::xml_node selectedNode = xpathNode.node();
+
+		//<honesto speed="100.0" hp="1.0" points="100" animSetName="enemyHonesto" />
+		const char *animSetName = (char *)selectedNode.attribute("animSetName").value();
+		float hp = selectedNode.attribute("hp").as_float();
+		int movement = Bullet::devuelveTipoPorNombre(selectedNode.attribute("movement").value());
+		float speed = selectedNode.attribute("speed").as_float();
+		int tipoColision = selectedNode.attribute("tipoColision").as_int();
+		int colisionoCon = selectedNode.attribute("colisionoCon").as_int();
+
+		// busca y carga la animación (o el sprite)
+		tmpAnim = loadAnimation(parentNode, animSetName);
+		//initEnemy(nodo, gameInstance->enemy_t1_path_sprite.c_str(), "", gameInstance->enemy_t1_initial_size, gameInstance->enemy_t1_initial_rotation, gameInstance->enemy_generic_hp, gameInstance->enemy_generic_points, &Pool::currentBulletsTipoNormal);
+		tmp = new Enemy();
+
+		
+
+		//GameActor::gameActorHP_ = hp;
+		//GameActor::gameActorSpeed_ = Game::getInstance()->enemy_generic_speed;
+
+		//setSprite(nodo, pathSprite, "Enemigo", (int)Game::CategoriaColision::Enemigo,
+		//	(int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::BalaJugador | (int)Game::CategoriaColision::Destructible,
+		//	initialScale);
+
+		//poolMisBalas_ = poolMisBalas;
+		//pointsOnDeath_ = points;
+		//movimiento_ = nullptr;
+
+		//tmp = new Bullet(parentNode);
+		//tmp->setTTL(ttl);
+
+		//assignPhysicsToAnimation(tmpAnim, tmp, tipoColision, colisionoCon);
+
+		//tmp->animSprites_ = tmpAnim;
+		//tmp->setType((Bullet::bulletTypes)movement);
+
+		//switch(movement){
+		//case Bullet::bulletTypes::tipoBossHoming:
+		//	tmp->movimiento_ = new MueveHoming();
+		//	break;
+		//case Bullet::bulletTypes::tipoEnemyDirigido:
+		//	tmp->movimiento_ = new MueveDireccion(speed);
+		//	break;
+		//case Bullet::bulletTypes::tipoEnemyNormal:
+		//	tmp->movimiento_ = new MueveVcal(speed);
+		//	break;
+		//case Bullet::bulletTypes::tipoPlayer:
+		//	tmp->movimiento_ = new MueveVcal(speed);
+		//	break;
+		//default:
+		//	CCLOG("Tipo de movimiento desconocido en XmlHelper: %d", movement);
+		//	break;
+		//}
+	}
+
+	return tmp;
 }
 
 void XmlHelper::assignPhysicsToAnimation(AnimSprites *anim, GameActor *gA, int tipoColision, int colisionaCon){
@@ -182,16 +243,8 @@ void XmlHelper::assignPhysicsToAnimation(AnimSprites *anim, GameActor *gA, int t
 				tmpFrame = (AnimSprites::frame *)(*f);
 				tmpFrame->sprite_->setUserData(gA);
 
-				Game::anadeFisica(tmpFrame->sprite_, tipoColision, colisionaCon,"psch", tmpFrame->sprite_->getName().c_str());
-
-				// HACK: PRUEBA! A ver is se enlentece aquí
-				// respuesta: Sí.
-				// TODO: tengo que darle una vuelta a ver por qué se terminan creando los sprites de las animaciones con la física activada
-				//tmpFrame->sprite_->setVisible(false);
-				//auto pb = tmpFrame->sprite_->getPhysicsBody();
-				//if(pb){
-				//	pb->setEnabled(false);
-				//}
+				//Game::anadeFisica(tmpFrame->sprite_, tipoColision, colisionaCon, "psch", tmpFrame->sprite_->getName().c_str());
+				Game::anadeFisica(tmpFrame->sprite_, tipoColision, colisionaCon, tmpFrame->sprite_->getName().c_str(), tmpFrame->sprite_->getName().c_str());
 			}
 		}
 	}

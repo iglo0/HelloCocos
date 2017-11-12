@@ -14,31 +14,8 @@
 class Enemy;
 class Bullet;
 class GameActor;
-//class AnimSprites;
 
 USING_NS_CC;
-
-//
-//// a ver, y esto... funciona?
-//class MiSprite: cocos2d::Sprite{
-//public:
-//	MiSprite();
-//	~MiSprite();
-//
-//	// uso un "creador" estático por copiar un poco a Sprite, mayormente :P
-//	static MiSprite *createWithSpriteFrameName(const std::string &spriteFrameName);
-//
-//	void activa();
-//	void activa(Vec2);
-//
-//	void desActiva();
-//
-//	bool inUse;
-//	Sprite *sprite;
-//
-//protected:
-//
-//};
 
 // La idea de esta clase es crear los pools de sprites necesarios para que en vez de instanciar objetos cuando se necesiten,
 // estos se encuentren pre-creados y solo haya que desactivarles la lógica y moverlos o hacerlos invisibles

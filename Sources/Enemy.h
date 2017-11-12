@@ -7,7 +7,6 @@
 // para poder disparar
 // Declaración adelantada. No necesito usar "Bullet", solo saber que usaré punteros a ese tipo, por tanto basta con declararla aquí.
 // OJO: No necesito usar "Bullet", solo saber que usaré punteros a ese tipo, por tanto basta con declararla aquí.
-//#include "Bullet.h"
 class Bullet;
 
 //USING_NS_CC;
@@ -19,24 +18,14 @@ public:
 	typedef void(Enemy::*funcionControlEnemigo)(float);
 
 	// OJO: Es mejor evitar el constructor y destructor (usarlos solo para inicializar variables por ejemplo) y la inicialización sacarla fuera. Por ejemplo:
-	//Enemy();
-	//bool Init(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, float rotation, float hp);
-	//bool Init(Node *nodo, enum tiposEnemigo);
-	//void End();
+	Enemy();
 	Enemy(tiposEnemigo tipo);
 	~Enemy();
 
-	//Enemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, float rotation, float hp, Movimiento *muevemueve = nullptr);
-	//Enemy(Node *nodo, enum tiposEnemigo);
-
 	void initEnemy(Node *nodo);
+	static Enemy *createEnemy(Node *nodo, const char *enemyDefName);
 	void impacto(float) override;
 	void update(float deltaT) override;
-
-	// ---------------------------------------
-	// TEST!
-	// ---------------------------------------
-	// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
 	// todo: sobrecargarlo desde GameActor???
 	void dispara();
@@ -53,18 +42,10 @@ public:
 	int funcionControlProbDisparoAleatoria_;	// 1..x. Dispara en 1, cuanto más alta menos probabilidad por frame.
 	// ---------------------------------------------------------------------------------------------------------
 
-	// a ve, parámetros de las balas que voy a disparar...
-	// TODO: Acabo de sacar la clase Weapon y ya veo que me va a hacer falta de nuevo :D
-
-	// TODO: ¿con qué dispara un enemigo?
-	// esto apuntará a un pool en algún otro sitio
+	// ¿con qué dispara un enemigo? esto apuntará a un pool en otro sitio
 	std::vector<Bullet *> *poolMisBalas_;
 	// TODO: ¿Y para un enemigo con más tipos de ataques?
 
-
-	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-	// ---------------------------------------
-	// ---------------------------------------
 
 private:
 	float tIniDisparo_;

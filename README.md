@@ -39,34 +39,26 @@ Git user attention
 
 - Clase AnimSprites de gestión de animaciones y escena AnimTest de prueba.
 - Carga y definición de animaciones por XML
+- Carga y definición de balas por XML
 
 ----
 # TRABAJO EN CURSO
 En desarrollo [Estimación][Finalizado]
 
-```diff
-GENERAL
-+ Modificar la gestión de los pools para que trabajen con animaciones [17/09/2017][?]
-+ Implementar un Time To Live (TTL) para objetos que deban vivir un rato solo [?][24/10/2017]
-+ Implementar la carga de balas mediante xml (comportamiento, animacion... todo en ficheros)
-
-GRÁFICOS
-+ Animación para las explosiones
-+ Animación para los impactos de balas
-```
-* Definición de niveles en archivos de texto
-```diff
-- sin empezar
-```
 * Implementar la carga de enemigos mediante xml (comportamiento, animacion... todo en ficheros)
 ```diff
 - sin empezar
 ```
 
-
+* Definición de niveles en archivos de texto
+```diff
+- sin empezar
+```
 
 BUGS:
-~~No respeta el TTL cuando lo cargo via XML~~
+```diff
+- El ovni no dispara ¿?
+```
 
 ### PLANIFICADO (lo siguiente que pienso hacer)
 

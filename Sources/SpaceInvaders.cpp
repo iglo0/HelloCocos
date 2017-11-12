@@ -18,17 +18,21 @@ SpaceInvaders::SpaceInvaders(int tamaX, int tamaY, float comprX, float comprY, f
 
 SpaceInvaders::~SpaceInvaders(){}
 
-void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &tipos, std::vector<Bullet *> &pool, float velMovHtal, float velMovVcal, float vcalMoveAmount,int probDisparoAleat){
-	// esta versión "2" se comporta distinto
-	// ¿En vez de un gestor de "Hordas"... no sería mejor que cada nave tenga su lógica y se llame al update de cada una?
-	// que cada una tenga su pool de balas también, pero puede ser una referencia al mismo pool
-	// Para disparar -> Pool::activa(&pool, vec2 pos);
-
+void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &tipos, float velMovHtal, float velMovVcal, float vcalMoveAmount, int probDisparoAleat){
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	
 	Enemy::tiposEnemigo tipo;
 	Enemy *tmp;
 	Vec2 enePos;
+
+
+	// Pru
+	tmp = Enemy::createEnemy(nodo, "honesto");
+	Pool::currentEnemies.push_back(tmp);
+	//tmp = new Enemy(Enemy::tipo1);
+	//tmp->initEnemy(nodo, "honesto");
+
+	// ----------------
 
 	for(size_t j = 0; j < dimMaxY; j++) {
 

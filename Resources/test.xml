@@ -48,7 +48,7 @@
 	<duracion_estado_gameover>5.0f</duracion_estado_gameover>
 
 	<initial_hi_score>5000</initial_hi_score>
-	<vidas_iniciales>5</vidas_iniciales>
+	<vidas_iniciales>3</vidas_iniciales>
 
 	<!-- no cambiar estos nombres de archivo -->
 	<sprite_casa_bloque>casa_bloque.png</sprite_casa_bloque>
@@ -79,7 +79,7 @@
 <!-- ************************************************************************ -->
 <!-- ************************************************************************ -->
 <!-- ************************************************************************ -->
-<!-- balas -->
+<!-- GameActors -->
 <!-- ************************************************************************ -->
 <!-- ************************************************************************ -->
 <!-- ************************************************************************ -->
@@ -94,15 +94,19 @@
 	All = CategoriaColision::Jugador | CategoriaColision::BalaJugador | CategoriaColision::Enemigo | CategoriaColision::BalaEnemigo | CategoriaColision::Destructible
 	
 -->
+	<enemies>
+		<honesto speed="100.0" hp="1.0" points="100" animSetName="enemyHonesto" tipoColision="4" colisionoCon="19" />
+	</enemies>
+
 	<bullets>
 		<!-- NOTAS:
 		speed <0 para que vayan hacia abajo y para las balas homing, >0 hacia arriba
 		enum bulletTypes {tipoPlayer, tipoEnemyNormal, tipoEnemyDirigido, tipoBossHoming};
 		-->
-		<bullet_enemy_default poolSize="60" animSet="balaEnemiga" dmg="1.0" speed="-300.0" ttl="-1" movement="tipoEnemyNormal" tipoColision="8" colisionoCon="19" /> <!-- 1+2+16 -->
-		<bullet_enemy_homing poolSize="2" animSet="balaHoming" dmg="1.0" speed="-166.7" ttl="6.5" movement="tipoBossHoming" tipoColision="8" colisionoCon="19" />
-		<bullet_enemy_dirigida poolSize="60" animSet="balaDirigida" dmg="1.0" speed="-300.0" ttl="-1" movement="tipoEnemyDirigido" tipoColision="8" colisionoCon="19" />
-		<bullet_player poolSize="60" animSet="balaPlayer" dmg="1.0" speed="300.0" ttl="-1" movement="tipoPlayer" tipoColision="2" colisionoCon="28" /> <!-- 4+8+16 -->
+		<bullet_enemy_default animSet="balaEnemiga" dmg="1.0" speed="-300.0" ttl="-1" movement="tipoEnemyNormal" tipoColision="8" colisionoCon="19" /> <!-- 1+2+16 -->
+		<bullet_enemy_homing animSet="balaHoming" dmg="1.0" speed="-166.7" ttl="6.5" movement="tipoBossHoming" tipoColision="8" colisionoCon="19" />
+		<bullet_enemy_dirigida animSet="balaDirigida" dmg="1.0" speed="-300.0" ttl="-1" movement="tipoEnemyDirigido" tipoColision="8" colisionoCon="19" />
+		<bullet_player animSet="balaPlayer" dmg="1.0" speed="300.0" ttl="-1" movement="tipoPlayer" tipoColision="2" colisionoCon="28" /> <!-- 4+8+16 -->
 	</bullets>
 <!-- ************************************************************************ -->
 <!-- ************************************************************************ -->
@@ -112,33 +116,33 @@
 <!-- ************************************************************************ -->
 <!-- ************************************************************************ -->
 	<animset>
-		<!-- set de animaciones para xxx -->
-		<balaPlayer>	<!-- debería ser un sprite fijo -->
-			<anim name="default" loop="1">
+		<!-- me ha resultado más cómodo buscar por nodos <xxx> en vez de atributos <anim name="xxx">... -->
+		<!-- OJO!! de momento que exista siempre "default", que la cargo a cañón -->
+		<!-- en anim -> fixedImage="1" -> sprite fijo -->
+		<balaPlayer>
+			<anim name="default" loop="1" fixedImage="0">
 				<frame path="bullet_2_blue.png" wait="0.05" size="1.0" />
 				<frame path="bullet_2_purple.png" wait="0.05" size="1.0" />
 			</anim>
 		</balaPlayer>
 		<balaEnemiga>
-			<anim name="default" loop="1">			<!-- animacion 1 "yyy" de xxx -->
+			<anim name="default" loop="1">
 				<frame path="bullet_orange0000.png" wait="0.1" size="1.0" />
 				<frame path="bullet_orange0001.png" wait="0.1" size="1.5" />
 				<frame path="bullet_orange0002.png" wait="0.1" size="1.0" />
 				<frame path="bullet_orange0001.png" wait="0.1" size="1.5" />
 			</anim>
 		</balaEnemiga>
-		<balaHoming>	<!-- me ha resultado más cómodo buscar por nodos <xxx> en vez de atributos <anim name="xxx">... -->
-			<!-- OJO!! de momento que exista siempre "default", que la cargo a cañón -->
-			<anim name="default" loop="1">			<!-- animacion 1 "yyy" de xxx -->
+		<balaHoming>
+			<anim name="default" loop="1">
 				<frame path="bullet_blue0000.png" wait="0.1" size="2.0" />
 				<frame path="bullet_orange0001.png" wait="0.1" size="3.0" />
 				<frame path="bullet_blue0002.png" wait="0.1" size="2.0" />
 				<frame path="bullet_orange0001.png" wait="0.1" size="3.0" />
 			</anim>
 		</balaHoming>
-		<balaDirigida>	<!-- me ha resultado más cómodo buscar por nodos <xxx> en vez de atributos <anim name="xxx">... -->
-			<!-- OJO!! de momento que exista siempre "default", que la cargo a cañón -->
-			<anim name="default" loop="1">			<!-- animacion 1 "yyy" de xxx -->
+		<balaDirigida>
+			<anim name="default" loop="1">
 				<frame path="bullet_purple0000.png" wait="0.1" size="1.5" />
 				<frame path="bullet_purple0001.png" wait="0.1" size="1.0" />
 				<frame path="bullet_purple0002.png" wait="0.1" size="1.5" />
@@ -146,7 +150,7 @@
 			</anim>
 		</balaDirigida>
 		<explosion>
-			<anim name="default" loop="0">
+			<anim name="default" loop="0" ttl="1">
 				<frame path="explosion0.png" wait="0.05" size="0.6" />
 				<frame path="explosion1.png" wait="0.05" size="0.9" />
 				<frame path="explosion2.png" wait="0.05" size="0.6" />
@@ -161,6 +165,11 @@
 				<frame path="impacto2.png" wait="0.05" size="1.0" />
 			</anim>
 		</impacto>
+		<enemyHonesto>
+			<anim name="default" loop="0">
+				<frame path="aliensprite2.png" size="1.0" />
+			</anim>
+		</enemyHonesto>
 	</animset>
 
 </definitions>

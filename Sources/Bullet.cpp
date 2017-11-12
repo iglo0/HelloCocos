@@ -18,7 +18,7 @@ Bullet::Bullet(Node *nodo, const char *name, const char *pathSprite, const char 
 	//bulletSpeed = speed;
 	bulletDmg = dmg;
 	gameActorSpeed_ = speed;
-	
+
 	//CCLOG("creando bala: %s", name);
 	//if(!createBullet(nodo, pathSprite, name, tipoColision, colisionoCon)){
 	if(pathSprite != ""){
@@ -37,6 +37,14 @@ Bullet::Bullet(Node *nodo, const char *name, const char *pathSprite, const char 
 	//animSprites_ = xh->loadAnimation(nodo, "mibala");
 }
 
+Bullet::Bullet(Node *nodo){
+	// inicializa la clase base primero
+	GameActor::GameActor();
+	GameActor::type_ = GameActor::gameActorTypes::bullet;
+
+	ttl_ = -1.0f;
+}
+
 Bullet::~Bullet(){
 }
 
@@ -51,9 +59,12 @@ int Bullet::devuelveTipoPorNombre(const char *bType){
 		return bulletTypes::tipoEnemyDirigido;
 	} else if(!strcmp(bType, "tipoBossHoming")){
 		return bulletTypes::tipoBossHoming;
-	} 
+	} else if(!strcmp(bType, "")){
+		CCLOG("Tipo movimiento vacio!");
+		return -1;
+	}
 
-	CCLOG("tipo por nombre desconocido: %s", bType);
+	CCLOG("tipo movimiento desconocido: '%s'", bType);
 	return -1;
 
 	//tipoPlayer, tipoEnemyNormal, tipoEnemyDirigido, tipoBossHoming};
@@ -71,12 +82,18 @@ void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolS
 
 		pool.push_back(tmp);
 	}
-	
-	
+}
+
+void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, bulletTypes tipoBala, const char *xmlDefName){
+	Bullet *tmp;
+	for(int i = 0; i < poolSize; i++){
+		tmp = creaBala(nodo, xmlDefName, (std::string(xmlDefName) + std::to_string(i)).c_str());
+		pool.push_back(tmp);
+	}
 }
 
 // creaBala se llama desde mi propio createBulletPool
-Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletName, const char *bulletDef){
+Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletName){
 	Movimiento *claseMovimiento;
 	Bullet *tmp;
 	Game *gameInstance = Game::getInstance();
@@ -92,7 +109,7 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 	int tipoColision;
 	int colisionoCon;
 	float initialScale;
-	/*
+	
 	switch(tipoBala){
 	case tipoPlayer:
 		pathSprite = gameInstance->bullet_player_path_sprite1.c_str();
@@ -124,7 +141,7 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 		claseMovimiento = new MueveDireccion(speed);
 
 		// TODO: sistema de animacion sin configurar
-		xh = new XmlHelper();
+		//xh = new XmlHelper();
 		animS = xh->loadAnimation(nodo, "balaDirigida");
 		//animS = nullptr;
 
@@ -171,15 +188,15 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 		animS = nullptr;
 		break;
 	}
-	*/
-	// TODO: Nuevo -> con xml
-	// funciona :)
-	if(bulletDef != ""){
-		xh = new XmlHelper();
-		tmp = xh->loadBullet(nodo, bulletDef);
-		return tmp;
-	}
-	// ---------------------------------------------------------------------------
+	
+	//// TODO: Nuevo -> con xml
+	//// funciona :)
+	//if(bulletDef != ""){
+	//	xh = new XmlHelper();
+	//	tmp = xh->loadBullet(nodo, bulletDef);
+	//	return tmp;
+	//}
+	//// ---------------------------------------------------------------------------
 
 	tmp = new Bullet(nodo, bulletName, pathSprite, pathSonidoDisparo, pathSonidoImpacto, speed, dmg, tipoColision, colisionoCon, initialScale);
 	tmp->bulletType_ = tipoBala;
@@ -194,41 +211,17 @@ Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletNam
 	return tmp;
 }
 
-//Bullet *Bullet::creaBalaAnimada(Node *nodo, bulletTypes tipoBala, const char *bulletName, const char *animSetName){
-//	XmlHelper *xh = new XmlHelper();
-//
-//	Bullet *tmp = creaBala(nodo, tipoBala, bulletName);
-//
-//	// TODO: Improvisando fuertemente
-//	
-//	// me cargo el sprite creado por creaBala, sin anestesia
-//	//tmp->sprite_->removeFromParent();
-//	//tmp->sprite_ = nullptr;
-//	// TODO: corregir -> no puedor porque la posicion del mismo cuelga de su sprite. 
-//	tmp->sprite_->setVisible(false);
-//	// ¿...o...?
-//	//nodo->removeChild(tmp->sprite_, true);
-//
-//
-//	//tmp->animSprites_ = xh->loadAnimation(nodo, animSetName);
-//
-//	return tmp;
-//}
-
-void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolSize, bulletTypes tipoBala, const char *xmlDefName) {
+ // creaBala se llama desde mi propio createBulletPool
+Bullet *Bullet::creaBala(Node *nodo, const char *bulletDef, const char *bulletName){
 	Bullet *tmp;
-	//const char *name;
+	XmlHelper *xh;
 
-	for(int i = 0; i < poolSize; i++){
-		//tmp = creaBala(nodo, tipoBala, (name + std::to_string(i)).c_str());
-		tmp = creaBala(nodo, tipoBala, ("balaTipo" + std::to_string(tipoBala) + "_" + std::to_string(i)).c_str(), xmlDefName);
-
-		// TODO: que mas cosas hacer a la bala?
-
-		pool.push_back(tmp);
-	}
+	// TODO: Nuevo -> con xml
+	// funciona :)
+	xh = new XmlHelper();
+	tmp = xh->loadBullet(nodo, bulletDef, bulletName);
+	return tmp;
 }
-
 
 void Bullet::impacto(float dmg){
 	// Sigo sorprendido que haciendo gameActorX->impacto(), sepa ejectura la función correcta :D
@@ -317,8 +310,6 @@ void Bullet::activa(Vec2 posIni){
 	case bulletTypes::tipoPlayer:
 		//CCLOG("Activando bala tipoPlayer");
 		// no hay que cambiarle parámetros, solo necesitan la velocidad que es fija
-		//MueveVcal *b = (MueveVcal *)movimiento;
-		//b->init(gameActorSpeed);
 		break;
 	default:
 		CCLOG("Activando bala (desconocida) %d", bulletType_);

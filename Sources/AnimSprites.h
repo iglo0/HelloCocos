@@ -40,48 +40,36 @@ public:
 	};
 
 	struct animation{
-		animation(bool loop) : loop_(loop){}
+		animation(bool loop, bool fixedImage);// : loop_(loop){}
 		~animation();
 
 		void addFrame(frame *f);
 
-		bool loop_;
+		bool loop_, fixedImage_;	// fixedImage_ = sustituye a un sprite, la imagen no cambia una vez mostrada
 		std::vector<frame *> animationFrames_;
 	};
 
-	void addAnimation(std::string animName, animation *a);
-
-	void playStart(std::string animName, Vec2 pos, bool randomStart=false);
-	void update(float deltaT);
-	//void linkTo(Sprite *);
-
-	void setPosition(Vec2 pos);
-	Vec2 getPosition();
-
-	void desactiva();
-
 	std::unordered_map<std::string, animation *> animations_;
 
+	void addAnimation(std::string animName, animation *a);
+	void playStart(std::string animName, Vec2 pos, bool randomStart=false);
+	void update(float deltaT);
+	void setPosition(Vec2 pos);
+	Vec2 getPosition();
+	void desactiva();
 
 private:
 
 	void startAnimation(animation *a, Vec2 pos, bool randomStart=false);
 	void playNextFrame();
-
-	// TODO: la idea es animations_["attack"] = frames para "attack"
-	animation *currentAnimation_;
-
-	//Node *parent_;	// no puedo acceder desde frame o animation a parent_ ¿?
-	frame *currentFrame_;// , *lastFrame_;
-	int currentFrameNum_, lastFrameNum_;
-	float currFrameTIni_, currFrameTEnd_;
-	//void playFrame(int numFrame);
 	void hideFrame(frame *f);
 	void showFrame(frame *f, Vec2 donde);
 
+	// TODO: la idea es animations_["attack"] = frames para "attack"
+	animation *currentAnimation_;
+	frame *currentFrame_;// , *lastFrame_;
+	int currentFrameNum_, lastFrameNum_;
+	float currFrameTIni_, currFrameTEnd_;
 	bool estaActivo_;
-
-	//Vec2 position_;
-	//Sprite *parentSprite_;
 	GameActor *parent_;
 };

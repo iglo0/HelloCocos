@@ -10,6 +10,7 @@ AnimSprites::AnimSprites(GameActor *parent): parent_(parent) {
 	currentAnimation_ = nullptr;
 	currentFrame_ = nullptr;
 	estaActivo_ = false;
+	//fixedImage_ = false;
 }
 
 AnimSprites::~AnimSprites(){
@@ -17,6 +18,8 @@ AnimSprites::~AnimSprites(){
 	//std::unordered_map<std::string, animation *> animations_;
 	animations_.erase(animations_.begin(), animations_.end());
 }
+
+AnimSprites::animation::animation(bool loop, bool fixedImage): loop_(loop),fixedImage_(fixedImage) {}
 
 AnimSprites::animation::~animation(){
 	// TODO: destruir los animation frames
@@ -179,11 +182,15 @@ void AnimSprites::update(float deltaT){
 		return;
 	}
 
+	// TODO: tonteria para debug
+	if(currentAnimation_ && currentAnimation_->fixedImage_){
+		return;
+	}
+
 	if(Game::getInstance()->ellapsedTime >= currFrameTEnd_){
 		// cambio de frame
 		playNextFrame();
 	}
-
 }
 
 void AnimSprites::desactiva(){

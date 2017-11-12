@@ -8,11 +8,16 @@
 #include "Game.h"
 #include "Bullet.h"
 #include "Movimiento.h"
+#include "XmlHelper.h"
 
-//Enemy::Enemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float initialScale, float initialRotation, float hp){
-//	//funcionMovimientoActual = nullptr;
-//	createEnemy(nodo, pathSprite, rutaSonidoMuerte, initialScale, initialRotation, hp, Game::getInstance()->enemy_generic_points);
-//}
+Enemy::Enemy(){
+	GameActor::GameActor();
+	GameActor::gameActorSpeed_ = 0;
+	funcionControlActual_ = nullptr;
+	//tipoEnemigo_ = -1;
+	pointsOnDeath_ = 0;
+	poolMisBalas_ = nullptr;
+}
 
 Enemy::Enemy(tiposEnemigo tipo){
 	GameActor::GameActor();
@@ -46,6 +51,27 @@ void Enemy::initEnemy(Node *nodo){
 		CCLOG("Intento de crear tipo de enemigo desconocido %d", tipoEnemigo_);
 		break;
 	}
+}
+
+// OJO: Static
+Enemy *Enemy::createEnemy(Node *nodo, const char *enemyDefName){
+	XmlHelper *xh = new XmlHelper();
+	Enemy *tmp;
+
+	tmp = xh->loadEnemy(nodo, enemyDefName);
+
+	return tmp;
+
+	//GameActor::gameActorHP_ = hp;
+	//GameActor::gameActorSpeed_ = Game::getInstance()->enemy_generic_speed;
+
+	//setSprite(nodo, pathSprite, "Enemigo", (int)Game::CategoriaColision::Enemigo,
+	//	(int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::BalaJugador | (int)Game::CategoriaColision::Destructible,
+	//	initialScale);
+
+	//poolMisBalas_ = poolMisBalas;
+	//pointsOnDeath_ = points;
+	//movimiento_ = nullptr;
 }
 
 void Enemy::initEnemy(Node * nodo, const char * pathSprite, const char * rutaSonidoMuerte, float initialScale, float rotation, float hp, int points, std::vector<Bullet *> *poolMisBalas){
@@ -151,6 +177,7 @@ void Enemy::update(float deltaT){
 		}
 	}
 }
+
 void Enemy::dispara(){
 	if(poolMisBalas_){
 		//CCLOG("Enemigo dispara!");
@@ -168,42 +195,3 @@ void Enemy::dispara(){
 	}
 }
 
-//void Enemy::disparaN(int n){
-//	std::vector<Bullet *> bs;
-//	//Bullet *tmp;
-//
-//	if(poolMisBalas_){
-//		bs = reservaVectorBalas(n);
-//
-//	}
-//
-//}
-//
-//std::vector<Bullet *> Enemy::reservaVectorBalas(int n){
-//	Bullet *tmp;
-//	std::vector<Bullet *> bs;
-//
-//	for(int i = 0; i < n; i++){
-//		tmp = Pool::activa(*poolMisBalas_, sprite_->getPosition());
-//		if(tmp){
-//			// Pool::activa devuelve nullptr si no puede
-//			bs.push_back(tmp);
-//
-//		} else{
-//			CCLOG("No puedo reservar %d balas", n);
-//			liberaVectorBalas(bs);
-//			break;
-//		}
-//	}
-//
-//	return bs;
-//}
-//
-//void Enemy::liberaVectorBalas(std::vector<Bullet *> bs){
-//
-//	for(auto x = poolMisBalas_->cbegin(); x != poolMisBalas_->cend(); ++x){
-//		(*x)->desactiva();
-//	}
-//
-//	bs.clear();
-//}
