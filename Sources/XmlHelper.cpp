@@ -6,6 +6,7 @@
 #include "Bullet.h"
 #include "Movimiento.h"
 #include "Enemy.h"
+#include "Pool.h"
 
 AnimSprites *XmlHelper::loadAnimation(Node *parentNode, const char *animSetName, GameActor *gameActor){
 	char *currAnimName, *framePath;
@@ -182,23 +183,25 @@ Enemy *XmlHelper::loadEnemy(Node *parentNode, const char *xmlEnemyDef){
 		float speed = selectedNode.attribute("speed").as_float();
 		int tipoColision = selectedNode.attribute("tipoColision").as_int();
 		int colisionoCon = selectedNode.attribute("colisionoCon").as_int();
+		const char *poolName = (char *)selectedNode.attribute("poolBalas").value();
+		int points = selectedNode.attribute("points").as_int();
 
 		// busca y carga la animación (o el sprite)
 		tmpAnim = loadAnimation(parentNode, animSetName);
+
 		//initEnemy(nodo, gameInstance->enemy_t1_path_sprite.c_str(), "", gameInstance->enemy_t1_initial_size, gameInstance->enemy_t1_initial_rotation, gameInstance->enemy_generic_hp, gameInstance->enemy_generic_points, &Pool::currentBulletsTipoNormal);
 		tmp = new Enemy();
+		tmp->animSprites_ = tmpAnim;
 
-		
+		assignPhysicsToAnimation(tmpAnim, tmp, tipoColision, colisionoCon);
+		tmp->poolMisBalas_ = Pool::getBulletPoolByName(poolName);
 
-		//GameActor::gameActorHP_ = hp;
-		//GameActor::gameActorSpeed_ = Game::getInstance()->enemy_generic_speed;
+		tmp->setHP(hp);
+		tmp->setPoints(points);
+		tmp->gameActorSpeed_ = speed;
 
-		//setSprite(nodo, pathSprite, "Enemigo", (int)Game::CategoriaColision::Enemigo,
-		//	(int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::BalaJugador | (int)Game::CategoriaColision::Destructible,
-		//	initialScale);
+		//tmp->movimiento_ = 
 
-		//poolMisBalas_ = poolMisBalas;
-		//pointsOnDeath_ = points;
 		//movimiento_ = nullptr;
 
 		//tmp = new Bullet(parentNode);

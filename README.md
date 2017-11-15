@@ -47,7 +47,7 @@ En desarrollo [Estimación][Finalizado]
 
 * Implementar la carga de enemigos mediante xml (comportamiento, animacion... todo en ficheros)
 ```diff
-- sin empezar
+- cargando enemigos...
 ```
 
 * Definición de niveles en archivos de texto
@@ -58,6 +58,7 @@ En desarrollo [Estimación][Finalizado]
 BUGS:
 ```diff
 - El ovni no dispara ¿?
+- Los enemigos no aparecen --> tengo una jodienda en displayseconds
 ```
 
 ### PLANIFICADO (lo siguiente que pienso hacer)
@@ -69,6 +70,13 @@ GRÁFICOS
 ESTRUCTURA DEL JUEGO
 - detectar la destrucción de las oleadas de enemigos
 - avance de oleadas cada vez más dificiles
+
+EFECTOS
+- Sonido
+	- reintroducir sonido
+- Música
+	- en los menús
+	- durante el juego
 
 
 ### POR PLANIFICAR (tareas pendientes que ir planificando)

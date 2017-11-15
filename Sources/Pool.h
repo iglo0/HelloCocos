@@ -35,6 +35,7 @@ public:
 	static void desactiva(Bullet &bullet);
 	static GameActor *activa(std::vector<GameActor *> &pool, Vec2 pos);
 	static void desactiva(GameActor &bullet);
+	static std::vector<Bullet *> *getBulletPoolByName(const char *name);
 
 	// updates all GameActors in the pools
 	static void updateAll(float deltaT);

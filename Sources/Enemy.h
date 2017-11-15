@@ -26,6 +26,7 @@ public:
 	static Enemy *createEnemy(Node *nodo, const char *enemyDefName);
 	void impacto(float) override;
 	void update(float deltaT) override;
+	void setPoints(int);
 
 	// todo: sobrecargarlo desde GameActor???
 	void dispara();
@@ -49,7 +50,7 @@ public:
 
 private:
 	float tIniDisparo_;
-	int pointsOnDeath_;
+	int pointsOnDeath_;	// ojo, tengo points también en GameActor... ¿redundante? -> YES, corregido
 	// TODO: guardo mi tipo por si lo quiero para algo luego
 	tiposEnemigo tipoEnemigo_;
 	//void createEnemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, float rotation, float hp, int points = Game::getInstance()->enemy_generic_points);

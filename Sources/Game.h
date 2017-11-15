@@ -83,12 +83,6 @@ USING_NS_CC;
 
 #pragma endregion
 
-// declaraciones adelantadas
-// Juer, no uso Enemy en Game y si quito esta declaracion peta todo o.O
-// Sí que lo "usaba", 
-//class Enemy;
-
-
 // Mi clase Singleton (o es la idea) donde guardar el estado general del juego
 class Game{
 private:

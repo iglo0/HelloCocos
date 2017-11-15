@@ -94,8 +94,14 @@
 	All = CategoriaColision::Jugador | CategoriaColision::BalaJugador | CategoriaColision::Enemigo | CategoriaColision::BalaEnemigo | CategoriaColision::Destructible
 	
 -->
+<!-- pools
+	currentEnemies;
+	currentBulletsPlayerTipo1, currentBulletsTipoBossHoming, currentBulletsTipoNormal, currentBulletsTipo2;
+	currentExplosions, currentImpacts;
+-->
+
 	<enemies>
-		<honesto speed="100.0" hp="1.0" points="100" animSetName="enemyHonesto" tipoColision="4" colisionoCon="19" />
+		<honesto speed="100.0" hp="1.0" points="100" animSetName="enemyHonesto" tipoColision="4" colisionoCon="19" poolBalas="currentBulletsTipoNormal" />
 	</enemies>
 
 	<bullets>
@@ -167,7 +173,7 @@
 		</impacto>
 		<enemyHonesto>
 			<anim name="default" loop="0">
-				<frame path="aliensprite2.png" size="1.0" />
+				<frame path="aliensprite2.png" size="0.30" />
 			</anim>
 		</enemyHonesto>
 	</animset>

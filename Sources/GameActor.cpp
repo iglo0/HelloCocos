@@ -71,10 +71,10 @@ void GameActor::setPosition(Vec2 pos){
 	if(sprite_){
 		sprite_->setPosition(pos);
 	} 
-	//if(animSprites_){
-	//	// so what
-	//	animSprites_->setPosition(pos);
-	//}
+	if(animSprites_){
+		// so what
+		animSprites_->setPosition(pos);
+	}
 
 }
 
@@ -233,4 +233,13 @@ void GameActor::setTTL(float ttl){
 
 	ttl_ = ttl;
 
+}
+
+//void GameActor::setPoints(int points){
+//	gameActorPoints_ = points;
+//}
+//
+void GameActor::setHP(float hp){
+	gameActorHP_ = hp;
+	gameActorHPInicial_ = hp;
 }

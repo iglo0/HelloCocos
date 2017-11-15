@@ -8,6 +8,7 @@
 #include "Game.h"
 #include "Bullet.h"
 #include "Movimiento.h"
+#include "AnimSprites.h"
 #include "XmlHelper.h"
 
 Enemy::Enemy(){
@@ -168,7 +169,13 @@ void Enemy::update(float deltaT){
 		//}
 
 		if(movimiento_){
-			setPosition(movimiento_->mueve(sprite_->getPosition(), deltaT));
+			// TODO: actualizar movimiento para que funcione con AnimSprites
+			if(animSprites_){
+				setPosition(movimiento_->mueve(animSprites_->getPosition(), deltaT));
+			}
+			if(sprite_){
+				setPosition(movimiento_->mueve(sprite_->getPosition(), deltaT));
+			}
 		}
 
 		if(this->funcionControlActual_){
@@ -182,7 +189,12 @@ void Enemy::dispara(){
 	if(poolMisBalas_){
 		//CCLOG("Enemigo dispara!");
 
-		Pool::activa(*poolMisBalas_, sprite_->getPosition());
+		if(animSprites_){
+			Pool::activa(*poolMisBalas_, animSprites_->getPosition());
+		}
+		if(sprite_){
+			Pool::activa(*poolMisBalas_, sprite_->getPosition());
+		}
 		
 		// qué tipo de bala disparo?
 		// ...
@@ -195,3 +207,6 @@ void Enemy::dispara(){
 	}
 }
 
+void Enemy::setPoints(int points){
+	pointsOnDeath_ = points;
+}

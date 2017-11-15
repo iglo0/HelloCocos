@@ -312,3 +312,18 @@ void Pool::disablePool<GameActor>(std::vector<GameActor *> &v){
 	}
 }
 
+std::vector<Bullet *> *Pool::getBulletPoolByName(const char *name){
+	if(!strcmp(name, "currentBulletsPlayerTipo1")){
+		return &currentBulletsPlayerTipo1;
+	} else if(!strcmp(name, "currentBulletsTipoBossHoming")){
+		return &currentBulletsTipoBossHoming;
+	} else if(!strcmp(name, "currentBulletsTipoNormal")){
+		return &currentBulletsTipoNormal;
+	} else if(!strcmp(name, "currentBulletsPlayerTipo1")){
+		return &currentBulletsPlayerTipo1;
+	} else if(!strcmp(name, "currentBulletsTipo2")){
+		return &currentBulletsTipo2;
+	}
+
+	return nullptr;
+}

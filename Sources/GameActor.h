@@ -38,6 +38,9 @@ public:
 	void desactiva();
 	bool isActive();
 	void setTTL(float ttl);
+	//void setPoints(int points);
+	void setHP(float hp);
+
 
 	float gameActorSpeed_;
 	Movimiento *movimiento_;
@@ -49,7 +52,7 @@ public:
 protected:
 	Sprite *sprite_;
 	float gameActorHP_, gameActorHPInicial_ = 1.0;
-	int gameActorPoints_;
+	//int gameActorPoints_;
 	bool estaActivo_;
 	// TODO: implementar el TTL
 	float ttl_, tIni_, tEnd_;

@@ -27,10 +27,8 @@ void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &t
 
 
 	// Pru
-	tmp = Enemy::createEnemy(nodo, "honesto");
-	Pool::currentEnemies.push_back(tmp);
-	//tmp = new Enemy(Enemy::tipo1);
-	//tmp->initEnemy(nodo, "honesto");
+	//tmp = Enemy::createEnemy(nodo, "honesto");
+	//Pool::currentEnemies.push_back(tmp);
 
 	// ----------------
 
@@ -46,8 +44,10 @@ void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &t
 		for(size_t i = 0; i < dimMaxX; i++){
 
 			// TODO: fijo a cada tipo de enemigo un tipo de disparo con el "tipo" así que no necesito cambiarlo luego más abajo
-			tmp = new Enemy(tipo);
-			tmp->initEnemy(nodo);
+			//tmp = new Enemy(tipo);
+			//tmp->initEnemy(nodo);
+
+			tmp = Enemy::createEnemy(nodo, "honesto");
 
 			// Pruebo el nuevo Enemy:GameActor 
 			// lo inicializo y le asigno un comportamiento
