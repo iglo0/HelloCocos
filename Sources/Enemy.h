@@ -27,6 +27,8 @@ public:
 	void impacto(float) override;
 	void update(float deltaT) override;
 	void setPoints(int);
+	void setSonidoDispara(const char *);
+	void setSonidoMuerte(const char *);
 
 	// todo: sobrecargarlo desde GameActor???
 	void dispara();
@@ -58,4 +60,6 @@ private:
 	void initEnemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float scale, float rotation, float hp, int points, std::vector<Bullet *> *poolMisBalas = nullptr);
 	//void liberaVectorBalas(std::vector<Bullet *> bs);
 	//std::vector<Bullet *> reservaVectorBalas(int n);
+	std::string sonidoDispara_;
+	std::string sonidoMuerte_;
 };

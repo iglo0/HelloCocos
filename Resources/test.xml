@@ -2,7 +2,7 @@
 <!-- ************************************************************************ -->
 <!-- ************************************************************************ -->
 <!-- ************************************************************************ -->
-<!-- actual -->
+<!-- a desaparecer -->
 <!-- ************************************************************************ -->
 <!-- ************************************************************************ -->
 <!-- ************************************************************************ -->
@@ -101,7 +101,8 @@
 -->
 
 	<enemies>
-		<honesto speed="100.0" hp="1.0" points="100" animSetName="enemyHonesto" tipoColision="4" colisionoCon="19" poolBalas="currentBulletsTipoNormal" />
+		<honesto speed="100.0" hp="1.0" points="100" animSetName="enemyHonesto" tipoColision="4" colisionoCon="19" poolBalas="currentBulletsTipoNormal" sonidoMuerte="sonidos/invaderkilled.wav" sonidoDispara="sonidos/shoot.wav"/>
+		<birojo speed="200.0" hp="1.0" points="100" animSetName="enemyBirojo" tipoColision="4" colisionoCon="19" poolBalas="currentBulletsTipo2" sonidoMuerte="sonidos/invaderkilled.wav" sonidoDispara="sonidos/shoot.wav"/>
 	</enemies>
 
 	<bullets>
@@ -122,9 +123,18 @@
 <!-- ************************************************************************ -->
 <!-- ************************************************************************ -->
 	<animset>
+	
+	
 		<!-- me ha resultado más cómodo buscar por nodos <xxx> en vez de atributos <anim name="xxx">... -->
 		<!-- OJO!! de momento que exista siempre "default", que la cargo a cañón -->
 		<!-- en anim -> fixedImage="1" -> sprite fijo -->
+	
+		<!-- 
+		************************************************************************
+		balas
+		************************************************************************ 
+		-->
+
 		<balaPlayer>
 			<anim name="default" loop="1" fixedImage="0">
 				<frame path="bullet_2_blue.png" wait="0.05" size="1.0" />
@@ -155,8 +165,15 @@
 				<frame path="bullet_purple0001.png" wait="0.1" size="1.0" />
 			</anim>
 		</balaDirigida>
+
+		<!-- 
+		************************************************************************
+		efectos
+		************************************************************************ 
+		-->
+		
 		<explosion>
-			<anim name="default" loop="0" ttl="1">
+		<anim name="default" loop="0" ttl="1">
 				<frame path="explosion0.png" wait="0.05" size="0.6" />
 				<frame path="explosion1.png" wait="0.05" size="0.9" />
 				<frame path="explosion2.png" wait="0.05" size="0.6" />
@@ -171,11 +188,25 @@
 				<frame path="impacto2.png" wait="0.05" size="1.0" />
 			</anim>
 		</impacto>
+		
+		<!-- 
+		************************************************************************
+		enemigos
+		************************************************************************ 
+		-->
+		
 		<enemyHonesto>
-			<anim name="default" loop="0">
-				<frame path="aliensprite2.png" size="0.30" />
+			<anim name="default" loop="1" fixedImage="0">
+				<frame path="aliensprite1.png" wait="0.3" size="0.30" />
+				<frame path="aliensprite2.png" wait="0.3" size="0.30" />
 			</anim>
 		</enemyHonesto>
+		<enemyBirojo>
+			<anim name="default" loop="1" fixedImage="0">
+				<frame path="Spaceship01.png" wait="0.7" size="0.35" />
+				<frame path="Spaceship15.png" wait="0.7" size="0.35" />
+			</anim>
+		</enemyBirojo>
 	</animset>
 
 </definitions>

@@ -230,15 +230,9 @@ void GameActor::createAnimationPool(Node *nodo, std::vector<GameActor*>& pool, i
 }
 
 void GameActor::setTTL(float ttl){
-
 	ttl_ = ttl;
-
 }
 
-//void GameActor::setPoints(int points){
-//	gameActorPoints_ = points;
-//}
-//
 void GameActor::setHP(float hp){
 	gameActorHP_ = hp;
 	gameActorHPInicial_ = hp;

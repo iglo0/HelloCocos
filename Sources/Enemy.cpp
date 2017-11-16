@@ -10,6 +10,7 @@
 #include "Movimiento.h"
 #include "AnimSprites.h"
 #include "XmlHelper.h"
+#include "SimpleAudioEngine.h"
 
 Enemy::Enemy(){
 	GameActor::GameActor();
@@ -18,6 +19,8 @@ Enemy::Enemy(){
 	//tipoEnemigo_ = -1;
 	pointsOnDeath_ = 0;
 	poolMisBalas_ = nullptr;
+	sonidoDispara_ = "";
+	sonidoMuerte_ = "";
 }
 
 Enemy::Enemy(tiposEnemigo tipo){
@@ -28,11 +31,11 @@ Enemy::Enemy(tiposEnemigo tipo){
 	tipoEnemigo_ = tipo;
 	pointsOnDeath_ = 0;
 	poolMisBalas_ = nullptr;
+	sonidoDispara_ = "";
+	sonidoMuerte_ = "";
 }
 
 Enemy::~Enemy(){}
-
-
 
 void Enemy::initEnemy(Node *nodo){
 	Game *gameInstance = Game::getInstance();
@@ -121,6 +124,11 @@ void Enemy::impacto(float dmg){
 			SpaceInvaders::porcenInvadersVivos = (float)SpaceInvaders::numInvadersVivos / (float)SpaceInvaders::numInvadersInicial;
 		}
 
+		if(sonidoMuerte_ != ""){
+			auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+			audio->playEffect(sonidoMuerte_.c_str());
+		}
+
 	} else{
 		// no muere
 
@@ -189,6 +197,11 @@ void Enemy::dispara(){
 	if(poolMisBalas_){
 		//CCLOG("Enemigo dispara!");
 
+		if(sonidoDispara_!=""){
+			auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+			audio->playEffect(sonidoDispara_.c_str());
+		}
+
 		if(animSprites_){
 			Pool::activa(*poolMisBalas_, animSprites_->getPosition());
 		}
@@ -209,4 +222,16 @@ void Enemy::dispara(){
 
 void Enemy::setPoints(int points){
 	pointsOnDeath_ = points;
+}
+
+void Enemy::setSonidoDispara(const char *pathSonido){
+	sonidoDispara_ = std::string(pathSonido);
+	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+	audio->preloadEffect(pathSonido);
+}
+
+void Enemy::setSonidoMuerte(const char *pathSonido){
+	sonidoMuerte_ = std::string(pathSonido);
+	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+	audio->preloadEffect(pathSonido);
 }

@@ -39,7 +39,6 @@ void AnimSprites::animation::addFrame(frame * f){
 AnimSprites::frame::frame(Node *parent, const char *spritePath, float displaySeconds, float spriteScale){
 	// TODO: no haría falta un physicsbody?
 	displaySeconds_ = displaySeconds;
-	displaySeconds_ = 30.0f;
 	sprite_ = Sprite::createWithSpriteFrameName(spritePath);
 	sprite_->setScale(spriteScale);
 	sprite_->setVisible(false);

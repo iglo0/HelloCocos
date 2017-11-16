@@ -185,6 +185,8 @@ Enemy *XmlHelper::loadEnemy(Node *parentNode, const char *xmlEnemyDef){
 		int colisionoCon = selectedNode.attribute("colisionoCon").as_int();
 		const char *poolName = (char *)selectedNode.attribute("poolBalas").value();
 		int points = selectedNode.attribute("points").as_int();
+		const char *sonidoDispara = (char *)selectedNode.attribute("sonidoDispara").value();
+		const char *sonidoMuerte = (char *)selectedNode.attribute("sonidoMuerte").value();
 
 		// busca y carga la animación (o el sprite)
 		tmpAnim = loadAnimation(parentNode, animSetName);
@@ -199,6 +201,8 @@ Enemy *XmlHelper::loadEnemy(Node *parentNode, const char *xmlEnemyDef){
 		tmp->setHP(hp);
 		tmp->setPoints(points);
 		tmp->gameActorSpeed_ = speed;
+		tmp->setSonidoDispara(sonidoDispara);
+		tmp->setSonidoMuerte(sonidoMuerte);
 
 		//tmp->movimiento_ = 
 

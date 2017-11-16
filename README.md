@@ -47,7 +47,11 @@ En desarrollo [Estimación][Finalizado]
 
 * Implementar la carga de enemigos mediante xml (comportamiento, animacion... todo en ficheros)
 ```diff
-- cargando enemigos...
++ carga básica de enemigos
++ definición de disparos
++ definición de sonido
++ definición de animaciones
+- definición de comportamiento
 ```
 
 * Definición de niveles en archivos de texto
@@ -55,10 +59,20 @@ En desarrollo [Estimación][Finalizado]
 - sin empezar
 ```
 
+* Reintroduciendo el sonido
+```diff
++ sonidos de los disparos enemigos
++ sonidos de las explosiones enemigas
+- sonidos de los disparos propios
+- sonidos de la explosion del prota
+- música de fondo
+
+```
+
 BUGS:
 ```diff
 - El ovni no dispara ¿?
-- Los enemigos no aparecen --> tengo una jodienda en displayseconds
++ Los enemigos no aparecen --> ya no tengo una jodienda con displayseconds
 ```
 
 ### PLANIFICADO (lo siguiente que pienso hacer)
@@ -71,9 +85,6 @@ ESTRUCTURA DEL JUEGO
 - detectar la destrucción de las oleadas de enemigos
 - avance de oleadas cada vez más dificiles
 
-EFECTOS
-- Sonido
-	- reintroducir sonido
 - Música
 	- en los menús
 	- durante el juego
