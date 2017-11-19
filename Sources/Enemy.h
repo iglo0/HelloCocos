@@ -1,6 +1,5 @@
 #pragma once
 
-//#include "cocos2d.h"
 #include "GameActor.h"
 #include <vector>
 
@@ -8,8 +7,6 @@
 // Declaración adelantada. No necesito usar "Bullet", solo saber que usaré punteros a ese tipo, por tanto basta con declararla aquí.
 // OJO: No necesito usar "Bullet", solo saber que usaré punteros a ese tipo, por tanto basta con declararla aquí.
 class Bullet;
-
-//USING_NS_CC;
 
 class Enemy : public GameActor{
 public:
@@ -29,10 +26,7 @@ public:
 	void setPoints(int);
 	void setSonidoDispara(const char *);
 	void setSonidoMuerte(const char *);
-
-	// todo: sobrecargarlo desde GameActor???
 	void dispara();
-	//void disparaN(int n);
 
 	// ---------------------------------------------------------------------------------------------------------
 	// funciones de control

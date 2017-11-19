@@ -156,23 +156,24 @@ bool PhysicsShapeCache::addShapesWithFile(const std::string &plist, float scaleF
 
 PhysicsShapeCache::BodyDef *PhysicsShapeCache::getBodyDef(const std::string &name)
 {
-    try
-    {
-        return bodyDefs.at(name);
-    }
-    catch(std::out_of_range&)
-    {
-		CCLOG("Aqui casca este hijoputa");
-    }
-
+	// HACK: Como el programa con el que los genero no utiliza extensiones para los nombres, cambio el orden en el que intenta cargar la definición de las físicas
     try
     {
         return bodyDefs.at(name.substr(0, name.rfind('.'))); // remove file suffix and try again...
     }
     catch(std::out_of_range&)
     {
+		CCLOG("cascote -> no encontrado '%s'", name.substr(0, name.rfind('.')).c_str());
     }
-    
+
+	try{
+		return bodyDefs.at(name);
+	} catch(std::out_of_range&){
+		CCLOG("cascote -> no encontrado '%s'", name.c_str());
+	}
+
+
+
     return nullptr;
 }
 

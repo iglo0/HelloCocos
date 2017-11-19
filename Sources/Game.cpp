@@ -154,18 +154,12 @@ void Game::inicializaGUI(){
 	lblPuntos->setString(ss.str());
 
 	// hiscore
-	// clear stringstream
-	//ss.str("");
 	ss.str(std::string()); // is technically more efficient, because you avoid invoking the std::string constructor that takes const char*
 	ss << std::setw(6) << std::setfill('0') << hiScore;
 	lblHiScore->setString(ss.str());
 
 	// vidas
 	actualizaVidas();
-	// clear stringstream
-	//ss.str(std::string());
-	//ss << std::setw(2) << std::setfill('0') << vidas;
-	//lblVidas->setString(ss.str());
 
 }
 
@@ -182,95 +176,53 @@ void Game::loadConfig(const char *filename){
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file(filename);
 
-	//std::cout << "Load result: " << result.description() << ", whatever: " << doc.child("book").attribute("category").value() << std::endl;
-	//std::cout << doc.child("person").child_value("firstname") << std::endl;
-	//std::cout << doc.child("person").child_value("lastname") << std::endl;
-
-	// C++11
-	//for(pugi::xml_node person : doc.children("person")){
-	//	//std::cout << person.child_value("firstname") << " " << person.child_value("lastname") << std::endl;
-	//	CCLOG("%s", person.child_value("firstname"));
-	//}
-
-	//config_properties.insert({ CONFIG_PLAYER_INITIAL_SPEED, xml_default_values.child_value(CONFIG_PLAYER_INITIAL_SPEED) });
-	//config_properties.insert({ CONFIG_PLAYER_PATH_SPRITE, xml_default_values.child_value(CONFIG_PLAYER_PATH_SPRITE) });
-
-	//auto iter = config_properties.find(CONFIG_PLAYER_INITIAL_SPEED);
-
-	//if(iter != config_properties.end()){
-	//	// ojo find devuelve un iterator
-	//	CCLOG("%s", iter->second);
-	//}
-
-	//iter = config_properties.find(CONFIG_PLAYER_PATH_SPRITE);
-	//if(iter != config_properties.end()){
-	//	CCLOG("%s", iter->second);
-	//}
-
-
 	pugi::xml_node xml_default_values = doc.child("default_values");
 	
-	// TODO: yee-haw! sin comprobaciones
-	player_path_sprite = xml_default_values.child_value(CONFIG_PLAYER_PATH_SPRITE);
-	player_initial_speed = atof(xml_default_values.child_value(CONFIG_PLAYER_INITIAL_SPEED));
-	
-	bullet_player_path_sprite1 = xml_default_values.child_value(CONFIG_BULLET_PLAYER_PATH_SPRITE1);
-	bullet_enemy_path_sprite1 = xml_default_values.child_value(CONFIG_BULLET_ENEMY_PATH_SPRITE1);
-	bullet_enemy_path_sprite2 = xml_default_values.child_value(CONFIG_BULLET_ENEMY_PATH_SPRITE2);
-	bullet_path_sound_fire = xml_default_values.child_value(CONFIG_BULLET_PATH_SOUND_FIRE);
-	bullet_path_sound_impact = xml_default_values.child_value(CONFIG_BULLET_PATH_SOUND_IMPACT);
-	bullet_default_scale = atof(xml_default_values.child_value(CONFIG_BULLET_DEFAULT_SCALE));
-	bullet_default_boss_scale = atof(xml_default_values.child_value(CONFIG_BULLET_DEFAULT_BOSS_SCALE));
-	bullet_default_dmg = atof(xml_default_values.child_value(CONFIG_BULLET_DEFAULT_DMG));
-	bullet_default_speed = atof(xml_default_values.child_value(CONFIG_BULLET_DEFAULT_SPEED));
-	bullet_homing_speed = atof(xml_default_values.child_value(CONFIG_BULLET_HOMING_SPEED));
+	player_path_sprite = xml_default_values.child_value("player_path_sprite");
+	player_initial_speed = atof(xml_default_values.child_value("player_initial_speed"));
+	player_sonido_dispara = xml_default_values.child_value("player_sonido_dispara");
+	player_sonido_muerte = xml_default_values.child_value("player_sonido_muerte");
 
-	enemy_generic_speed = atof(xml_default_values.child_value(CONFIG_ENEMY_GENERIC_SPEED));
-	enemy_generic_hp = atof(xml_default_values.child_value(CONFIG_ENEMY_GENERIC_HP));
-	enemy_generic_points = atoi(xml_default_values.child_value(CONFIG_ENEMY_GENERIC_POINTS));
-	enemy_t1_path_sprite = xml_default_values.child_value(CONFIG_ENEMY_T1_PATH_SPRITE);
-	enemy_t1_initial_size = atof(xml_default_values.child_value(CONFIG_ENEMY_T1_INITIAL_SIZE));
-	enemy_t1_initial_rotation = atof(xml_default_values.child_value(CONFIG_ENEMY_T1_INITIAL_ROTATION));
-	enemy_t2_path_sprite = xml_default_values.child_value(CONFIG_ENEMY_T2_PATH_SPRITE);
-	enemy_t2_initial_size = atof(xml_default_values.child_value(CONFIG_ENEMY_T2_INITIAL_SIZE));
-	enemy_t2_initial_rotation = atof(xml_default_values.child_value(CONFIG_ENEMY_T2_INITIAL_ROTATION));
-	enemy_boss_generic_hp = atof(xml_default_values.child_value(CONFIG_ENEMY_BOSS_GENERIC_HP));
-	enemy_boss_path_sprite = xml_default_values.child_value(CONFIG_ENEMY_BOSS_PATH_SPRITE);
-	enemy_boss_initial_size = atof(xml_default_values.child_value(CONFIG_ENEMY_BOSS_INITIAL_SIZE));
-	enemy_boss_initial_rotation = atof(xml_default_values.child_value(CONFIG_ENEMY_BOSS_INITIAL_ROTATION));
-	enemy_boss_points = atoi(xml_default_values.child_value(CONFIG_ENEMY_BOSS_POINTS));
-	enemy_path_sound_die = xml_default_values.child_value(CONFIG_ENEMY_PATH_SOUND_DIE);
+	game_sonido_invaders_loop = xml_default_values.child_value("game_sonido_invaders_loop");
 
-	duracion_estado_intronivel = atof(xml_default_values.child_value(CONFIG_DURACION_ESTADO_INTRONIVEL));
-	duracion_estado_finnivel = atof(xml_default_values.child_value(CONFIG_DURACION_ESTADO_FINNIVEL));
-	duracion_estado_muerte = atof(xml_default_values.child_value(CONFIG_DURACION_ESTADO_MUERTE));
-	duracion_estado_gameover = atof(xml_default_values.child_value(CONFIG_DURACION_ESTADO_GAMEOVER));
+	bullet_default_dmg = atof(xml_default_values.child_value("bullet_default_dmg"));
 
-	initial_hi_score = atoi(xml_default_values.child_value(CONFIG_INITIAL_HI_SCORE));
-	vidas_iniciales = atoi(xml_default_values.child_value(CONFIG_VIDAS_INICIALES));
+	enemy_generic_speed = atof(xml_default_values.child_value("enemy_generic_speed"));
+	enemy_boss_generic_hp = atof(xml_default_values.child_value("enemy_boss_generic_hp"));
+	enemy_boss_path_sprite = xml_default_values.child_value("enemy_boss_path_sprite");
+	enemy_boss_initial_size = atof(xml_default_values.child_value("enemy_boss_initial_size"));
+	enemy_boss_initial_rotation = atof(xml_default_values.child_value("enemy_boss_initial_rotation"));
+	enemy_boss_points = atoi(xml_default_values.child_value("enemy_boss_points"));
+
+	duracion_estado_intronivel = atof(xml_default_values.child_value("duracion_estado_intronivel"));
+	duracion_estado_finnivel = atof(xml_default_values.child_value("duracion_estado_finnivel"));
+	duracion_estado_muerte = atof(xml_default_values.child_value("duracion_estado_muerte"));
+	duracion_estado_gameover = atof(xml_default_values.child_value("duracion_estado_gameover"));
+
+	initial_hi_score = atoi(xml_default_values.child_value("initial_hi_score"));
+	vidas_iniciales = atoi(xml_default_values.child_value("vidas_iniciales"));
 
 	// casitas
-	sprite_casa_bloque = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE);
-	sprite_casa_bloque_roto_01 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_01);
-	sprite_casa_bloque_roto_02 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_02);
-	sprite_casa_bloque_roto_03 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_03);
-	sprite_casa_bloque_roto_04 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_04);
-	sprite_casa_bloque_roto_05 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_05);
-	sprite_casa_bloque_roto_06 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_06);
-	sprite_casa_bloque_roto_07 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_07);
-	sprite_casa_bloque_roto_08 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_08);
-	sprite_casa_bloque_roto_09 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_09);
-	sprite_casa_bloque_roto_10 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_10);
-	sprite_casa_bloque_roto_11 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_11);
-	sprite_casa_bloque_roto_12 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_12);
-	sprite_casa_bloque_roto_13 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_13);
-	sprite_casa_bloque_roto_14 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_14);
-	sprite_casa_bloque_roto_15 = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_15);
-	sprite_casa_bloque_roto_dch = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_DCH);
-	sprite_casa_bloque_roto_izq = xml_default_values.child_value(CONFIG_SPRITE_CASA_BLOQUE_ROTO_IZQ);
-	sprite_casa_esquina_dch = xml_default_values.child_value(CONFIG_SPRITE_CASA_ESQUINA_DCH);
-	sprite_casa_esquina_izq = xml_default_values.child_value(CONFIG_SPRITE_CASA_ESQUINA_IZQ);
-
+	sprite_casa_bloque = xml_default_values.child_value("sprite_casa_bloque");
+	sprite_casa_bloque_roto_01 = xml_default_values.child_value("sprite_casa_bloque_roto_01");
+	sprite_casa_bloque_roto_02 = xml_default_values.child_value("sprite_casa_bloque_roto_02");
+	sprite_casa_bloque_roto_03 = xml_default_values.child_value("sprite_casa_bloque_roto_03");
+	sprite_casa_bloque_roto_04 = xml_default_values.child_value("sprite_casa_bloque_roto_04");
+	sprite_casa_bloque_roto_05 = xml_default_values.child_value("sprite_casa_bloque_roto_05");
+	sprite_casa_bloque_roto_06 = xml_default_values.child_value("sprite_casa_bloque_roto_06");
+	sprite_casa_bloque_roto_07 = xml_default_values.child_value("sprite_casa_bloque_roto_07");
+	sprite_casa_bloque_roto_08 = xml_default_values.child_value("sprite_casa_bloque_roto_08");
+	sprite_casa_bloque_roto_09 = xml_default_values.child_value("sprite_casa_bloque_roto_09");
+	sprite_casa_bloque_roto_10 = xml_default_values.child_value("sprite_casa_bloque_roto_10");
+	sprite_casa_bloque_roto_11 = xml_default_values.child_value("sprite_casa_bloque_roto_11");
+	sprite_casa_bloque_roto_12 = xml_default_values.child_value("sprite_casa_bloque_roto_12");
+	sprite_casa_bloque_roto_13 = xml_default_values.child_value("sprite_casa_bloque_roto_13");
+	sprite_casa_bloque_roto_14 = xml_default_values.child_value("sprite_casa_bloque_roto_14");
+	sprite_casa_bloque_roto_15 = xml_default_values.child_value("sprite_casa_bloque_roto_15");
+	sprite_casa_bloque_roto_dch = xml_default_values.child_value("sprite_casa_bloque_roto_dch");
+	sprite_casa_bloque_roto_izq = xml_default_values.child_value("sprite_casa_bloque_roto_izq");
+	sprite_casa_esquina_dch = xml_default_values.child_value("sprite_casa_esquina_dch");
+	sprite_casa_esquina_izq = xml_default_values.child_value("sprite_casa_esquina_izq");
 
 }
 

@@ -207,6 +207,7 @@ bool Level::onContactBegin(PhysicsContact &contact){
 		bulletTmp = (Bullet *)sprA->getUserData();
 		impactDmg1 = bulletTmp->bulletDmg;
 	} else {
+		CCLOG("Atencion, daño generico!");
 		impactDmg1 = gameInstance->bullet_default_dmg;
 	}
 
@@ -215,6 +216,7 @@ bool Level::onContactBegin(PhysicsContact &contact){
 		bulletTmp = (Bullet *)sprB->getUserData();
 		impactDmg2 = bulletTmp->bulletDmg;
 	} else{
+		CCLOG("Atencion, daño generico!");
 		impactDmg2 = gameInstance->bullet_default_dmg;
 	}
 
@@ -376,7 +378,7 @@ void Level::initLevel(){
 	// Creando pools de balas para todos los tipos necesarios
 	// TODO: prueba enésima de dónde colgar estos pools... ahora van a una clase propia "Pool".
 	// Pool de balas para el jugador
-	Bullet::createBulletPool(this, Pool::currentBulletsPlayerTipo1, 2, Bullet::tipoPlayer, "bullet_player");
+	Bullet::createBulletPool(this, Pool::currentBulletsPlayerTipo1, 1, Bullet::tipoPlayer, "bullet_player");
 
 	// TODO: Pool para los enemigos normales
 	Bullet::createBulletPool(this, Pool::currentBulletsTipoNormal, 60, Bullet::tipoEnemyNormal, "bullet_enemy_default");
@@ -388,8 +390,8 @@ void Level::initLevel(){
 	Bullet::createBulletPool(this, Pool::currentBulletsTipoBossHoming, 5, Bullet::tipoBossHoming, "bullet_enemy_homing");
 
 	// TODO: probando a detectar el fin de las animaciones con ttl o con loop=0 (ver .xml)
-	GameActor::createAnimationPool(this, Pool::currentExplosions, 5, XML_EXPLOSION_ANIM);
-	GameActor::createAnimationPool(this, Pool::currentImpacts, 20, XML_IMPACT_ANIM);
+	GameActor::createAnimationPool(this, Pool::currentExplosions, 5, "explosion");
+	GameActor::createAnimationPool(this, Pool::currentImpacts, 20, "impacto");
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// inicializo los enemigos iniciales

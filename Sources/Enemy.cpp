@@ -42,12 +42,12 @@ void Enemy::initEnemy(Node *nodo){
 	//funcionMovimientoActual = nullptr;
 
 	switch(tipoEnemigo_){
-	case tiposEnemigo::tipo1:
-		initEnemy(nodo, gameInstance->enemy_t1_path_sprite.c_str(), "", gameInstance->enemy_t1_initial_size, gameInstance->enemy_t1_initial_rotation, gameInstance->enemy_generic_hp, gameInstance->enemy_generic_points, &Pool::currentBulletsTipoNormal);
-		break;
-	case tiposEnemigo::tipo2:
-		initEnemy(nodo, gameInstance->enemy_t2_path_sprite.c_str(), "", gameInstance->enemy_t2_initial_size, gameInstance->enemy_t2_initial_rotation, gameInstance->enemy_generic_hp, gameInstance->enemy_generic_points, &Pool::currentBulletsTipo2);
-		break;
+	//case tiposEnemigo::tipo1:
+	//	initEnemy(nodo, gameInstance->enemy_t1_path_sprite.c_str(), "", gameInstance->enemy_t1_initial_size, gameInstance->enemy_t1_initial_rotation, gameInstance->enemy_generic_hp, gameInstance->enemy_generic_points, &Pool::currentBulletsTipoNormal);
+	//	break;
+	//case tiposEnemigo::tipo2:
+	//	initEnemy(nodo, gameInstance->enemy_t2_path_sprite.c_str(), "", gameInstance->enemy_t2_initial_size, gameInstance->enemy_t2_initial_rotation, gameInstance->enemy_generic_hp, gameInstance->enemy_generic_points, &Pool::currentBulletsTipo2);
+	//	break;
 	case tiposEnemigo::tipoBoss:
 		initEnemy(nodo, gameInstance->enemy_boss_path_sprite.c_str(), "", gameInstance->enemy_boss_initial_size, gameInstance->enemy_boss_initial_rotation, gameInstance->enemy_boss_generic_hp, gameInstance->enemy_boss_points, &Pool::currentBulletsTipoBossHoming);
 		break;
@@ -78,7 +78,7 @@ Enemy *Enemy::createEnemy(Node *nodo, const char *enemyDefName){
 	//movimiento_ = nullptr;
 }
 
-void Enemy::initEnemy(Node * nodo, const char * pathSprite, const char * rutaSonidoMuerte, float initialScale, float rotation, float hp, int points, std::vector<Bullet *> *poolMisBalas){
+void Enemy::initEnemy(Node *nodo, const char *pathSprite, const char *rutaSonidoMuerte, float initialScale, float rotation, float hp, int points, std::vector<Bullet *> *poolMisBalas){
 	GameActor::gameActorHP_ = hp;
 	GameActor::gameActorSpeed_ = Game::getInstance()->enemy_generic_speed;
 
@@ -86,12 +86,6 @@ void Enemy::initEnemy(Node * nodo, const char * pathSprite, const char * rutaSon
 		(int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::BalaJugador | (int)Game::CategoriaColision::Destructible,
 		initialScale);
 
-	//tIniDisparo_ = 0;
-	//funcionControlActual = nullptr;
-	////funcionMovimientoActual = nullptr;// esto lo hace el constructor de GameActor
-	//funcionControlTiempoDisparo_ = 1.0f;
-
-	//Pool::currentEnemies.push_back(this);
 	poolMisBalas_ = poolMisBalas;
 
 	pointsOnDeath_ = points;
@@ -108,12 +102,9 @@ void Enemy::impacto(float dmg){
 	if(gameActorHP_ <= 0){
 		// muere
 		desactiva();
-		// TODO: explosion
+		// explota
 		Pool::activa(Pool::currentExplosions, getPosition());
-
-		// TODO: dar puntos
-		// TODO: y distinguir el tipo de enemigo que es!
-		//Game::getInstance()->puntos += ENEMY_GENERIC_POINTS;
+		// da puntos
 		Game::getInstance()->sumaPuntos(pointsOnDeath_);
 
 		// HACK: Ajusto el nº de invaders que quedan cuando muere uno
@@ -130,12 +121,8 @@ void Enemy::impacto(float dmg){
 		}
 
 	} else{
-		// no muere
-
-		// la bala (si es lo que le ha golpeado) ya saca un grafico de impacto
+		// TODO: efectos de recibir daño sin morir
 	}
-
-
 }
 
 void Enemy::funControlFireAtInterval(float interval){

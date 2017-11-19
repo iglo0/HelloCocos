@@ -176,10 +176,8 @@ Enemy *XmlHelper::loadEnemy(Node *parentNode, const char *xmlEnemyDef){
 	if(xpathNode){
 		pugi::xml_node selectedNode = xpathNode.node();
 
-		//<honesto speed="100.0" hp="1.0" points="100" animSetName="enemyHonesto" />
 		const char *animSetName = (char *)selectedNode.attribute("animSetName").value();
 		float hp = selectedNode.attribute("hp").as_float();
-		int movement = Bullet::devuelveTipoPorNombre(selectedNode.attribute("movement").value());
 		float speed = selectedNode.attribute("speed").as_float();
 		int tipoColision = selectedNode.attribute("tipoColision").as_int();
 		int colisionoCon = selectedNode.attribute("colisionoCon").as_int();
