@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Pool.h"
 #include "Bullet.h"
+#include "SimpleAudioEngine.h"
 
 // HACK: para cambiar de gamestate desde la muerte
 #include "Level.h"
@@ -13,10 +14,11 @@ Vec2 Player::playerPosition;
 Player *Player::playerInstance;
 
 Player::Player(Node *nodo, float playerSpeed){
-
 	// Empieza por el constructor de la base
 	GameActor::GameActor();
 	GameActor::type_ = GameActor::gameActorTypes::player;
+
+	auto gameInstance = Game::getInstance();
 
 	mueveIzq = mueveDch = mueveArr = mueveAbj = false;
 
@@ -53,6 +55,9 @@ Player::Player(Node *nodo, float playerSpeed){
 	// Se puede hacer esto? ohhh...
 	GameActor::gameActorSpeed_ = playerSpeed;
 	
+	setSonidoDispara(gameInstance->player_sonido_dispara.c_str());
+	setSonidoMuerte(gameInstance->player_sonido_muerte.c_str());
+
 	// HACK: AL crear un jugador, actualizo el static playerInstance
 	playerInstance = this;
 }
@@ -77,8 +82,16 @@ void Player::update(float deltaT){
 		disparar = false;
 		//currentWeapon->fire(getPosition());
 		if(poolMisBalas){
+			Bullet *tmp;	// así puedo saber si ha devuelto bala o no, por aquello del sonido
 			// TODO: no entiendo muy bien la sintaxis, ¿por qué tengo que usar *?
-			Pool::activa(*poolMisBalas, sprite_->getPosition());
+			tmp = Pool::activa(*poolMisBalas, sprite_->getPosition());
+
+			if(sonidoDispara_ != "" && tmp){
+				auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+				audio->playEffect(sonidoDispara_.c_str());
+			}
+
+
 		}
 	}
 }
@@ -95,6 +108,11 @@ void Player::killPlayer(){
 	//return;
 
 	Pool::activa(Pool::currentExplosions, getPosition());
+
+	if(sonidoMuerte_ != ""){
+		auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+		audio->playEffect(sonidoMuerte_.c_str());
+	}
 
 	// HACK: cambio de estado usando una referencia al nivel
 	Level::setGameState(new PlayerDeadState(this));
@@ -113,6 +131,18 @@ void Player::activatePlayerInInitialPos(){
 	posInicial.x = Director::getInstance()->getVisibleOrigin().x + Director::getInstance()->getVisibleSize().width / 2.0f;
 	posInicial.y = sprite_->getScale()*sprite_->getContentSize().height / 2.0f;
 	activa(posInicial);
+}
+
+void Player::setSonidoDispara(const char *pathSonido){
+	sonidoDispara_ = std::string(pathSonido);
+	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+	audio->preloadEffect(pathSonido);
+}
+
+void Player::setSonidoMuerte(const char *pathSonido){
+	sonidoMuerte_ = std::string(pathSonido);
+	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+	audio->preloadEffect(pathSonido);
 }
 
 Vec2 Player::getCurrentPlayerPosition(){

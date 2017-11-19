@@ -29,6 +29,8 @@ public:
 	virtual void impacto(float dmg) override;
 	void killPlayer();
 	void activatePlayerInInitialPos();
+	void setSonidoDispara(const char *);
+	void setSonidoMuerte(const char *);
 
 	bool disparar;
 	InputComponent *inputComponent;
@@ -48,6 +50,8 @@ private:
 	float playerInitialScale = 0.5f;
 	float playerInitialRotation = 0;
 	int playerInitialZOrder = 0;
+	std::string sonidoDispara_;
+	std::string sonidoMuerte_;
 
 	static Vec2 playerPosition;
 	static Player *playerInstance;

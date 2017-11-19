@@ -19,67 +19,9 @@ USING_NS_CC;
 // --------------------------------------------------------------------
 // prueba con los xml, esto es intellisense para pobres :P
 // indica como se llaman los nodos en el xml de configuración
-#define CONFIG_PLAYER_INITIAL_SPEED			"player_initial_speed"
-#define CONFIG_PLAYER_PATH_SPRITE			"player_path_sprite"
-
-#define CONFIG_BULLET_PLAYER_PATH_SPRITE1	"bullet_player_path_sprite1"
-#define CONFIG_BULLET_ENEMY_PATH_SPRITE1	"bullet_enemy_path_sprite1"
-#define CONFIG_BULLET_ENEMY_PATH_SPRITE2	"bullet_enemy_path_sprite2"
-#define CONFIG_BULLET_PATH_SOUND_FIRE		"bullet_path_sound_fire"
-#define CONFIG_BULLET_PATH_SOUND_IMPACT		"bullet_path_sound_impact"
-#define CONFIG_BULLET_DEFAULT_SCALE			"bullet_default_scale"
-#define CONFIG_BULLET_DEFAULT_BOSS_SCALE	"bullet_default_boss_scale"
-#define CONFIG_BULLET_DEFAULT_DMG			"bullet_default_dmg"
-#define CONFIG_BULLET_DEFAULT_SPEED			"bullet_default_speed"
-#define CONFIG_BULLET_HOMING_SPEED			"bullet_homing_speed"
-
-#define CONFIG_ENEMY_GENERIC_SPEED			"enemy_generic_speed"
-#define CONFIG_ENEMY_GENERIC_HP				"enemy_generic_hp"
-#define CONFIG_ENEMY_GENERIC_POINTS			"enemy_generic_points"
-#define CONFIG_ENEMY_T1_PATH_SPRITE			"enemy_t1_path_sprite"
-#define CONFIG_ENEMY_T1_INITIAL_SIZE		"enemy_t1_initial_size"
-#define CONFIG_ENEMY_T1_INITIAL_ROTATION	"enemy_t1_initial_rotation"
-#define CONFIG_ENEMY_T2_PATH_SPRITE			"enemy_t2_path_sprite"
-#define CONFIG_ENEMY_T2_INITIAL_SIZE		"enemy_t2_initial_size"
-#define CONFIG_ENEMY_T2_INITIAL_ROTATION	"enemy_t2_initial_rotation"
-#define CONFIG_ENEMY_BOSS_GENERIC_HP		"enemy_boss_generic_hp"
-#define CONFIG_ENEMY_BOSS_PATH_SPRITE		"enemy_boss_path_sprite"
-#define CONFIG_ENEMY_BOSS_INITIAL_SIZE		"enemy_boss_initial_size"
-#define CONFIG_ENEMY_BOSS_INITIAL_ROTATION	"enemy_boss_initial_rotation"
-#define CONFIG_ENEMY_BOSS_POINTS			"enemy_boss_points"
-#define CONFIG_ENEMY_PATH_SOUND_DIE			"enemy_path_sound_die"
-
-#define CONFIG_DURACION_ESTADO_INTRONIVEL	"duracion_estado_intronivel"
-#define CONFIG_DURACION_ESTADO_FINNIVEL		"duracion_estado_finnivel"
-#define CONFIG_DURACION_ESTADO_MUERTE		"duracion_estado_muerte"
-#define CONFIG_DURACION_ESTADO_GAMEOVER		"duracion_estado_gameover"
-
-#define CONFIG_INITIAL_HI_SCORE				"initial_hi_score"
-#define CONFIG_VIDAS_INICIALES				"vidas_iniciales"
-
-#define CONFIG_SPRITE_CASA_BLOQUE			"sprite_casa_bloque"
-#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_01	"sprite_casa_bloque_roto_01"
-#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_02	"sprite_casa_bloque_roto_02"
-#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_03	"sprite_casa_bloque_roto_03"
-#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_04	"sprite_casa_bloque_roto_04"
-#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_05	"sprite_casa_bloque_roto_05"
-#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_06	"sprite_casa_bloque_roto_06"
-#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_07	"sprite_casa_bloque_roto_07"
-#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_08	"sprite_casa_bloque_roto_08"
-#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_09	"sprite_casa_bloque_roto_09"
-#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_10	"sprite_casa_bloque_roto_10"
-#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_11	"sprite_casa_bloque_roto_11"
-#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_12	"sprite_casa_bloque_roto_12"
-#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_13	"sprite_casa_bloque_roto_13"
-#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_14	"sprite_casa_bloque_roto_14"
-#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_15	"sprite_casa_bloque_roto_15"
-#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_DCH	"sprite_casa_bloque_roto_dch"
-#define CONFIG_SPRITE_CASA_BLOQUE_ROTO_IZQ	"sprite_casa_bloque_roto_izq"
-#define CONFIG_SPRITE_CASA_ESQUINA_DCH		"sprite_casa_esquina_dch"
-#define CONFIG_SPRITE_CASA_ESQUINA_IZQ		"sprite_casa_esquina_izq"
-
-#define XML_EXPLOSION_ANIM	"explosion"
-#define XML_IMPACT_ANIM	"impacto"
+// el problema es que por cada nodo tenía un #define y una variable, he decidido quitar los defines y cargar las variables con nombres fijos en el código. Así quito bastante morralla....
+//#define XML_EXPLOSION_ANIM	"explosion"
+//#define XML_IMPACT_ANIM	"impacto"
 
 #pragma endregion
 
@@ -151,42 +93,35 @@ public:
 	void loadConfig(const char *filename);
 
 	#pragma region variables de configuracion
+
 	// variables donde almacenar la configuracion
+
 	// player
 	float player_initial_speed;
 	std::string player_path_sprite;
+	std::string player_sonido_dispara;
+	std::string player_sonido_muerte;
+
+	std::string game_sonido_invaders_loop;
+
 	// bullets
-	std::string bullet_player_path_sprite1;
-	std::string bullet_enemy_path_sprite1;
-	std::string bullet_enemy_path_sprite2;
-	std::string bullet_path_sound_fire;
-	std::string bullet_path_sound_impact;
-	float bullet_default_scale;
-	float bullet_default_boss_scale;
 	float bullet_default_dmg;
-	float bullet_default_speed;
-	float bullet_homing_speed;
+
 	// enemies
 	float enemy_generic_speed;
-	float enemy_generic_hp;
-	int enemy_generic_points;
-	std::string enemy_t1_path_sprite;
-	float enemy_t1_initial_size;
-	float enemy_t1_initial_rotation;
-	std::string enemy_t2_path_sprite;
-	float enemy_t2_initial_size;
-	float enemy_t2_initial_rotation;
+
 	float enemy_boss_generic_hp;
 	std::string enemy_boss_path_sprite;
 	float enemy_boss_initial_size;
 	float enemy_boss_initial_rotation;
 	int enemy_boss_points;
-	std::string enemy_path_sound_die;
+
 	// estados
 	float duracion_estado_intronivel;
 	float duracion_estado_finnivel;
 	float duracion_estado_muerte;
 	float duracion_estado_gameover;
+
 	// varios
 	int initial_hi_score;
 	int vidas_iniciales;

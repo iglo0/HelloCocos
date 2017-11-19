@@ -4,6 +4,8 @@ backup.cmd
 Resources-Texturepacker
 *.tps
 README.md
+*.aup
+invaders loop_data
 
 # OSX - https://github.com/github/gitignore/blob/master/Global/OSX.gitignore
 .DS_Store

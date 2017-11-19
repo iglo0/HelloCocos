@@ -93,123 +93,123 @@ void Bullet::createBulletPool(Node *nodo, std::vector<Bullet *> &pool, int poolS
 }
 
 // creaBala se llama desde mi propio createBulletPool
-Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletName){
-	Movimiento *claseMovimiento;
-	Bullet *tmp;
-	Game *gameInstance = Game::getInstance();
-	AnimSprites *animS;
-	XmlHelper *xh = nullptr;
-
-	// los parametros de la bala
-	const char *pathSprite;
-	const char *pathSonidoDisparo;
-	const char *pathSonidoImpacto;
-	float speed;
-	float dmg;
-	int tipoColision;
-	int colisionoCon;
-	float initialScale;
-	
-	switch(tipoBala){
-	case tipoPlayer:
-		pathSprite = gameInstance->bullet_player_path_sprite1.c_str();
-		pathSonidoDisparo = gameInstance->bullet_path_sound_fire.c_str();
-		pathSonidoImpacto = gameInstance->bullet_path_sound_impact.c_str();
-		speed = gameInstance->bullet_default_speed;
-		dmg = gameInstance->bullet_default_dmg;
-		tipoColision = (int)Game::CategoriaColision::BalaJugador;
-		colisionoCon = (int)Game::CategoriaColision::Enemigo | (int)Game::CategoriaColision::BalaEnemigo | (int)Game::CategoriaColision::Destructible;
-		initialScale = gameInstance->bullet_default_scale;
-
-		claseMovimiento = new MueveVcal(speed);
-
-		// TODO: sistema de animacion sin configurar
-		animS = nullptr;
-
-		break;
-	case tipoEnemyDirigido:
-		pathSprite = gameInstance->bullet_enemy_path_sprite2.c_str();
-		pathSonidoDisparo = gameInstance->bullet_path_sound_fire.c_str();
-		pathSonidoImpacto = gameInstance->bullet_path_sound_impact.c_str();
-		// Ojo!!!: las balas enemigas van a -velocidad
-		speed = -gameInstance->bullet_default_speed;
-		dmg = gameInstance->bullet_default_dmg;
-		tipoColision = (int)Game::CategoriaColision::BalaEnemigo;
-		colisionoCon = (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::BalaJugador | (int)Game::CategoriaColision::Destructible;
-		initialScale = gameInstance->bullet_default_scale;
-
-		claseMovimiento = new MueveDireccion(speed);
-
-		// TODO: sistema de animacion sin configurar
-		//xh = new XmlHelper();
-		animS = xh->loadAnimation(nodo, "balaDirigida");
-		//animS = nullptr;
-
-		break;
-	case tipoEnemyNormal:
-		pathSprite = gameInstance->bullet_enemy_path_sprite1.c_str();
-		pathSonidoDisparo = gameInstance->bullet_path_sound_fire.c_str();
-		pathSonidoImpacto = gameInstance->bullet_path_sound_impact.c_str();
-		// Ojo!!!: las balas enemigas van a -velocidad
-		speed = -gameInstance->bullet_default_speed;
-		dmg = gameInstance->bullet_default_dmg;
-		tipoColision = (int)Game::CategoriaColision::BalaEnemigo;
-		colisionoCon = (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::BalaJugador | (int)Game::CategoriaColision::Destructible;
-		initialScale = gameInstance->bullet_default_scale;
-
-		claseMovimiento = new MueveVcal(speed);
-
-		// TODO: sistema de animacion sin configurar
-		xh = new XmlHelper();
-		animS = xh->loadAnimation(nodo, "balaEnemiga");
-		//animS = nullptr;
-
-		break;
-	case tipoBossHoming:
-		pathSprite = gameInstance->bullet_enemy_path_sprite1.c_str();
-		pathSonidoDisparo = gameInstance->bullet_path_sound_fire.c_str();
-		pathSonidoImpacto = gameInstance->bullet_path_sound_impact.c_str();
-		// Ojo!!!: las balas enemigas van a -velocidad
-		speed = -gameInstance->bullet_homing_speed;
-		dmg = gameInstance->bullet_default_dmg;
-		tipoColision = (int)Game::CategoriaColision::BalaEnemigo;
-		colisionoCon = (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::BalaJugador | (int)Game::CategoriaColision::Destructible;
-		initialScale = gameInstance->bullet_default_boss_scale;
-
-		claseMovimiento = new MueveHoming();
-
-		// TODO: sistema de animacion sin configurar
-		xh = new XmlHelper();
-		animS = xh->loadAnimation(nodo, "balaHoming");
-
-		break;
-	default:
-		CCLOG("Tipo bala desconocido: %d!", tipoBala);
-		animS = nullptr;
-		break;
-	}
-	
-	//// TODO: Nuevo -> con xml
-	//// funciona :)
-	//if(bulletDef != ""){
-	//	xh = new XmlHelper();
-	//	tmp = xh->loadBullet(nodo, bulletDef);
-	//	return tmp;
-	//}
-	//// ---------------------------------------------------------------------------
-
-	tmp = new Bullet(nodo, bulletName, pathSprite, pathSonidoDisparo, pathSonidoImpacto, speed, dmg, tipoColision, colisionoCon, initialScale);
-	tmp->bulletType_ = tipoBala;
-	tmp->movimiento_ = claseMovimiento;
-
-	if(xh){
-		xh->assignPhysicsToAnimation(animS, tmp, tipoColision, colisionoCon);
-	}
-
-	tmp->animSprites_ = animS;
-
-	return tmp;
-}
+//Bullet *Bullet::creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletName){
+//	Movimiento *claseMovimiento;
+//	Bullet *tmp;
+//	Game *gameInstance = Game::getInstance();
+//	AnimSprites *animS;
+//	XmlHelper *xh = nullptr;
+//
+//	// los parametros de la bala
+//	const char *pathSprite;
+//	const char *pathSonidoDisparo;
+//	const char *pathSonidoImpacto;
+//	float speed;
+//	float dmg;
+//	int tipoColision;
+//	int colisionoCon;
+//	float initialScale;
+//	
+//	switch(tipoBala){
+//	case tipoPlayer:
+//		pathSprite = gameInstance->bullet_player_path_sprite1.c_str();
+//		pathSonidoDisparo = gameInstance->bullet_path_sound_fire.c_str();
+//		pathSonidoImpacto = gameInstance->bullet_path_sound_impact.c_str();
+//		speed = gameInstance->bullet_default_speed;
+//		dmg = gameInstance->bullet_default_dmg;
+//		tipoColision = (int)Game::CategoriaColision::BalaJugador;
+//		colisionoCon = (int)Game::CategoriaColision::Enemigo | (int)Game::CategoriaColision::BalaEnemigo | (int)Game::CategoriaColision::Destructible;
+//		initialScale = gameInstance->bullet_default_scale;
+//
+//		claseMovimiento = new MueveVcal(speed);
+//
+//		// TODO: sistema de animacion sin configurar
+//		animS = nullptr;
+//
+//		break;
+//	case tipoEnemyDirigido:
+//		pathSprite = gameInstance->bullet_enemy_path_sprite2.c_str();
+//		pathSonidoDisparo = gameInstance->bullet_path_sound_fire.c_str();
+//		pathSonidoImpacto = gameInstance->bullet_path_sound_impact.c_str();
+//		// Ojo!!!: las balas enemigas van a -velocidad
+//		speed = -gameInstance->bullet_default_speed;
+//		dmg = gameInstance->bullet_default_dmg;
+//		tipoColision = (int)Game::CategoriaColision::BalaEnemigo;
+//		colisionoCon = (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::BalaJugador | (int)Game::CategoriaColision::Destructible;
+//		initialScale = gameInstance->bullet_default_scale;
+//
+//		claseMovimiento = new MueveDireccion(speed);
+//
+//		// TODO: sistema de animacion sin configurar
+//		//xh = new XmlHelper();
+//		animS = xh->loadAnimation(nodo, "balaDirigida");
+//		//animS = nullptr;
+//
+//		break;
+//	case tipoEnemyNormal:
+//		pathSprite = gameInstance->bullet_enemy_path_sprite1.c_str();
+//		pathSonidoDisparo = gameInstance->bullet_path_sound_fire.c_str();
+//		pathSonidoImpacto = gameInstance->bullet_path_sound_impact.c_str();
+//		// Ojo!!!: las balas enemigas van a -velocidad
+//		speed = -gameInstance->bullet_default_speed;
+//		dmg = gameInstance->bullet_default_dmg;
+//		tipoColision = (int)Game::CategoriaColision::BalaEnemigo;
+//		colisionoCon = (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::BalaJugador | (int)Game::CategoriaColision::Destructible;
+//		initialScale = gameInstance->bullet_default_scale;
+//
+//		claseMovimiento = new MueveVcal(speed);
+//
+//		// TODO: sistema de animacion sin configurar
+//		xh = new XmlHelper();
+//		animS = xh->loadAnimation(nodo, "balaEnemiga");
+//		//animS = nullptr;
+//
+//		break;
+//	case tipoBossHoming:
+//		pathSprite = gameInstance->bullet_enemy_path_sprite1.c_str();
+//		pathSonidoDisparo = gameInstance->bullet_path_sound_fire.c_str();
+//		pathSonidoImpacto = gameInstance->bullet_path_sound_impact.c_str();
+//		// Ojo!!!: las balas enemigas van a -velocidad
+//		speed = -gameInstance->bullet_homing_speed;
+//		dmg = gameInstance->bullet_default_dmg;
+//		tipoColision = (int)Game::CategoriaColision::BalaEnemigo;
+//		colisionoCon = (int)Game::CategoriaColision::Jugador | (int)Game::CategoriaColision::BalaJugador | (int)Game::CategoriaColision::Destructible;
+//		initialScale = gameInstance->bullet_default_boss_scale;
+//
+//		claseMovimiento = new MueveHoming();
+//
+//		// TODO: sistema de animacion sin configurar
+//		xh = new XmlHelper();
+//		animS = xh->loadAnimation(nodo, "balaHoming");
+//
+//		break;
+//	default:
+//		CCLOG("Tipo bala desconocido: %d!", tipoBala);
+//		animS = nullptr;
+//		break;
+//	}
+//	
+//	//// TODO: Nuevo -> con xml
+//	//// funciona :)
+//	//if(bulletDef != ""){
+//	//	xh = new XmlHelper();
+//	//	tmp = xh->loadBullet(nodo, bulletDef);
+//	//	return tmp;
+//	//}
+//	//// ---------------------------------------------------------------------------
+//
+//	tmp = new Bullet(nodo, bulletName, pathSprite, pathSonidoDisparo, pathSonidoImpacto, speed, dmg, tipoColision, colisionoCon, initialScale);
+//	tmp->bulletType_ = tipoBala;
+//	tmp->movimiento_ = claseMovimiento;
+//
+//	if(xh){
+//		xh->assignPhysicsToAnimation(animS, tmp, tipoColision, colisionoCon);
+//	}
+//
+//	tmp->animSprites_ = animS;
+//
+//	return tmp;
+//}
 
  // creaBala se llama desde mi propio createBulletPool
 Bullet *Bullet::creaBala(Node *nodo, const char *bulletDef, const char *bulletName){

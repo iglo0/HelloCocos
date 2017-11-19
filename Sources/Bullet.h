@@ -18,7 +18,7 @@ public:
 
 	// métodos estáticos que crean instancias
 	// TODO: a desaparecer. Solo usa el xml para cargar animaciones, no toda la definicion. Y encima usa valores hardcoded
-	static Bullet *creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletName);
+	//static Bullet *creaBala(Node *nodo, bulletTypes tipoBala, const char *bulletName);
 	// Ya no tengo una funcion que crea una bala porque en efecto solo llamaba a XmlHelper::loadBullet, así que ahora llamo directamente a aquella donde usaba esta
 	// OJO: No, pensandolo mejor voy a dejarla porque parece más sensato que el metodo crear exista en su propia clase y ya se encarga aqui de llamar a lo que sea
 	static Bullet *creaBala(Node *nodo, const char *xmlBulletDef, const char *bulletName="");
