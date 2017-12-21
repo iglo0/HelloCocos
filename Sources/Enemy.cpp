@@ -48,7 +48,7 @@ void Enemy::initEnemy(Node *nodo){
 	//case tiposEnemigo::tipo2:
 	//	initEnemy(nodo, gameInstance->enemy_t2_path_sprite.c_str(), "", gameInstance->enemy_t2_initial_size, gameInstance->enemy_t2_initial_rotation, gameInstance->enemy_generic_hp, gameInstance->enemy_generic_points, &Pool::currentBulletsTipo2);
 	//	break;
-	case tiposEnemigo::tipoBoss:
+	case tiposEnemigo::tipoOvni:
 		initEnemy(nodo, gameInstance->enemy_boss_path_sprite.c_str(), "", gameInstance->enemy_boss_initial_size, gameInstance->enemy_boss_initial_rotation, gameInstance->enemy_boss_generic_hp, gameInstance->enemy_boss_points, &Pool::currentBulletsTipoBossHoming);
 		break;
 	default:
@@ -186,7 +186,7 @@ void Enemy::dispara(){
 
 		if(sonidoDispara_!=""){
 			auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
-			audio->playEffect(sonidoDispara_.c_str());
+			audio->playEffect(sonidoDispara_.c_str(),false,1.0F,-1.0F);
 		}
 
 		if(animSprites_){

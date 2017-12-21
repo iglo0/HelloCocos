@@ -20,6 +20,9 @@ x	x	x 	x	x
 // creo que con este nombre queda más claro :D
 class SpaceInvaders{
 public:
+	// esto para cargarlos luego de disco
+	SpaceInvaders();
+	// inicialización manual
 	SpaceInvaders(int tamaX, int tamaY, float comprX=0.5f, float comprY=0.3f, float margX=100.0f, float margY=150.0f);
 	~SpaceInvaders();
 
@@ -29,7 +32,6 @@ public:
 	void creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &tipos, float velMovHtal = 50.f, float velMovVcal = 10.f, float vcalMoveAmount = 60.0f, int probDisparoAleat = 600);
 
 	Vec2 devuelvePosicionInicial(int dimX, int dimY);	// asigna una posicion inicial en pantalla según la posición en la matriz de invaders
-
 
 	// Ign Prueba
 
@@ -43,11 +45,11 @@ public:
 	static int numInvadersVivos;
 
 private:
-	size_t dimMaxX, dimMaxY;	// dimensiones de la "caja" de los invaders
-	float compressX;		// qué % de la pantalla usar
-	float compressY;
-	float marginX;			// donde empiezan los marcianos (contando desde la izquierda)
-	float marginY;			// donde empiezan los marcianos (contando desde arriba)
+	size_t dimMaxX_, dimMaxY_;	// dimensiones de la "caja" de los invaders
+	float compressX_;		// qué % de la pantalla usar
+	float compressY_;
+	float marginX_;			// donde empiezan los marcianos (contando desde la izquierda)
+	float marginY_;			// donde empiezan los marcianos (contando desde arriba)
 
 };
 

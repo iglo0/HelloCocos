@@ -11,6 +11,8 @@
 #include "Game.h"
 #include "GameState.h"
 
+#include "XmlHelper.h"
+
 
 // variable estatica
 Level *Level::instance;
@@ -201,6 +203,7 @@ bool Level::onContactBegin(PhysicsContact &contact){
 
 	if(actor1->type_ == GameActor::gameActorTypes::destructible || actor2->type_ == GameActor::gameActorTypes::destructible)
 		actor1 = actor1;	// punto de parada if casita
+
 
 	// calcula el daño que 1 hace a 2
 	if(sprA->getTag() == (int)Game::CategoriaColision::BalaJugador || sprA->getTag() == (int)Game::CategoriaColision::BalaEnemigo){
@@ -401,7 +404,7 @@ void Level::initLevel(){
 	// No necesito que sea una variable miembro, vivirá en un array en alguna parte.
 	Enemy *enemyBoss;
 
-	enemyBoss = new Enemy(Enemy::tiposEnemigo::tipoBoss);
+	enemyBoss = new Enemy(Enemy::tiposEnemigo::tipoOvni);
 	enemyBoss->initEnemy(this);
 
 	// situo al enemigo arriba en el medio, con medio cuerpo de margen superior
@@ -440,14 +443,14 @@ void Level::initLevel(){
 	tipos.push_back(Enemy::tipo2);
 	tipos.push_back(Enemy::tipo1);
 
-	//spaceInvaders.creaInvaders(this, tipos, Pool::currentBulletsTipoNormal, 50.0f, 15.0f, 30.0f, 3600);
 	spaceInvaders.creaInvaders(this, tipos, 50.0f, 15.0f, 30.0f, 3600);
 
 	creaCasitas(4, 100.0f);
 
+	// Ign TEST:
+	XmlHelper *xh = new XmlHelper();
+	std::vector<SpaceInvaders *> levels = xh->loadInvaderLevels(this, "oleada");
 
-	// Pruebas
-	//Bullet *b = Bullet::creaBala(this, Bullet::bulletTypes::tipoEnemyNormal, "xmlsuxBullet", "bullet_enemy_default");
 }
 
 void Level::creaCasitas(int numba, float margen){
@@ -507,6 +510,7 @@ void Level::creaCasita(Vec2 esquinaInfIzq){
 GameActor *Level::creaDestructible(Vec2 pos, int type){
 	GameActor *tmp = new GameActor();
 	tmp->type_ = GameActor::gameActorTypes::destructible;
+	tmp->setSonidoImpacto(Game::getInstance()->game_sonido_casa_impacto.c_str());
 	const char *spritePath;
 
 	switch(type){

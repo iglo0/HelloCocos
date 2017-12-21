@@ -1,23 +1,9 @@
 #pragma once 
 
 #include "cocos2d.h"	// necesario para declarar CREATE_FUNC y crear la escena en general
-
-class GameState;
-
 USING_NS_CC;
 
-//#include "Game.h"
-//#include "Menus.h"
-// ----------------------------
-//#include "Player.h"
-//#include "Enemy.h"
-//#include "Pool.h"
-//#include "InputComponent.h"
-//#include "SpaceInvaders.h"
-// ----------------------------
-//#include "Testz.h"
-// ----------------------------
-
+class GameState;
 class Player;
 class InputComponent;
 class Game;
@@ -54,6 +40,7 @@ public:
 	// HACK: Para cambiar de estado mayormente
 	static void setGameState(GameState *);
 	static void vuelveAlMenu();
+
 private:
 	// funciones miembro privadas
 	// --------------------------------------------------------------
@@ -72,9 +59,8 @@ private:
 	// variables miembro privadas
 	// --------------------------------------------------------------
 	Game *gameInstance;	// cacheo la instancia de Game
-	//Size visibleSize;
-	//Vec2 origin;
-
+	static Level *instance;	// TODO: cacheo esta instancia para... ¿que? ¿gui? ¿estados?
+	
 	Player *player;
 	InputComponent *inputComponent;
 
@@ -86,15 +72,5 @@ private:
 
 	float tIniCambioEstado;
 
-	// GUI! -> a Game
-	//Label *lblMensajes;
-	//Label *lblPuntos;
-	//Label *lblHiScore;
-	//Label *lblVidas;
-
-	// HACK: --------------- PRUEBAS ----------------------------
 	GameState *gameState;
-	static Level *instance;
-	// ----------------------------------------------------
-
 };

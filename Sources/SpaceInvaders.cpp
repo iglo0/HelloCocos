@@ -14,25 +14,28 @@ float SpaceInvaders::porcenInvadersVivos;
 int SpaceInvaders::numInvadersInicial;
 int SpaceInvaders::numInvadersVivos;
 
-SpaceInvaders::SpaceInvaders(int tamaX, int tamaY, float comprX, float comprY, float margX, float margY) : dimMaxX(tamaX), dimMaxY(tamaY), compressX(comprX), compressY(comprY), marginX(margX), marginY(margY) {}
+SpaceInvaders::SpaceInvaders(int tamaX, int tamaY, float comprX, float comprY, float margX, float margY) : dimMaxX_(tamaX), dimMaxY_(tamaY), compressX_(comprX), compressY_(comprY), marginX_(margX), marginY_(margY) {}
+
+SpaceInvaders::SpaceInvaders(){
+	dimMaxX_ = 0;
+	dimMaxY_ = 0;
+	compressX_ = 0;
+	compressY_ = 0;
+	marginX_ = 0;
+	marginY_ = 0;
+}
+
 
 SpaceInvaders::~SpaceInvaders(){}
 
+// Probabilidad: mas disparos cuanto más baja
 void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &tipos, float velMovHtal, float velMovVcal, float vcalMoveAmount, int probDisparoAleat){
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	
 	Enemy::tiposEnemigo tipo;
 	Enemy *tmp;
 	Vec2 enePos;
+	auto visibleSize = Director::getInstance()->getVisibleSize();
 
-
-	// Pru
-	//tmp = Enemy::createEnemy(nodo, "honesto");
-	//Pool::currentEnemies.push_back(tmp);
-
-	// ----------------
-
-	for(size_t j = 0; j < dimMaxY; j++) {
+	for(size_t j = 0; j < dimMaxY_; j++) {
 
 		// coge el tipo que toca o repite el último ad infinitum
 		if(j < tipos.size()){
@@ -41,7 +44,7 @@ void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &t
 			tipo = tipos[tipos.size()-1];
 		}
 
-		for(size_t i = 0; i < dimMaxX; i++){
+		for(size_t i = 0; i < dimMaxX_; i++){
 
 			// TODO: fijo a cada tipo de enemigo un tipo de disparo con el "tipo" así que no necesito cambiarlo luego más abajo
 			//tmp = new Enemy(tipo);
@@ -81,7 +84,7 @@ void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &t
 
 	// OJO: ¡Statics!
 	porcenInvadersVivos = 1.0f;
-	numInvadersInicial = dimMaxX * dimMaxY;
+	numInvadersInicial = dimMaxX_ * dimMaxY_;
 	numInvadersVivos = numInvadersInicial;
 }
 
@@ -90,8 +93,8 @@ Vec2 SpaceInvaders::devuelvePosicionInicial(int dimX, int dimY){
 	float stepX, stepY;
 
 	// TODO: permitir definirlo
-	stepX = visibleSize.width * compressX / dimMaxX;
-	stepY = visibleSize.height * compressY / dimMaxY;
+	stepX = visibleSize.width * compressX_ / dimMaxX_;
+	stepY = visibleSize.height * compressY_ / dimMaxY_;
 
-	return Vec2(marginX + dimX * stepX, visibleSize.height - marginY - dimY * stepY);
+	return Vec2(marginX_ + dimX * stepX, visibleSize.height - marginY_ - dimY * stepY);
 }

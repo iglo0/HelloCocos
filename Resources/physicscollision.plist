@@ -950,9 +950,9 @@
                         <key>polygons</key>
                         <array>
                             <array>
-                                <string>{ 16.00000,-16.00000 }</string>
+                                <string>{ 12.00000,-16.00000 }</string>
                                 <string>{ -16.00000,-16.00000 }</string>
-                                <string>{ -16.00000,16.00000 }</string>
+                                <string>{ -16.00000,13.00000 }</string>
                             </array>
                         </array>
                         
@@ -1005,9 +1005,9 @@
                         <key>polygons</key>
                         <array>
                             <array>
-                                <string>{ 16.00000,16.00000 }</string>
                                 <string>{ 16.00000,-16.00000 }</string>
-                                <string>{ -16.00000,-16.00000 }</string>
+                                <string>{ -13.00000,-16.00000 }</string>
+                                <string>{ 16.00000,13.00000 }</string>
                             </array>
                         </array>
                         
@@ -1126,10 +1126,10 @@
                         <key>polygons</key>
                         <array>
                             <array>
-                                <string>{ -16.00000,-16.00000 }</string>
-                                <string>{ -16.00000,16.00000 }</string>
-                                <string>{ 16.00000,16.00000 }</string>
-                                <string>{ 16.00000,-16.00000 }</string>
+                                <string>{ -14.00000,-14.00000 }</string>
+                                <string>{ -14.00000,14.00000 }</string>
+                                <string>{ 14.00000,14.00000 }</string>
+                                <string>{ 14.00000,-14.00000 }</string>
                             </array>
                         </array>
                         
@@ -1141,7 +1141,7 @@
             <key>Spaceship01</key>
             <dict>
                 <key>anchorpoint</key>
-                <string>{ 0.00000,0.00000 }</string>
+                <string>{ 0.50000,0.50000 }</string>
                 <key>is_dynamic</key>
                 <true/>
                 <key>affected_by_gravity</key>

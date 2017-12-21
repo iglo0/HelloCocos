@@ -10,7 +10,7 @@ class Bullet;
 
 class Enemy : public GameActor{
 public:
-	enum tiposEnemigo{ tipo1, tipo2, tipoBoss };
+	enum tiposEnemigo{ tipo1, tipo2, tipoOvni };
 	// es menos engorroso así. Puedo usar funcionMovimiento en vez de void(...:*...)(...)... etc
 	typedef void(Enemy::*funcionControlEnemigo)(float);
 

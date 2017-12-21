@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "SpaceInvaders.h"
 #include "AnimSprites.h"
+#include "SimpleAudioEngine.h"
 
 #include "XmlHelper.h"
 
@@ -17,7 +18,7 @@ GameActor::GameActor(){
 	// TODO: guarripeich que pone 1 punto de vida a todo por defecto
 	gameActorHP_ = gameActorHPInicial_;
 	ttl_ = -1.0f;
-
+	sonidoImpacto_ = "";
 }
 
 GameActor::~GameActor(){
@@ -82,10 +83,10 @@ void GameActor::setPosition(float x, float y){
 	setPosition	(Vec2(x, y));
 }
 
-void GameActor::setSprite(Sprite *s){
-	// OJO: machaco la referencia a mi sprite con otra
-	sprite_ = s;
-}
+//void GameActor::setSprite(Sprite *s){
+//	// OJO: machaco la referencia a mi sprite con otra
+//	sprite_ = s;
+//}
 
 Sprite *GameActor::setSprite(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon, float initialScale){
 	// Ejemplo de Polysprite para la posteridad:
@@ -97,7 +98,7 @@ Sprite *GameActor::setSprite(Node *nodo, const char *ruta, const char *name, int
 	// TODO: Muy bien pero cómo hago un PolySprite con un plist?
 	// Pues en realidad me puedo olvidar de ellos... si en el .plist se incluye la información poligonal (algorythm=polygon), Sprite::createWithSpriteFrameName lo aplica. Yeah!!
 
-	// OJO: Sprite::createWithSpriteFrameName(ruta) -> CASE SENSITIVE! 
+	// OJO: CASE SENSITIVE! 
 	sprite_ = Sprite::createWithSpriteFrameName(ruta);
 
 	if(!sprite_){
@@ -106,9 +107,7 @@ Sprite *GameActor::setSprite(Node *nodo, const char *ruta, const char *name, int
 	}
 
 	sprite_->setScale(initialScale);
-
 	sprite_->setName(name);
-
 	Game::anadeFisica(sprite_, tipoColision, colisionaCon, name, ruta);
 
 	//TODO: ya tengo para recuperar mis datos :)
@@ -203,8 +202,14 @@ void GameActor::impacto(float dmg){
 
 	switch (type_){
 	case gameActorTypes::destructible:
-		CCLOG("Casa is fucked");
+		//CCLOG("Casa is fucked");
 		// TODO: añadir aquí el código para sacar un cacho trozo de casa rota
+
+		if(sonidoImpacto_ != ""){
+			auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+			audio->playEffect(sonidoImpacto_.c_str());
+		}
+
 		desactiva();
 		break;
 	default:
@@ -236,4 +241,10 @@ void GameActor::setTTL(float ttl){
 void GameActor::setHP(float hp){
 	gameActorHP_ = hp;
 	gameActorHPInicial_ = hp;
+}
+
+void GameActor::setSonidoImpacto(std::string ruta){
+	sonidoImpacto_ = ruta;
+	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+	audio->preloadEffect(ruta.c_str());
 }

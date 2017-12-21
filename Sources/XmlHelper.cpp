@@ -7,6 +7,7 @@
 #include "Movimiento.h"
 #include "Enemy.h"
 #include "Pool.h"
+#include "SpaceInvaders.h"
 
 AnimSprites *XmlHelper::loadAnimation(Node *parentNode, const char *animSetName, GameActor *gameActor){
 	char *currAnimName, *framePath;
@@ -234,6 +235,147 @@ Enemy *XmlHelper::loadEnemy(Node *parentNode, const char *xmlEnemyDef){
 	}
 
 	return tmp;
+}
+
+//SpaceInvaders *XmlHelper::loadInvaders(Node *parentNode, const char *xmlDefName){
+//	pugi::xml_document doc;
+//	pugi::xml_parse_result result = doc.load_file(xmlFilename_);
+//	SpaceInvaders *tmp;
+//	AnimSprites *tmpAnim;
+//
+//	if(!result){
+//		// error! salir o algo
+//		CCLOG("Error parseando xml %s", xmlFilename_);
+//		return tmp;
+//	}
+//
+//	// buscar y carga los parámetros de la bala
+//	std::string searchStr = std::string("definitions/oleadas/") + std::string(xmlDefName);
+//	// conversion a string y de vuelta a const char *
+//	pugi::xpath_node xpathNode = doc.select_single_node(searchStr.c_str());
+//
+//	if(xpathNode){
+//		//pugi::xml_node selectedNode = xpathNode.node();
+//
+//		//const char *animSetName = (char *)selectedNode.attribute("animSetName").value();
+//		//float hp = selectedNode.attribute("hp").as_float();
+//		//float speed = selectedNode.attribute("speed").as_float();
+//		//int tipoColision = selectedNode.attribute("tipoColision").as_int();
+//		//int colisionoCon = selectedNode.attribute("colisionoCon").as_int();
+//		//const char *poolName = (char *)selectedNode.attribute("poolBalas").value();
+//		//int points = selectedNode.attribute("points").as_int();
+//		//const char *sonidoDispara = (char *)selectedNode.attribute("sonidoDispara").value();
+//		//const char *sonidoMuerte = (char *)selectedNode.attribute("sonidoMuerte").value();
+//
+//		//// busca y carga la animación (o el sprite)
+//		//tmpAnim = loadAnimation(parentNode, animSetName);
+//
+//		////initEnemy(nodo, gameInstance->enemy_t1_path_sprite.c_str(), "", gameInstance->enemy_t1_initial_size, gameInstance->enemy_t1_initial_rotation, gameInstance->enemy_generic_hp, gameInstance->enemy_generic_points, &Pool::currentBulletsTipoNormal);
+//		//tmp = new Enemy();
+//		//tmp->animSprites_ = tmpAnim;
+//
+//		//assignPhysicsToAnimation(tmpAnim, tmp, tipoColision, colisionoCon);
+//		//tmp->poolMisBalas_ = Pool::getBulletPoolByName(poolName);
+//
+//		//tmp->setHP(hp);
+//		//tmp->setPoints(points);
+//		//tmp->gameActorSpeed_ = speed;
+//		//tmp->setSonidoDispara(sonidoDispara);
+//		//tmp->setSonidoMuerte(sonidoMuerte);
+//
+//		////tmp->movimiento_ = 
+//
+//		////movimiento_ = nullptr;
+//
+//		////tmp = new Bullet(parentNode);
+//		////tmp->setTTL(ttl);
+//
+//		////assignPhysicsToAnimation(tmpAnim, tmp, tipoColision, colisionoCon);
+//
+//		////tmp->animSprites_ = tmpAnim;
+//		////tmp->setType((Bullet::bulletTypes)movement);
+//
+//		////switch(movement){
+//		////case Bullet::bulletTypes::tipoBossHoming:
+//		////	tmp->movimiento_ = new MueveHoming();
+//		////	break;
+//		////case Bullet::bulletTypes::tipoEnemyDirigido:
+//		////	tmp->movimiento_ = new MueveDireccion(speed);
+//		////	break;
+//		////case Bullet::bulletTypes::tipoEnemyNormal:
+//		////	tmp->movimiento_ = new MueveVcal(speed);
+//		////	break;
+//		////case Bullet::bulletTypes::tipoPlayer:
+//		////	tmp->movimiento_ = new MueveVcal(speed);
+//		////	break;
+//		////default:
+//		////	CCLOG("Tipo de movimiento desconocido en XmlHelper: %d", movement);
+//		////	break;
+//		////}
+//	}
+//
+//	return tmp;
+//
+//}
+
+std::vector<SpaceInvaders *> XmlHelper::loadInvaderLevels(Node *parentNode, const char *xmlDefName){
+	std::vector<SpaceInvaders *> levels;
+	std::vector<Enemy::tiposEnemigo> tiposEnemigo;
+
+	pugi::xml_document doc;
+	pugi::xml_parse_result result = doc.load_file(xmlFilename_);
+	SpaceInvaders *tmp;
+	AnimSprites *tmpAnim;
+
+	if(!result){
+		// error! salir o algo
+		CCLOG("Error parseando xml %s", xmlFilename_);
+		return levels;
+	}
+
+	// buscar y carga los parámetros de la bala
+	std::string searchStr = std::string("definitions/oleadas/") + std::string(xmlDefName);
+	// conversion a string y de vuelta a const char *
+	pugi::xpath_node xpathNode = doc.select_single_node(searchStr.c_str());
+
+	// si esto ha ido bien, estoy delante de varias "oleada"s
+	if(xpathNode){
+		pugi::xml_node selectedNode = xpathNode.node();
+
+		int level, tamaX, tamaY, margX, margY;
+		float comprX, comprY;
+
+		while(selectedNode){
+
+			/*
+			<oleada level = "1" tamaX = "3" tamaY = "3" comprX = "0.42" comprY = "0.52" margX = "50" margY = "150" velHtal = "25.0" velVcal = "15.0" vcalMoveAmount = "30.0" probDisparoAleat = "1800">
+			<integrantes>
+			<honesto / >	<!--empieza desde arriba, va rellenando con enemigos de este tipo, uno por fila.Si hay menos "integrantes" que "tamaY", rellena con el último definido hasta el final-->
+			< / integrantes>
+			< / oleada>
+			*/
+			//const char *animSetName = (char *)selectedNode.attribute("animSetName").value();
+
+			// datos generales de cada oleada
+			// level es informativo, realmente los cargo y los sacaré en el orden que vienen
+			level = selectedNode.attribute("level").as_int();
+			tamaX = selectedNode.attribute("tamaX").as_int();
+			tamaY = selectedNode.attribute("tamaY").as_int();
+			comprX = selectedNode.attribute("comprX").as_float();
+			comprY = selectedNode.attribute("comprY").as_float();
+			margX = selectedNode.attribute("margX").as_int();
+			margY = selectedNode.attribute("margY").as_int();
+
+			// integrantes de la oleada
+			
+
+			tmp = new SpaceInvaders(tamaX, tamaY, comprX, comprY, margX, margY);
+
+			selectedNode = selectedNode.next_sibling();
+		}
+	}
+
+	return levels;
 }
 
 void XmlHelper::assignPhysicsToAnimation(AnimSprites *anim, GameActor *gA, int tipoColision, int colisionaCon){

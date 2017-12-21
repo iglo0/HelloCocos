@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- ************************************************************************ -->
-<!-- ************************************************************************ -->
-<!-- ************************************************************************ -->
-<!-- a desaparecer -->
-<!-- ************************************************************************ -->
-<!-- ************************************************************************ -->
-<!-- ************************************************************************ -->
+<!-- 
+************************************************************************
+************************************************************************
+parámetros generales
+************************************************************************
+************************************************************************
+-->
 <!-- esto, guardado en resources, no funcionara en android/ios aparentemente -->
-<!-- creo que me voy a calzar los default_values y darle otra pinta -->
 <default_values>
 	<player_initial_speed>300.0f</player_initial_speed>
 	<player_path_sprite>spaceshipspr.png</player_path_sprite>
-	<player_sonido_dispara>sonidos/ufo_highpitch.wav</player_sonido_dispara>
+	<player_sonido_dispara>sonidos/CK_Blaster_Shot-226.wav</player_sonido_dispara>
 	<player_sonido_muerte>sonidos/explosion.wav</player_sonido_muerte>
 	
 	<game_sonido_invaders_loop>sonidos/invaders_loop.wav</game_sonido_invaders_loop>
+	<game_sonido_casa_impacto>sonidos/rock impact medium 26.wav</game_sonido_casa_impacto>
+	<game_music_level></game_music_level>
+	<game_music_menus></game_music_menus>
 
 	<bullet_default_dmg>1.0f</bullet_default_dmg>
 
@@ -59,15 +61,15 @@
 
 <!-- por cierto, ojo: ¡case SENSITIVE! -->
 <definitions>
-<!-- ************************************************************************ -->
-<!-- ************************************************************************ -->
-<!-- ************************************************************************ -->
-<!-- GameActors -->
-<!-- ************************************************************************ -->
-<!-- ************************************************************************ -->
-<!-- ************************************************************************ -->
-<!-- mis colisiones
-
+<!-- 
+************************************************************************
+************************************************************************
+GameActors
+************************************************************************
+************************************************************************
+	
+	mis colisiones:
+	---------------
 	None = 0,
 	Jugador = (1 << 0),			// 1
 	BalaJugador = (1 << 1),		// 2
@@ -76,12 +78,38 @@
 	Destructible = (1 << 4),	// 16
 	All = CategoriaColision::Jugador | CategoriaColision::BalaJugador | CategoriaColision::Enemigo | CategoriaColision::BalaEnemigo | CategoriaColision::Destructible
 	
--->
-<!-- pools
+	pools:
+	------
 	currentEnemies;
 	currentBulletsPlayerTipo1, currentBulletsTipoBossHoming, currentBulletsTipoNormal, currentBulletsTipo2;
 	currentExplosions, currentImpacts;
+	
+	spaceInvaders:
+	-------------
+	spaceInvaders.creaInvaders(this, tipos, 50.0f, 15.0f, 30.0f, 3600);
+	creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &tipos, float velMovHtal, float velMovVcal, float vcalMoveAmount, int probDisparoAleat){
 -->
+	<oleadas>
+		<!-- 'level' no tiene funcion, es para comprobar yo si se cargan en orden -->
+		<oleada level="1" tamaX="3" tamaY="3" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="25.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="1800">
+			<integrantes>
+				<honesto />	<!-- empieza desde arriba, va rellenando con enemigos de este tipo, uno por fila. Si hay menos "integrantes" que "tamaY", rellena con el último definido hasta el final -->
+			</integrantes>
+		</oleada>
+		<oleada level="2" tamaX="5" tamaY="3" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="25.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="1800">
+			<integrantes>
+				<birojo />
+				<honesto />
+			</integrantes>
+		</oleada>
+		<oleada level="5" tamaX="5" tamaY="3" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="25.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="1800">
+			<integrantes>
+				<birojo />
+				<birojo />
+				<honesto />
+			</integrantes>
+		</oleada>
+	</oleadas>
 
 	<enemies>
 		<honesto speed="100.0" hp="1.0" points="100" animSetName="enemyHonesto" tipoColision="4" colisionoCon="19" poolBalas="currentBulletsTipoNormal" sonidoMuerte="sonidos/invaderkilled.wav" sonidoDispara="sonidos/shoot.wav"/>
@@ -96,15 +124,15 @@
 		<bullet_enemy_default animSet="balaEnemiga" dmg="1.0" speed="-300.0" ttl="-1" movement="tipoEnemyNormal" tipoColision="8" colisionoCon="19" /> <!-- 1+2+16 -->
 		<bullet_enemy_homing animSet="balaHoming" dmg="1.0" speed="-166.7" ttl="6.5" movement="tipoBossHoming" tipoColision="8" colisionoCon="19" />
 		<bullet_enemy_dirigida animSet="balaDirigida" dmg="1.0" speed="-300.0" ttl="-1" movement="tipoEnemyDirigido" tipoColision="8" colisionoCon="19" />
-		<bullet_player animSet="balaPlayer" dmg="1.0" speed="300.0" ttl="-1" movement="tipoPlayer" tipoColision="2" colisionoCon="28" /> <!-- 4+8+16 -->
+		<bullet_player animSet="balaPlayer" dmg="1.0" speed="350.0" ttl="-1" movement="tipoPlayer" tipoColision="2" colisionoCon="28" /> <!-- 4+8+16 -->
 	</bullets>
-<!-- ************************************************************************ -->
-<!-- ************************************************************************ -->
-<!-- ************************************************************************ -->
-<!-- animaciones -->
-<!-- ************************************************************************ -->
-<!-- ************************************************************************ -->
-<!-- ************************************************************************ -->
+<!-- 
+************************************************************************
+************************************************************************
+animaciones
+************************************************************************
+************************************************************************
+-->
 	<animset>
 	
 	

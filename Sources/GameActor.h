@@ -20,7 +20,8 @@ public:
 	typedef void(GameActor::*punteroAFuncionMovimientoV2)(Vec2);
 
 	Sprite *setSprite(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon, float initialScale = 1.0f);
-	void setSprite(Sprite *);
+	//void setSprite(Sprite *);
+	void setSonidoImpacto(std::string ruta);
 
 	static void createAnimationPool(Node *nodo, std::vector<GameActor *> &pool, int poolSize, const char *animSetName);
 
@@ -57,4 +58,5 @@ protected:
 	// TODO: implementar el TTL
 	float ttl_, tIni_, tEnd_;
 	//Vec2 currPos_;
+	std::string sonidoImpacto_;
 };

@@ -184,6 +184,9 @@ void Game::loadConfig(const char *filename){
 	player_sonido_muerte = xml_default_values.child_value("player_sonido_muerte");
 
 	game_sonido_invaders_loop = xml_default_values.child_value("game_sonido_invaders_loop");
+	game_sonido_casa_impacto = xml_default_values.child_value("game_sonido_casa_impacto");
+	game_music_menus = xml_default_values.child_value("game_music_menus");
+	game_music_level = xml_default_values.child_value("game_music_level");
 
 	bullet_default_dmg = atof(xml_default_values.child_value("bullet_default_dmg"));
 

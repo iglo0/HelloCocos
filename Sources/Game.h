@@ -103,6 +103,9 @@ public:
 	std::string player_sonido_muerte;
 
 	std::string game_sonido_invaders_loop;
+	std::string game_sonido_casa_impacto;
+	std::string game_music_menus;
+	std::string game_music_level;
 
 	// bullets
 	float bullet_default_dmg;
