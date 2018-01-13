@@ -21,8 +21,8 @@ public:
 	Bullet *loadBullet(Node *parentNode, const char *xmlBulletDef, const char *bulletName="");
 	Enemy *loadEnemy(Node *parentNode, const char *xmlEnemyDef);
 	// las oleadas no vienen definidas una a una sino todo un bloque
-	//SpaceInvaders *loadInvaders(Node *parentNode, const char *xmlDef);
-	std::vector<SpaceInvaders *> loadInvaderLevels(Node *parentNode, const char *xmlDefName);
+	//std::vector<SpaceInvaders *> loadInvaderLevels(Node *parentNode, const char *xmlDefName);
+	std::unordered_map<int, SpaceInvaders *> loadInvaderLevels(Node *parentNode, const char *xmlDefName);
 
 	void assignPhysicsToAnimation(AnimSprites *anim, GameActor *gA, int tipoColision, int colisionaCon);
 

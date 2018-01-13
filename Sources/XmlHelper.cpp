@@ -318,9 +318,9 @@ Enemy *XmlHelper::loadEnemy(Node *parentNode, const char *xmlEnemyDef){
 //
 //}
 
-std::vector<SpaceInvaders *> XmlHelper::loadInvaderLevels(Node *parentNode, const char *xmlDefName){
-	std::vector<SpaceInvaders *> levels;
+std::unordered_map<int, SpaceInvaders *> XmlHelper::loadInvaderLevels(Node *parentNode, const char *xmlDefName){
 	std::vector<Enemy::tiposEnemigo> tiposEnemigo;
+	std::unordered_map<int, SpaceInvaders *> levels;
 
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file(xmlFilename_);
@@ -371,9 +371,13 @@ std::vector<SpaceInvaders *> XmlHelper::loadInvaderLevels(Node *parentNode, cons
 
 			tmp = new SpaceInvaders(tamaX, tamaY, comprX, comprY, margX, margY);
 
+			levels[level] = tmp;
+
 			selectedNode = selectedNode.next_sibling();
 		}
 	}
+
+
 
 	return levels;
 }

@@ -8,6 +8,7 @@ class Player;
 class InputComponent;
 class Game;
 class GameActor;
+class SpaceInvaders;
 
 class Level : public cocos2d::Layer
 {
@@ -51,6 +52,9 @@ private:
 	void creaCasita(Vec2 esquinaInfIzq);
 	GameActor *creaDestructible(Vec2 pos, int type=0);
 
+	// usa el vector de niveles para sacar la siguiente oleada en caso de haberla
+	void avanzaOleada();
+
 	// TODO: test captura de pantalla
 	void afterCaptured(bool succeed, const std::string& outputFile);
 	bool capturing_ = false;
@@ -73,4 +77,11 @@ private:
 	float tIniCambioEstado;
 
 	GameState *gameState;
+	
+	// variables de las oleadas
+	// --------------------------------------------------------------
+	std::unordered_map<int, SpaceInvaders *> levels_;
+	SpaceInvaders *actualLevel_;
+	int oleadaNum_;
+	// --------------------------------------------------------------
 };

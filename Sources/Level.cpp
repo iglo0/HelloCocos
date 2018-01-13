@@ -435,6 +435,7 @@ void Level::initLevel(){
 	// ---------------------------------------------------------------------------------------------
 	// crea los "Space Invaders
 	// TODO: temporal, tiene que haber una progresión
+	/* primera versión: a pelo
 	SpaceInvaders spaceInvaders = SpaceInvaders(11, 5, 0.42f, 0.52f, 50.0f, 150.0f);
 
 	// creo una lista de enemigos que tiene que coincidir aprox con el nº de filas. Un tipo de enemigo por fila. Si se le acaban los tipos, repite el ultimo hasta el fin de las filas
@@ -444,13 +445,27 @@ void Level::initLevel(){
 	tipos.push_back(Enemy::tipo1);
 
 	spaceInvaders.creaInvaders(this, tipos, 50.0f, 15.0f, 30.0f, 3600);
+	*/
 
 	creaCasitas(4, 100.0f);
 
 	// Ign TEST:
 	XmlHelper *xh = new XmlHelper();
-	std::vector<SpaceInvaders *> levels = xh->loadInvaderLevels(this, "oleada");
+	levels_ = xh->loadInvaderLevels(this, "oleada");
 
+	oleadaNum_ = 0;
+	actualLevel_ = nullptr;
+
+	avanzaOleada();
+
+}
+
+void Level::avanzaOleada(){
+	SpaceInvaders *tmp;
+	
+	if(actualLevel_){
+		
+	}
 }
 
 void Level::creaCasitas(int numba, float margen){
