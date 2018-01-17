@@ -81,6 +81,7 @@ private:
 	// variables de las oleadas
 	// --------------------------------------------------------------
 	std::unordered_map<int, SpaceInvaders *> levels_;
+	std::unordered_map<int, SpaceInvaders *>::iterator levelsIterator_;
 	SpaceInvaders *actualLevel_;
 	int oleadaNum_;
 	// --------------------------------------------------------------

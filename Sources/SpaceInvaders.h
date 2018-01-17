@@ -28,21 +28,28 @@ public:
 
 	enum tipoEnemigo{ tipo1, tipo2 };	// placeholder 
 
-	//void creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &tipos, std::vector<Bullet *> &pool, float velMovHtal = 50.f, float velMovVcal = 10.f, float vcalMoveAmount = 60.0f, int probDisparoAleat = 600);
+	// crea Invaders con parámetros
 	void creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &tipos, float velMovHtal = 50.f, float velMovVcal = 10.f, float vcalMoveAmount = 60.0f, int probDisparoAleat = 600);
+	// crea Invaders usando las variables priva... públicas
+	void creaInvaders(Node *nodo);
 
 	Vec2 devuelvePosicionInicial(int dimX, int dimY);	// asigna una posicion inicial en pantalla según la posición en la matriz de invaders
 
 	// Ign Prueba
 
 	// ...y como son static, hay que declararlos también en el cpp: static int i ==> int i
-	static bool spaceInvaderMovement_goingRight;		// pa donde tira
-	static bool spaceInvaderMovement_goingDown;			// pa donde tira
+	static bool spaceInvaderMovement_goingRight_;		// pa donde tira
+	static bool spaceInvaderMovement_goingDown_;			// pa donde tira
 
 	// TODO: para modificar el ratio de disparo: que disparen más cuantos menos queden.
-	static float porcenInvadersVivos;
-	static int numInvadersInicial;
-	static int numInvadersVivos;
+	static float porcenInvadersVivos_;
+	static int numInvadersInicial_;
+	static int numInvadersVivos_;
+
+	// Ign Nuevo! Con estas variables tengo todo lo que necesito
+	std::vector<Enemy::tiposEnemigo> tipos_;
+	float velMovHtal_, velMovVcal_, vcalMoveAmount_;
+	int probDisparoAleat_;
 
 private:
 	size_t dimMaxX_, dimMaxY_;	// dimensiones de la "caja" de los invaders

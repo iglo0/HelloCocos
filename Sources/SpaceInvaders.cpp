@@ -8,11 +8,11 @@ USING_NS_CC;
 
 
 // ojo!!!: con los statics
-bool SpaceInvaders::spaceInvaderMovement_goingRight;		// pa donde tira
-bool SpaceInvaders::spaceInvaderMovement_goingDown;			// pa donde tira
-float SpaceInvaders::porcenInvadersVivos;
-int SpaceInvaders::numInvadersInicial;
-int SpaceInvaders::numInvadersVivos;
+bool SpaceInvaders::spaceInvaderMovement_goingRight_;		// pa donde tira
+bool SpaceInvaders::spaceInvaderMovement_goingDown_;			// pa donde tira
+float SpaceInvaders::porcenInvadersVivos_;
+int SpaceInvaders::numInvadersInicial_;
+int SpaceInvaders::numInvadersVivos_;
 
 SpaceInvaders::SpaceInvaders(int tamaX, int tamaY, float comprX, float comprY, float margX, float margY) : dimMaxX_(tamaX), dimMaxY_(tamaY), compressX_(comprX), compressY_(comprY), marginX_(margX), marginY_(margY) {}
 
@@ -27,6 +27,10 @@ SpaceInvaders::SpaceInvaders(){
 
 
 SpaceInvaders::~SpaceInvaders(){}
+
+void SpaceInvaders::creaInvaders(Node *nodo){
+	creaInvaders(nodo, tipos_, velMovHtal_, velMovVcal_, vcalMoveAmount_, probDisparoAleat_);
+}
 
 // Probabilidad: mas disparos cuanto más baja
 void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &tipos, float velMovHtal, float velMovVcal, float vcalMoveAmount, int probDisparoAleat){
@@ -50,7 +54,16 @@ void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &t
 			//tmp = new Enemy(tipo);
 			//tmp->initEnemy(nodo);
 
-			tmp = Enemy::createEnemy(nodo, "honesto");
+			if(tipo == Enemy::tiposEnemigo::tipo1){
+				tmp = Enemy::createEnemy(nodo, "honesto");
+			} else if(tipo == Enemy::tiposEnemigo::tipo2){
+				tmp = Enemy::createEnemy(nodo, "birojo");
+			} else{
+				CCLOG("tipo de enemigo desconocido $/€#¨@*%!!");
+				tmp = Enemy::createEnemy(nodo, "honesto");
+			}
+
+			//tmp = Enemy::createEnemy(nodo, "honesto");
 
 			// Pruebo el nuevo Enemy:GameActor 
 			// lo inicializo y le asigno un comportamiento
@@ -67,8 +80,8 @@ void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &t
 			//tmp->funcionMovimientoActual = &GameActor::mueveSpaceInvader;
 
 			// HACK: Prueba SpaceInvaders
-			SpaceInvaders::spaceInvaderMovement_goingDown = false;
-			SpaceInvaders::spaceInvaderMovement_goingRight = true;
+			SpaceInvaders::spaceInvaderMovement_goingDown_ = false;
+			SpaceInvaders::spaceInvaderMovement_goingRight_ = true;
 
 			// cada "space invader" se puede mover entre los limites de la pantalla, pero el primero que llegue avisa al resto para que cambien su movimiento
 			// así con cualquier configuración de enemigos, siempre llegarán hasta los límites de la pantalla
@@ -83,9 +96,9 @@ void SpaceInvaders::creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &t
 	}
 
 	// OJO: ¡Statics!
-	porcenInvadersVivos = 1.0f;
-	numInvadersInicial = dimMaxX_ * dimMaxY_;
-	numInvadersVivos = numInvadersInicial;
+	porcenInvadersVivos_ = 1.0f;
+	numInvadersInicial_ = dimMaxX_ * dimMaxY_;
+	numInvadersVivos_ = numInvadersInicial_;
 }
 
 Vec2 SpaceInvaders::devuelvePosicionInicial(int dimX, int dimY){

@@ -110,9 +110,9 @@ void Enemy::impacto(float dmg){
 		// HACK: Ajusto el nº de invaders que quedan cuando muere uno
 		// TODO: ponerlo en un sitio más adecuado, una vez probado
 		// TODO: Ojo el contador se decrementa cuando cae el "ovni"
-		--SpaceInvaders::numInvadersVivos;
-		if(SpaceInvaders::numInvadersVivos > 0){
-			SpaceInvaders::porcenInvadersVivos = (float)SpaceInvaders::numInvadersVivos / (float)SpaceInvaders::numInvadersInicial;
+		--SpaceInvaders::numInvadersVivos_;
+		if(SpaceInvaders::numInvadersVivos_ > 0){
+			SpaceInvaders::porcenInvadersVivos_ = (float)SpaceInvaders::numInvadersVivos_ / (float)SpaceInvaders::numInvadersInicial_;
 		}
 
 		if(sonidoMuerte_ != ""){
@@ -140,7 +140,7 @@ void Enemy::funControlFireAtInterval(float interval){
 void Enemy::funControlFireRandom(float pufo){
 	// dispara segun probabilidad aleatoria	
 	// HACK: y según el nº de invaders vivos :)
-	int dado = (int)((float)funcionControlProbDisparoAleatoria_ * SpaceInvaders::porcenInvadersVivos);
+	int dado = (int)((float)funcionControlProbDisparoAleatoria_ * SpaceInvaders::porcenInvadersVivos_);
 	if(dado < 1){
 		dado = 1;
 	}

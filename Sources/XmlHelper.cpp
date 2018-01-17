@@ -342,8 +342,8 @@ std::unordered_map<int, SpaceInvaders *> XmlHelper::loadInvaderLevels(Node *pare
 	if(xpathNode){
 		pugi::xml_node selectedNode = xpathNode.node();
 
-		int level, tamaX, tamaY, margX, margY;
-		float comprX, comprY;
+		int level, tamaX, tamaY, margX, margY/*, probDisparoAleat*/;
+		float comprX, comprY/*, velHtal, velVcal, vcalMoveAmount*/;
 
 		while(selectedNode){
 
@@ -366,10 +366,24 @@ std::unordered_map<int, SpaceInvaders *> XmlHelper::loadInvaderLevels(Node *pare
 			margX = selectedNode.attribute("margX").as_int();
 			margY = selectedNode.attribute("margY").as_int();
 
-			// integrantes de la oleada
-			
-
+			// Ign Nuevo! Con estas variables tengo todo lo que necesito
 			tmp = new SpaceInvaders(tamaX, tamaY, comprX, comprY, margX, margY);
+
+			tmp->velMovHtal_ = selectedNode.attribute("velHtal").as_float();
+			tmp->velMovVcal_ = selectedNode.attribute("velVcal").as_float();
+			tmp->vcalMoveAmount_ = selectedNode.attribute("vcalMoveAmount").as_float();
+			tmp->probDisparoAleat_ = selectedNode.attribute("probDisparoAleat").as_float();
+
+			// integrantes de la oleada
+			//std::vector<Enemy::tiposEnemigo> tipos;
+			tmp->tipos_.push_back(Enemy::tiposEnemigo::tipo2);
+			tmp->tipos_.push_back(Enemy::tiposEnemigo::tipo1);
+
+			//tmp->tipos_ = tipos;
+			//tmp->probDisparoAleat_ = probDisparoAleat;
+			//tmp->velMovHtal_ = velHtal;
+			//tmp->velMovVcal_ = velVcal;
+			//tmp->vcalMoveAmount_ = vcalMoveAmount;
 
 			levels[level] = tmp;
 

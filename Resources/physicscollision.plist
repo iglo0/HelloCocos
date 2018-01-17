@@ -731,10 +731,10 @@
                         <key>polygons</key>
                         <array>
                             <array>
-                                <string>{ -40.00000,-46.00000 }</string>
-                                <string>{ -30.00000,53.00000 }</string>
-                                <string>{ 31.00000,53.00000 }</string>
-                                <string>{ 40.00000,-47.00000 }</string>
+                                <string>{ 61.00000,-47.00000 }</string>
+                                <string>{ -61.00000,-46.00000 }</string>
+                                <string>{ -57.00000,52.00000 }</string>
+                                <string>{ 58.00000,53.00000 }</string>
                             </array>
                         </array>
                         
@@ -1182,10 +1182,10 @@
                         <key>polygons</key>
                         <array>
                             <array>
-                                <string>{ -33.00000,-47.00000 }</string>
-                                <string>{ -26.00000,53.00000 }</string>
-                                <string>{ 25.00000,54.00000 }</string>
-                                <string>{ 35.00000,-48.00000 }</string>
+                                <string>{ 48.00000,54.00000 }</string>
+                                <string>{ 50.00000,-45.00000 }</string>
+                                <string>{ -46.00000,-45.00000 }</string>
+                                <string>{ -49.00000,53.00000 }</string>
                             </array>
                         </array>
                         

@@ -464,8 +464,30 @@ void Level::avanzaOleada(){
 	SpaceInvaders *tmp;
 	
 	if(actualLevel_){
-		
+		// tengo un nivel ya cargado (el que acabo de terminar)
+		++oleadaNum_;
+
+	} else{
+		// primer nivel a cargar
+		// oleadaNum_ = 1;
+		//std::unordered_map<int, SpaceInvaders *>::iterator it = levels_.begin();
+		levelsIterator_ = levels_.begin();
+
+		actualLevel_ = levelsIterator_->second;
 	}
+
+	actualLevel_->creaInvaders(this);
+	//actualLevel_->creaInvaders(this, fuck, )
+	
+	//actualLevel_->creaInvaders(this,)
+	/* creo una lista de enemigos que tiene que coincidir aprox con el nº de filas. Un tipo de enemigo por fila. Si se le acaban los tipos, repite el ultimo hasta el fin de las filas
+	std::vector<Enemy::tiposEnemigo> tipos;
+	tipos.push_back(Enemy::tipo2);
+	tipos.push_back(Enemy::tipo2);
+	tipos.push_back(Enemy::tipo1);
+
+	spaceInvaders.creaInvaders(this, tipos, 50.0f, 15.0f, 30.0f, 3600)
+	*/
 }
 
 void Level::creaCasitas(int numba, float margen){

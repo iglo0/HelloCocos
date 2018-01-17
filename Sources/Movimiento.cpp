@@ -134,28 +134,28 @@ void MueveSpaceInvader::init(
 Vec2 MueveSpaceInvader::mueve(Vec2 posIni, float deltaT){
 	//float deltaT = Director::getInstance()->getDeltaTime();
 
-	if(SpaceInvaders::spaceInvaderMovement_goingDown) {
+	if(SpaceInvaders::spaceInvaderMovement_goingDown_) {
 		// MOVIMIENTO VERTICAL
 		posIni.y -= spaceInvaderMovement_speedY_ * deltaT;
 
 		if(posIni.y <= spaceInvaderMovement_vcalMoveCurrTarget_){
-			SpaceInvaders::spaceInvaderMovement_goingDown = false;
-			SpaceInvaders::spaceInvaderMovement_goingRight = !SpaceInvaders::spaceInvaderMovement_goingRight;
+			SpaceInvaders::spaceInvaderMovement_goingDown_ = false;
+			SpaceInvaders::spaceInvaderMovement_goingRight_ = !SpaceInvaders::spaceInvaderMovement_goingRight_;
 		}
 	} else{
 		// MOVIMIENTO LATERAL
-		if(SpaceInvaders::spaceInvaderMovement_goingRight){
+		if(SpaceInvaders::spaceInvaderMovement_goingRight_){
 			posIni.x += spaceInvaderMovement_speedX_ * deltaT;
 
 			if(posIni.x >= spaceInvaderMovement_xMax_){
-				SpaceInvaders::spaceInvaderMovement_goingDown = true;
+				SpaceInvaders::spaceInvaderMovement_goingDown_ = true;
 				spaceInvaderMovement_vcalMoveCurrTarget_ = posIni.y - spaceInvaderMovement_vcalMoveAmount_;
 			}
 		} else{
 			posIni.x -= spaceInvaderMovement_speedX_ * deltaT;
 
 			if(posIni.x <= spaceInvaderMovement_xMin_){
-				SpaceInvaders::spaceInvaderMovement_goingDown = true;
+				SpaceInvaders::spaceInvaderMovement_goingDown_ = true;
 				spaceInvaderMovement_vcalMoveCurrTarget_ = posIni.y - spaceInvaderMovement_vcalMoveAmount_;
 			}
 		}

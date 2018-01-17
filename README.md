@@ -56,7 +56,9 @@ En desarrollo [Estimación][Finalizado]
 
 * Definición de niveles en archivos de texto
 ```diff
-- sin empezar
++ carga de parámetros básicos de los enemigos
++ carga de las oleadas
+- definir los tipos de enemigos en las oleadas
 ```
 
 * Reintroduciendo el sonido
@@ -66,13 +68,16 @@ En desarrollo [Estimación][Finalizado]
 - sonidos de los disparos propios
 - sonidos de la explosion del prota
 - música de fondo
+```
 
+* Comportamiento
+```diff
+- cargar siguiente oleada al acabar con la última
 ```
 
 BUGS:
 ```diff
 - El ovni no dispara ¿?
-+ Los enemigos no aparecen --> ya no tengo una jodienda con displayseconds
 ```
 
 ### PLANIFICADO (lo siguiente que pienso hacer)
