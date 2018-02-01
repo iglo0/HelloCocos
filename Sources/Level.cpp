@@ -180,12 +180,6 @@ bool Level::onContactBegin(PhysicsContact &contact){
 	sprA = (Sprite *)contact.getShapeA()->getBody()->getNode();
 	sprB = (Sprite *)contact.getShapeB()->getBody()->getNode();
 
-	//dmg = calculaDanyoImpacto(sprA, sprB);
-
-	//// HACK: a todos les paso el daño pero no todos hacen algo con el
-	//gestionaImpacto(sprA, dmg);
-	//gestionaImpacto(sprB, dmg);
-
 	CCLOG("Impacto entre %s(%d) y %s(%d)", sprA->getName().c_str(), sprA->getTag(), sprB->getName().c_str(), sprB->getTag());
 
 
@@ -193,7 +187,6 @@ bool Level::onContactBegin(PhysicsContact &contact){
 	// De momento tengo: Bullet, Player y Enemy
 
 	// TODO: No se si sacar esto a algun sitio, de momento que funcione:
-
 	GameActor *actor1, *actor2;
 	Bullet *bulletTmp;
 	float impactDmg1, impactDmg2;
@@ -203,7 +196,6 @@ bool Level::onContactBegin(PhysicsContact &contact){
 
 	if(actor1->type_ == GameActor::gameActorTypes::destructible || actor2->type_ == GameActor::gameActorTypes::destructible)
 		actor1 = actor1;	// punto de parada if casita
-
 
 	// calcula el daño que 1 hace a 2
 	if(sprA->getTag() == (int)Game::CategoriaColision::BalaJugador || sprA->getTag() == (int)Game::CategoriaColision::BalaEnemigo){
@@ -262,6 +254,22 @@ void Level::update(float deltaT){
 	if(capturing_){
 		utils::captureScreen(CC_CALLBACK_2(Level::afterCaptured, this), std::string("shot") + std::to_string(Game::getInstance()->ellapsedTime) + std::string(".png"));
 	}
+
+	// TODO: quitar
+	// actualiza mensajes debug en cada frame
+	// lbl->setString() espera un string
+	// para formatear el string utilizo un stringstream, y luego lo convierto a string para el lbl
+	std::stringstream ss;
+	//The most common IO manipulators that control padding are:
+	//std::setw(width) sets the width of the field.
+	//std::setfill(fillchar) sets the fill character.
+	//std::setiosflags(align) sets the alignment, where align is ios::left or ios::right
+
+	ss << SpaceInvaders::numInvadersVivos_ << "/" << SpaceInvaders::numInvadersInicial_;
+
+	//ss << std::setw(6) << std::setfill('0') << puntos;// << std::endl;
+	gameInstance->lblDebug->setString(ss.str());
+
 }
 
 
@@ -349,6 +357,15 @@ void Level::createGUI(){
 	this->addChild(gameInstance->lblPuntos, 1);
 	this->addChild(gameInstance->lblHiScore, 1);
 	this->addChild(gameInstance->lblVidas, 1);
+
+	// DEBUG
+	gameInstance->lblDebug = Label::createWithTTF(labelConfig, "pillo sitioooooooooo");
+
+	gameInstance->lblDebug->setPosition(Vec2(gameInstance->lblDebug->getContentSize().width / 2.0f, visibleSize.height - gameInstance->lblDebug->getContentSize().height / 2.0f - 20.0f));
+	gameInstance->lblDebug->enableShadow();
+	gameInstance->lblDebug->setTextColor(Color4B::YELLOW);
+
+	this->addChild(gameInstance->lblDebug, 1);
 
 	// inicializa con valores por defecto
 	gameInstance->inicializaGUI();

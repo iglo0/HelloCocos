@@ -73,6 +73,10 @@ public:
 	Label *lblPuntos;
 	Label *lblHiScore;
 	Label *lblVidas;
+	// debugeo
+	//Label *lblEnemigosVivos;
+	//Label *lblPorcenEnemigosVivos;
+	Label *lblDebug;
 
 	void inicializaGUI();
 	void actualizaVidas();

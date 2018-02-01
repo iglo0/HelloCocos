@@ -96,6 +96,13 @@ void Enemy::initEnemy(Node *nodo, const char *pathSprite, const char *rutaSonido
 void Enemy::impacto(float dmg){
 	// TODO: Escudo?
 
+	// TODO: ñapa para evitar detectar destrucciones dobles
+	if(!isActive()){
+		// este ya está desactivado y aún así ha recibido un impacto... 
+		// creo que es por los triángulos de colisión, si la bala pega en varios a la vez llama a varios impactos 
+		return;
+	}
+
 	// recibe daño
 	gameActorHP_ -= dmg;
 

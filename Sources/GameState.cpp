@@ -4,6 +4,7 @@
 #include "Pool.h"
 #include "Player.h"
 #include "Level.h"
+#include "SpaceInvaders.h"
 
 IntroNivelState::IntroNivelState(Player *p) : player(p){
 	enterState();
@@ -28,7 +29,7 @@ GameState *IntroNivelState::update(float deltaT) {
 		//iniciadoIntroNivel = false;
 		//gameInstance->estadoActual = Game::estadosJuego::jugando;
 
-		// TODO: ahora cojo y cambio de estado. Estee... ¿como?
+		// TODO: ahora cojo y cambio de estado. Estee... ¿cómo?
 		// así parece que va bien
 		return new PlayingState(player);
 	}
@@ -54,7 +55,13 @@ GameState *PlayingState::update(float deltaT){
 	// ---------------------------
 	Pool::updateAll(deltaT);
 
-	return nullptr;
+	// Se ha acabado la oleada?
+	if(SpaceInvaders::numInvadersVivos_ < 1){
+		// TODO: ok pero entro en bucle, tengo que llamar a Level::avanzaOleada() de algún modo
+		return new IntroNivelState(player);
+	} else {
+		return nullptr;
+	}
 }
 
 PlayerDeadState::PlayerDeadState(Player *p): player(p){

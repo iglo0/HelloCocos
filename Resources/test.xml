@@ -91,20 +91,20 @@ GameActors
 -->
 	<oleadas>
 		<!-- 'level' no tiene funcion, es para comprobar yo si se cargan en orden -->
-		<oleada level="5" tamaX="5" tamaY="5" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="25.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="600">
-			<integrantes>
-				<birojo />
-				<birojo />
-				<honesto />
-			</integrantes>
-		</oleada>
-		<oleada level="1" tamaX="3" tamaY="3" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="25.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="1800">
+		<oleada level="1" tamaX="2" tamaY="2" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="25.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="1800">
 			<integrantes>
 				<honesto />	<!-- empieza desde arriba, va rellenando con enemigos de este tipo, uno por fila. Si hay menos "integrantes" que "tamaY", rellena con el último definido hasta el final -->
 			</integrantes>
 		</oleada>
-		<oleada level="4" tamaX="4" tamaY="4" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="25.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="1800">
+		<oleada level="2" tamaX="3" tamaY="3" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="25.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="1800">
 			<integrantes>
+				<birojo />
+				<honesto />
+			</integrantes>
+		</oleada>
+		<oleada level="5" tamaX="5" tamaY="5" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="25.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="600">
+			<integrantes>
+				<birojo />
 				<birojo />
 				<honesto />
 			</integrantes>
