@@ -58,7 +58,7 @@ GameState *PlayingState::update(float deltaT){
 	// Se ha acabado la oleada?
 	if(SpaceInvaders::numInvadersVivos_ < 1){
 		// TODO: ok pero entro en bucle, tengo que llamar a Level::avanzaOleada() de algún modo
-		return new IntroNivelState(player);
+		return new SiguienteNivelState(player);
 	} else {
 		return nullptr;
 	}
@@ -127,3 +127,38 @@ GameState *GameOverState::update(float deltaT){
 
 	return nullptr;
 }
+
+SiguienteNivelState::SiguienteNivelState(Player *p) : player(p){
+	enterState();
+}
+
+void SiguienteNivelState::enterState(){
+	gameInstance = Game::getInstance();
+
+	Pool::disablePools();
+	//player->activatePlayerInInitialPos();
+	tIni = gameInstance->ellapsedTime;
+	gameInstance->lblMensajes->setString("SIGUIENTE OLEADA!");
+	gameInstance->lblMensajes->setVisible(true);
+
+	
+
+}
+
+GameState *SiguienteNivelState::update(float deltaT){
+	if(gameInstance->ellapsedTime - tIni >= gameInstance->duracion_estado_intronivel){
+		gameInstance->lblMensajes->setVisible(false);
+
+		//iniciadoIntroNivel = false;
+		//gameInstance->estadoActual = Game::estadosJuego::jugando;
+
+		// TODO: ahora cojo y cambio de estado. Estee... ¿cómo? -> por ejemplo:
+		Level::siguienteNivel();
+
+		// así parece que va bien
+		return new PlayingState(player);
+	}
+
+	return nullptr;
+}
+

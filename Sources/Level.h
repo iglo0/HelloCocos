@@ -41,6 +41,8 @@ public:
 	// HACK: Para cambiar de estado mayormente
 	static void setGameState(GameState *);
 	static void vuelveAlMenu();
+	// para llamar a "avanzaOleada" desde fuera
+	static void siguienteNivel();
 
 private:
 	// funciones miembro privadas
@@ -52,13 +54,13 @@ private:
 	void creaCasita(Vec2 esquinaInfIzq);
 	GameActor *creaDestructible(Vec2 pos, int type=0);
 
-	// usa el vector de niveles para sacar la siguiente oleada en caso de haberla
-	void avanzaOleada();
-
 	// TODO: test captura de pantalla
 	void afterCaptured(bool succeed, const std::string& outputFile);
 	bool capturing_ = false;
 	// --------------------------------------------------------------
+
+	// usa el vector de niveles para sacar la siguiente oleada en caso de haberla
+	void avanzaOleada();
 
 	// variables miembro privadas
 	// --------------------------------------------------------------

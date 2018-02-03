@@ -65,14 +65,14 @@ En desarrollo [Estimación][Finalizado]
 ```diff
 + sonidos de los disparos enemigos
 + sonidos de las explosiones enemigas
-- sonidos de los disparos propios
++ sonidos de los disparos propios
 - sonidos de la explosion del prota
 - música de fondo
 ```
 
 * Comportamiento
 ```diff
-- cargar siguiente oleada al acabar con la última
++ cargar siguiente oleada al acabar con la última
 ```
 
 BUGS:

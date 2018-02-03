@@ -90,8 +90,8 @@ GameActors
 	creaInvaders(Node *nodo, std::vector<Enemy::tiposEnemigo> &tipos, float velMovHtal, float velMovVcal, float vcalMoveAmount, int probDisparoAleat){
 -->
 	<oleadas>
-		<!-- 'level' no tiene funcion, es para comprobar yo si se cargan en orden -->
-		<oleada level="1" tamaX="2" tamaY="2" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="25.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="1800">
+		<!-- 'level' es *hasta* qué nivel debo usar esta oleada. Siendo nivel: 0, 1, 2, ..., n -->
+		<oleada level="0" tamaX="2" tamaY="2" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="25.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="1800">
 			<integrantes>
 				<honesto />	<!-- empieza desde arriba, va rellenando con enemigos de este tipo, uno por fila. Si hay menos "integrantes" que "tamaY", rellena con el último definido hasta el final -->
 			</integrantes>
@@ -102,7 +102,7 @@ GameActors
 				<honesto />
 			</integrantes>
 		</oleada>
-		<oleada level="5" tamaX="5" tamaY="5" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="25.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="600">
+		<oleada level="3" tamaX="5" tamaY="5" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="25.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="600">
 			<integrantes>
 				<birojo />
 				<birojo />
@@ -112,8 +112,8 @@ GameActors
 	</oleadas>
 
 	<enemies>
-		<honesto speed="100.0" hp="1.0" points="100" animSetName="enemyHonesto" tipoColision="4" colisionoCon="19" poolBalas="currentBulletsTipoNormal" sonidoMuerte="sonidos/invaderkilled.wav" sonidoDispara="sonidos/shoot.wav"/>
-		<birojo speed="200.0" hp="1.0" points="100" animSetName="enemyBirojo" tipoColision="4" colisionoCon="19" poolBalas="currentBulletsTipo2" sonidoMuerte="sonidos/invaderkilled.wav" sonidoDispara="sonidos/shoot.wav"/>
+		<honesto tipoEnemigo="1" speed="100.0" hp="1.0" points="100" animSetName="enemyHonesto" tipoColision="4" colisionoCon="19" poolBalas="currentBulletsTipoNormal" sonidoMuerte="sonidos/invaderkilled.wav" sonidoDispara="sonidos/shoot.wav"/>
+		<birojo tipoEnemigo="2"  speed="200.0" hp="1.0" points="100" animSetName="enemyBirojo" tipoColision="4" colisionoCon="19" poolBalas="currentBulletsTipo2" sonidoMuerte="sonidos/invaderkilled.wav" sonidoDispara="sonidos/shoot.wav"/>
 	</enemies>
 
 	<bullets>

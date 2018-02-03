@@ -186,12 +186,25 @@ Enemy *XmlHelper::loadEnemy(Node *parentNode, const char *xmlEnemyDef){
 		int points = selectedNode.attribute("points").as_int();
 		const char *sonidoDispara = (char *)selectedNode.attribute("sonidoDispara").value();
 		const char *sonidoMuerte = (char *)selectedNode.attribute("sonidoMuerte").value();
+		int tipoEnemigo = selectedNode.attribute("tipoEnemigo").as_int();
 
 		// busca y carga la animación (o el sprite)
 		tmpAnim = loadAnimation(parentNode, animSetName);
 
 		//initEnemy(nodo, gameInstance->enemy_t1_path_sprite.c_str(), "", gameInstance->enemy_t1_initial_size, gameInstance->enemy_t1_initial_rotation, gameInstance->enemy_generic_hp, gameInstance->enemy_generic_points, &Pool::currentBulletsTipoNormal);
-		tmp = new Enemy();
+		switch(tipoEnemigo){
+		case 1:
+			tmp = new Enemy(Enemy::tiposEnemigo::tipo1);
+			break;
+		case 2:
+			tmp = new Enemy(Enemy::tiposEnemigo::tipo2);
+			break;
+		default:
+			CCLOG("Creando tipo de enemigo desconocido: %d", tipoEnemigo);
+			tmp = new Enemy();
+			break;
+		}
+
 		tmp->animSprites_ = tmpAnim;
 
 		assignPhysicsToAnimation(tmpAnim, tmp, tipoColision, colisionoCon);

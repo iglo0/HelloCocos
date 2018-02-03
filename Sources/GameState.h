@@ -69,3 +69,16 @@ private:
 	Game *gameInstance;
 	float tIni;
 };
+
+class SiguienteNivelState : public GameState{
+public:
+	SiguienteNivelState(Player *);
+
+	void enterState() override;
+	GameState *update(float) override;
+
+private:
+	Player *player;
+	Game *gameInstance;
+	float tIni;
+};

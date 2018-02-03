@@ -117,9 +117,14 @@ void Enemy::impacto(float dmg){
 		// HACK: Ajusto el nº de invaders que quedan cuando muere uno
 		// TODO: ponerlo en un sitio más adecuado, una vez probado
 		// TODO: Ojo el contador se decrementa cuando cae el "ovni"
-		--SpaceInvaders::numInvadersVivos_;
-		if(SpaceInvaders::numInvadersVivos_ > 0){
-			SpaceInvaders::porcenInvadersVivos_ = (float)SpaceInvaders::numInvadersVivos_ / (float)SpaceInvaders::numInvadersInicial_;
+
+		// HACK: otro, no descontar enemigos cuando muere el ovni
+		if(tipoEnemigo_ != Enemy::tiposEnemigo::tipoOvni){
+
+			--SpaceInvaders::numInvadersVivos_;
+			if(SpaceInvaders::numInvadersVivos_ > 0){
+				SpaceInvaders::porcenInvadersVivos_ = (float)SpaceInvaders::numInvadersVivos_ / (float)SpaceInvaders::numInvadersInicial_;
+			}
 		}
 
 		if(sonidoMuerte_ != ""){

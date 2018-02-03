@@ -482,13 +482,29 @@ void Level::avanzaOleada(){
 	
 	if(actualLevel_){
 		// tengo un nivel ya cargado (el que acabo de terminar)
-		++oleadaNum_;
+		// ¿debo cambiar de nivel?:
+		// niveles<0,oleada>	niveles<2,oleada>	niveles<4,oleada>
+		// cargaría una configuración distinta cuando oleadaNum es > que el primer índice
+		//int dbg = levelsIterator_->first;
+		if(++oleadaNum_ > levelsIterator_->first){
+			// si aún no soy el último, avanzo
+			if(levelsIterator_ != levels_.end()){
+				++levelsIterator_;
+			}
+		}
+
+		// después de avanzar, soy el último?
+		if(levelsIterator_ != levels_.end()){
+			actualLevel_ = levelsIterator_->second;
+		}
+		// else actualLevel no cambia
 
 	} else{
 		// primer nivel a cargar
 		// oleadaNum_ = 1;
 		//std::unordered_map<int, SpaceInvaders *>::iterator it = levels_.begin();
 		levelsIterator_ = levels_.begin();
+		// TODO: ¿por qué levels_.cbegin() da error?
 
 		actualLevel_ = levelsIterator_->second;
 	}
@@ -505,6 +521,11 @@ void Level::avanzaOleada(){
 
 	spaceInvaders.creaInvaders(this, tipos, 50.0f, 15.0f, 30.0f, 3600)
 	*/
+}
+
+// Método estático. Básicamente llama a "avanzaOleada" desde fuera. Y se llama desde el GameState correspondiente cuando detecta que esta oleada está kaputt
+void Level::siguienteNivel(){
+	instance->avanzaOleada();
 }
 
 void Level::creaCasitas(int numba, float margen){
