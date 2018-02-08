@@ -29,7 +29,7 @@ Git user attention
 ### RESUMEN (GENERAL) DEL ESTADO ACTUAL
 
 - Salen enemigos en formato "Space Invaders" que disparan aleatoriamente
-- Hay un ovni gordo que dispara también
+- ~~Hay un ovni gordo que dispara también~~
 - Control de una nave con sus disparos
 - Menú inicial y pruebas
 - Inicio del juego
@@ -40,39 +40,16 @@ Git user attention
 - Clase AnimSprites de gestión de animaciones y escena AnimTest de prueba.
 - Carga y definición de animaciones por XML
 - Carga y definición de balas por XML
+- Carga y definición de enemigos mediante XML
+- Corregido el bug de las colisiones, ahora se detecta una por impacto.
 
 ----
 # TRABAJO EN CURSO
 En desarrollo [Estimación][Finalizado]
 
-* Implementar la carga de enemigos mediante xml (comportamiento, animacion... todo en ficheros)
+* Sonido
 ```diff
-+ carga básica de enemigos
-+ definición de disparos
-+ definición de sonido
-+ definición de animaciones
-- definición de comportamiento
-```
-
-* Definición de niveles en archivos de texto
-```diff
-+ carga de parámetros básicos de los enemigos
-+ carga de las oleadas
-- definir los tipos de enemigos en las oleadas
-```
-
-* Reintroduciendo el sonido
-```diff
-+ sonidos de los disparos enemigos
-+ sonidos de las explosiones enemigas
-+ sonidos de los disparos propios
-- sonidos de la explosion del prota
 - música de fondo
-```
-
-* Comportamiento
-```diff
-+ cargar siguiente oleada al acabar con la última
 ```
 
 BUGS:
@@ -83,12 +60,7 @@ BUGS:
 ### PLANIFICADO (lo siguiente que pienso hacer)
 
 GRÁFICOS
-- Definir animaciones para los enemigos
 - Que se muestren los trozos rotos de las casitas
-
-ESTRUCTURA DEL JUEGO
-- detectar la destrucción de las oleadas de enemigos
-- avance de oleadas cada vez más dificiles
 
 - Música
 	- en los menús
@@ -135,11 +107,14 @@ EFECTOS
 GRÁFICOS
 - ~~Colisiones precisas. Definidos el resto de sprites~~
 - ~~Definir animaciones para las balas~~
+- ~~Definir animaciones para los enemigos~~
 
 ESTRUCTURA DEL JUEGO
 - jefes cada "x" oleadas
 - ~~creada otra máquina de estados para el juego, intentando implementarla con el patrón "Estado"~~
 - ~~reimplementando las funciones de movimiento (balas mayormente)~~
+- ~~detectar la destrucción de las oleadas de enemigos~~
+- ~~avance de oleadas cada vez más dificiles~~
 
 GENERAL
 - Tabla de records
@@ -179,7 +154,7 @@ GRÁFICOS
 ### ~~BUGS~~ OUTSTANDING FEATURES
 - ~~a veces el jugador puede perder dos vidas juntas. ¿Es por que le dan dos balas? ¿o no? no lo tengo claro~~ <-- "solucionado" usando un solo polígono para sus colisiones
 - los mensajes que deberían salir centrados no lo hacen (calculo la posición solo al principio y no lo actualizo cuando cambio el mensaje)
-- las colisiones precisas están mal gestionadas: cada sprite tiene varios polígonos y es posible colisionar con varios a la vez. No es problema salvo para la nave del jugador, que puede perder las vidas de 3 en 3 :-D
+- ~~las colisiones precisas están mal gestionadas: cada sprite tiene varios polígonos y es posible colisionar con varios a la vez. No es problema salvo para la nave del jugador, que puede perder las vidas de 3 en 3 :-D~~
 - la gestión de movimiento de los space invaders tiene un problema, si destruyo al que uso de guía se va el movimiento a tomar por saco.
 
 ### DUDAS TÉCNICAS

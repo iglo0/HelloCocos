@@ -91,22 +91,32 @@ GameActors
 -->
 	<oleadas>
 		<!-- 'level' es *hasta* qué nivel debo usar esta oleada. Siendo nivel: 0, 1, 2, ..., n -->
-		<oleada level="0" tamaX="2" tamaY="2" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="25.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="1800">
+		<oleada level="0" tamaX="2" tamaY="2" comprX="0.12" comprY="0.22" margX="50" margY="150" velHtal="25.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="900">
 			<integrantes>
 				<honesto />	<!-- empieza desde arriba, va rellenando con enemigos de este tipo, uno por fila. Si hay menos "integrantes" que "tamaY", rellena con el último definido hasta el final -->
 			</integrantes>
 		</oleada>
-		<oleada level="2" tamaX="3" tamaY="3" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="25.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="1800">
+		<oleada level="1" tamaX="3" tamaY="3" comprX="0.12" comprY="0.22" margX="50" margY="150" velHtal="35.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="800">
 			<integrantes>
 				<birojo />
 				<honesto />
 			</integrantes>
 		</oleada>
-		<oleada level="3" tamaX="5" tamaY="5" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="25.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="600">
+		<oleada level="2" tamaX="5" tamaY="5" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="50.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="500">
 			<integrantes>
 				<birojo />
 				<birojo />
 				<honesto />
+			</integrantes>
+		</oleada>
+		<oleada level="3" tamaX="11" tamaY="5" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="50.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="100">
+			<integrantes>
+				<honesto />
+			</integrantes>
+		</oleada>
+		<oleada level="4" tamaX="11" tamaY="5" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="50.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="50">
+			<integrantes>
+				<birojo />
 			</integrantes>
 		</oleada>
 	</oleadas>

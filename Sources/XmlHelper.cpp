@@ -250,87 +250,6 @@ Enemy *XmlHelper::loadEnemy(Node *parentNode, const char *xmlEnemyDef){
 	return tmp;
 }
 
-//SpaceInvaders *XmlHelper::loadInvaders(Node *parentNode, const char *xmlDefName){
-//	pugi::xml_document doc;
-//	pugi::xml_parse_result result = doc.load_file(xmlFilename_);
-//	SpaceInvaders *tmp;
-//	AnimSprites *tmpAnim;
-//
-//	if(!result){
-//		// error! salir o algo
-//		CCLOG("Error parseando xml %s", xmlFilename_);
-//		return tmp;
-//	}
-//
-//	// buscar y carga los parámetros de la bala
-//	std::string searchStr = std::string("definitions/oleadas/") + std::string(xmlDefName);
-//	// conversion a string y de vuelta a const char *
-//	pugi::xpath_node xpathNode = doc.select_single_node(searchStr.c_str());
-//
-//	if(xpathNode){
-//		//pugi::xml_node selectedNode = xpathNode.node();
-//
-//		//const char *animSetName = (char *)selectedNode.attribute("animSetName").value();
-//		//float hp = selectedNode.attribute("hp").as_float();
-//		//float speed = selectedNode.attribute("speed").as_float();
-//		//int tipoColision = selectedNode.attribute("tipoColision").as_int();
-//		//int colisionoCon = selectedNode.attribute("colisionoCon").as_int();
-//		//const char *poolName = (char *)selectedNode.attribute("poolBalas").value();
-//		//int points = selectedNode.attribute("points").as_int();
-//		//const char *sonidoDispara = (char *)selectedNode.attribute("sonidoDispara").value();
-//		//const char *sonidoMuerte = (char *)selectedNode.attribute("sonidoMuerte").value();
-//
-//		//// busca y carga la animación (o el sprite)
-//		//tmpAnim = loadAnimation(parentNode, animSetName);
-//
-//		////initEnemy(nodo, gameInstance->enemy_t1_path_sprite.c_str(), "", gameInstance->enemy_t1_initial_size, gameInstance->enemy_t1_initial_rotation, gameInstance->enemy_generic_hp, gameInstance->enemy_generic_points, &Pool::currentBulletsTipoNormal);
-//		//tmp = new Enemy();
-//		//tmp->animSprites_ = tmpAnim;
-//
-//		//assignPhysicsToAnimation(tmpAnim, tmp, tipoColision, colisionoCon);
-//		//tmp->poolMisBalas_ = Pool::getBulletPoolByName(poolName);
-//
-//		//tmp->setHP(hp);
-//		//tmp->setPoints(points);
-//		//tmp->gameActorSpeed_ = speed;
-//		//tmp->setSonidoDispara(sonidoDispara);
-//		//tmp->setSonidoMuerte(sonidoMuerte);
-//
-//		////tmp->movimiento_ = 
-//
-//		////movimiento_ = nullptr;
-//
-//		////tmp = new Bullet(parentNode);
-//		////tmp->setTTL(ttl);
-//
-//		////assignPhysicsToAnimation(tmpAnim, tmp, tipoColision, colisionoCon);
-//
-//		////tmp->animSprites_ = tmpAnim;
-//		////tmp->setType((Bullet::bulletTypes)movement);
-//
-//		////switch(movement){
-//		////case Bullet::bulletTypes::tipoBossHoming:
-//		////	tmp->movimiento_ = new MueveHoming();
-//		////	break;
-//		////case Bullet::bulletTypes::tipoEnemyDirigido:
-//		////	tmp->movimiento_ = new MueveDireccion(speed);
-//		////	break;
-//		////case Bullet::bulletTypes::tipoEnemyNormal:
-//		////	tmp->movimiento_ = new MueveVcal(speed);
-//		////	break;
-//		////case Bullet::bulletTypes::tipoPlayer:
-//		////	tmp->movimiento_ = new MueveVcal(speed);
-//		////	break;
-//		////default:
-//		////	CCLOG("Tipo de movimiento desconocido en XmlHelper: %d", movement);
-//		////	break;
-//		////}
-//	}
-//
-//	return tmp;
-//
-//}
-
 std::unordered_map<int, SpaceInvaders *> XmlHelper::loadInvaderLevels(Node *parentNode, const char *xmlDefName){
 	std::vector<Enemy::tiposEnemigo> tiposEnemigo;
 	std::unordered_map<int, SpaceInvaders *> levels;
@@ -360,15 +279,6 @@ std::unordered_map<int, SpaceInvaders *> XmlHelper::loadInvaderLevels(Node *pare
 
 		while(selectedNode){
 
-			/*
-			<oleada level = "1" tamaX = "3" tamaY = "3" comprX = "0.42" comprY = "0.52" margX = "50" margY = "150" velHtal = "25.0" velVcal = "15.0" vcalMoveAmount = "30.0" probDisparoAleat = "1800">
-			<integrantes>
-			<honesto / >	<!--empieza desde arriba, va rellenando con enemigos de este tipo, uno por fila.Si hay menos "integrantes" que "tamaY", rellena con el último definido hasta el final-->
-			< / integrantes>
-			< / oleada>
-			*/
-			//const char *animSetName = (char *)selectedNode.attribute("animSetName").value();
-
 			// datos generales de cada oleada
 			// level es informativo, realmente los cargo y los sacaré en el orden que vienen
 			level = selectedNode.attribute("level").as_int();
@@ -387,24 +297,26 @@ std::unordered_map<int, SpaceInvaders *> XmlHelper::loadInvaderLevels(Node *pare
 			tmp->vcalMoveAmount_ = selectedNode.attribute("vcalMoveAmount").as_float();
 			tmp->probDisparoAleat_ = selectedNode.attribute("probDisparoAleat").as_float();
 
-			// integrantes de la oleada
-			//std::vector<Enemy::tiposEnemigo> tipos;
-			tmp->tipos_.push_back(Enemy::tiposEnemigo::tipo2);
-			tmp->tipos_.push_back(Enemy::tiposEnemigo::tipo1);
+			// busca a los integrantes de la oleada
+			auto xmlIntegrantes = selectedNode.child("integrantes");
+			if(xmlIntegrantes){
+				for(auto integrante = xmlIntegrantes.first_child(); integrante; integrante = integrante.next_sibling()){
 
-			//tmp->tipos_ = tipos;
-			//tmp->probDisparoAleat_ = probDisparoAleat;
-			//tmp->velMovHtal_ = velHtal;
-			//tmp->velMovVcal_ = velVcal;
-			//tmp->vcalMoveAmount_ = vcalMoveAmount;
+					if(!std::strcmp(integrante.name(), "birojo")) {
+						tmp->tipos_.push_back(Enemy::tiposEnemigo::tipo2);
+					} else if(!std::strcmp(integrante.name(), "honesto")) {
+						tmp->tipos_.push_back(Enemy::tiposEnemigo::tipo1);
+					} else{
+						CCLOG("tipo desconocio %s", integrante.name());
+					}
+				}
+			}
 
 			levels[level] = tmp;
 
 			selectedNode = selectedNode.next_sibling();
 		}
 	}
-
-
 
 	return levels;
 }

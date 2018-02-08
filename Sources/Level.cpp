@@ -398,7 +398,7 @@ void Level::initLevel(){
 	// Creando pools de balas para todos los tipos necesarios
 	// TODO: prueba enésima de dónde colgar estos pools... ahora van a una clase propia "Pool".
 	// Pool de balas para el jugador
-	Bullet::createBulletPool(this, Pool::currentBulletsPlayerTipo1, 1, Bullet::tipoPlayer, "bullet_player");
+	Bullet::createBulletPool(this, Pool::currentBulletsPlayerTipo1, 3, Bullet::tipoPlayer, "bullet_player");
 
 	// TODO: Pool para los enemigos normales
 	Bullet::createBulletPool(this, Pool::currentBulletsTipoNormal, 60, Bullet::tipoEnemyNormal, "bullet_enemy_default");
