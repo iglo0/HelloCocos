@@ -41,7 +41,8 @@ public:
 	void setTTL(float ttl);
 	//void setPoints(int points);
 	void setHP(float hp);
-
+	void setCadaver(Sprite *);	// TODO: en caso necesario, deja un "cadaver" en pantalla al ser destruido
+	void setCadaver(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon, float initialScale = 1.0f);
 
 	float gameActorSpeed_;
 	Movimiento *movimiento_;
@@ -52,6 +53,7 @@ public:
 
 protected:
 	Sprite *sprite_;
+	Sprite *spriteDestruido_;	// TODO: si deja un "cadaver" al morir, añadirlo aquí
 	float gameActorHP_, gameActorHPInicial_ = 1.0;
 	//int gameActorPoints_;
 	bool estaActivo_;
@@ -59,4 +61,6 @@ protected:
 	float ttl_, tIni_, tEnd_;
 	//Vec2 currPos_;
 	std::string sonidoImpacto_;
+
+	void muestraCadaver();
 };

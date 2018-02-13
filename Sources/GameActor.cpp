@@ -14,6 +14,7 @@ GameActor::GameActor(){
 	estaActivo_ = false;
 	animSprites_ = nullptr;
 	sprite_ = nullptr;
+	spriteDestruido_ = nullptr;
 
 	// TODO: guarripeich que pone 1 punto de vida a todo por defecto
 	gameActorHP_ = gameActorHPInicial_;
@@ -210,6 +211,7 @@ void GameActor::impacto(float dmg){
 			audio->playEffect(sonidoImpacto_.c_str());
 		}
 
+		muestraCadaver();
 		desactiva();
 		break;
 	default:
@@ -247,4 +249,50 @@ void GameActor::setSonidoImpacto(std::string ruta){
 	sonidoImpacto_ = ruta;
 	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
 	audio->preloadEffect(ruta.c_str());
+}
+
+void GameActor::setCadaver(Node *nodo, const char *ruta, const char *name, int tipoColision, int colisionaCon, float initialScale){
+	Sprite *tmp;
+	// OJO: CASE SENSITIVE! 
+	tmp = Sprite::createWithSpriteFrameName(ruta);
+
+	if(!tmp){
+		CCLOG("GameActor::setSprite '%s'=SIN DEFINIR", ruta);
+		return;
+	}
+
+	tmp->setScale(initialScale);
+	tmp->setName(name);
+	//Game::anadeFisica(tmp, tipoColision, colisionaCon, name, ruta);
+
+	//TODO: ya tengo para recuperar mis datos :)
+	tmp->setUserData(this);
+	// y su tipo
+	tmp->setTag(tipoColision);
+
+	// lo creo invisible y sin colisiones activas
+	//desactiva();
+	tmp->setVisible(false);
+	PhysicsBody *pb = tmp->getPhysicsBody();
+	if(pb){
+		pb->setEnabled(false);
+	}
+
+
+	// hecho
+	nodo->addChild(tmp);
+
+	setCadaver(tmp);
+
+}
+
+void GameActor::setCadaver(Sprite *cadaver){
+	spriteDestruido_ = cadaver;
+}
+
+void GameActor::muestraCadaver(){
+	if(spriteDestruido_){
+		spriteDestruido_->setPosition(getPosition());
+		spriteDestruido_->setVisible(true);
+	}
 }

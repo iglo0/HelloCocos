@@ -58,6 +58,8 @@ public:
 	// TODO: esto de mezclar funciones estaticas con instanciadas... 
 	// actualiza los puntos y el marcador correspondiente
 	void sumaPuntos(int p);
+	// Esto se va a ejecutar solo durante la carga, así que no me importa si no es optimo
+	const char *devuelveBloqueRotoAleatorio();
 
 	// --------------------------------------------------------------
 	// Puntuaciones

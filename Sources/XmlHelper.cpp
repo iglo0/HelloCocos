@@ -257,7 +257,7 @@ std::unordered_map<int, SpaceInvaders *> XmlHelper::loadInvaderLevels(Node *pare
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file(xmlFilename_);
 	SpaceInvaders *tmp;
-	AnimSprites *tmpAnim;
+	//AnimSprites *tmpAnim;
 
 	if(!result){
 		// error! salir o algo

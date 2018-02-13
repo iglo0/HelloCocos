@@ -32,7 +32,7 @@ parámetros generales
 	<duracion_estado_muerte>2.0f</duracion_estado_muerte>
 	<duracion_estado_gameover>5.0f</duracion_estado_gameover>
 
-	<initial_hi_score>5000</initial_hi_score>
+	<initial_hi_score>500</initial_hi_score>
 	<vidas_iniciales>3</vidas_iniciales>
 
 	<!-- no cambiar estos nombres de archivo -->
@@ -122,8 +122,8 @@ GameActors
 	</oleadas>
 
 	<enemies>
-		<honesto tipoEnemigo="1" speed="100.0" hp="1.0" points="100" animSetName="enemyHonesto" tipoColision="4" colisionoCon="19" poolBalas="currentBulletsTipoNormal" sonidoMuerte="sonidos/invaderkilled.wav" sonidoDispara="sonidos/shoot.wav"/>
-		<birojo tipoEnemigo="2"  speed="200.0" hp="1.0" points="100" animSetName="enemyBirojo" tipoColision="4" colisionoCon="19" poolBalas="currentBulletsTipo2" sonidoMuerte="sonidos/invaderkilled.wav" sonidoDispara="sonidos/shoot.wav"/>
+		<honesto tipoEnemigo="1" speed="100.0" hp="1.0" points="50" animSetName="enemyHonesto" tipoColision="4" colisionoCon="19" poolBalas="currentBulletsTipoNormal" sonidoMuerte="sonidos/invaderkilled.wav" sonidoDispara="sonidos/shoot.wav"/>
+		<birojo tipoEnemigo="2"  speed="200.0" hp="1.0" points="75" animSetName="enemyBirojo" tipoColision="4" colisionoCon="19" poolBalas="currentBulletsTipo2" sonidoMuerte="sonidos/invaderkilled.wav" sonidoDispara="sonidos/shoot.wav"/>
 	</enemies>
 
 	<bullets>

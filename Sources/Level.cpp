@@ -371,7 +371,6 @@ void Level::createGUI(){
 	gameInstance->inicializaGUI();
 }
 
-
 void Level::initLevel(){
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 
@@ -412,73 +411,59 @@ void Level::initLevel(){
 	// TODO: probando a detectar el fin de las animaciones con ttl o con loop=0 (ver .xml)
 	GameActor::createAnimationPool(this, Pool::currentExplosions, 5, "explosion");
 	GameActor::createAnimationPool(this, Pool::currentImpacts, 20, "impacto");
+	
+	// ----------------------------------------------------------------------------------------------------------------------------------------
+	// inicializo el ovni
+	// ----------------------------------------------------------------------------------------------------------------------------------------
+	#pragma region ovni 
+
+	//// No necesito que sea una variable miembro, vivirá en un array en alguna parte.
+	//Enemy *enemyBoss;
+
+	//enemyBoss = new Enemy(Enemy::tiposEnemigo::tipoOvni);
+	//enemyBoss->initEnemy(this);
+
+	//// situo al enemigo arriba en el medio, con medio cuerpo de margen superior
+	//Vec2 enePos = Vec2(visibleSize.width / 2.0f, visibleSize.height - enemyBoss->getSprite()->getContentSize().height / 2.0f);
+	//enemyBoss->activa(enePos);
+
+	//// Cómo querré que ataque?
+	//enemyBoss->funcionControlActual_ = &Enemy::funControlFireAtInterval;
+	//enemyBoss->funcionControlTiempoDisparo_ = 5.0f;
+
+	//// Y que se mueva?
+	//MueveSeno *m = new MueveSeno();
+	//m->init(600.0f, enePos, 0.333f);
+	//enemyBoss->movimiento_ = m;
+
+	//// hale, definido
+
+	//// ahora añadirlo al pool de GameUpdates para que haga algo de lo que le he dicho
+	//Pool::currentEnemies.push_back(enemyBoss);
+	#pragma endregion
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
-	// inicializo los enemigos iniciales
-	// TODO: que esto dependa de una estructura definible idealmente en un .ini
+	// las casitas destructibles
 	// ----------------------------------------------------------------------------------------------------------------------------------------
-
-	// No necesito que sea una variable miembro, vivirá en un array en alguna parte.
-	Enemy *enemyBoss;
-
-	enemyBoss = new Enemy(Enemy::tiposEnemigo::tipoOvni);
-	enemyBoss->initEnemy(this);
-
-	// situo al enemigo arriba en el medio, con medio cuerpo de margen superior
-	Vec2 enePos = Vec2(visibleSize.width / 2.0f, visibleSize.height - enemyBoss->getSprite()->getContentSize().height / 2.0f);
-	enemyBoss->activa(enePos);
-
-	// Cómo querré que se mueva?
-	//enemyBoss->funcionMovimientoActual = &GameActor::mueveSeno;
-	//enemyBoss->funcionMovimientoAmplitude = 600.0;
-	//enemyBoss->funcionMovimientoPosIni = Vec2(Director::getInstance()->getVisibleSize().width / 2.0f, enemyBoss->getPosition().y);
-	//enemyBoss->funcionMovimientoSpeed = 1 / 2.5;
-
-	// y que ataque?
-	enemyBoss->funcionControlActual_ = &Enemy::funControlFireAtInterval;
-	enemyBoss->funcionControlTiempoDisparo_ = 5.0f;
-
-	MueveSeno *m = new MueveSeno();
-	m->init(600.0f, enePos, 0.333f);
-	enemyBoss->movimiento_ = m;
-
-	//enemyBoss->poolMisBalas_ = &Pool::currentBulletsTipoBossHoming;
-
-	// hale, definido
-
-	// ahora añadirlo al pool de GameUpdates para que haga algo de lo que le he dicho
-	Pool::currentEnemies.push_back(enemyBoss);
-
-	// ---------------------------------------------------------------------------------------------
-	// crea los "Space Invaders
-	// TODO: temporal, tiene que haber una progresión
-	/* primera versión: a pelo
-	SpaceInvaders spaceInvaders = SpaceInvaders(11, 5, 0.42f, 0.52f, 50.0f, 150.0f);
-
-	// creo una lista de enemigos que tiene que coincidir aprox con el nº de filas. Un tipo de enemigo por fila. Si se le acaban los tipos, repite el ultimo hasta el fin de las filas
-	std::vector<Enemy::tiposEnemigo> tipos;
-	tipos.push_back(Enemy::tipo2);
-	tipos.push_back(Enemy::tipo2);
-	tipos.push_back(Enemy::tipo1);
-
-	spaceInvaders.creaInvaders(this, tipos, 50.0f, 15.0f, 30.0f, 3600);
-	*/
-
 	creaCasitas(4, 100.0f);
 
-	// Ign TEST:
+	// ----------------------------------------------------------------------------------------------------------------------------------------
+	// inicializo los enemigos
+	// ----------------------------------------------------------------------------------------------------------------------------------------
 	XmlHelper *xh = new XmlHelper();
 	levels_ = xh->loadInvaderLevels(this, "oleada");
 
 	oleadaNum_ = 0;
 	actualLevel_ = nullptr;
 
+	// Empiezo por una oleada (la primera). La destrucción del último enemigo de alguna manera comunicará que hay que iniciar una nueva oleada
+	// (hago público un método estático de esta clase)
 	avanzaOleada();
 
 }
 
 void Level::avanzaOleada(){
-	SpaceInvaders *tmp;
+	//SpaceInvaders *tmp;
 	
 	if(actualLevel_){
 		// tengo un nivel ya cargado (el que acabo de terminar)
@@ -564,8 +549,8 @@ void Level::creaCasita(Vec2 esquinaInfIzq){
 		for(int i = 0; i < 4; i++){
 			posBloque = esquinaInfIzq;
 			// ojo que 0,0 es el centro del sprite, si cuento con que empiece en la esquina inferior izquierda tengo que desplazarlo la mitad de su ancho. El alto también, pero ahora me la pela :P
-			posBloque.x += i * blockSize.width + blockSize.width/2.0f;
-			posBloque.y += j * blockSize.height;
+			posBloque.x += i * (blockSize.width-1) + blockSize.width/2.0f;
+			posBloque.y += j * (blockSize.height-1);
 
 			// hace el tejado de forma sucia
 			if(i == 0 && j == 3){
@@ -591,12 +576,15 @@ GameActor *Level::creaDestructible(Vec2 pos, int type){
 	switch(type){
 	case 0:
 		spritePath = gameInstance->sprite_casa_bloque.c_str();
+		tmp->setCadaver(this, gameInstance->devuelveBloqueRotoAleatorio(), "cachotrozo", 0, 0);
 		break;
 	case 1:
 		spritePath = gameInstance->sprite_casa_esquina_izq.c_str();
+		tmp->setCadaver(this, gameInstance->sprite_casa_bloque_roto_izq.c_str(), "cachotrozo", 0, 0);
 		break;
 	case 2:
 		spritePath = gameInstance->sprite_casa_esquina_dch.c_str();
+		tmp->setCadaver(this, gameInstance->sprite_casa_bloque_roto_dch.c_str(), "cachotrozo", 0, 0);
 		break;
 	default:
 		break;

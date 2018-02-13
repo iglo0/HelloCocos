@@ -231,3 +231,59 @@ void Game::loadConfig(const char *filename){
 
 //Game::~Game(){
 //}
+
+const char *Game::devuelveBloqueRotoAleatorio(){
+	int num = RandomHelper::random_int<int>(1, 15);
+
+	switch(num){
+	case 1:
+		return sprite_casa_bloque_roto_01.c_str();
+		//break;
+	case 2:
+		return sprite_casa_bloque_roto_02.c_str();
+		break;
+	case 3:
+		return sprite_casa_bloque_roto_03.c_str();
+		break;
+	case 4:
+		return sprite_casa_bloque_roto_04.c_str();
+		break;
+	case 5:
+		return sprite_casa_bloque_roto_05.c_str();
+		break;
+	case 6:
+		return sprite_casa_bloque_roto_06.c_str();
+		break;
+	case 7:
+		return sprite_casa_bloque_roto_07.c_str();
+		break;
+	case 8:
+		return sprite_casa_bloque_roto_08.c_str();
+		break;
+	case 9:
+		return sprite_casa_bloque_roto_09.c_str();
+		break;
+	case 10:
+		return sprite_casa_bloque_roto_10.c_str();
+		break;
+	case 11:
+		return sprite_casa_bloque_roto_11.c_str();
+		break;
+	case 12:
+		return sprite_casa_bloque_roto_12.c_str();
+		break;
+	case 13:
+		return sprite_casa_bloque_roto_13.c_str();
+		break;
+	case 14:
+		return sprite_casa_bloque_roto_14.c_str();
+		break;
+	case 15:
+		return sprite_casa_bloque_roto_15.c_str();
+		break;
+	default:
+		CCLOG("Fallo devolviendo bloque roto aleatorio!");
+		return sprite_casa_bloque_roto_01.c_str();
+		break;
+	}
+}
