@@ -80,6 +80,10 @@ bool Menus::init(){
 	menuAnimTest->setPosition(0.0f, menuAnimTest->getContentSize().height * ++pos);
 	menuItems.pushBack(menuAnimTest);
 
+	auto menuHiScores = MenuItemFont::create("HiScores", CC_CALLBACK_1(Menus::MenuAnimTestCallback, this));
+	menuHiScores->setPosition(0.0f, menuHiScores->getContentSize().height * ++pos);
+	menuItems.pushBack(menuHiScores);
+
 	auto menuJugar2 = MenuItemFont::create("Jugar2", CC_CALLBACK_1(Menus::MenuJugar2Callback, this));
 	menuJugar2->setPosition(0.0f, menuJugar2->getContentSize().height * ++pos);
 	menuItems.pushBack(menuJugar2);

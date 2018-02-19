@@ -1,0 +1,9 @@
+<records max="10">
+	<record name="SGI" score="100">
+	<record name="GUS" score="500">
+	<record name="MP3" score="1000">
+	<record name="MOD" score="2000">
+	<record name="JPG" score="3000">
+	<record name="LBM" score="4000">
+	<record name="SID" score="5000">
+</records>

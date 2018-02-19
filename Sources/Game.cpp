@@ -211,17 +211,17 @@ void Game::loadConfig(const char *filename){
 	sprite_casa_bloque_roto_02 = xml_default_values.child_value("sprite_casa_bloque_roto_02");
 	sprite_casa_bloque_roto_03 = xml_default_values.child_value("sprite_casa_bloque_roto_03");
 	sprite_casa_bloque_roto_04 = xml_default_values.child_value("sprite_casa_bloque_roto_04");
-	sprite_casa_bloque_roto_05 = xml_default_values.child_value("sprite_casa_bloque_roto_05");
-	sprite_casa_bloque_roto_06 = xml_default_values.child_value("sprite_casa_bloque_roto_06");
-	sprite_casa_bloque_roto_07 = xml_default_values.child_value("sprite_casa_bloque_roto_07");
-	sprite_casa_bloque_roto_08 = xml_default_values.child_value("sprite_casa_bloque_roto_08");
-	sprite_casa_bloque_roto_09 = xml_default_values.child_value("sprite_casa_bloque_roto_09");
-	sprite_casa_bloque_roto_10 = xml_default_values.child_value("sprite_casa_bloque_roto_10");
-	sprite_casa_bloque_roto_11 = xml_default_values.child_value("sprite_casa_bloque_roto_11");
-	sprite_casa_bloque_roto_12 = xml_default_values.child_value("sprite_casa_bloque_roto_12");
-	sprite_casa_bloque_roto_13 = xml_default_values.child_value("sprite_casa_bloque_roto_13");
-	sprite_casa_bloque_roto_14 = xml_default_values.child_value("sprite_casa_bloque_roto_14");
-	sprite_casa_bloque_roto_15 = xml_default_values.child_value("sprite_casa_bloque_roto_15");
+	//sprite_casa_bloque_roto_05 = xml_default_values.child_value("sprite_casa_bloque_roto_05");
+	//sprite_casa_bloque_roto_06 = xml_default_values.child_value("sprite_casa_bloque_roto_06");
+	//sprite_casa_bloque_roto_07 = xml_default_values.child_value("sprite_casa_bloque_roto_07");
+	//sprite_casa_bloque_roto_08 = xml_default_values.child_value("sprite_casa_bloque_roto_08");
+	//sprite_casa_bloque_roto_09 = xml_default_values.child_value("sprite_casa_bloque_roto_09");
+	//sprite_casa_bloque_roto_10 = xml_default_values.child_value("sprite_casa_bloque_roto_10");
+	//sprite_casa_bloque_roto_11 = xml_default_values.child_value("sprite_casa_bloque_roto_11");
+	//sprite_casa_bloque_roto_12 = xml_default_values.child_value("sprite_casa_bloque_roto_12");
+	//sprite_casa_bloque_roto_13 = xml_default_values.child_value("sprite_casa_bloque_roto_13");
+	//sprite_casa_bloque_roto_14 = xml_default_values.child_value("sprite_casa_bloque_roto_14");
+	//sprite_casa_bloque_roto_15 = xml_default_values.child_value("sprite_casa_bloque_roto_15");
 	sprite_casa_bloque_roto_dch = xml_default_values.child_value("sprite_casa_bloque_roto_dch");
 	sprite_casa_bloque_roto_izq = xml_default_values.child_value("sprite_casa_bloque_roto_izq");
 	sprite_casa_esquina_dch = xml_default_values.child_value("sprite_casa_esquina_dch");
@@ -248,39 +248,39 @@ const char *Game::devuelveBloqueRotoAleatorio(){
 	case 4:
 		return sprite_casa_bloque_roto_04.c_str();
 		break;
-	case 5:
-		return sprite_casa_bloque_roto_05.c_str();
-		break;
-	case 6:
-		return sprite_casa_bloque_roto_06.c_str();
-		break;
-	case 7:
-		return sprite_casa_bloque_roto_07.c_str();
-		break;
-	case 8:
-		return sprite_casa_bloque_roto_08.c_str();
-		break;
-	case 9:
-		return sprite_casa_bloque_roto_09.c_str();
-		break;
-	case 10:
-		return sprite_casa_bloque_roto_10.c_str();
-		break;
-	case 11:
-		return sprite_casa_bloque_roto_11.c_str();
-		break;
-	case 12:
-		return sprite_casa_bloque_roto_12.c_str();
-		break;
-	case 13:
-		return sprite_casa_bloque_roto_13.c_str();
-		break;
-	case 14:
-		return sprite_casa_bloque_roto_14.c_str();
-		break;
-	case 15:
-		return sprite_casa_bloque_roto_15.c_str();
-		break;
+	//case 5:
+	//	return sprite_casa_bloque_roto_05.c_str();
+	//	break;
+	//case 6:
+	//	return sprite_casa_bloque_roto_06.c_str();
+	//	break;
+	//case 7:
+	//	return sprite_casa_bloque_roto_07.c_str();
+	//	break;
+	//case 8:
+	//	return sprite_casa_bloque_roto_08.c_str();
+	//	break;
+	//case 9:
+	//	return sprite_casa_bloque_roto_09.c_str();
+	//	break;
+	//case 10:
+	//	return sprite_casa_bloque_roto_10.c_str();
+	//	break;
+	//case 11:
+	//	return sprite_casa_bloque_roto_11.c_str();
+	//	break;
+	//case 12:
+	//	return sprite_casa_bloque_roto_12.c_str();
+	//	break;
+	//case 13:
+	//	return sprite_casa_bloque_roto_13.c_str();
+	//	break;
+	//case 14:
+	//	return sprite_casa_bloque_roto_14.c_str();
+	//	break;
+	//case 15:
+	//	return sprite_casa_bloque_roto_15.c_str();
+	//	break;
 	default:
 		CCLOG("Fallo devolviendo bloque roto aleatorio!");
 		return sprite_casa_bloque_roto_01.c_str();
