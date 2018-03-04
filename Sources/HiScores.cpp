@@ -1,12 +1,12 @@
-#include "EscenaVacia.h"
+#include "HiScores.h"
 #include "Menus.h"
 
-EscenaVacia::~EscenaVacia(){
+HiScores::~HiScores(){
 	Director::getInstance()->setDisplayStats(false);
 
 }
 
-Scene* EscenaVacia::createScene(){
+Scene* HiScores::createScene(){
 	// 'scene' is an autorelease object
 	// sin física:
 	auto scene = Scene::create();
@@ -19,7 +19,7 @@ Scene* EscenaVacia::createScene(){
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
 	// 'layer' is an autorelease object
-	auto layer = EscenaVacia::create();
+	auto layer = HiScores::create();
 
 	// add layer as a child to scene
 	scene->addChild(layer);
@@ -29,7 +29,7 @@ Scene* EscenaVacia::createScene(){
 }
 
 // on "init" you need to initialize your instance
-bool EscenaVacia::init(){
+bool HiScores::init(){
 
 	Size visibleSize;
 	Vec2 origin;
@@ -49,14 +49,14 @@ bool EscenaVacia::init(){
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// input listeners
 	auto listener = EventListenerKeyboard::create();
-	listener->onKeyPressed = CC_CALLBACK_2(EscenaVacia::onKeyPressed, this);
-	listener->onKeyReleased = CC_CALLBACK_2(EscenaVacia::onKeyReleased, this);
+	listener->onKeyPressed = CC_CALLBACK_2(HiScores::onKeyPressed, this);
+	listener->onKeyReleased = CC_CALLBACK_2(HiScores::onKeyReleased, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
 	// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	// Botón de vuelta atrás
 	// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	auto vuelveAtras = MenuItemImage::create("CloseNormal.png", "CloseSelected.png", CC_CALLBACK_1(EscenaVacia::menuVuelveCallback, this));
+	auto vuelveAtras = MenuItemImage::create("CloseNormal.png", "CloseSelected.png", CC_CALLBACK_1(HiScores::menuVuelveCallback, this));
 	vuelveAtras->setPosition(Vec2(origin.x + visibleSize.width - vuelveAtras->getContentSize().width / 2, origin.y + vuelveAtras->getContentSize().height / 2));
 	// create menu, it's an autorelease object
 	auto menu = Menu::create(vuelveAtras, NULL);
@@ -77,18 +77,18 @@ bool EscenaVacia::init(){
 	return true;
 }
 
-void EscenaVacia::menuVuelveCallback(Ref *pSender){
+void HiScores::menuVuelveCallback(Ref *pSender){
 	// vuelve al menu
 	//Director::getInstance()->replaceScene(Menus::CreateScene());
 
 	vuelveAlMenu();
 }
 
-void EscenaVacia::vuelveAlMenu(){
+void HiScores::vuelveAlMenu(){
 	Director::getInstance()->replaceScene(Menus::CreateScene());
 }
 
-void EscenaVacia::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event){
+void HiScores::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event){
 	CCLOG("Keypressed");
 
 	switch(keyCode){
@@ -100,9 +100,10 @@ void EscenaVacia::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event){
 	}
 }
 
-void EscenaVacia::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event){
+void HiScores::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event){
 	CCLOG("Keyreleased");
 }
 
-void EscenaVacia::update(float deltaT){
+void HiScores::update(float deltaT){
 }
+

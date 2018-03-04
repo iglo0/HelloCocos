@@ -32,7 +32,6 @@ parámetros generales
 	<duracion_estado_muerte>2.0f</duracion_estado_muerte>
 	<duracion_estado_gameover>5.0f</duracion_estado_gameover>
 
-	<initial_hi_score>500</initial_hi_score>
 	<vidas_iniciales>3</vidas_iniciales>
 
 	<!-- no cambiar estos nombres de archivo -->

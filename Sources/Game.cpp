@@ -10,7 +10,10 @@ Game::Game(){
 	// TODO: esto no es multiplataforma, aparentemente android/ios no leen el fichero desde resources
 	loadConfig("test.xml");
 	vidas = vidas_iniciales;
-	hiScore = initial_hi_score;
+
+	//hiScore = initial_hi_score;
+	cargaTablaRecords();
+	hiScore = devuelveHiScoreTablaRecords();
 }
 
 Game *Game::getInstance(){
@@ -202,7 +205,7 @@ void Game::loadConfig(const char *filename){
 	duracion_estado_muerte = atof(xml_default_values.child_value("duracion_estado_muerte"));
 	duracion_estado_gameover = atof(xml_default_values.child_value("duracion_estado_gameover"));
 
-	initial_hi_score = atoi(xml_default_values.child_value("initial_hi_score"));
+	//initial_hi_score = atoi(xml_default_values.child_value("initial_hi_score"));
 	vidas_iniciales = atoi(xml_default_values.child_value("vidas_iniciales"));
 
 	// casitas
@@ -286,4 +289,29 @@ const char *Game::devuelveBloqueRotoAleatorio(){
 		return sprite_casa_bloque_roto_01.c_str();
 		break;
 	}
+}
+
+void Game::cargaTablaRecords(){
+	// sobreentiendo que se ordena de menor a mayor por el primer int..?
+	tablaRecords.insert(std::pair<int, std::string>(100, "IGN"));
+	tablaRecords.insert(std::pair<int, std::string>(100, "AAA"));
+	tablaRecords.insert(std::pair<int, std::string>(150, "ZZZzzz"));
+	tablaRecords.insert(std::pair<int, std::string>(100, "Paula"));
+	tablaRecords.insert(std::pair<int, std::string>(100, "Viva la morcilla"));
+}
+
+void Game::guardaTablaRecords(){
+	
+}
+
+int Game::devuelveHiScoreTablaRecords(){
+	if(tablaRecords.cbegin() != tablaRecords.cend()){
+		// entiendo que el último registro en tablaRecords es el de mayor puntuacion¿?
+		// rbegin empieza desde atrás... o sea, el último
+		return tablaRecords.rbegin()->first;
+	} else {
+		// supongo que... tabla vacia?
+		return 500;
+	}
+
 }

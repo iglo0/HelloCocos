@@ -5,7 +5,6 @@
 #include <iostream>	// para usar std::cout << ... << std::setfill('0') << 4 ... (leading zeros)
 #include <iomanip>	// para usar std::cout << ... << std::setfill('0') << 4 ... (leading zeros)
 #include "pugixml.hpp"
-#include <unordered_map>	// TODO: hace falta?? sin el include también funciona
 
 USING_NS_CC;
 
@@ -58,8 +57,13 @@ public:
 	// TODO: esto de mezclar funciones estaticas con instanciadas... 
 	// actualiza los puntos y el marcador correspondiente
 	void sumaPuntos(int p);
+	void cargaTablaRecords();
+	void guardaTablaRecords();
+	int devuelveHiScoreTablaRecords();
+
 	// Esto se va a ejecutar solo durante la carga, así que no me importa si no es optimo
 	const char *devuelveBloqueRotoAleatorio();
+
 
 	// --------------------------------------------------------------
 	// Puntuaciones
@@ -68,6 +72,9 @@ public:
 	int hiScore;
 	int vidas;
 
+	// map containers do not allow for duplicate key values, así que para la tabla de records usaré...
+	std::multimap<int, std::string> tablaRecords;
+
 	// --------------------------------------------------------------
 	// GUI [aquí están los controles que van variando: puntos, etc]
 	// --------------------------------------------------------------
@@ -75,22 +82,14 @@ public:
 	Label *lblPuntos;
 	Label *lblHiScore;
 	Label *lblVidas;
-	// debugeo
-	//Label *lblEnemigosVivos;
-	//Label *lblPorcenEnemigosVivos;
 	Label *lblDebug;
 
 	void inicializaGUI();
 	void actualizaVidas();
 
-	// HACK: tengo que aprender a gestionar el tiempo mejor
+	// HACK: tengo que aprender a gestionar el tiempo mejor (lol el mio sobre todo)
 	// la idea es que desde la escena que sea, vaya añadiendo el deltaT en cada Update, para saber así el tiempo transcurrido desde el inicio de la escena, al menos
 	float ellapsedTime;
-
-	//enum estadosJuego{ menus, introNivel, jugando, finNivel, finHorda, muerte, gameOver };
-	//
-	//estadosJuego estadoActual;
-
 
 	// --------------------------------------------------------------
 	// Configuracion
@@ -132,7 +131,7 @@ public:
 	float duracion_estado_gameover;
 
 	// varios
-	int initial_hi_score;
+	//int initial_hi_score;
 	int vidas_iniciales;
 
 	// casitas
@@ -160,12 +159,12 @@ public:
 
 	// --------------------------------------------------------------
 
-	// TODO: ES ESTE UN BUEN SITIO PARA ESTO???
-	// Quiero? que las categorías estén accesibles en todas partes
 	// --------------------------------------------------------------
 	// Físicas (o sea, Colisiones)
 	// --------------------------------------------------------------
-	
+	// ES ESTE UN BUEN SITIO PARA ESTO???
+	// Quiero? que las categorías estén accesibles en todas partes
+
 	// una forma cómoda de definir la categoría de colisiones de cada objeto
 	// no sé si lo he entendido bien, la forma que tiene Cocos de gestionar las categorías es activando bits de un integer de 32
 	// definiéndolas así, me aseguro que cada una solo active un bit

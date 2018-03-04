@@ -25,6 +25,7 @@ public:
 	void MenuPolyspritesCallback(cocos2d::Ref *pSender);
 	void MenuEscenaVaciaCallback(cocos2d::Ref *pSender);
 	void MenuAnimTestCallback(cocos2d::Ref *pSender);
+	void MenuHiScoresCallback(cocos2d::Ref *pSender);
 
 	// implement the "static create()" method manually
 	CREATE_FUNC(Menus);

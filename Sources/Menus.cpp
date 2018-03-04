@@ -1,11 +1,12 @@
 #include "Menus.h"
-
+#include "Game.h"
 #include "Level.h"
+
 #include "KeyboardTest.h"
 #include "PolyspriteTest.h"
 #include "AnimTest.h"
 #include "EscenaVacia.h"
-#include "Game.h"
+#include "HiScores.h"
 
 cocos2d::Scene * Menus::CreateScene(){
 	// 'scene' is an autorelease object
@@ -80,7 +81,7 @@ bool Menus::init(){
 	menuAnimTest->setPosition(0.0f, menuAnimTest->getContentSize().height * ++pos);
 	menuItems.pushBack(menuAnimTest);
 
-	auto menuHiScores = MenuItemFont::create("HiScores", CC_CALLBACK_1(Menus::MenuAnimTestCallback, this));
+	auto menuHiScores = MenuItemFont::create("HiScores", CC_CALLBACK_1(Menus::MenuHiScoresCallback, this));
 	menuHiScores->setPosition(0.0f, menuHiScores->getContentSize().height * ++pos);
 	menuItems.pushBack(menuHiScores);
 
@@ -99,6 +100,7 @@ bool Menus::init(){
 	Game::getInstance();
 
 	#pragma endregion
+
 
 	return true;
 }
@@ -157,6 +159,12 @@ void Menus::MenuAnimTestCallback(cocos2d::Ref *pSender){
 
 void Menus::MenuEscenaVaciaCallback(cocos2d::Ref *pSender){
 	auto scene = EscenaVacia::createScene();
+	auto director = Director::getInstance();
+	director->replaceScene(scene);
+}
+
+void Menus::MenuHiScoresCallback(cocos2d::Ref *pSender){
+	auto scene = HiScores::createScene();
 	auto director = Director::getInstance();
 	director->replaceScene(scene);
 }
