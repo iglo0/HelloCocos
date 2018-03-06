@@ -1,5 +1,9 @@
 #include "HiScores.h"
 #include "Menus.h"
+#include "Game.h"
+//#include <iostream>	// para usar std::cout << ... << std::setfill('0') << 4 ... (leading zeros)
+//#include <iomanip>	// para usar std::cout << ... << std::setfill('0') << 4 ... (leading zeros)
+
 
 HiScores::~HiScores(){
 	Director::getInstance()->setDisplayStats(false);
@@ -30,7 +34,7 @@ Scene* HiScores::createScene(){
 
 // on "init" you need to initialize your instance
 bool HiScores::init(){
-
+	#pragma region inicializaciones estandar
 	Size visibleSize;
 	Vec2 origin;
 	
@@ -65,17 +69,20 @@ bool HiScores::init(){
 
 	// schedules update every frame with default order 0. Lower orders execute first
 	this->scheduleUpdate();
-	// displays fps
-	Director::getInstance()->setDisplayStats(true);
-	
+	#pragma endregion
 
 	// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	// Mis cosas
 	// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// displays fps
+	Director::getInstance()->setDisplayStats(true);
 
+	showScores();
 
 	return true;
 }
+
+#pragma region callbacks y sarna
 
 void HiScores::menuVuelveCallback(Ref *pSender){
 	// vuelve al menu
@@ -104,6 +111,74 @@ void HiScores::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event){
 	CCLOG("Keyreleased");
 }
 
+#pragma endregion
+
 void HiScores::update(float deltaT){
 }
 
+void HiScores::showScores(){
+	auto gameInstance = Game::getInstance();
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+
+	std::vector<Label *> nombres;
+	std::vector<Label *> puntuaciones;
+
+	// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	// marcadores
+	// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	// create a TTFConfig files for labels to share
+	TTFConfig labelConfig;
+	labelConfig.fontFilePath = "fonts/Marker Felt.ttf";
+	labelConfig.fontSize = 24;
+	labelConfig.glyphs = GlyphCollection::DYNAMIC;
+	labelConfig.outlineSize = 0;
+	labelConfig.customGlyphs = nullptr;
+	labelConfig.distanceFieldEnabled = false;
+	
+	//// recordatorio de formatos
+	//std::stringstream ss;
+	//// puntos
+	//ss << std::setw(6) << std::setfill('0') << 0;
+	//lblPuntos->setString(ss.str());
+
+	//// hiscore
+	//ss.str(std::string()); // is technically more efficient, because you avoid invoking the std::string constructor that takes const char*
+	//ss << std::setw(6) << std::setfill('0') << hiScore;
+	//lblHiScore->setString(ss.str());
+
+	Game::record tmpRecord;
+	
+	
+
+	for(int i = 0; i < maxItems; i++){
+		nombres.push_back(Label::createWithTTF(labelConfig, "MAXSIZEFORNAMES" + std::to_string(i)));
+		puntuaciones.push_back(Label::createWithTTF(labelConfig, "MAXSIZEFORPOINTS" + std::to_string(i)));
+	}
+
+	float separaV = nombres[0]->getContentSize().height + 20.0f;
+	float minV = 300.0f;
+	float separaHNombres = 200.0f;
+	float separaHPuntos = 500.0f;
+
+	Label *tmp;
+	int i = 0;
+	for(auto iter = nombres.cbegin(); iter != nombres.cend(); ++iter,i++){
+		tmp = (*iter);
+
+		tmp->setPosition(Vec2(separaHNombres, visibleSize.height - minV - i * separaV));
+		tmp->enableShadow();
+		this->addChild(tmp, 1);
+	}
+	
+	i = 0;
+	for(auto iter = puntuaciones.cbegin(); iter != puntuaciones.cend(); ++iter, i++){
+		tmp = (*iter);
+
+		tmp->setPosition(Vec2(separaHPuntos, visibleSize.height - minV - i * separaV));
+		tmp->enableShadow();
+		this->addChild(tmp, 1);
+	}
+
+
+}

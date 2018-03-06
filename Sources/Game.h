@@ -69,11 +69,16 @@ public:
 	// Puntuaciones
 	// --------------------------------------------------------------
 	int puntos = 0;
-	int hiScore;
+	int hiScoreCached;
 	int vidas;
 
 	// map containers do not allow for duplicate key values, así que para la tabla de records usaré...
+	typedef struct {
+		std::string name;
+		std::string nivelAlcanzado;
+	} record;
 	std::multimap<int, std::string> tablaRecords;
+	std::multimap<int, record> tablaRecordsMasChula;
 
 	// --------------------------------------------------------------
 	// GUI [aquí están los controles que van variando: puntos, etc]

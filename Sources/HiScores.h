@@ -30,5 +30,7 @@ public:
 	void update(float delta) override;
 
 private:
+	void showScores();
 
+	const int maxItems = 10;
 };

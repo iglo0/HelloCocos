@@ -13,7 +13,7 @@ Game::Game(){
 
 	//hiScore = initial_hi_score;
 	cargaTablaRecords();
-	hiScore = devuelveHiScoreTablaRecords();
+	hiScoreCached = devuelveHiScoreTablaRecords();
 }
 
 Game *Game::getInstance(){
@@ -140,7 +140,7 @@ void Game::sumaPuntos(int p){
 	// ---------------------------------------------------------------------------------------------
 	// TODO: Comprobar hiscore
 	// ---------------------------------------------------------------------------------------------
-	if(puntos > hiScore){
+	if(puntos > hiScoreCached){
 		// TODO: animacion, fanfarria o similar (una sola vez)
 
 		// ya tenía los puntos calculados como string :)
@@ -158,7 +158,7 @@ void Game::inicializaGUI(){
 
 	// hiscore
 	ss.str(std::string()); // is technically more efficient, because you avoid invoking the std::string constructor that takes const char*
-	ss << std::setw(6) << std::setfill('0') << hiScore;
+	ss << std::setw(6) << std::setfill('0') << hiScoreCached;
 	lblHiScore->setString(ss.str());
 
 	// vidas
