@@ -57,28 +57,43 @@ public:
 	// TODO: esto de mezclar funciones estaticas con instanciadas... 
 	// actualiza los puntos y el marcador correspondiente
 	void sumaPuntos(int p);
-	void cargaTablaRecords();
-	void guardaTablaRecords();
-	int devuelveHiScoreTablaRecords();
 
 	// Esto se va a ejecutar solo durante la carga, así que no me importa si no es optimo
 	const char *devuelveBloqueRotoAleatorio();
 
+	int vidas;
 
+	#pragma region puntuacion
 	// --------------------------------------------------------------
 	// Puntuaciones
 	// --------------------------------------------------------------
 	int puntos = 0;
 	int hiScoreCached;
-	int vidas;
 
 	// map containers do not allow for duplicate key values, así que para la tabla de records usaré...
 	typedef struct {
 		std::string name;
 		std::string nivelAlcanzado;
+		int puntos;	// redundante puesto que también es la clave del multimap, pero a la hora de leer los records grabados me obligaría a tener una variable para los puntos y una para el resto de datos
 	} record;
-	std::multimap<int, std::string> tablaRecords;
-	std::multimap<int, record> tablaRecordsMasChula;
+	// creo el typedef para hacer más fácil la sintaxis de insercion
+	// Voy a usar un multimap inverso, así las puntuaciones más altas salen por defecto las primeras
+	// simplemente tengo que añadir un tercer parámetro a la definición, incluyendo el comparador por defecto:
+	// std::less<int> -> de menor a mayor
+	// std::greater<int> -> de mayor a menor
+	typedef std::multimap<int, record, std::greater<int>> tTablaDeRecords;
+	//typedef std::multimap<int, record> tTablaDeRecords;
+	tTablaDeRecords tablaRecords;
+
+	void insertHiScore(std::string nombre, std::string nivelAlcancado, int puntos);
+	record getHiScore();	// solo obtiene un valor para el hiScore que se muestra en la pantalla durante la partida
+
+	void cargaTablaRecords();
+	void guardaTablaRecords();
+	int devuelveHiScoreTablaRecords();
+
+	#pragma endregion
+	
 
 	// --------------------------------------------------------------
 	// GUI [aquí están los controles que van variando: puntos, etc]

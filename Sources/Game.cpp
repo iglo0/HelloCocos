@@ -291,13 +291,49 @@ const char *Game::devuelveBloqueRotoAleatorio(){
 	}
 }
 
+void Game::insertHiScore(std::string name, std::string nivelAlcanzado, int puntos){
+	record rTmp;
+
+	rTmp.name = name;
+	rTmp.nivelAlcanzado = nivelAlcanzado;
+	rTmp.puntos = puntos;
+
+	tablaRecords.insert(std::pair<int, Game::record>(puntos, rTmp));
+}
+
+Game::record Game::getHiScore(){
+	Game::record rTmp;
+
+	rTmp.name = "";
+	rTmp.nivelAlcanzado = "";
+	rTmp.puntos = 666;
+
+	auto primer = tablaRecords.cbegin();
+	//hiScoreCached = primer->first;
+	rTmp = primer->second;
+
+	return rTmp;
+}
+
 void Game::cargaTablaRecords(){
 	// sobreentiendo que se ordena de menor a mayor por el primer int..?
-	tablaRecords.insert(std::pair<int, std::string>(100, "IGN"));
-	tablaRecords.insert(std::pair<int, std::string>(100, "AAA"));
-	tablaRecords.insert(std::pair<int, std::string>(150, "ZZZzzz"));
-	tablaRecords.insert(std::pair<int, std::string>(100, "Paula"));
-	tablaRecords.insert(std::pair<int, std::string>(100, "Viva la morcilla"));
+	// SIP. Eso es exactamente lo que hace \o/
+
+	// Voy a usar un multimap inverso, así las puntuaciones más altas salen por defecto las primeras
+
+	// TODO: de momento, records a piñon
+	insertHiScore("AAA", "1", 100);
+	insertHiScore("AAA", "2", 2000);
+	insertHiScore("TONTO", "5", 900);
+	insertHiScore("EL", "3", 800);
+	insertHiScore("QUE", "3", 700);
+	insertHiScore("LO", "2", 600);
+	insertHiScore("C-C-COMBO BREAKER", "1", 550);
+	insertHiScore("LEA", "2", 500);
+
+
+
+
 }
 
 void Game::guardaTablaRecords(){
@@ -305,13 +341,16 @@ void Game::guardaTablaRecords(){
 }
 
 int Game::devuelveHiScoreTablaRecords(){
-	if(tablaRecords.cbegin() != tablaRecords.cend()){
-		// entiendo que el último registro en tablaRecords es el de mayor puntuacion¿?
-		// rbegin empieza desde atrás... o sea, el último
-		return tablaRecords.rbegin()->first;
-	} else {
-		// supongo que... tabla vacia?
-		return 500;
-	}
+	Game::record rTmp = getHiScore();
+	return rTmp.puntos;
+
+	//if(tablaRecords.cbegin() != tablaRecords.cend()){
+	//	// el primer registro en tablaRecords es el de mayor puntuacion
+	//	// si fuera al revés, podría usar "rbegin"
+	//	return tablaRecords.begin()->first;
+	//} else {
+	//	// supongo que... tabla vacia?
+	//	return 500;
+	//}
 
 }

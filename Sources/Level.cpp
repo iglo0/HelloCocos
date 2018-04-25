@@ -317,9 +317,6 @@ void Level::createGUI(){
 	lblPuntosFijo->enableShadow();
 	lblPuntosFijo->setTextColor(Color4B::RED);	// o setColor(Color3B)??
 	// label variable
-	//lblPuntos = Label::createWithTTF(labelConfig, "000000");
-	//lblPuntos->setPosition(Vec2(140.0f, visibleSize.height - lblPuntos->getContentSize().height / 2.0f));
-	//lblPuntos->enableShadow();
 	gameInstance->lblPuntos = Label::createWithTTF(labelConfig, "ffffuuuu");
 	gameInstance->lblPuntos->setPosition(Vec2(140.0f, visibleSize.height - gameInstance->lblPuntos->getContentSize().height / 2.0f));
 	gameInstance->lblPuntos->enableShadow();
@@ -334,7 +331,6 @@ void Level::createGUI(){
 	gameInstance->lblHiScore = Label::createWithTTF(labelConfig, "xxxxxx");
 	gameInstance->lblHiScore->setPosition(Vec2(70.0f + visibleSize.width / 2.0f - gameInstance->lblHiScore->getContentSize().width / 2.0f, visibleSize.height - gameInstance->lblHiScore->getContentSize().height / 2.0f));
 	gameInstance->lblHiScore->enableShadow();
-
 
 	// arriba a la derecha
 	// label fijo

@@ -1,5 +1,6 @@
 #include "EscenaVacia.h"
 #include "Menus.h"
+//#include "cocos2d\cocos\ui\UITextField.h"
 
 EscenaVacia::~EscenaVacia(){
 	Director::getInstance()->setDisplayStats(false);
@@ -72,6 +73,21 @@ bool EscenaVacia::init(){
 	// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	// Mis cosas
 	// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	// prueba de un textfield
+
+	// create a TTFConfig files for labels to share
+	TTFConfig textFieldConfig;
+	textFieldConfig.fontFilePath = "fonts/Marker Felt.ttf";
+	textFieldConfig.fontSize = 24;
+	textFieldConfig.glyphs = GlyphCollection::DYNAMIC;
+	textFieldConfig.outlineSize = 0;
+	textFieldConfig.customGlyphs = nullptr;
+	textFieldConfig.distanceFieldEnabled = false;
+
+	auto penis = TextFieldTTF::createWithTTF(textFieldConfig, "PEN IS", cocos2d::TextHAlignment::CENTER);
+	penis->setPosition(Vec2(visibleSize.width / 2.0f, visibleSize.height / 2.0f));
+	this->addChild(penis);
 
 
 	return true;
