@@ -40,9 +40,11 @@ public:
 
 	// HACK: Para cambiar de estado mayormente
 	static void setGameState(GameState *);
-	static void vuelveAlMenu();
-	// para llamar a "avanzaOleada" desde fuera
-	static void siguienteNivel();
+	void vuelveAlMenu();
+	//static void pantallaHiScore();	// salta a la pantalla puntuaciones
+	//void gameOver();	// acciones post-gameOver
+	static void apuntaHiScore();	// 
+	static void siguienteNivel();	// para llamar a "avanzaOleada" desde fuera
 
 private:
 	// funciones miembro privadas
@@ -87,4 +89,7 @@ private:
 	SpaceInvaders *actualLevel_;
 	int oleadaNum_;
 	// --------------------------------------------------------------
+
+	// ñapa para que la lectura de teclas se comporte distinto y lea las teclas del juego o el nombre del jugador
+	bool apuntandoRecords_ = false;
 };

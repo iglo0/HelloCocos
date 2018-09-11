@@ -97,7 +97,7 @@ void KeyboardTest::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event){
 
 void KeyboardTest::menuCloseCallback(Ref* pSender){
 	// vuelve al menu
-	auto scene = Menus::CreateScene();
+	auto scene = Menus::createScene();
 	auto director = Director::getInstance();
 	director->replaceScene(scene);
 }

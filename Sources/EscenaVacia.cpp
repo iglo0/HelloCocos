@@ -1,6 +1,8 @@
 #include "EscenaVacia.h"
 #include "Menus.h"
-//#include "cocos2d\cocos\ui\UITextField.h"
+
+#include "Testz.h"
+
 
 EscenaVacia::~EscenaVacia(){
 	Director::getInstance()->setDisplayStats(false);
@@ -74,21 +76,8 @@ bool EscenaVacia::init(){
 	// Mis cosas
 	// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	// prueba de un textfield
-
-	// create a TTFConfig files for labels to share
-	TTFConfig textFieldConfig;
-	textFieldConfig.fontFilePath = "fonts/Marker Felt.ttf";
-	textFieldConfig.fontSize = 24;
-	textFieldConfig.glyphs = GlyphCollection::DYNAMIC;
-	textFieldConfig.outlineSize = 0;
-	textFieldConfig.customGlyphs = nullptr;
-	textFieldConfig.distanceFieldEnabled = false;
-
-	auto penis = TextFieldTTF::createWithTTF(textFieldConfig, "PEN IS", cocos2d::TextHAlignment::CENTER);
-	penis->setPosition(Vec2(visibleSize.width / 2.0f, visibleSize.height / 2.0f));
-	this->addChild(penis);
-
+	inputText = new InputText();
+	
 
 	return true;
 }
@@ -101,11 +90,14 @@ void EscenaVacia::menuVuelveCallback(Ref *pSender){
 }
 
 void EscenaVacia::vuelveAlMenu(){
-	Director::getInstance()->replaceScene(Menus::CreateScene());
+	Director::getInstance()->replaceScene(Menus::createScene());
 }
 
 void EscenaVacia::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event){
-	CCLOG("Keypressed");
+	//CCLOG("Keypressed");
+
+	inputText->pressedKey(keyCode);
+	CCLOG(inputText->devuelveLeido().c_str());
 
 	switch(keyCode){
 	case EventKeyboard::KeyCode::KEY_ESCAPE:
@@ -117,7 +109,7 @@ void EscenaVacia::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event){
 }
 
 void EscenaVacia::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event){
-	CCLOG("Keyreleased");
+	//CCLOG("Keyreleased");
 }
 
 void EscenaVacia::update(float deltaT){

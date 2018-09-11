@@ -93,7 +93,7 @@ void HiScores::menuVuelveCallback(Ref *pSender){
 }
 
 void HiScores::vuelveAlMenu(){
-	Director::getInstance()->replaceScene(Menus::CreateScene());
+	Director::getInstance()->replaceScene(Menus::createScene());
 }
 
 void HiScores::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event){

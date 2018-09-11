@@ -113,7 +113,7 @@ void AnimTest::menuVuelveCallback(Ref *pSender){
 }
 
 void AnimTest::vuelveAlMenu(){
-	Director::getInstance()->replaceScene(Menus::CreateScene());
+	Director::getInstance()->replaceScene(Menus::createScene());
 }
 
 void AnimTest::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event){

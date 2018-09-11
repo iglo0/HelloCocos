@@ -5,6 +5,10 @@
 #include "Player.h"
 #include "Level.h"
 #include "SpaceInvaders.h"
+#include "HiScores.h"
+
+
+#pragma region IntroNivelState
 
 IntroNivelState::IntroNivelState(Player *p) : player(p){
 	enterState();
@@ -37,6 +41,10 @@ GameState *IntroNivelState::update(float deltaT) {
 	return nullptr;
 }
 
+#pragma endregion
+
+
+#pragma region PlayingState
 
 PlayingState::PlayingState(Player *p) : player(p){
 	enterState();
@@ -63,6 +71,10 @@ GameState *PlayingState::update(float deltaT){
 		return nullptr;
 	}
 }
+
+#pragma endregion
+
+#pragma region PlayerDead
 
 PlayerDeadState::PlayerDeadState(Player *p): player(p){
 	enterState();
@@ -94,6 +106,10 @@ GameState *PlayerDeadState::update(float deltaT){
 	return nullptr;
 }
 
+#pragma endregion
+
+#pragma region GameOver
+
 GameOverState::GameOverState(Player *p) : player(p){
 	enterState();
 }
@@ -117,16 +133,30 @@ GameState *GameOverState::update(float deltaT){
 		// so what now...
 		//menuVuelveCallback(nullptr);
 
-		CCLOG("Volver a los menus");
+		// TODO: en caso de hi score... ¿o siempre? apunta tu nombre y va a la pantalla de tabla de records
+
+		CCLOG("Fin game over state");
 
 		// TODO: No se si llamarlo de algún modo desde level, o hacerlo desde aquí. Un include más...
 		// vuelve al menu
-		Level::vuelveAlMenu();
+		//Level::vuelveAlMenu();
+		//Level::pantallaHiScore();
+		
+		// Na, avisa a Level para que se encargue del Game Over (apuntar records, mostrar puntuaciones, volver al menú, por ejemplo?)
+		//Level::gameOver();
+
+		// Re-Na, pasa al siguiente estado
+		return new ApuntarRecordState(player);
+
 	}
 
 
 	return nullptr;
 }
+
+#pragma endregion
+
+#pragma region SiguienteNivel
 
 SiguienteNivelState::SiguienteNivelState(Player *p) : player(p){
 	enterState();
@@ -140,9 +170,6 @@ void SiguienteNivelState::enterState(){
 	tIni = gameInstance->ellapsedTime;
 	gameInstance->lblMensajes->setString("SIGUIENTE OLEADA!");
 	gameInstance->lblMensajes->setVisible(true);
-
-	
-
 }
 
 GameState *SiguienteNivelState::update(float deltaT){
@@ -162,3 +189,35 @@ GameState *SiguienteNivelState::update(float deltaT){
 	return nullptr;
 }
 
+#pragma endregion
+
+#pragma region ApuntarRecord
+
+ApuntarRecordState::ApuntarRecordState(Player *p) : player(p) {
+	enterState();
+}
+
+void ApuntarRecordState::enterState(){
+	gameInstance = Game::getInstance();
+
+	tIni = gameInstance->ellapsedTime;
+
+	gameInstance->lblMensajes->setString("APUNTA TU NOMBRE!:");
+	gameInstance->lblMensajes->setVisible(true);
+
+	// here be dragons
+	Level::apuntaHiScore();
+}
+
+GameState *ApuntarRecordState::update(float deltaT){
+
+	// condicion de fin de apuntar records... ¿cuando el usuario pulsa enter?
+	// lo consultaré en una variable de... ¿Level?
+	if(1 == 0){
+
+	}
+
+	return nullptr;
+}
+
+#pragma endregion

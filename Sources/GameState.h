@@ -82,3 +82,16 @@ private:
 	Game *gameInstance;
 	float tIni;
 };
+
+class ApuntarRecordState : public GameState{
+public:
+	ApuntarRecordState(Player *);
+
+	void enterState() override;
+	GameState *update(float) override;
+
+private:
+	Player *player;
+	Game *gameInstance;
+	float tIni;
+};

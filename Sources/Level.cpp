@@ -10,6 +10,7 @@
 #include "Movimiento.h"
 #include "Game.h"
 #include "GameState.h"
+#include "HiScores.h"
 
 #include "XmlHelper.h"
 
@@ -222,9 +223,15 @@ bool Level::onContactBegin(PhysicsContact &contact){
 }
 
 void Level::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event){
-	// TODO: entiendo que los input event se llaman una vez por frame?
-	//CCLOG("pressed %d", keyCode);
-	inputComponent->keyPressed(keyCode);
+	// entiendo que los input event se llaman una vez por frame?
+	// Yep, no se llaman cada vez que la cpu puede, sino con cada update
+
+	if(apuntandoRecords_){
+		
+	} else{
+		//CCLOG("pressed %d", keyCode);
+		inputComponent->keyPressed(keyCode);
+	}
 }
 
 void Level::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event){
@@ -250,6 +257,7 @@ void Level::update(float deltaT){
 		gameState = tmpState;
 	}
 
+	// Captura de frames para hacer luego un gif animado
 	// lo guarda en %appdata%\..\local\HelloCocos 
 	if(capturing_){
 		utils::captureScreen(CC_CALLBACK_2(Level::afterCaptured, this), std::string("shot") + std::to_string(Game::getInstance()->ellapsedTime) + std::string(".png"));
@@ -375,7 +383,6 @@ void Level::initLevel(){
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 
 	// instancio un jugador con los valores por defecto
-	//player = new Player(this, PLAYER_INITIAL_SPEED);
 	player = new Player(this, gameInstance->player_initial_speed);
 
 	// algo que disparar
@@ -393,20 +400,20 @@ void Level::initLevel(){
 	// Creando pools de balas para todos los tipos necesarios
 	// TODO: prueba enésima de dónde colgar estos pools... ahora van a una clase propia "Pool".
 	// Pool de balas para el jugador
-	Bullet::createBulletPool(this, Pool::currentBulletsPlayerTipo1, 3, Bullet::tipoPlayer, "bullet_player");
+	Bullet::createBulletPool(this, Pool::currentBulletsPlayerTipo1, 333, Bullet::tipoPlayer, "bullet_player");
 
 	// TODO: Pool para los enemigos normales
-	Bullet::createBulletPool(this, Pool::currentBulletsTipoNormal, 60, Bullet::tipoEnemyNormal, "bullet_enemy_default");
+	Bullet::createBulletPool(this, Pool::currentBulletsTipoNormal, 600, Bullet::tipoEnemyNormal, "bullet_enemy_default");
 
 	// TODO: Pool para los enemigos con disparo dirigido
-	Bullet::createBulletPool(this, Pool::currentBulletsTipo2, 60, Bullet::tipoEnemyDirigido, "bullet_enemy_dirigida");
+	Bullet::createBulletPool(this, Pool::currentBulletsTipo2, 600, Bullet::tipoEnemyDirigido, "bullet_enemy_dirigida");
 
 	// TODO: Pool para el boss
-	Bullet::createBulletPool(this, Pool::currentBulletsTipoBossHoming, 5, Bullet::tipoBossHoming, "bullet_enemy_homing");
+	Bullet::createBulletPool(this, Pool::currentBulletsTipoBossHoming, 50, Bullet::tipoBossHoming, "bullet_enemy_homing");
 
 	// TODO: probando a detectar el fin de las animaciones con ttl o con loop=0 (ver .xml)
-	GameActor::createAnimationPool(this, Pool::currentExplosions, 5, "explosion");
-	GameActor::createAnimationPool(this, Pool::currentImpacts, 20, "impacto");
+	GameActor::createAnimationPool(this, Pool::currentExplosions, 50, "explosion");
+	GameActor::createAnimationPool(this, Pool::currentImpacts, 200, "impacto");
 	
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// inicializo el ovni
@@ -604,9 +611,26 @@ void Level::setGameState(GameState *nuevo){
 	}
 }
 
-// fun estatica
 void Level::vuelveAlMenu(){
-	Director::getInstance()->replaceScene(Menus::CreateScene());
+	Director::getInstance()->replaceScene(Menus::createScene());
+}
+
+//void Level::pantallaHiScore(){
+//	Director::getInstance()->replaceScene(HiScores::createScene());
+//}
+//
+//void Level::gameOver(){
+//	// Coger el nombre del jugador
+//
+//
+//	// Mandarle a la pantalla de Tabla de Records
+//	// Después de coger el nombre
+//	//pantallaHiScore();
+//
+//}
+
+void Level::apuntaHiScore(){
+
 }
 
 void Level::afterCaptured(bool succeed, const std::string& outputFile){

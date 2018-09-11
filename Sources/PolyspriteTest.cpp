@@ -145,7 +145,7 @@ void PolyspriteTest::MenuVuelveCallback(cocos2d::Ref * pSender){
 	// limpia el plist en memoria
 	//PhysicsShapeCache::getInstance()->removeAllShapes();
 
-	Director::getInstance()->replaceScene(Menus::CreateScene());
+	Director::getInstance()->replaceScene(Menus::createScene());
 }
 
 void PolyspriteTest::megustaElMueveMueve(Sprite *spr, Vec2 &cant){

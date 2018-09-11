@@ -8,7 +8,7 @@
 #include "EscenaVacia.h"
 #include "HiScores.h"
 
-cocos2d::Scene * Menus::CreateScene(){
+cocos2d::Scene * Menus::createScene(){
 	// 'scene' is an autorelease object
 	auto scene = Scene::create();
 
