@@ -1,6 +1,6 @@
 #include "Game.h"
-
 #include "PhysicsShapeCache.h"
+#include "HiScores.h"
 
 Game::Game(){
 	ellapsedTime = 0;
@@ -12,8 +12,10 @@ Game::Game(){
 	vidas = vidas_iniciales;
 
 	//hiScore = initial_hi_score;
-	cargaTablaRecords();
-	hiScoreCached = devuelveHiScoreTablaRecords();
+	hiScores_ = new HiScores();
+
+	//hiScores_->cargaTablaRecords();
+	hiScoreCached = hiScores_->devuelveHiScoreTablaRecords();
 }
 
 Game *Game::getInstance(){
@@ -291,66 +293,3 @@ const char *Game::devuelveBloqueRotoAleatorio(){
 	}
 }
 
-void Game::insertHiScore(std::string name, std::string nivelAlcanzado, int puntos){
-	record rTmp;
-
-	rTmp.name = name;
-	rTmp.nivelAlcanzado = nivelAlcanzado;
-	rTmp.puntos = puntos;
-
-	tablaRecords.insert(std::pair<int, Game::record>(puntos, rTmp));
-}
-
-Game::record Game::getHiScore(){
-	Game::record rTmp;
-
-	rTmp.name = "";
-	rTmp.nivelAlcanzado = "";
-	rTmp.puntos = 666;
-
-	auto primer = tablaRecords.cbegin();
-	//hiScoreCached = primer->first;
-	rTmp = primer->second;
-
-	return rTmp;
-}
-
-void Game::cargaTablaRecords(){
-	// sobreentiendo que se ordena de menor a mayor por el primer int..?
-	// SIP. Eso es exactamente lo que hace \o/
-
-	// Voy a usar un multimap inverso, así las puntuaciones más altas salen por defecto las primeras
-
-	// TODO: de momento, records a piñon
-	insertHiScore("AAA", "1", 100);
-	insertHiScore("AAA", "2", 2000);
-	insertHiScore("TONTO", "5", 900);
-	insertHiScore("EL", "3", 800);
-	insertHiScore("QUE", "3", 700);
-	insertHiScore("LO", "2", 600);
-	insertHiScore("C-C-COMBO BREAKER", "1", 550);
-	insertHiScore("LEA", "2", 500);
-
-
-
-
-}
-
-void Game::guardaTablaRecords(){
-	
-}
-
-int Game::devuelveHiScoreTablaRecords(){
-	Game::record rTmp = getHiScore();
-	return rTmp.puntos;
-
-	//if(tablaRecords.cbegin() != tablaRecords.cend()){
-	//	// el primer registro en tablaRecords es el de mayor puntuacion
-	//	// si fuera al revés, podría usar "rbegin"
-	//	return tablaRecords.begin()->first;
-	//} else {
-	//	// supongo que... tabla vacia?
-	//	return 500;
-	//}
-
-}

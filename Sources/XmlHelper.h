@@ -11,6 +11,8 @@ class GameActor;
 class Bullet;
 class Enemy;
 class SpaceInvaders;
+class HiScoresScene;
+class HiScores;
 
 class XmlHelper{
 public:
@@ -28,10 +30,12 @@ public:
 
 	// TODO: tests, borrar
 	//void loadAnimationsTestz(const char *filename, Node *parentNode);
-
+	void loadHiScores(const char *filename, HiScores *scores);
+	void saveHiScores(const char *filename, HiScores *scores);
 	//AnimSprites *animacionesTestz_;
 
 protected:
 	// TODO: moverlo a otro sitio
 	const char *xmlFilename_ = "test.xml";
+	const char *xmlRecords_ = "records.xml";
 };

@@ -1,12 +1,14 @@
 #pragma once
 
 #include "cocos2d.h"
-#include <vector>
+//#include <vector>
 #include <iostream>	// para usar std::cout << ... << std::setfill('0') << 4 ... (leading zeros)
 #include <iomanip>	// para usar std::cout << ... << std::setfill('0') << 4 ... (leading zeros)
 #include "pugixml.hpp"
 
 USING_NS_CC;
+
+class HiScores;
 
 #pragma region CONSTANTES de configuración
 
@@ -69,7 +71,9 @@ public:
 	// --------------------------------------------------------------
 	int puntos = 0;
 	int hiScoreCached;
+	HiScores *hiScores_;
 
+	/* TODO HiScores movidos a... HiScores 
 	// map containers do not allow for duplicate key values, así que para la tabla de records usaré...
 	typedef struct {
 		std::string name;
@@ -87,20 +91,22 @@ public:
 
 	void insertHiScore(std::string nombre, std::string nivelAlcancado, int puntos);
 	record getHiScore();	// solo obtiene un valor para el hiScore que se muestra en la pantalla durante la partida
-
 	void cargaTablaRecords();
 	void guardaTablaRecords();
 	int devuelveHiScoreTablaRecords();
+	*/
 
 	#pragma endregion
 	
 
 	// --------------------------------------------------------------
 	// GUI [aquí están los controles que van variando: puntos, etc]
+	// (se inicializan en Level)
 	// --------------------------------------------------------------
 	Label *lblMensajes;
 	Label *lblPuntos;
 	Label *lblHiScore;
+	Label *lblHiScoreName;
 	Label *lblVidas;
 	Label *lblDebug;
 

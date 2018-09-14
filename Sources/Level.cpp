@@ -10,6 +10,7 @@
 #include "Movimiento.h"
 #include "Game.h"
 #include "GameState.h"
+#include "HiScoresScene.h"
 #include "HiScores.h"
 
 #include "XmlHelper.h"
@@ -36,7 +37,7 @@ Scene* Level::createScene(){
 	// no creo que tenga muchos problemas de rendimiento... tiraré por ahí a ver
 	// TODO: Para lograr colisiones con precisión hay que hacer polígonos a mano (vs las cajas automáticas). Para un poco más adelante (pero no mucho)
 	// ----------------------------------------------------------------------------------------------------------------------------------------
-
+	
 	// 'scene' is an autorelease object
 	// sin física:
 	//auto scene = Scene::create();
@@ -80,10 +81,6 @@ bool Level::init(){
 	visibleSize = Director::getInstance()->getVisibleSize();
 	origin = Director::getInstance()->getVisibleOrigin();
 	auto size = Director::getInstance()->getWinSize();
-
-	iniciadoFinNivel = false;
-	iniciadoIntroNivel = false;
-	iniciadoMuerte = false;
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// preparando los eventos
@@ -227,7 +224,8 @@ void Level::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event){
 	// Yep, no se llaman cada vez que la cpu puede, sino con cada update
 
 	if(apuntandoRecords_){
-		
+		pressedKey(keyCode);
+		gameInstance->lblHiScoreName->setString(playerName_);
 	} else{
 		//CCLOG("pressed %d", keyCode);
 		inputComponent->keyPressed(keyCode);
@@ -240,7 +238,8 @@ void Level::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event){
 	inputComponent->keyReleased(keyCode);
 
 	// HACK: ÑAPA
-	if(keyCode == EventKeyboard::KeyCode::KEY_C){
+	if(keyCode == EventKeyboard::KeyCode::KEY_F1){
+		CCLOG("F1 Iniciando/parando captura");
 		capturing_ = !capturing_;
 	}
 }
@@ -306,7 +305,7 @@ void Level::createGUI(){
 	labelConfig.fontFilePath = "fonts/Marker Felt.ttf";
 	labelConfig.fontSize = 24;
 	labelConfig.glyphs = GlyphCollection::DYNAMIC;
-	labelConfig.outlineSize = 0;
+	labelConfig.outlineSize = 2.0;
 	labelConfig.customGlyphs = nullptr;
 	labelConfig.distanceFieldEnabled = false;
 
@@ -371,8 +370,22 @@ void Level::createGUI(){
 
 	this->addChild(gameInstance->lblDebug, 1);
 
+	// label para apuntar tu record
+	gameInstance->lblHiScoreName = Label::createWithTTF(labelConfig, "..........................");
+	//gameInstance->lblHiScoreName->setPosition(Vec2(gameInstance->lblHiScoreName->getContentSize().width / 2.0f, visibleSize.height - gameInstance->lblHiScoreName->getContentSize().height / 2.0f - 20.0f));
+	gameInstance->lblHiScoreName->setPosition(Vec2(visibleSize.width/2.0f - gameInstance->lblHiScoreName->getContentSize().width/2.0f, 300.0f));
+	gameInstance->lblHiScoreName->enableShadow();
+	gameInstance->lblHiScoreName->setTextColor(Color4B::YELLOW);
+	//gameInstance->lblHiScoreName->setColor(Color3B::ORANGE);
+	gameInstance->lblHiScoreName->setScale(2.0f);
+	gameInstance->lblHiScoreName->setVisible(false);
+
+	this->addChild(gameInstance->lblHiScoreName, 1);
+
+
 	// inicializa con valores por defecto
 	gameInstance->inicializaGUI();
+
 }
 
 void Level::initLevel(){
@@ -547,7 +560,7 @@ void Level::creaCasita(Vec2 esquinaInfIzq){
 	auto blockSize = spr->getContentSize();
 	Vec2 posBloque;
 	GameActor *bloque;
-
+	
 	for(int j = 0; j < 4; j++){
 		for(int i = 0; i < 4; i++){
 			posBloque = esquinaInfIzq;
@@ -615,22 +628,11 @@ void Level::vuelveAlMenu(){
 	Director::getInstance()->replaceScene(Menus::createScene());
 }
 
-//void Level::pantallaHiScore(){
-//	Director::getInstance()->replaceScene(HiScores::createScene());
-//}
-//
-//void Level::gameOver(){
-//	// Coger el nombre del jugador
-//
-//
-//	// Mandarle a la pantalla de Tabla de Records
-//	// Después de coger el nombre
-//	//pantallaHiScore();
-//
-//}
-
+// OJO static function
 void Level::apuntaHiScore(){
-
+	instance->apuntandoRecords_ = true;
+	instance->gameInstance->lblHiScoreName->setString("");
+	instance->gameInstance->lblHiScoreName->setVisible(true);
 }
 
 void Level::afterCaptured(bool succeed, const std::string& outputFile){
@@ -645,4 +647,53 @@ void Level::afterCaptured(bool succeed, const std::string& outputFile){
 	} else{
 		log("Capture screen failed.");
 	}
+}
+
+void Level::pressedKey(cocos2d::EventKeyboard::KeyCode kc){
+
+	if(kc == cocos2d::EventKeyboard::KeyCode::KEY_BACKSPACE || kc == cocos2d::EventKeyboard::KeyCode::KEY_DELETE){
+		// borra
+		if(playerName_.length() > 1){
+			playerName_.erase(playerName_.length() - 1);
+		}
+	} else if (kc == cocos2d::EventKeyboard::KeyCode::KEY_ENTER){
+		// aquí se acaba el estado de capturar el nombre...
+		apuntandoRecords_ = false;
+
+		// oleadaNum empieza en 0
+		gameInstance->hiScores_->insertHiScore(playerName_, std::to_string(oleadaNum_+1), gameInstance->puntos);
+
+		// guardo la tabla de records
+		gameInstance->hiScores_->guardaTablaRecords();
+
+		// y se va a mostrar la tabla de records
+		Director::getInstance()->replaceScene(HiScoresScene::createScene());
+
+	} else{
+	playerName_ += keyCodeToChar(kc);
+}
+}
+
+// convierte keycodes de cocos2d en simples char (en mayúscula me vale)
+const unsigned char Level::keyCodeToChar(const cocos2d::EventKeyboard::KeyCode kc){
+	// KeyCode es un enum y no parece estar relacionado con su código ascii así que...
+
+	if(kc == cocos2d::EventKeyboard::KeyCode::KEY_SPACE){
+		return ' ';
+	}
+
+	if(kc >= cocos2d::EventKeyboard::KeyCode::KEY_0 && kc <= cocos2d::EventKeyboard::KeyCode::KEY_9){
+		unsigned char s = (unsigned char)kc - (unsigned char)cocos2d::EventKeyboard::KeyCode::KEY_0 + '0';
+
+		return s;
+	}
+
+
+	if(kc >= cocos2d::EventKeyboard::KeyCode::KEY_A && kc <= cocos2d::EventKeyboard::KeyCode::KEY_Z){
+		unsigned char s = (unsigned char)kc - (unsigned char)cocos2d::EventKeyboard::KeyCode::KEY_A + 'A';
+
+		return s;
+	}
+
+	return '?';
 }

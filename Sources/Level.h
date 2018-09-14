@@ -40,9 +40,6 @@ public:
 
 	// HACK: Para cambiar de estado mayormente
 	static void setGameState(GameState *);
-	void vuelveAlMenu();
-	//static void pantallaHiScore();	// salta a la pantalla puntuaciones
-	//void gameOver();	// acciones post-gameOver
 	static void apuntaHiScore();	// 
 	static void siguienteNivel();	// para llamar a "avanzaOleada" desde fuera
 
@@ -51,6 +48,7 @@ private:
 	// --------------------------------------------------------------
 	void createGUI();
 	void initLevel();
+	void vuelveAlMenu();
 
 	void creaCasitas(int numba, float margen);
 	void creaCasita(Vec2 esquinaInfIzq);
@@ -64,6 +62,11 @@ private:
 	// usa el vector de niveles para sacar la siguiente oleada en caso de haberla
 	void avanzaOleada();
 
+	// para leer el nombre del usuario en los records
+	void pressedKey(cocos2d::EventKeyboard::KeyCode);
+	// convierte keycodes de cocos2d en simples char (en mayúscula me vale)
+	const unsigned char keyCodeToChar(const cocos2d::EventKeyboard::KeyCode);
+	
 	// variables miembro privadas
 	// --------------------------------------------------------------
 	Game *gameInstance;	// cacheo la instancia de Game
@@ -73,13 +76,7 @@ private:
 	InputComponent *inputComponent;
 
 	// control de estados del juego
-	bool iniciadoIntroNivel;
-	bool iniciadoFinNivel;
-	bool iniciadoMuerte;
-	bool iniciadoGameOver;
-
 	float tIniCambioEstado;
-
 	GameState *gameState;
 	
 	// variables de las oleadas
@@ -92,4 +89,5 @@ private:
 
 	// ñapa para que la lectura de teclas se comporte distinto y lea las teclas del juego o el nombre del jugador
 	bool apuntandoRecords_ = false;
+	std::string playerName_ = "";
 };

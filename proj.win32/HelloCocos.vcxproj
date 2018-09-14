@@ -163,6 +163,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\EscenaVacia.cpp" />
     <ClCompile Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\GameState.cpp" />
     <ClCompile Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\HiScores.cpp" />
+    <ClCompile Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\HiScoresScene.cpp" />
     <ClCompile Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\Movimiento.cpp" />
     <ClCompile Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\PhysicsShapeCache.cpp" />
     <ClCompile Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\pugixml.cpp" />
@@ -189,6 +190,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\EscenaVacia.h" />
     <ClInclude Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\GameState.h" />
     <ClInclude Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\HiScores.h" />
+    <ClInclude Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\HiScoresScene.h" />
     <ClInclude Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\Movimiento.h" />
     <ClInclude Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\PhysicsShapeCache.h" />
     <ClInclude Include="C:\Users\ignacio\Documents\Visual Studio 2015\Projects\HelloCocos\Sources\pugiconfig.hpp" />

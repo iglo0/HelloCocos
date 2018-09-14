@@ -1,9 +1,21 @@
-<records max="10">
-	<record name="SGI" score="100">
-	<record name="GUS" score="500">
-	<record name="MP3" score="1000">
-	<record name="MOD" score="2000">
-	<record name="JPG" score="3000">
-	<record name="LBM" score="4000">
-	<record name="SID" score="5000">
-</records>
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<Records>
+  <record nombre="IGNATIUS" puntos="5650" nivel="5" />
+  <record nombre="IGNATIUS" puntos="4075" nivel="4" />
+  <record nombre="TEL" puntos="1" nivel="100" />
+  <record nombre="LILJEDAHL" puntos="1" nivel="100" />
+  <record nombre="BITCHARD" puntos="1" nivel="100" />
+  <record nombre="FOLLIN" puntos="1" nivel="100" />
+  <record nombre="WHITTACKER" puntos="1" nivel="100" />
+  <record nombre="KYD" puntos="1" nivel="100" />
+  <record nombre="HUBBARD" puntos="1" nivel="100" />
+  <record nombre="MOTION" puntos="1" nivel="100" />
+  <record nombre="HUELSBECK" puntos="1" nivel="100" />
+  <record nombre="KOSHIRO" puntos="1" nivel="100" />
+  <record nombre="PICQ" puntos="1" nivel="100" />
+  <record nombre="DUNN" puntos="1" nivel="100" />
+  <record nombre="VAN DEN BOS" puntos="1" nivel="100" />
+  <record nombre="FYREK" puntos="1" nivel="100" />
+  <record nombre="UEMATSU" puntos="1" nivel="100" />
+  <record nombre="GUSTAFSSON" puntos="1" nivel="100" />
+</Records>

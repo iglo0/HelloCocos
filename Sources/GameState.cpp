@@ -148,6 +148,7 @@ GameState *GameOverState::update(float deltaT){
 		// Re-Na, pasa al siguiente estado
 		return new ApuntarRecordState(player);
 
+		// Y después la lógica del nivel toma el control y ya si eso se inicia de nuevo una partida o lo que sea
 	}
 
 

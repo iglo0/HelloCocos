@@ -6,7 +6,7 @@
 #include "PolyspriteTest.h"
 #include "AnimTest.h"
 #include "EscenaVacia.h"
-#include "HiScores.h"
+#include "HiScoresScene.h"
 
 cocos2d::Scene * Menus::createScene(){
 	// 'scene' is an autorelease object
@@ -164,7 +164,7 @@ void Menus::MenuEscenaVaciaCallback(cocos2d::Ref *pSender){
 }
 
 void Menus::MenuHiScoresCallback(cocos2d::Ref *pSender){
-	auto scene = HiScores::createScene();
+	auto scene = HiScoresScene::createScene();
 	auto director = Director::getInstance();
 	director->replaceScene(scene);
 }

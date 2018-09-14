@@ -33,23 +33,20 @@ Git user attention
 - Control de una nave con sus disparos
 - Menú inicial y pruebas
 - Inicio del juego
+- Tabla de records
 - Game over
 
 ### ÚLTIMO HECHO
 
-- Clase AnimSprites de gestión de animaciones y escena AnimTest de prueba.
-- Carga y definición de animaciones por XML
-- Carga y definición de balas por XML
-- Carga y definición de enemigos mediante XML
-- Corregido el bug de las colisiones, ahora se detecta una por impacto.
+- Mantiene, carga y guarda tabla de records
 
 ----
 # TRABAJO EN CURSO
 En desarrollo [Estimación][Finalizado]
 
-* Sonido
 ```diff
-- música de fondo
++ Tabla de records
++ Que se muestren los trozos rotos de las casitas
 ```
 
 BUGS:
@@ -59,23 +56,11 @@ BUGS:
 
 ### PLANIFICADO (lo siguiente que pienso hacer)
 
-GRÁFICOS
-- Que se muestren los trozos rotos de las casitas
-
-- Música
-	- en los menús
-	- durante el juego
-
+MEJORAS GENERALES VARIAS
 
 ### POR PLANIFICAR (tareas pendientes que ir planificando)
 
-ESTRUCTURA DEL JUEGO
-- carga de niveles desde xml
-
-EFECTOS
-- Sonido
-	- reintroducir el sonido
-	- ojo a los parones al reproducir sonidos
+MEJORAS GENERALES VARIAS
 
 ### IDEAS (a hacer ~~cuando las ranas críen pelo~~ más adelante)
 

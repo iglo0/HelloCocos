@@ -8,6 +8,7 @@
 #include "Enemy.h"
 #include "Pool.h"
 #include "SpaceInvaders.h"
+#include "HiScores.h"
 
 AnimSprites *XmlHelper::loadAnimation(Node *parentNode, const char *animSetName, GameActor *gameActor){
 	char *currAnimName, *framePath;
@@ -338,4 +339,80 @@ void XmlHelper::assignPhysicsToAnimation(AnimSprites *anim, GameActor *gA, int t
 			}
 		}
 	}
+}
+
+void XmlHelper::saveHiScores(const char *fileName, HiScores *hiScores){
+	// Generate new XML document within memory
+	pugi::xml_document doc;
+
+	// Generate XML declaration
+	auto declarationNode = doc.append_child(pugi::node_declaration);
+	declarationNode.append_attribute("version") = "1.0";
+	declarationNode.append_attribute("encoding") = "ISO-8859-1";
+	declarationNode.append_attribute("standalone") = "yes";
+
+	// A valid XML doc must contain a single root node of any name
+	auto root = doc.append_child("Records");
+
+
+	// recorre la tabla de records y va creando hijos
+
+	pugi::xml_node nodeChild;
+	HiScores::record *rTmp;
+	for(auto r = hiScores->tablaRecords.begin(); r != hiScores->tablaRecords.end(); ++r){
+		rTmp = &r->second;
+
+		// Append some child elements below root
+		nodeChild = root.append_child("record");
+		nodeChild.append_attribute("nombre") = rTmp->name.c_str();
+		nodeChild.append_attribute("puntos") = rTmp->puntos;
+		nodeChild.append_attribute("nivel") = rTmp->nivelAlcanzado.c_str();
+	}
+
+
+	
+	// Save XML tree to file.
+	// Remark: second optional param is indent string to be used;
+	// default indentation is tab character.
+	bool saveSucceeded = doc.save_file(fileName, PUGIXML_TEXT("  "));
+	assert(saveSucceeded);
+
+
+}
+
+void XmlHelper::loadHiScores(const char *fileName, HiScores *hiScores){
+	// Create empty XML document within memory
+	pugi::xml_document doc;
+	// Load XML file into memory
+	// Remark: to fully read declaration entries you have to specify
+	// "pugi::parse_declaration"
+	pugi::xml_parse_result result = doc.load_file(fileName,	pugi::parse_default | pugi::parse_declaration);
+	if(!result){
+		CCLOG("Error parseando xml %s", fileName);
+		std::cout << "Parse error: " << result.description() << ", character pos= " << result.offset;
+		return;
+	}
+
+	// Obtengo el primer hijo de tipo "record" (todos deberían serlo)
+	pugi::xml_node selectedNode = doc.document_element().child("record");
+
+	while(selectedNode){
+		//CCLOG(selectedNode.attribute("nombre").as_string());
+		hiScores->insertHiScore(selectedNode.attribute("nombre").as_string(), selectedNode.attribute("nivel").as_string(), selectedNode.attribute("puntos").as_int());
+
+		selectedNode = selectedNode.next_sibling();
+	}
+	//// Read attribute value
+	//pugi::xml_attribute attr;
+	//if(attr = selectedNode.attribute("intVal")) // attribute really exists
+	//{
+	//	// Read value as string
+	//	std::cout << "read as string: intVal=" << attr.value() << std::endl;
+	//	// Read value as int
+	//	int intVal = attr.as_int();
+	//	std::cout << "read as int   : intVal=" << intVal << std::endl;
+	//	// for other types use as_double, as_bool, as_uint, ...
+	//}
+
+
 }
