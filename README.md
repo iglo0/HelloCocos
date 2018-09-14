@@ -103,11 +103,11 @@ ESTRUCTURA DEL JUEGO
 
 GENERAL
 - Tabla de records
-	- pantalla para verla, o reutilizar los menús... o montarla encima de la del juego tras el game over...
+	- ~~pantalla para verla, o reutilizar los menús... o montarla encima de la del juego tras el game over...~~
 	- poder definir "n" entradas
-	- Almacenamiento de tabla de records
-- Definición de niveles en archivos de texto
-	- cantidad y comportamiento de los enemigos por nivel
+	- ~~Almacenamiento de tabla de records~~
+- ~~Definición de niveles en archivos de texto
+	- ~~cantidad y comportamiento de los enemigos por nivel~~
 	- o...
 	- definición de niveles a manija, con enemigos que salgan en puntos fijos o al de tiempo
 - Separar el manejo de datos, lógica y memoria de la clase de Pool (ir viendo Pool_manager)	
