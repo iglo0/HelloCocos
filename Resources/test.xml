@@ -101,19 +101,34 @@ GameActors
 				<honesto />
 			</integrantes>
 		</oleada>
-		<oleada level="2" tamaX="5" tamaY="5" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="50.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="500">
+		<oleada level="2" tamaX="5" tamaY="5" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="50.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="600">
 			<integrantes>
 				<birojo />
 				<birojo />
 				<honesto />
 			</integrantes>
 		</oleada>
-		<oleada level="3" tamaX="11" tamaY="5" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="50.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="100">
+		<oleada level="3" tamaX="11" tamaY="5" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="50.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="500">
 			<integrantes>
 				<honesto />
 			</integrantes>
 		</oleada>
-		<oleada level="4" tamaX="11" tamaY="5" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="50.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="50">
+		<oleada level="4" tamaX="11" tamaY="4" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="50.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="800">
+			<integrantes>
+				<birojo />
+			</integrantes>
+		</oleada>
+		<oleada level="5" tamaX="11" tamaY="4" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="50.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="550">
+			<integrantes>
+				<birojo />
+			</integrantes>
+		</oleada>
+		<oleada level="6" tamaX="11" tamaY="5" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="50.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="350">
+			<integrantes>
+				<birojo />
+			</integrantes>
+		</oleada>
+		<oleada level="7" tamaX="11" tamaY="5" comprX="0.42" comprY="0.52" margX="50" margY="150" velHtal="50.0" velVcal="15.0" vcalMoveAmount="30.0" probDisparoAleat="250">
 			<integrantes>
 				<birojo />
 			</integrantes>

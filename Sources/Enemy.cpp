@@ -234,3 +234,8 @@ void Enemy::setSonidoMuerte(const char *pathSonido){
 	auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
 	audio->preloadEffect(pathSonido);
 }
+
+void Enemy::activa(Vec2 pos){
+	GameActor::activa(pos);
+	tIniDisparo_ = Game::getInstance()->ellapsedTime;
+}

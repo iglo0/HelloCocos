@@ -56,16 +56,16 @@ Vec2 MueveDireccion::mueve(Vec2 posActual, float deltaT){
 
 #pragma region MueveHoming
 
-MueveHoming::MueveHoming(){}
+MueveHoming::MueveHoming(float spd) : speed_(spd) {}
 MueveHoming::~MueveHoming(){}
 
 void MueveHoming::init(float spd, Sprite *target){
-	_speed = spd;
+	speed_ = spd;
 	//_amplitude = amp;
 	//_origin = ori;
 	//_direction = dir;
 	//_posInicial = posIni;
-	_target = target;
+	target_ = target;
 
 }
 
@@ -74,9 +74,9 @@ Vec2 MueveHoming::mueve(Vec2 posActual, float deltaT){
 	//Vec2 deltaXY;
 	Vec2 tmp;
 
-	deltaXY = posActual - _target->getPosition();
+	deltaXY = posActual - target_->getPosition();
 	deltaXY.normalize();	// para que no dependa de la distancia entre el enemigo y el jugador
-	deltaXY *= deltaT * _speed;
+	deltaXY *= deltaT * speed_;
 
 	tmp = posActual + deltaXY;
 

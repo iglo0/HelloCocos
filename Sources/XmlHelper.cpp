@@ -129,6 +129,8 @@ Bullet *XmlHelper::loadBullet(Node *parentNode, const char *xmlBulletDef, const 
 
 		//tmp = new Bullet(parentNode, bulletName, "", "", "", speed, dmg, tipoColision, colisionoCon);
 		tmp = new Bullet(parentNode);
+		// TODO: por qué esto falta sólo en las balas homing y en el resto no dan problemas?
+		tmp->gameActorSpeed_ = speed;
 		tmp->setTTL(ttl);
 
 		assignPhysicsToAnimation(bulletAnim, tmp, tipoColision, colisionoCon);
@@ -138,7 +140,7 @@ Bullet *XmlHelper::loadBullet(Node *parentNode, const char *xmlBulletDef, const 
 
 		switch(movement){
 		case Bullet::bulletTypes::tipoBossHoming:
-			tmp->movimiento_ = new MueveHoming();
+			tmp->movimiento_ = new MueveHoming(speed);
 			break;
 		case Bullet::bulletTypes::tipoEnemyDirigido:
 			tmp->movimiento_ = new MueveDireccion(speed);

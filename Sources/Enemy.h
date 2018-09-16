@@ -27,6 +27,7 @@ public:
 	void setSonidoDispara(const char *);
 	void setSonidoMuerte(const char *);
 	void dispara();
+	void activa(Vec2 pos) override;
 
 	// ---------------------------------------------------------------------------------------------------------
 	// funciones de control

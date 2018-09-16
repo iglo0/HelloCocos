@@ -45,7 +45,7 @@ private:
 
 class MueveHoming : public Movimiento{
 public:
-	MueveHoming();
+	MueveHoming(float spd);
 	~MueveHoming();
 
 	void init(float spd, Sprite *target);
@@ -53,8 +53,8 @@ public:
 
 private:
 	Vec2 deltaXY;
-	float _speed;
-	Sprite *_target;		// movimiento hacia un sprite
+	float speed_;
+	Sprite *target_;		// movimiento hacia un sprite
 
 };
 

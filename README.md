@@ -29,7 +29,7 @@ Git user attention
 ### RESUMEN (GENERAL) DEL ESTADO ACTUAL
 
 - Salen enemigos en formato "Space Invaders" que disparan aleatoriamente
-- ~~Hay un ovni gordo que dispara también~~
+- Hay un ovni gordo que dispara también
 - Control de una nave con sus disparos
 - Menú inicial y pruebas
 - Inicio del juego
@@ -51,7 +51,7 @@ En desarrollo [Estimación][Finalizado]
 
 BUGS:
 ```diff
-- El ovni no dispara ¿?
++ El ovni no dispara -> era un problema en la inicialización
 ```
 
 ### PLANIFICADO (lo siguiente que pienso hacer)
@@ -106,7 +106,7 @@ GENERAL
 	- ~~pantalla para verla, o reutilizar los menús... o montarla encima de la del juego tras el game over...~~
 	- poder definir "n" entradas
 	- ~~Almacenamiento de tabla de records~~
-- ~~Definición de niveles en archivos de texto
+- ~~Definición de niveles en archivos de texto~~
 	- ~~cantidad y comportamiento de los enemigos por nivel~~
 	- o...
 	- definición de niveles a manija, con enemigos que salgan en puntos fijos o al de tiempo

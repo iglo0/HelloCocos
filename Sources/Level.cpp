@@ -412,56 +412,57 @@ void Level::initLevel(){
 
 	// Creando pools de balas para todos los tipos necesarios
 	// TODO: prueba enésima de dónde colgar estos pools... ahora van a una clase propia "Pool".
+
 	// Pool de balas para el jugador
-	Bullet::createBulletPool(this, Pool::currentBulletsPlayerTipo1, 333, Bullet::tipoPlayer, "bullet_player");
+	Bullet::createBulletPool(this, Pool::currentBulletsPlayerTipo1, 2, Bullet::tipoPlayer, "bullet_player");
 
-	// TODO: Pool para los enemigos normales
-	Bullet::createBulletPool(this, Pool::currentBulletsTipoNormal, 600, Bullet::tipoEnemyNormal, "bullet_enemy_default");
+	// Pool para los enemigos normales
+	Bullet::createBulletPool(this, Pool::currentBulletsTipoNormal, 100, Bullet::tipoEnemyNormal, "bullet_enemy_default");
 
-	// TODO: Pool para los enemigos con disparo dirigido
-	Bullet::createBulletPool(this, Pool::currentBulletsTipo2, 600, Bullet::tipoEnemyDirigido, "bullet_enemy_dirigida");
+	// Pool para los enemigos con disparo dirigido
+	Bullet::createBulletPool(this, Pool::currentBulletsTipo2, 50, Bullet::tipoEnemyDirigido, "bullet_enemy_dirigida");
 
-	// TODO: Pool para el boss
-	Bullet::createBulletPool(this, Pool::currentBulletsTipoBossHoming, 50, Bullet::tipoBossHoming, "bullet_enemy_homing");
+	// Pool para el ovni
+	Bullet::createBulletPool(this, Pool::currentBulletsTipoBossHoming, 5, Bullet::tipoBossHoming, "bullet_enemy_homing");
 
-	// TODO: probando a detectar el fin de las animaciones con ttl o con loop=0 (ver .xml)
-	GameActor::createAnimationPool(this, Pool::currentExplosions, 50, "explosion");
-	GameActor::createAnimationPool(this, Pool::currentImpacts, 200, "impacto");
+	// probando a detectar el fin de las animaciones con ttl o con loop=0 (ver .xml)
+	GameActor::createAnimationPool(this, Pool::currentExplosions, 5, "explosion");
+	GameActor::createAnimationPool(this, Pool::currentImpacts, 5, "impacto");
 	
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// inicializo el ovni
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	#pragma region ovni 
 
-	//// No necesito que sea una variable miembro, vivirá en un array en alguna parte.
-	//Enemy *enemyBoss;
+	// No necesito que sea una variable miembro, vivirá en un array en alguna parte.
+	Enemy *enemyBoss;
 
-	//enemyBoss = new Enemy(Enemy::tiposEnemigo::tipoOvni);
-	//enemyBoss->initEnemy(this);
+	enemyBoss = new Enemy(Enemy::tiposEnemigo::tipoOvni);
+	enemyBoss->initEnemy(this);
 
-	//// situo al enemigo arriba en el medio, con medio cuerpo de margen superior
-	//Vec2 enePos = Vec2(visibleSize.width / 2.0f, visibleSize.height - enemyBoss->getSprite()->getContentSize().height / 2.0f);
-	//enemyBoss->activa(enePos);
+	// situo al enemigo arriba en el medio, con medio cuerpo de margen superior
+	Vec2 enePos = Vec2(visibleSize.width / 2.0f, visibleSize.height - enemyBoss->getSprite()->getContentSize().height / 2.0f);
+	enemyBoss->activa(enePos);
 
-	//// Cómo querré que ataque?
-	//enemyBoss->funcionControlActual_ = &Enemy::funControlFireAtInterval;
-	//enemyBoss->funcionControlTiempoDisparo_ = 5.0f;
+	// Cómo querré que ataque?
+	enemyBoss->funcionControlActual_ = &Enemy::funControlFireAtInterval;
+	enemyBoss->funcionControlTiempoDisparo_ = 3.5f;
 
-	//// Y que se mueva?
-	//MueveSeno *m = new MueveSeno();
-	//m->init(600.0f, enePos, 0.333f);
-	//enemyBoss->movimiento_ = m;
+	// Y que se mueva?
+	MueveSeno *m = new MueveSeno();
+	m->init(600.0f, enePos, 0.333f);
+	enemyBoss->movimiento_ = m;
 
-	//// hale, definido
+	// hale, definido
 
-	//// ahora añadirlo al pool de GameUpdates para que haga algo de lo que le he dicho
-	//Pool::currentEnemies.push_back(enemyBoss);
+	// ahora añadirlo al pool de GameUpdates para que haga algo de lo que le he dicho
+	Pool::currentEnemies.push_back(enemyBoss);
 	#pragma endregion
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// las casitas destructibles
 	// ----------------------------------------------------------------------------------------------------------------------------------------
-	creaCasitas(4, 100.0f);
+	creaCasitas(5, 100.0f);
 
 	// ----------------------------------------------------------------------------------------------------------------------------------------
 	// inicializo los enemigos
