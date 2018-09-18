@@ -1,8 +1,6 @@
 #include "EscenaVacia.h"
 #include "Menus.h"
 
-#include "Testz.h"
-
 
 EscenaVacia::~EscenaVacia(){
 	Director::getInstance()->setDisplayStats(false);
@@ -76,8 +74,6 @@ bool EscenaVacia::init(){
 	// Mis cosas
 	// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	inputText = new InputText();
-	
 
 	return true;
 }
@@ -95,9 +91,6 @@ void EscenaVacia::vuelveAlMenu(){
 
 void EscenaVacia::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event){
 	//CCLOG("Keypressed");
-
-	inputText->pressedKey(keyCode);
-	CCLOG(inputText->devuelveLeido().c_str());
 
 	switch(keyCode){
 	case EventKeyboard::KeyCode::KEY_ESCAPE:

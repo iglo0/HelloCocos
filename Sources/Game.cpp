@@ -238,7 +238,7 @@ void Game::loadConfig(const char *filename){
 //}
 
 const char *Game::devuelveBloqueRotoAleatorio(){
-	int num = RandomHelper::random_int<int>(1, 15);
+	int num = RandomHelper::random_int<int>(1, 4);
 
 	switch(num){
 	case 1:

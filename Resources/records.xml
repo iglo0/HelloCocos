@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
 <Records>
+  <record nombre="NOOOO" puntos="9750" nivel="6" />
+  <record nombre="AHH POR POCO" puntos="8700" nivel="5" />
+  <record nombre="NO ME HAS DADO" puntos="8400" nivel="5" />
+  <record nombre="U W0T M8" puntos="7500" nivel="5" />
   <record nombre="NOOOOOOO" puntos="4425" nivel="4" />
+  <record nombre="JODER" puntos="3425" nivel="4" />
   <record nombre="TEL" puntos="1" nivel="100" />
   <record nombre="LILJEDAHL" puntos="1" nivel="100" />
   <record nombre="BITCHARD" puntos="1" nivel="100" />

@@ -67,6 +67,8 @@ private:
 	// convierte keycodes de cocos2d en simples char (en mayúscula me vale)
 	const unsigned char keyCodeToChar(const cocos2d::EventKeyboard::KeyCode);
 	
+	void regenerarCasitas(int);	// regenera int casitas
+
 	// variables miembro privadas
 	// --------------------------------------------------------------
 	Game *gameInstance;	// cacheo la instancia de Game
@@ -90,4 +92,7 @@ private:
 	// ñapa para que la lectura de teclas se comporte distinto y lea las teclas del juego o el nombre del jugador
 	bool apuntandoRecords_ = false;
 	std::string playerName_ = "";
+
+	// otra ñapa para recuperar casas destruidas
+	std::vector<GameActor *> casasRotas;
 };

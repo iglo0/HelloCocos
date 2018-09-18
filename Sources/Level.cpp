@@ -192,8 +192,27 @@ bool Level::onContactBegin(PhysicsContact &contact){
 	actor1 = (GameActor *)sprA->getUserData();
 	actor2 = (GameActor *)sprB->getUserData();
 
-	if(actor1->type_ == GameActor::gameActorTypes::destructible || actor2->type_ == GameActor::gameActorTypes::destructible)
-		actor1 = actor1;	// punto de parada if casita
+	//if(actor1->type_ == GameActor::gameActorTypes::destructible || actor2->type_ == GameActor::gameActorTypes::destructible)
+	//	actor1 = actor1;	// punto de parada if casita
+
+
+	// --------------------------------------------------------------------------------------
+	// Prepara la regeneración de casitas apuntándolas en un vector para luego recuperarlas
+	// --------------------------------------------------------------------------------------
+	if(actor1->type_ == GameActor::gameActorTypes::destructible){
+		// cosas con las casas
+		//casasRotas.push_back(actor1);
+		// ¿inserta al revés?
+		casasRotas.insert(casasRotas.begin(), actor1);
+	}
+
+	if(actor2->type_ == GameActor::gameActorTypes::destructible){
+		// cosas con las casas
+		//casasRotas.push_back(actor2);
+		// ¿inserta al revés?
+		casasRotas.insert(casasRotas.begin(), actor2);
+	}
+	// --------------------------------------------------------------------------------------
 
 	// calcula el daño que 1 hace a 2
 	if(sprA->getTag() == (int)Game::CategoriaColision::BalaJugador || sprA->getTag() == (int)Game::CategoriaColision::BalaEnemigo){
@@ -216,12 +235,19 @@ bool Level::onContactBegin(PhysicsContact &contact){
 	actor1->impacto(impactDmg2);
 	actor2->impacto(impactDmg1);
 
+	//CCLOG("Impacto en %s y %s", typeid(actor1).name(), typeid(actor2).name());	// "impacto entre gameactor * y gameactor * :(
+
 	return true;
 }
 
 void Level::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event){
 	// entiendo que los input event se llaman una vez por frame?
 	// Yep, no se llaman cada vez que la cpu puede, sino con cada update
+
+	// testing
+	if(keyCode == EventKeyboard::KeyCode::KEY_R){
+		regenerarCasitas(1);
+	}
 
 	if(apuntandoRecords_){
 		pressedKey(keyCode);
@@ -437,6 +463,10 @@ void Level::initLevel(){
 	// No necesito que sea una variable miembro, vivirá en un array en alguna parte.
 	Enemy *enemyBoss;
 
+	// Acabo de aprender typeid :)
+	CCLOG(typeid(enemyBoss).name());
+
+
 	enemyBoss = new Enemy(Enemy::tiposEnemigo::tipoOvni);
 	enemyBoss->initEnemy(this);
 
@@ -528,6 +558,33 @@ void Level::avanzaOleada(){
 // Método estático. Básicamente llama a "avanzaOleada" desde fuera. Y se llama desde el GameState correspondiente cuando detecta que esta oleada está kaputt
 void Level::siguienteNivel(){
 	instance->avanzaOleada();
+
+	instance->regenerarCasitas(16);
+}
+
+void Level::regenerarCasitas(int num){
+	GameActor *tmp;
+	int i = 0;
+
+	// recupera un nº de casitas
+	while(i++ < num && !casasRotas.empty()){
+		tmp = casasRotas.back();
+		tmp->regeneraCadaver();
+		casasRotas.pop_back();
+	}
+
+	//for(auto a = instance->casasRotas.cbegin(); a != instance->casasRotas.cend(); ++a){
+	//	tmp = *a;
+	//	
+	//	tmp->regeneraCadaver();
+	//	if(++i > num){
+	//		break;
+	//	}
+	//}
+
+	//instance->casasRotas.clear();
+
+
 }
 
 void Level::creaCasitas(int numba, float margen){

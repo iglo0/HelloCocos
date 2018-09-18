@@ -51,6 +51,8 @@ public:
 	// TODO: para acceder desde las clases derivadas
 	AnimSprites *animSprites_;
 
+	void regeneraCadaver();	// para restaurar casitas entre niveles. Lo contrario de muestraCadaver();
+
 protected:
 	Sprite *sprite_;
 	Sprite *spriteDestruido_;	// TODO: si deja un "cadaver" al morir, añadirlo aquí

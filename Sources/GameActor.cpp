@@ -296,3 +296,12 @@ void GameActor::muestraCadaver(){
 		spriteDestruido_->setVisible(true);
 	}
 }
+
+void GameActor::regeneraCadaver(){
+	if(spriteDestruido_){
+		spriteDestruido_->setVisible(false);
+		activa(spriteDestruido_->getPosition());
+	} else{
+		CCLOG("GameActor intento de regenerar sin cadaver");
+	}
+}
