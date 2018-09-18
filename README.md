@@ -39,20 +39,21 @@ Git user attention
 ### ÚLTIMO HECHO
 
 - Mantiene, carga y guarda tabla de records
+- Posibilidad de regenerar las casitas
 
 ----
 # TRABAJO EN CURSO
 En desarrollo [Estimación][Finalizado]
 
 ```diff
-+ Tabla de records
-+ Que se muestren los trozos rotos de las casitas
++ Posibilidad de regenerar las casitas
 ```
-
+<!--
 BUGS:
 ```diff
 + El ovni no dispara -> era un problema en la inicialización
 ```
+-->
 
 ### PLANIFICADO (lo siguiente que pienso hacer)
 
